@@ -34,5 +34,21 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "Call": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Technician": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Account": {
+    "dataSource": "db",
+    "public": true
+  },
+  "operator": {
+    "dataSource": "db",
+    "public": true
   }
 }

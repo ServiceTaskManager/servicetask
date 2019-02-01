@@ -1,0 +1,29 @@
+{
+  "name": "Call",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "open_date": {
+      "type": "date",
+      "required": true
+    },
+    "close_date": {
+      "type": "date"
+    },
+    "description": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

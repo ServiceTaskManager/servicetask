@@ -1,0 +1,24 @@
+{
+  "name": "Technician",
+  "plural": "Technicians",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "required": true
+    },
+    "available": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
