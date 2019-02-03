@@ -1,6 +1,6 @@
 {
-  "name": "operator",
-  "plural": "operators",
+  "name": "Operator",
+  "plural": "Operators",
   "base": "User",
   "idInjection": true,
   "options": {

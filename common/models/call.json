@@ -1,5 +1,6 @@
 {
   "name": "Call",
+  "plural": "Calls",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
