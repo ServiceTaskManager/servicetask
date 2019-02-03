@@ -1,34 +1,38 @@
 {
   "name": "servicetask",
-  "version": "1.0.0",
-  "main": "server/server.js",
-  "engines": {
-    "node": ">=4"
-  },
+  "version": "0.0.1",
+  "description": "Light tools for customer service.",
+  "productName": "Service Task",
+  "cordovaId": "org.cordova.quasar.app",
+  "author": "Grégoire Lannoy <gregoire.lannoy@gmail.com>",
+  "private": true,
   "scripts": {
-    "lint": "eslint .",
-    "start": "node .",
-    "posttest": "npm run lint && nsp check"
+    "lint": "eslint --ext .js,.vue src",
+    "test": "echo \"No test specified\" && exit 0"
   },
-  "dependencies": {
-    "compression": "^1.0.3",
-    "cors": "^2.5.2",
-    "helmet": "^3.10.0",
-    "loopback-boot": "^2.6.5",
-    "serve-favicon": "^2.0.1",
-    "strong-error-handler": "^3.0.0",
-    "loopback-component-explorer": "^6.0.0",
-    "loopback": "^3.19.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "eslint": "^3.17.1",
-    "eslint-config-loopback": "^8.0.0",
-    "nsp": "^2.1.0"
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.18.2",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "eslint-plugin-vue": "^4.3.0",
+    "quasar-cli": "^0.17.0",
+    "strip-ansi": "=3.0.1"
   },
-  "repository": {
-    "type": "",
-    "url": ""
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
   },
-  "license": "UNLICENSED",
-  "description": "servicetask"
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ]
 }
