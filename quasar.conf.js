@@ -72,12 +72,12 @@ module.exports = function (ctx) {
       pwa: false
     },
     pwa: {
-      // workboxPluginMode: 'InjectManifest',
+      workboxPluginMode: 'InjectManifest',
       // workboxOptions: {},
       manifest: {
-        // name: 'Quasar App',
-        // short_name: 'Quasar-PWA',
-        // description: 'Best PWA App in town!',
+        name: 'Service Task',
+        short_name: 'Service Task',
+        description: 'Light tools for customer service!',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
