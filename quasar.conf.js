@@ -38,7 +38,7 @@ module.exports = function (ctx) {
       open: true // opens browser window automatically
     },
     // framework: 'all' --- includes everything; for dev only!
-    framework: {
+    framework: 'all', /* {
       components: [
         'QLayout',
         'QLayoutHeader',
@@ -53,7 +53,8 @@ module.exports = function (ctx) {
         'QListHeader',
         'QItem',
         'QItemMain',
-        'QItemSide'
+        'QItemSide',
+        'QSideLink'
       ],
       directives: [
         'Ripple'
@@ -64,7 +65,7 @@ module.exports = function (ctx) {
       ]
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
       // i18n: 'de' // Quasar language
-    },
+    },*/
     // animations: 'all' --- includes all animations
     animations: [],
     ssr: {
