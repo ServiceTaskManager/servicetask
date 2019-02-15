@@ -3,13 +3,14 @@
 module.exports = function (ctx) {
   return {
     // app plugins (/src/plugins)
-    plugins: [
+    boot: [
+      'axios'
     ],
     css: [
       'app.styl'
     ],
     extras: [
-      ctx.theme.mat ? 'roboto-font' : null,
+      // 'roboto-font',
       'material-icons' // optional, you are not bound to it
       // 'ionicons',
       // 'mdi',

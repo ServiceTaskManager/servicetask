@@ -1,84 +1,74 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-layout-header>
-      <q-toolbar
-        color="primary"
-        :glossy="$q.theme === 'mat'"
-        :inverted="$q.theme === 'ios'"
-      >
-        <q-btn
-          flat
-          dense
-          round
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          aria-label="Base"
-        >
-          <q-icon name="menu" />
-        </q-btn>
+  <q-layout view="lHh lpR fFf">
+
+    <q-header elevated class="bg-primary text-white">
+      <q-toolbar>
+        <q-btn dense flat round icon="menu" @click="left = !left" />
 
         <q-toolbar-title>
-          Service Task
-          <div slot="subtitle">Light tools for customer service</div>
+          {{ $route.meta.title }}
         </q-toolbar-title>
       </q-toolbar>
-    </q-layout-header>
+    </q-header>
 
-    <q-layout-drawer
-      v-model="leftDrawerOpen"
-      :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
-    >
-      <q-list
-        no-border
-        link
-        inset-delimiter
-      >
-        <q-list-header>Technicians</q-list-header>
-        <q-item to="/calls">
-          <q-item-side icon="list" />
-          <q-item-main label="Calls" sublabel="See customer calls" />
-        </q-item>
-        <q-item to="/customers">
-          <q-item-side icon="group" />
-          <q-item-main label="Customers" sublabel="Manage customers & accounts" />
-        </q-item>
-        <q-item to="/documentation/edit">
-          <q-item-side icon="edit" />
-          <q-item-main label="Write documentation" sublabel="Knowledge is power" />
-        </q-item>
-        <q-item to="/todo">
-          <q-item-side icon="done" />
-          <q-item-main label="Tasks" sublabel="To-Do List" />
-        </q-item>
-      </q-list>
+    <q-drawer
+      v-model="left"
+      side="left">
 
-      <q-list
-        no-border
-        link
-        inset-delimiter
-      >
-        <q-list-header>Customers</q-list-header>
-        <q-item to="/documentation">
-          <q-item-side icon="school" />
-          <q-item-main label="What is this?" sublabel="Teach yourself!" />
-        </q-item>
-        <q-item to="/calls/new">
-          <q-item-side icon="phone" />
-          <q-item-main label="Ask for help" sublabel="A technician will call you back" />
-        </q-item>
-      </q-list>
+      <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
+        <q-list>
+          <q-item-label header>Technicians</q-item-label>
+          <q-item clickable to="/calls">
+            <q-item-section avatar>
+               <q-icon name="list" />
+            </q-item-section>
+            <q-item-section>Calls</q-item-section>
+          </q-item>
+          <q-item clickable to="/customers">
+            <q-item-section avatar>
+               <q-icon name="group" />
+            </q-item-section>
+            <q-item-section>Accounts</q-item-section>
+          </q-item>
+          <q-item clickable to="/documentation/edit">
+            <q-item-section avatar>
+               <q-icon name="edit" />
+            </q-item-section>
+            <q-item-section>Edit documentation</q-item-section>
+          </q-item>
+          <q-item clickable to="/todo">
+            <q-item-section avatar>
+               <q-icon name="done" />
+            </q-item-section>
+            <q-item-section>To do list</q-item-section>
+          </q-item>
+          <q-item-label header>Customers</q-item-label>
+          <q-item clickable to="documentation">
+            <q-item-section avatar>
+               <q-icon name="school" />
+            </q-item-section>
+            <q-item-section>Documentation</q-item-section>
+          </q-item>
+          <q-item clickable to="/calls/create">
+            <q-item-section avatar>
+               <q-icon name="phone" />
+            </q-item-section>
+            <q-item-section>Contact support</q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
 
-      <q-list
-        no-border
-        link
-        inset-delimiter
-      >
-        <q-list-header>Account</q-list-header>
-        <q-item to="/account">
-          <q-item-side icon="account_box" />
-          <q-item-main label="Account" sublabel="Set your account and preferences" />
-        </q-item>
-      </q-list>
-    </q-layout-drawer>
+      <q-img class="absolute-top" src="https://cdn.quasar-framework.org/img/material.png" style="height: 150px">
+        <div class="absolute-bottom bg-transparent">
+          <q-avatar size="56px" class="q-mb-sm">
+            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+          </q-avatar>
+          <div class="text-weight-bold">Razvan Stoenescu</div>
+          <div>@rstoenescu</div>
+        </div>
+      </q-img>
+
+    </q-drawer>
 
     <q-page-container>
       <router-view />
@@ -87,17 +77,12 @@
 </template>
 
 <script>
-import { openURL } from 'quasar'
-
 export default {
   name: 'Base',
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      left: true
     }
-  },
-  methods: {
-    openURL
   }
 }
 </script>
