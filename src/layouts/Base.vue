@@ -8,6 +8,12 @@
         <q-toolbar-title>
           {{ $route.meta.title }}
         </q-toolbar-title>
+        <q-input dark dense standout v-model="search" input-class="text-right">
+          <template v-slot:append>
+            <q-icon v-if="search === ''" name="search" />
+            <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
+          </template>
+        </q-input>
       </q-toolbar>
     </q-header>
 
@@ -22,7 +28,11 @@
             <q-item-section avatar>
                <q-icon name="list" />
             </q-item-section>
-            <q-item-section>Calls</q-item-section>
+            <q-item-section>
+              <q-item-label>
+                Calls <q-badge color="negative">{{ callCount }}</q-badge>
+              </q-item-label>
+            </q-item-section>
           </q-item>
           <q-item clickable to="/customers">
             <q-item-section avatar>
@@ -79,9 +89,25 @@
 <script>
 export default {
   name: 'Base',
+  mounted () {
+    this.openCallsCount()
+  },
   data () {
     return {
-      left: true
+      left: true,
+      callCount: 0,
+      search: ''
+    }
+  },
+  methods: {
+    openCallsCount () {
+      this.$axios.get('http://192.168.1.35:3000/api/Calls/count')
+        .then((response) => {
+          this.callCount = response.data.count
+        })
+        .catch(() => {
+          // code
+        })
     }
   }
 }

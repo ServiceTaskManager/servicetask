@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="row">
+  <q-page padding class="justify-center">
     <q-pull-to-refresh :handler="refresher">
       <q-list bordered class="rounded-borders" style="max-width: 100%">
         <q-item
@@ -39,6 +39,7 @@
             <div class="text-grey-8 q-gutter-xs">
               <q-btn class="gt-xs" size="12px" flat dense round icon="assignment_ind" @click="assignCall(call.id)" />
               <q-btn class="gt-xs" size="12px" flat dense round icon="done" @click="toggleStatusCall(call.id)" />
+              <q-btn class="gt-xs" size="12px" flat dense round icon="edit" v-bind:to="'calls/edit/'+call.id" />
               <q-btn size="12px" flat dense round icon="more_vert" />
             </div>
           </q-item-section>

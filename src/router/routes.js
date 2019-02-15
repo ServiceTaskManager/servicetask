@@ -30,6 +30,15 @@ const routes = [
       },
       {
         path: 'edit',
+        name: 'call_create',
+        component: () => import('pages/Calls_edit.vue'),
+        meta: {
+          title: 'Edit call',
+          description: 'Edit or create a new call'
+        }
+      },
+      {
+        path: 'edit/:callId',
         name: 'call_edit',
         component: () => import('pages/Calls_edit.vue'),
         meta: {
