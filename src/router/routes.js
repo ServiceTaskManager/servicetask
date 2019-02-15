@@ -2,15 +2,14 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/Base.vue'),
+    component: () => import('layouts/Login.vue'),
     children: [
       {
         path: '',
-        name: 'dashboard',
-        component: () => import('pages/Dashboard.vue'),
+        name: 'login',
+        component: () => import('pages/Login.vue'),
         meta: {
-          title: 'Customer support',
-          description: 'Tools for customer support'
+          title: 'Login'
         }
       }
     ]
