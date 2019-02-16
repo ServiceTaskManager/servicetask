@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import example from './module-example'
+// import example from './module-example'
+import user from './user'
 
 Vue.use(Vuex)
 
@@ -10,12 +11,18 @@ Vue.use(Vuex)
  * directly export the Store instantiation
  */
 
-export default function (/* { ssrContext } */) {
-  const Store = new Vuex.Store({
-    modules: {
-      example
-    }
-  })
+const store = new Vuex.Store({
+  modules: {
+    user
+    // example
+  }
+})
 
-  return Store
+if (process.env.DEV && module.hot) {
+  module.hot.accept(['./user'], () => {
+    const newUser = require('./user').default
+    store.hotUpdate({ modules: { user: newUser } })
+  })
 }
+
+export default store

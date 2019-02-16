@@ -88,7 +88,7 @@ export default {
       let filter = {
         order: 'open_date DESC'
       }
-      this.$axios.get('http://192.168.1.35:3000/api/Calls?filter=' + JSON.stringify(filter))
+      this.$axios.get('Calls?filter=' + JSON.stringify(filter))
         .then((response) => {
           this.calls = response.data
         })
@@ -112,7 +112,7 @@ export default {
       this.patchCall('Change status')
     },
     patchCall (message) {
-      this.$axios.patch('http://192.168.1.35:3000/api/Calls/', this.actionCall)
+      this.$axios.patch('Calls', this.actionCall)
         .then((response) => {
           this.$q.notify({
             color: 'positive',

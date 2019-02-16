@@ -74,7 +74,7 @@
             <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
           </q-avatar>
           <div class="text-weight-bold">Razvan Stoenescu</div>
-          <div>@rstoenescu</div>
+          <div>@{{ user.login.userId }}</div>
         </div>
       </q-img>
 
@@ -97,6 +97,13 @@ export default {
       left: true,
       callCount: 0,
       search: ''
+    }
+  },
+  computed: {
+    user: {
+      get () {
+        return this.$store.state.user
+      }
     }
   },
   methods: {

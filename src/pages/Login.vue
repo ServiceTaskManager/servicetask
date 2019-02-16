@@ -30,19 +30,7 @@ export default {
   },
   methods: {
     loginUser () {
-      this.$axios.post('http://192.168.1.35:3000/api/Users/login', this.login)
-        .then((response) => {
-          this.$q.notify({
-            color: 'positive',
-            message: response.data.id
-          })
-        })
-        .catch(() => {
-          this.$q.notify({
-            color: 'negative',
-            message: 'Failed to login'
-          })
-        })
+      this.$store.dispatch('user/loginUser', { login: this.login, router: this.$router })
     }
   }
 }
