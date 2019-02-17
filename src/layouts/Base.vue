@@ -73,8 +73,11 @@
           <q-avatar size="56px" class="q-mb-sm">
             <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
           </q-avatar>
-          <div class="text-weight-bold">Razvan Stoenescu</div>
-          <div>@{{ user.login.userId }}</div>
+          <div class="text-weight-bold">Razvan Stoenescu / {{ user.user.username }}</div>
+          <div>
+            <q-btn round color="negative" icon="logout" size="sm" @click="logout" />&nbsp;
+            <q-btn round color="grey" icon="settings" size="sm" />
+          </div>
         </div>
       </q-img>
 
@@ -102,7 +105,7 @@ export default {
   computed: {
     user: {
       get () {
-        return this.$store.state.user
+        return this.$store.state.user.user
       }
     }
   },
@@ -115,6 +118,9 @@ export default {
         .catch(() => {
           // code
         })
+    },
+    logout () {
+      this.$store.dispatch('user/logout', this)
     }
   }
 }

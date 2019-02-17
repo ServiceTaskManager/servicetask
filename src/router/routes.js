@@ -1,25 +1,10 @@
-
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/Login.vue'),
-    children: [
-      {
-        path: '',
-        name: 'login',
-        component: () => import('pages/Login.vue'),
-        meta: {
-          title: 'Login'
-        }
-      }
-    ]
-  },
-  {
-    path: '/calls',
     component: () => import('layouts/Base.vue'),
     children: [
       {
-        path: '',
+        path: 'calls',
         name: 'calls',
         component: () => import('pages/Calls.vue'),
         meta: {
@@ -28,7 +13,7 @@ const routes = [
         }
       },
       {
-        path: 'edit',
+        path: 'calls/edit',
         name: 'call_create',
         component: () => import('pages/Calls_edit.vue'),
         meta: {
@@ -37,12 +22,26 @@ const routes = [
         }
       },
       {
-        path: 'edit/:callId',
+        path: 'calls/edit/:callId',
         name: 'call_edit',
         component: () => import('pages/Calls_edit.vue'),
         meta: {
           title: 'Edit call',
           description: 'Edit or create a new call'
+        }
+      }
+    ]
+  },
+  {
+    path: '/login',
+    component: () => import('layouts/Login.vue'),
+    children: [
+      {
+        path: '',
+        name: 'login',
+        component: () => import('pages/Login.vue'),
+        meta: {
+          title: 'Login'
         }
       }
     ]
