@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Light tools for customer service.",
   "productName": "Service Task",
-  "cordovaId": "org.cordova.quasar.app",
+  "cordovaId": "org.cordova.servicetask.app",
   "author": "Grégoire Lannoy <gregoire.lannoy@gmail.com>",
   "private": true,
   "scripts": {
@@ -12,17 +12,22 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
-    "quasar": "^1.0.0-beta.0",
-    "vue-i18n": "^7.3.3",
     "axios": "^0.18.0",
-    "firebase-admin": "^7.0.0"
+    "firebase-admin": "^7.0.0",
+    "quasar": "^1.0.0-beta.0",
+    "vue-i18n": "^7.3.3"
   },
   "devDependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@quasar/app": "^1.0.0-beta.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",
     "eslint-loader": "^2.1.1",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^5.0.0",
     "strip-ansi": "=3.0.1"
   },
@@ -35,5 +40,8 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 10"
-  ]
+  ],
+  "resolutions": {
+    "ajv": "6.8.1"
+  }
 }
