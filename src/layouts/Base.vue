@@ -73,7 +73,7 @@
           <q-avatar size="56px" class="q-mb-sm">
             <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
           </q-avatar>
-          <div class="text-weight-bold">Razvan Stoenescu / {{ user.user.username }}</div>
+          <div class="text-weight-bold">Razvan Stoenescu / {{ user.email }}</div>
           <div>
             <q-btn round color="negative" icon="logout" size="sm" @click="logout" />&nbsp;
             <q-btn round color="grey" icon="settings" size="sm" />
@@ -106,7 +106,8 @@ export default {
   computed: {
     user: {
       get () {
-        return this.$store.state.user.user
+        console.log(this.$auth.currentUser.displayName)
+        return this.$auth.currentUser
       }
     }
   },

@@ -2,9 +2,10 @@
 
 module.exports = function (ctx) {
   return {
-    // app plugins (/src/plugins)
     boot: [
-      'axios'
+      'axios',
+      'i18n',
+      'firebase'
     ],
     css: [
       'app.styl'

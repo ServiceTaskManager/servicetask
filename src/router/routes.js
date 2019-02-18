@@ -1,8 +1,9 @@
+import base from 'layouts/Base.vue'
 
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/Base.vue'),
+    component: base,
     children: [
       {
         path: 'calls',

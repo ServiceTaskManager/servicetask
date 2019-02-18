@@ -13,18 +13,18 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.0",
-    "firebase-admin": "^7.0.0",
+    "firebase": "^5.8.3",
+    "firebaseui": "^3.5.2",
     "quasar": "^1.0.0-beta.0",
     "vue-i18n": "^7.3.3"
   },
   "devDependencies": {
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@quasar/app": "^1.0.0-beta.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",
-    "eslint-loader": "^2.1.1",
-    "eslint-plugin-import": "^2.9.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",

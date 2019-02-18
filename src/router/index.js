@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
-import store from '../store'
+
+import { firebaseAuth } from '../boot/firebase'
 
 Vue.use(VueRouter)
 
@@ -24,7 +25,9 @@ export default function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach((to, from, next) => {
-    if (store.state.user.user.id === undefined && to.name !== 'login') {
+    const currentUser = firebaseAuth.currentUser
+
+    if (!currentUser && to.name !== 'login') {
       next('/login')
     } else {
       next()
