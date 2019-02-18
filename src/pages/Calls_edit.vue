@@ -46,6 +46,7 @@ export default {
       this.$axios.put('http://192.168.1.35:3000/api/Calls', this.call)
         .then((response) => {
           this.$router.push('/calls')
+          this.$store.dispatch('notifications/create', 'New call !')
         })
         .catch(() => {
           this.$q.notify({

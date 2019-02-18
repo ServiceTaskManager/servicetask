@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 // import example from './module-example'
 import user from './user'
+import notifications from './notifications'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-    user
+    user,
+    notifications
     // example
   }
 })

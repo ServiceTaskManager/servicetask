@@ -94,6 +94,7 @@ export default {
   name: 'Base',
   mounted () {
     this.openCallsCount()
+    this.manageNotification()
   },
   data () {
     return {
@@ -121,6 +122,11 @@ export default {
     },
     logout () {
       this.$store.dispatch('user/logout', this)
+    },
+    manageNotification () {
+      Notification.requestPermission().then((result) => {
+        console.log(result)
+      })
     }
   }
 }
