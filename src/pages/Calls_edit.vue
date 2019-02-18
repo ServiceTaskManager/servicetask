@@ -4,7 +4,7 @@
      <q-input v-model="call.description" type="text" placeholder="Call description" stack-label label="Problem description" :before="[{icon:'description'}]" outlined />
      <q-input v-model="call.phone_number" type="tel" placeholder="Phone number"  stack-label label="Phone number" :before="[{icon:'phone'}]" outlined />
      <q-input v-model="call.teamviewer_id" type="number" placeholder="Teamviewer ID"  stack-label label="Teamviewer ID" :before="[{icon:'screen_share'}]" outlined />
-     <q-btn color="red" icon-right="send" label="Create call" @click="putCall()" />
+     <q-btn color="red" icon-right="send" label="Create call" @click="addCall()" />
   </q-page>
 </template>
 
@@ -42,19 +42,18 @@ export default {
     }
   },
   methods: {
-    putCall () {
-      this.$axios.put('http://192.168.1.35:3000/api/Calls', this.call)
-        .then((response) => {
-          this.$router.push('/calls')
-          this.$store.dispatch('notifications/create', 'New call !')
+    addCall () {
+      let createdAt = new Date()
+      this.$db.collection('calls')
+        .add({
+          assignTo: null,
+          customer: 'Test',
+          title: 'Issue',
+          status: 'open',
+          createdAt: createdAt
         })
-        .catch(() => {
-          this.$q.notify({
-            color: 'negative',
-            position: 'top',
-            message: 'Failed to add call',
-            icon: 'report_problem'
-          })
+        .then(() => {
+          this.$router.push('/calls')
         })
     }
   }

@@ -856,6 +856,11 @@
   resolved "https://registry.yarnpkg.com/@positron/stack-trace/-/stack-trace-1.0.0.tgz#14fcc712a530038ef9be1ce6952315a839f466a8"
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
+"@posva/vuefire-core@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@posva/vuefire-core/-/vuefire-core-1.0.3.tgz#d439cc315749d08a3045ab97baa25148755d3948"
+  integrity sha512-XWk789/LyiiIa8J73IWJBtfgvR6gY2eW/GbGHZgE0jBiVAOOMDHxXbusUP4tQt5Rs9VJXov67PDUzT2WHUxlKg==
+
 "@quasar/app@^1.0.0-beta.0":
   version "1.0.0-beta.4"
   resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.0.0-beta.4.tgz#7df57416566affbc558a5ae90267665c7f67ad4b"
@@ -7649,6 +7654,13 @@ vue@2.6.6:
   version "2.6.6"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.6.tgz#dde41e483c11c46a7bf523909f4f2f816ab60d25"
   integrity sha512-Y2DdOZD8sxApS+iUlwv1v8U1qN41kq6Kw45lM6nVZKhygeWA49q7VCCXkjXqeDBXgurrKWkYQ9cJeEJwAq0b9Q==
+
+vuefire@^2.0.0-alpha.20:
+  version "2.0.0-alpha.20"
+  resolved "https://registry.yarnpkg.com/vuefire/-/vuefire-2.0.0-alpha.20.tgz#e873d1dee9327c9cf6ad03c7687871bd5745cb27"
+  integrity sha512-NRjn3VhIKi3MCi3YfhDe78rpNTUJ+btVshz6EtlQSxlN8obpqKygTenys+qPrknP5emKAwgxzuWy1x06pPsyoQ==
+  dependencies:
+    "@posva/vuefire-core" "^1.0.3"
 
 vuex@3.1.0:
   version "3.1.0"

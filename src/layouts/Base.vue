@@ -30,7 +30,7 @@
             </q-item-section>
             <q-item-section>
               <q-item-label>
-                Calls <q-badge color="negative">{{ callCount }}</q-badge>
+                Calls <q-badge color="negative">X</q-badge>
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -92,10 +92,6 @@
 <script>
 export default {
   name: 'Base',
-  mounted () {
-    this.openCallsCount()
-    this.manageNotification()
-  },
   data () {
     return {
       left: true,
@@ -106,28 +102,13 @@ export default {
   computed: {
     user: {
       get () {
-        console.log(this.$auth.currentUser.displayName)
         return this.$auth.currentUser
       }
     }
   },
   methods: {
-    openCallsCount () {
-      this.$axios.get('http://192.168.1.35:3000/api/Calls/count')
-        .then((response) => {
-          this.callCount = response.data.count
-        })
-        .catch(() => {
-          // code
-        })
-    },
     logout () {
       this.$store.dispatch('user/logout', this)
-    },
-    manageNotification () {
-      Notification.requestPermission().then((result) => {
-        console.log(result)
-      })
     }
   }
 }
