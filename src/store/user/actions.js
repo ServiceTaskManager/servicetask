@@ -3,7 +3,7 @@ export function login ({ commit, state }, ctx) {
     .signInWithEmailAndPassword(ctx.user.email, ctx.user.password)
     .then((userCredentials) => {
       state.user = userCredentials.user
-      ctx.$router.push('/calls')
+      ctx.$router.push('/')
       ctx.$q.notify({
         message: 'Welcome',
         color: 'positive'

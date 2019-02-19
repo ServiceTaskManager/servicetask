@@ -6,30 +6,12 @@ const routes = [
     component: base,
     children: [
       {
-        path: 'calls',
-        name: 'calls',
-        component: () => import('pages/Calls.vue'),
+        path: '',
+        name: 'Tasks list',
+        component: () => import('pages/Tasks.vue'),
         meta: {
-          title: 'Calls',
-          description: 'List of last calls'
-        }
-      },
-      {
-        path: 'calls/edit',
-        name: 'call_create',
-        component: () => import('pages/Calls_edit.vue'),
-        meta: {
-          title: 'Edit call',
-          description: 'Edit or create a new call'
-        }
-      },
-      {
-        path: 'calls/edit/:callId',
-        name: 'call_edit',
-        component: () => import('pages/Calls_edit.vue'),
-        meta: {
-          title: 'Edit call',
-          description: 'Edit or create a new call'
+          title: 'Tasks List',
+          description: 'List of things to do'
         }
       }
     ]

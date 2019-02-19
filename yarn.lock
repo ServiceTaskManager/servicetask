@@ -856,15 +856,10 @@
   resolved "https://registry.yarnpkg.com/@positron/stack-trace/-/stack-trace-1.0.0.tgz#14fcc712a530038ef9be1ce6952315a839f466a8"
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
-"@posva/vuefire-core@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@posva/vuefire-core/-/vuefire-core-1.0.3.tgz#d439cc315749d08a3045ab97baa25148755d3948"
-  integrity sha512-XWk789/LyiiIa8J73IWJBtfgvR6gY2eW/GbGHZgE0jBiVAOOMDHxXbusUP4tQt5Rs9VJXov67PDUzT2WHUxlKg==
-
 "@quasar/app@^1.0.0-beta.0":
-  version "1.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.0.0-beta.4.tgz#7df57416566affbc558a5ae90267665c7f67ad4b"
-  integrity sha512-NpnfqxeHomPrbXvVbd/HTfeMzKE7KgxAiFUxAC6V0I/sO0JOYr6OHU5m2uSX+C2jnRECS2CLWLPhZiwmBxi84Q==
+  version "1.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.0.0-beta.5.tgz#5b6ca40bdae94af6c3d457b3eaa97dd5b9922f2f"
+  integrity sha512-8CjAx/QFWiabkq76GO0HMCZwTJbWSFKnqoUpvBOZWDItOqDwFLWuhvzJWJFx+sVNYWM3Rd319iPSVkVZyZumAw==
   dependencies:
     "@babel/core" "7.2.2"
     "@quasar/babel-preset-app" "^1.0.0"
@@ -880,7 +875,7 @@
     copy-webpack-plugin "4.6.0"
     cross-spawn "6.0.5"
     css-loader "2.1.0"
-    cssnano "4.1.8"
+    cssnano "4.1.10"
     dot-prop "4.2.0"
     elementtree "0.1.7"
     express "4.16.4"
@@ -925,7 +920,7 @@
     vue-template-compiler "2.6.6"
     vuex "3.1.0"
     webpack "4.29.3"
-    webpack-bundle-analyzer "3.0.3"
+    webpack-bundle-analyzer "3.0.4"
     webpack-chain "5.2.0"
     webpack-dev-server "3.1.14"
     webpack-merge "4.2.1"
@@ -2066,6 +2061,13 @@ commondir@^1.0.1:
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
   integrity sha1-3dgA2gxmEnOTzKWVDqloo6rxJTs=
 
+compare-anything@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/compare-anything/-/compare-anything-0.0.1.tgz#b12b7beca9faa19fec42e0a7e4de21c0749c07bb"
+  integrity sha512-n0XCviA3qj0LJVfdd/UAoOHsBKa979eIk+4c7z4DW3cDUUmyeBajv5SQ2XQZr/qSYqTdzWzbI7nCNMvQvt3S3A==
+  dependencies:
+    is-what "^3.1.2"
+
 component-emitter@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.2.1.tgz#137918d6d78283f7df7a6b7c5a63e140e69425e6"
@@ -2178,6 +2180,13 @@ cookie@0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
   integrity sha1-5+Ch+e9DtMi6klxcWpboBtFoc7s=
+
+copy-anything@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/copy-anything/-/copy-anything-1.1.0.tgz#d243475ede080b48d33821fac9a84c9c984bef2b"
+  integrity sha512-fA8D988xB27MB7Lz1h5KUDOGZRmoTsx1OYctPJCEqlD8jO+hqL6XSJiRPmvLmaxAi8zipgaQljiSmmYXTrZsIw==
+  dependencies:
+    is-what "^3.1.2"
 
 copy-concurrently@^1.0.0:
   version "1.0.5"
@@ -2419,7 +2428,7 @@ cssesc@^2.0.0:
   resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-2.0.0.tgz#3b13bd1bb1cb36e1bcb5a4dcd27f54c5dcb35703"
   integrity sha512-MsCAG1z9lPdoO/IUMLSBWBSVxVtJ1395VGIQ+Fc2gNdkQ1hNDnQdw3YhA71WJCBW1vdwA0cAnk/DnW6bqoEUYg==
 
-cssnano-preset-default@^4.0.6, cssnano-preset-default@^4.0.7:
+cssnano-preset-default@^4.0.7:
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/cssnano-preset-default/-/cssnano-preset-default-4.0.7.tgz#51ec662ccfca0f88b396dcd9679cdb931be17f76"
   integrity sha512-x0YHHx2h6p0fCl1zY9L9roD7rnlltugGu7zXSKQx6k2rYw0Hi3IqxcoAGF7u9Q5w1nt7vK0ulxV8Lo+EvllGsA==
@@ -2477,17 +2486,7 @@ cssnano-util-same-parent@^4.0.0:
   resolved "https://registry.yarnpkg.com/cssnano-util-same-parent/-/cssnano-util-same-parent-4.0.1.tgz#574082fb2859d2db433855835d9a8456ea18bbf3"
   integrity sha512-WcKx5OY+KoSIAxBW6UBBRay1U6vkYheCdjyVNDm85zt5K9mHoGOfsOsqIszfAqrQQFIIKgjh2+FDgIj/zsl21Q==
 
-cssnano@4.1.8:
-  version "4.1.8"
-  resolved "https://registry.yarnpkg.com/cssnano/-/cssnano-4.1.8.tgz#8014989679d5fd42491e4499a521dbfb85c95fd1"
-  integrity sha512-5GIY0VzAHORpbKiL3rMXp4w4M1Ki+XlXgEXyuWXVd3h6hlASb+9Vo76dNP56/elLMVBBsUfusCo1q56uW0UWig==
-  dependencies:
-    cosmiconfig "^5.0.0"
-    cssnano-preset-default "^4.0.6"
-    is-resolvable "^1.0.0"
-    postcss "^7.0.0"
-
-cssnano@^4.1.0:
+cssnano@4.1.10, cssnano@^4.1.0:
   version "4.1.10"
   resolved "https://registry.yarnpkg.com/cssnano/-/cssnano-4.1.10.tgz#0ac41f0b13d13d465487e111b778d42da631b8b2"
   integrity sha512-5wny+F6H4/8RgNlaqab4ktc3e0/blKutmq8yNlBFXA//nSFFAqAngjNVRzUvCgYROULmZZUoosL/KSoZo5aUaQ==
@@ -3363,6 +3362,13 @@ fill-range@^4.0.0:
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
 
+filter-anything@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/filter-anything/-/filter-anything-1.1.0.tgz#9821649f17be540297f13ec4d5bdf340a72a7e01"
+  integrity sha512-c5+DdGvv1qJLXctPCPEfers1iz9TzjmYo4w9JQeh4sy8/au+lJH70mpJ4QEKcCHN8vy4QdlvhMSzYS1BGtBGfw==
+  dependencies:
+    is-what "^3.1.1"
+
 finalhandler@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/finalhandler/-/finalhandler-1.1.1.tgz#eebf4ed840079c83f4249038c9d703008301b105"
@@ -3375,6 +3381,20 @@ finalhandler@1.1.1:
     parseurl "~1.3.2"
     statuses "~1.4.0"
     unpipe "~1.0.0"
+
+find-and-replace-anything@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/find-and-replace-anything/-/find-and-replace-anything-1.2.0.tgz#d2f2b69718da4e7aee363441d42485274cf79a2d"
+  integrity sha512-Dlk3Ks3Ttq2F49qkhfOcPJ/tL7c4wFKHcwPFfKM6vJ/bJ8rAecZGNqbnglADKSFmM6lysbaVeJaJ78uUPcT9KQ==
+  dependencies:
+    is-what "^3.0.1"
+
+find-and-replace-anything@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/find-and-replace-anything/-/find-and-replace-anything-2.0.0.tgz#2d5e6ff5d4790ca00bae53ec21dd1158e4786425"
+  integrity sha512-Sa4cD3Figdl7P6ZoVNpZOG/HBHjQEZ6vZqTteNzpdk6fFTq9fH6mb54zX05+jPVYZe2RsxFDCYUehp+z9vKTaQ==
+  dependencies:
+    is-what "^3.1.1"
 
 find-cache-dir@^0.1.1:
   version "0.1.1"
@@ -3467,6 +3487,13 @@ flatted@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-2.0.0.tgz#55122b6536ea496b4b44893ee2608141d10d9916"
   integrity sha512-R+H8IZclI8AAkSBRQJLVOsxwAoHd6WC40b4QTNWIjzAa6BXOBfQcM587MXDTVPeYaopFNWHUFLx7eNmHDSxMWg==
+
+flatten-anything@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/flatten-anything/-/flatten-anything-1.0.0.tgz#b175cb4d717a8831e644ccd4254fc663b05a0594"
+  integrity sha512-UvNcgCjMiFw1nSsf/b4j9MA+apNwNmhXYNSs0pozt/J+9FN3RUb3TQKkGwG/qa0o46tqOXahuZWGpqWHCLVtaQ==
+  dependencies:
+    is-what "^3.1.2"
 
 flush-write-stream@^1.0.0:
   version "1.1.1"
@@ -4386,6 +4413,11 @@ is-valid-path@^0.1.1:
   dependencies:
     is-invalid-path "^0.1.0"
 
+is-what@^3.0.1, is-what@^3.1.1, is-what@^3.1.2:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/is-what/-/is-what-3.2.0.tgz#6ca1f945d8ff30aee87ee1293ee4a69c97ab8f9e"
+  integrity sha512-qyFzBSaDW+Oq/41ILkfbUW7cwieqMaZAT2nr4WwFwY3gvujJMdy7pz3oiP4nCKmDj2E4wjDUd+NqbbzG94K4Mw==
+
 is-windows@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/is-windows/-/is-windows-1.0.2.tgz#d1850eb9791ecd18e6182ce12a30f396634bb19d"
@@ -4847,6 +4879,13 @@ memory-fs@0.4.1, memory-fs@^0.4.0, memory-fs@~0.4.1:
   dependencies:
     errno "^0.1.3"
     readable-stream "^2.0.1"
+
+merge-anything@^2.2.0:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/merge-anything/-/merge-anything-2.2.2.tgz#d9ccd49c628825962c69c4be612d683ff0601006"
+  integrity sha512-I5OpeBqL59rBjNxMNkwB7w9Vm72JPZ3wzc7ehRkth9S42bX/aIJdOJR2xwhF+EGGv3E3Kh7rraPLzzeR2W/HHg==
+  dependencies:
+    is-what "^3.1.1"
 
 merge-descriptors@1.0.1:
   version "1.0.1"
@@ -6232,9 +6271,9 @@ qs@6.5.2:
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
 quasar@^1.0.0-beta.0:
-  version "1.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-beta.2.tgz#ba014e346691e55c3ed637343a464da8bac089e6"
-  integrity sha512-wXM8YA7g9ZXGRNaiRu3aEDfXXr4C1gf+ls/4nXb/hJJwrb8v1J8SXDzJTSOXYzfQMbUcH2FRcl/LgY+JV3ytrQ==
+  version "1.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-beta.3.tgz#199c8edbb2ec1e844b02f5d106d1fedd9352e8b3"
+  integrity sha512-0KqT10RVdB1WAie0HHyF2Pyx3ldr46xHMeTRuB0scUHWS6KgC9gA3H1WY0j+TYNWqEGD/pYfwM9RvFLpvezNBw==
 
 querystring-es3@^0.2.0:
   version "0.2.1"
@@ -6252,9 +6291,9 @@ querystringify@^2.0.0:
   integrity sha512-sluvZZ1YiTLD5jsqZcDmFyV2EwToyXZBfpoVOmktMmW+VEnhgakFHnasVph65fOjGPTWN0Nw3+XQaSeMayr0kg==
 
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.0.6.tgz#d302c522948588848a8d300c932b44c24231da80"
-  integrity sha512-CIQ5OFxf4Jou6uOKe9t1AOgqpeU5fd70A8NPdHSGeYXqXsPe6peOwI0cUl88RWZ6sP1vPMV3avd/R6cZ5/sP1A==
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"
+  integrity sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==
   dependencies:
     safe-buffer "^5.1.0"
 
@@ -7655,12 +7694,28 @@ vue@2.6.6:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.6.tgz#dde41e483c11c46a7bf523909f4f2f816ab60d25"
   integrity sha512-Y2DdOZD8sxApS+iUlwv1v8U1qN41kq6Kw45lM6nVZKhygeWA49q7VCCXkjXqeDBXgurrKWkYQ9cJeEJwAq0b9Q==
 
-vuefire@^2.0.0-alpha.20:
-  version "2.0.0-alpha.20"
-  resolved "https://registry.yarnpkg.com/vuefire/-/vuefire-2.0.0-alpha.20.tgz#e873d1dee9327c9cf6ad03c7687871bd5745cb27"
-  integrity sha512-NRjn3VhIKi3MCi3YfhDe78rpNTUJ+btVshz6EtlQSxlN8obpqKygTenys+qPrknP5emKAwgxzuWy1x06pPsyoQ==
+vuex-easy-access@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/vuex-easy-access/-/vuex-easy-access-3.1.5.tgz#131bc31eb0deb7b7a32a0ca4bcc3dbb6fb02421e"
+  integrity sha512-aZtj9F7L0KYHhWgEQoZ9F2PkYysu3+E9Zy41FgpiBzPqX+mTSiFL8yUlL2j175bBgD48WCi9Ah0OhCEqA57F+g==
   dependencies:
-    "@posva/vuefire-core" "^1.0.3"
+    find-and-replace-anything "^1.2.0"
+    is-what "^3.0.1"
+    merge-anything "^2.2.0"
+
+vuex-easy-firestore@^1.29.1:
+  version "1.29.1"
+  resolved "https://registry.yarnpkg.com/vuex-easy-firestore/-/vuex-easy-firestore-1.29.1.tgz#2024c509b7b6afe2b946c7d27b82ac846664aea5"
+  integrity sha512-eY+HHpr9+6Jd35QvS3YfefkvMzEhAEJgc/keZnJfRJntG/vJlQFk0A7vHzrcWvEa5iEtbqKc+n81kGWl4hqYPA==
+  dependencies:
+    compare-anything "^0.0.1"
+    copy-anything "^1.1.0"
+    filter-anything "^1.1.0"
+    find-and-replace-anything "^2.0.0"
+    flatten-anything "^1.0.0"
+    is-what "^3.1.1"
+    merge-anything "^2.2.0"
+    vuex-easy-access "^3.1.5"
 
 vuex@3.1.0:
   version "3.1.0"
@@ -7683,10 +7738,10 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-webpack-bundle-analyzer@3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-3.0.3.tgz#dbc7fff8f52058b6714a20fddf309d0790e3e0a0"
-  integrity sha512-naLWiRfmtH4UJgtUktRTLw6FdoZJ2RvCR9ePbwM9aRMsS/KjFerkPZG9epEvXRAw5d5oPdrs9+3p+afNjxW8Xw==
+webpack-bundle-analyzer@3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-3.0.4.tgz#095638487a664162f19e3b2fb7e621b7002af4b8"
+  integrity sha512-ggDUgtKuQki4vmc93Ej65GlYxeCUR/0THa7gA+iqAGC2FFAxO+r+RM9sAUa8HWdw4gJ3/NZHX/QUcVgRjdIsDg==
   dependencies:
     acorn "^5.7.3"
     bfj "^6.1.1"

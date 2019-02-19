@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createEasyFirestore from 'vuex-easy-firestore'
 
 // import example from './module-example'
 import user from './user'
-import notifications from './notifications'
+import task from './task'
 
 Vue.use(Vuex)
+
+const easyFirestore = createEasyFirestore(task, { logging: true })
 
 /*
  * If not building with SSR mode, you can
@@ -14,10 +17,11 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-    user,
-    notifications
-    // example
-  }
+    user
+  },
+  plugins: [
+    easyFirestore
+  ]
 })
 
 if (process.env.DEV && module.hot) {
