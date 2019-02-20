@@ -12,23 +12,23 @@
 
         <q-item-section top class="col-2 gt-sm">
           <q-item-label lines="1">
-            <span class="text-weight-bold">{{ task.customer }}</span>
+            <span class="text-weight-bold">{{ task.customer.name }}</span>
           </q-item-label>
           <q-item-label caption lines="1">
-            <span class="gt-xs text-grey-8"> {{ formatDate(task.open_date) }}</span>
+            <span class="gt-xs text-grey-8"></span>
           </q-item-label>
         </q-item-section>
 
         <q-item-section top>
           <q-item-label lines="1" class="lt-md">
-            <span class="text-weight-bold">{{ task.customer }}</span>
+            <span class="text-weight-bold">{{ task.customer.name }}</span>
           </q-item-label>
           <q-item-label lines="1">
             <span class="text-weight-medium">{{ task.title }}</span>
           </q-item-label>
           <q-item-label lines="1">
             <q-btn color="positive">
-              <q-icon left name="phone" @click.native="openURL(task.phone_number)" />
+              <q-icon left name="phone" />
               <div class="gt-xs">{{ task.phone_number }}</div>
             </q-btn> {{ task.teamviewer_id }} {{ task.status }}
           </q-item-label>
@@ -51,7 +51,7 @@
 import { openURL, date } from 'quasar'
 
 export default {
-  name: 'task.',
+  name: 'tasks',
   data () {
     return {
       taskForm: {}

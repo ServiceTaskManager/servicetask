@@ -20,7 +20,7 @@
       <q-scroll-area style="height: calc(100% - 170px); margin-top: 170px; border-right: 1px solid #ddd">
         <q-list>
           <q-item-label header>Manage</q-item-label>
-          <q-item clickable to="/tasks">
+          <q-item clickable to="/">
             <q-item-section avatar>
                <q-icon name="assignment" />
             </q-item-section>
@@ -37,7 +37,6 @@
             <q-item-section>Accounts</q-item-section>
           </q-item>
         </q-list>
-        <STAddCustomer></STAddCustomer>
       </q-scroll-area>
 
       <q-img class="absolute-top" src="https://cdn.quasar-framework.org/img/material.png" style="height: 170px;">
@@ -45,7 +44,7 @@
           <q-avatar size="56px" class="q-mb-sm">
             <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
           </q-avatar>
-          <div class="text-weight-bold">Razvan Stoenescu / {{ user.email }}</div>
+          <div class="text-weight-bold">{{ user.email }}</div>
           <div>
             <q-btn round color="negative" icon="logout" size="sm" @click="logout" />&nbsp;
             <q-btn round color="grey" icon="settings" size="sm" />
@@ -62,20 +61,40 @@
       <router-view />
     </q-page-container>
 
-    <q-footer elevated class="bg-orange-8 text-white">
+    <q-footer elevated class="text-white" :class="'bg-'+addForm.task.color">
       <q-toolbar>
-        <q-input dense standout v-model="text" label="Customer" class="full-width">
-          <template v-slot:prepend>
-            <q-fab color="orange" icon="phone_forwarded" direction="up">
-              <q-fab-action color="purple" icon="update" label="Upgrade" />
-              <q-fab-action color="green" icon="done" label="Task" />
+        <q-select
+          dense
+          standout
+          use-input
+          v-model="addForm.values[addForm.field.key]"
+          :label="addForm.field.label"
+          :options="addForm.field.optionsFiltered"
+          @filter="filterFn"
+          class="full-width">
+          <template v-slot:before>
+            <q-fab :color="addForm.task.color" :icon="addForm.task.icon" direction="up">
+              <q-fab-action
+                v-for="(task, key) in addForm.tasks"
+                :key="key"
+                :color="task.color"
+                :icon="task.icon"
+                @click='setActiveAdd(key)' />
             </q-fab>
           </template>
 
-          <template v-slot:append>
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </template>
+
+          <template v-slot:after>
             <q-btn round dense flat icon="forward" @click.native="submit" />
           </template>
-        </q-input>
+        </q-select>
       </q-toolbar>
     </q-footer>
 
@@ -83,8 +102,6 @@
 </template>
 
 <script>
-import STAddCustomer from '../components/STAddCustomer.vue'
-
 export default {
   name: 'Base',
   data () {
@@ -92,7 +109,67 @@ export default {
       left: true,
       right: false,
       search: '',
-      text: ''
+      addForm: {
+        field: {},
+        task: {},
+        values: {},
+        step: 0,
+        default: 'customer',
+        tasks: {
+          customer: {
+            name: 'Customer',
+            icon: 'group',
+            color: 'pink',
+            store: 'customer',
+            fields: [
+              {
+                key: 'name',
+                label: 'Customer name',
+                multiple: false,
+                create: true
+              }
+            ]
+          },
+          call: {
+            name: 'Call',
+            icon: 'phone_forwarded',
+            color: 'orange',
+            store: 'task',
+            fields: [
+              {
+                key: 'customer',
+                label: 'Customer',
+                store: 'customer',
+                options: ['Test', 'Test']
+              }
+            ]
+          },
+          upgrade: {
+            name: 'Upgrade',
+            icon: 'update',
+            color: 'purple',
+            fields: [
+              {
+                type: 'text',
+                key: 'customer',
+                label: 'Customer'
+              }
+            ]
+          },
+          action: {
+            name: 'Action',
+            icon: 'done',
+            color: 'red',
+            fields: [
+              {
+                type: 'text',
+                key: 'customer',
+                label: 'Customer'
+              }
+            ]
+          }
+        }
+      }
     }
   },
   computed: {
@@ -105,18 +182,42 @@ export default {
   },
   mounted () {
     this.$store.dispatch('task/openDBChannel')
+    this.$store.dispatch('customer/openDBChannel')
+    this.setActiveAdd(this.addForm.default)
   },
   methods: {
     logout () {
       this.$store.dispatch('user/logout', this)
     },
     submit () {
-      this.$store.dispatch('task/set', { customer: this.text })
-      this.text = ''
+      this.$store.dispatch(this.addForm.task.store + '/set', this.addForm.values)
+    },
+    filterFn (val, done) {
+      if (this.addForm.field.options !== undefined) {
+        if (val !== '') {
+          const needle = val.toLowerCase()
+          let newOptions = this.addForm.field.options.filter(v => v.toLowerCase().indexOf(needle) > -1)
+          this.addForm.field.optionsFiltered = newOptions.sort()
+        } else {
+          this.addForm.field.optionsFiltered = this.addForm.field.options
+        }
+        console.log(this.addForm.field.optionsFiltered)
+      }
+
+      done()
+    },
+    setActiveAdd (key) {
+      console.log(key)
+      this.addForm.task = this.addForm.tasks[key]
+      this.addForm.field = this.addForm.task.fields[0]
+      this.addForm.values = {}
+      this.addForm.step = 0
+
+      if (this.addForm.field.store) {
+        this.addForm.field.options = Object.keys(this.$store.state[this.addForm.field.store].data)
+      }
+      this.addForm.field.optionsFiltered = this.addForm.field.options
     }
-  },
-  components: {
-    STAddCustomer
   }
 }
 </script>

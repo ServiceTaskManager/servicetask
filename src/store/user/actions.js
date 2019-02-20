@@ -6,7 +6,8 @@ export function login ({ commit, state }, ctx) {
       ctx.$router.push('/')
       ctx.$q.notify({
         message: 'Welcome',
-        color: 'positive'
+        color: 'positive',
+        position: 'top'
       })
     })
 }
@@ -18,7 +19,8 @@ export function logout ({ commit, state }, ctx) {
       ctx.$router.push('/login')
       ctx.$q.notify({
         message: 'Bye',
-        color: 'negative'
+        color: 'negative',
+        position: 'top'
       })
     })
 }

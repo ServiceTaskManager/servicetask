@@ -9,5 +9,5 @@ export const firebaseAuth = firebaseApp.auth()
 export default ({ Vue }) => {
   Vue.prototype.$firebase = firebaseApp
   Vue.prototype.$auth = firebaseAuth
-  Vue.prototype.$db = firebaseApp.firestore()
+  // Vue.prototype.$db = firebaseApp.firestore()
 }

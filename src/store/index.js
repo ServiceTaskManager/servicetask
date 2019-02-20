@@ -4,11 +4,11 @@ import createEasyFirestore from 'vuex-easy-firestore'
 
 // import example from './module-example'
 import user from './user'
-import task from './task'
+import firestore from './firestore'
 
 Vue.use(Vuex)
 
-const easyFirestore = createEasyFirestore(task, { logging: true })
+const easyFirestore = createEasyFirestore([firestore.task, firestore.customer], { logging: true })
 
 /*
  * If not building with SSR mode, you can
