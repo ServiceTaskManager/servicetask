@@ -7,11 +7,11 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Tasks list',
-        component: () => import('pages/Tasks.vue'),
+        name: 'Dashboard',
+        component: () => import('pages/Dashboard.vue'),
         meta: {
-          title: 'Tasks List',
-          description: 'List of things to do'
+          title: 'Dashboard',
+          description: 'Global overview'
         }
       }
     ]

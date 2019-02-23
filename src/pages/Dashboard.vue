@@ -1,4 +1,5 @@
 <template>
+  <p>...</p><!--
   <q-page padding class="justify-center">
     <q-list bordered class="rounded-borders">
       <q-item
@@ -44,14 +45,14 @@
         </q-item-section>
       </q-item>
     </q-list>
-  </q-page>
+  </q-page>-->
 </template>
 
 <script>
 import { openURL, date } from 'quasar'
 
 export default {
-  name: 'tasks',
+  name: 'Dashboard',
   data () {
     return {
       taskForm: {}

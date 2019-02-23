@@ -1,3 +1,1 @@
-export default {
-  user: {}
-}
+export default {}

@@ -1,4 +1,4 @@
-export function login ({ commit, state }, ctx) {
+/* export function login ({ commit, state }, ctx) {
   ctx.$auth
     .signInWithEmailAndPassword(ctx.user.email, ctx.user.password)
     .then((userCredentials) => {
@@ -10,8 +10,7 @@ export function login ({ commit, state }, ctx) {
         position: 'top'
       })
     })
-}
-
+} */
 export function logout ({ commit, state }, ctx) {
   ctx.$auth.signOut()
     .then(() => {
