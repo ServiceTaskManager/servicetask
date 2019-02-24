@@ -103,8 +103,12 @@ export default {
               key: 'customer',
               label: 'Customer',
               store: 'customer',
-              optionLabel: 'name',
-              multiple: true
+              optionLabel: 'name'
+            },
+            {
+              type: 'input',
+              key: 'title',
+              label: 'Title (describe customer issue)'
             }
           ]
         },

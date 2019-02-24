@@ -25,4 +25,5 @@ export default ({ Vue, router, store }) => {
   Vue.prototype.$firebaseApp = firebaseApp
   Vue.prototype.$auth = firebaseAuth
   Vue.prototype.$firebaseui = firebaseui
+  Vue.prototype.$db = firebase.firestore()
 }

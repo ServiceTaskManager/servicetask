@@ -5,13 +5,15 @@
     use-input
     use-chips
     v-model="value"
+    v-on:input="computeValue($event)"
     :label="settings.label"
     :options="options"
     :option-label="optionLabel"
     option-value="id"
     :multiple="settings.multiple"
     @new-value="create"
-    @filter="filter">
+    @filter="filter"
+    >
 
     <template v-slot:no-option>
       <q-item>
@@ -41,7 +43,7 @@ import { QSelect, QItem, QChip } from 'quasar'
 
 export default {
   name: 'SSelect',
-  props: ['settings'],
+  props: ['settings', 'form'],
   data () {
     return {
       value: null,
@@ -56,7 +58,6 @@ export default {
   methods: {
     getOptions () {
       let options = Object.values(this.$store.state[this.settings.store].data)
-      console.log('Get options from store ' + this.settings.store + '(' + options.length + ')')
       return options
     },
     filter (val, done) {
@@ -70,13 +71,15 @@ export default {
         } else {
           this.options = this.getOptions()
         }
-        console.log('New options are ' + JSON.stringify(this.options))
       })
     },
     create (val, done) {
       if (val.length > 0 && this.settings.create) {
         done(val)
       }
+    },
+    computeValue (value) {
+      this.settings.value = this.$db.collection(this.settings.store).doc(value.id)
     }
   },
   components: {

@@ -3,6 +3,7 @@
     dense
     standout
     v-model='value'
+    v-on:input='settings.value = value'
     :label="settings.label" />
 </template>
 
@@ -11,19 +12,10 @@ import { QInput } from 'quasar'
 
 export default {
   name: 'SInput',
-  props: ['settings'],
+  props: ['settings', 'form'],
   data () {
     return {
-      value: ''
-    }
-  },
-  created () {
-    this.$root.$on('claimValue', cb => this.pushValue(cb))
-  },
-  methods: {
-    pushValue () {
-      console.log('Giving value to SForm ' + this.value)
-      this.$root.$emit('pushValue', this.value)
+      value: null
     }
   },
   components: {

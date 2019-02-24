@@ -4,7 +4,7 @@ const task = {
   },
   namespaced: true,
   firestorePath: 'tasks',
-  firestoreRefType: 'collection', // or 'doc'
+  firestoreRefType: 'collection',
   moduleName: 'task',
   statePropName: 'data',
   serverChange: {
@@ -25,7 +25,7 @@ const customer = {
   },
   namespaced: true,
   firestorePath: 'customers',
-  firestoreRefType: 'collection', // or 'doc'
+  firestoreRefType: 'collection',
   moduleName: 'customer',
   statePropName: 'data'
 }

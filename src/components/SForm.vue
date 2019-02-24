@@ -6,10 +6,14 @@
         :key="key"
         :color="f.color"
         :icon="f.icon"
-        @click='setForm(key)' />
+        @click='changeForm(key)' />
     </q-fab>
 
-    <s-field :field="field" class="full-width" tag="div" style="padding-left: 5px; padding-right: 5px" />
+    <div class="full-width" style="padding-left: 5px; padding-right: 5px;">
+      <s-select v-if="field.type == 'select'" :settings="field" :form="form" />
+      <s-input v-else-if="field.type == 'input'" :settings="field" :form="form" />
+      <p v-else>No field type defined</p>
+    </div>
 
     <q-btn round dense flat icon="forward" @click.native="next" />
   </q-toolbar>
@@ -17,7 +21,8 @@
 
 <script>
 import { QToolbar } from 'quasar'
-import SField from './SField.vue'
+import SSelect from './SSelect.vue'
+import SInput from './SInput.vue'
 
 export default {
   name: 'SForm',
@@ -26,8 +31,9 @@ export default {
     return {
       form: {},
       field: {},
-      value: {},
-      activeField: 0
+      data: {},
+      activeField: 0,
+      currentformKey: ''
     }
   },
   computed: {
@@ -37,47 +43,43 @@ export default {
       return prop
     }
   },
-  created () {
-    this.$root.$on('pushValue', cb => this.updateValue(cb))
-  },
   mounted () {
-    let formKey = (this.defaultFormKey !== undefined) ? this.defaultFormKey : Object.keys(this.forms)[0]
-    this.setForm(formKey)
+    this.activeForm = (this.defaultFormKey !== undefined) ? this.defaultFormKey : Object.keys(this.forms)[0]
+    this.setForm()
   },
   methods: {
-    setForm (key) {
-      console.log('Set form ' + key)
-      this.form = this.forms[key]
+    changeForm (key) {
+      this.activeForm = key
+      this.setForm()
+    },
+    setForm () {
+      this.form = this.forms[this.activeForm]
       this.activeField = 0
+      this.data = {}
       this.setField()
     },
     setField () {
       this.field = this.form.fields[this.activeField]
-      console.log('Set field #' + this.activeField, this.field.label)
+      this.field.value = null
     },
     next () {
-      console.log('Next ' + this.form.fields.length)
-      this.$root.$emit('claimValue')
-      if (++this.activeField < this.form.fields.length) {
+      this.data[this.field.key] = this.field.value
+      if (this.activeField + 1 < this.form.fields.length) {
         ++this.activeField
         this.setField()
       } else {
         this.submit()
+        this.setForm()
       }
     },
-    updateValue (value) {
-      this.value[this.field.key] = value
-      console.log('Value updated : ' + JSON.stringify(this.value))
-    },
     submit () {
-      this.$store.dispatch(this.form.store + '/set', this.value)
-      this.value = {}
-      console.log('Submit')
+      this.$store.dispatch(this.form.store + '/set', this.data)
     }
   },
   components: {
     QToolbar,
-    SField
+    SSelect,
+    SInput
   }
 }
 </script>
