@@ -15,7 +15,7 @@ export default {
   props: ['settings', 'form'],
   data () {
     return {
-      value: null
+      value: this.settings.value
     }
   },
   components: {

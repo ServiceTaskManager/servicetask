@@ -7,12 +7,17 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Dashboard',
+        name: 'dashboard',
         component: () => import('pages/Dashboard.vue'),
         meta: {
           title: 'Dashboard',
           description: 'Global overview'
         }
+      },
+      {
+        path: 'model/:model',
+        name: 'model',
+        component: () => import('pages/Dashboard.vue')
       }
     ]
   },

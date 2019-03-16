@@ -58,109 +58,40 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <q-page padding>
+        <router-view />
+      </q-page>
     </q-page-container>
-
-    <q-footer elevated class="text-white">
-      <s-form :forms="forms" />
-    </q-footer>
 
   </q-layout>
 </template>
 
 <script>
-import SForm from '../components/SForm.vue'
-
 export default {
   name: 'Base',
   data () {
     return {
       left: true,
       right: false,
-      search: '',
-      forms: {
-        customer: {
-          name: 'Customer',
-          icon: 'group',
-          color: 'pink',
-          store: 'customer',
-          fields: [
-            {
-              type: 'input',
-              key: 'name',
-              label: 'Customer name'
-            }
-          ]
-        },
-        call: {
-          name: 'Call',
-          icon: 'phone_forwarded',
-          color: 'orange',
-          store: 'task',
-          fields: [
-            {
-              type: 'select',
-              key: 'customer',
-              label: 'Customer',
-              store: 'customer',
-              optionLabel: 'name'
-            },
-            {
-              type: 'input',
-              key: 'title',
-              label: 'Title (describe customer issue)'
-            }
-          ]
-        },
-        upgrade: {
-          name: 'Upgrade',
-          icon: 'update',
-          color: 'purple',
-          fields: [
-            {
-              type: 'text',
-              key: 'customer',
-              label: 'Customer'
-            }
-          ]
-        },
-        action: {
-          name: 'Action',
-          icon: 'done',
-          color: 'red',
-          fields: [
-            {
-              type: 'text',
-              key: 'customer',
-              label: 'Customer'
-            }
-          ]
-        }
-      }
+      search: ''
     }
-  },
-  components: {
-    SForm
   },
   computed: {
     user () {
       return this.$store.state.user
     },
     taskCount () {
-      return Object.keys(this.$store.state.task.data).length
+      return Object.keys(this.$store.state.tasks.data).length
     }
   },
   mounted () {
-    this.$store.dispatch('task/openDBChannel')
-    this.$store.dispatch('customer/openDBChannel')
+    this.$store.dispatch('tasks/openDBChannel')
+    this.$store.dispatch('calls/openDBChannel')
+    this.$store.dispatch('customers/openDBChannel')
   },
   methods: {
     logout () {
       this.$auth.signOut()
-    },
-    submit () {
-      this.$store.dispatch(this.addForm.task.store + '/set', this.addForm.values)
-      this.addForm.values = {}
     }
   }
 }

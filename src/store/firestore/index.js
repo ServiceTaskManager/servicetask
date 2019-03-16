@@ -1,33 +1,66 @@
-const task = {
+const tasks = {
   state: {
     data: {}
   },
   namespaced: true,
   firestorePath: 'tasks',
   firestoreRefType: 'collection',
-  moduleName: 'task',
+  moduleName: 'tasks',
   statePropName: 'data',
   serverChange: {
     addedHook: function (updateStore, doc, id, store) {
-      if (doc.customer) {
-        doc.customer.get().then((d) => {
-          doc.customer = d.data()
-        })
-      }
-      updateStore(doc)
+      getReference(doc.customer).then(d => {
+        doc.customer = d
+        updateStore(doc)
+      })
+    },
+    modifiedHook: function (updateStore, doc, id, store) {
+      getReference(doc.customer).then(d => {
+        doc.customer = d
+        updateStore(doc)
+      })
     }
   }
 }
 
-const customer = {
+const calls = {
+  state: {
+    data: {}
+  },
+  namespaced: true,
+  firestorePath: 'calls',
+  firestoreRefType: 'collection',
+  moduleName: 'calls',
+  statePropName: 'data',
+  serverChange: {
+    addedHook: function (updateStore, doc, id, store) {
+      getReference(doc.customer).then(d => {
+        doc.customer = d
+        updateStore(doc)
+      })
+    },
+    modifiedHook: function (updateStore, doc, id, store) {
+      getReference(doc.customer).then(d => {
+        doc.customer = d
+        updateStore(doc)
+      })
+    }
+  }
+}
+
+const customers = {
   state: {
     data: {}
   },
   namespaced: true,
   firestorePath: 'customers',
   firestoreRefType: 'collection',
-  moduleName: 'customer',
+  moduleName: 'customers',
   statePropName: 'data'
 }
 
-export default { task, customer }
+let getReference = async function (doc) {
+  return doc ? doc.get().then(d => { return d.exists ? d.data() : null }) : null
+}
+
+export default { tasks, calls, customers }

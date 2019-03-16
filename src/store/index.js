@@ -8,7 +8,7 @@ import form from './form'
 
 Vue.use(Vuex)
 
-const easyFirestore = createEasyFirestore([firestore.task, firestore.customer], { logging: true })
+const easyFirestore = createEasyFirestore([firestore.tasks, firestore.calls, firestore.customers], { logging: true })
 
 /*
  * If not building with SSR mode, you can
