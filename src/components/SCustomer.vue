@@ -2,7 +2,7 @@
   <q-card :key="data.id">
     <q-card-section>
       <div class="text-h6">{{ data.name }}</div>
-      <div class="text-subtitle2">{{ data.customer.name }}</div>
+      <div class="text-subtitle2">{{ data.address }}</div>
     </q-card-section>
 
     <q-card-section>

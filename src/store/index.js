@@ -3,8 +3,8 @@ import Vuex from 'vuex'
 import createEasyFirestore from 'vuex-easy-firestore'
 
 import user from './user'
+import model from './model'
 import firestore from './firestore'
-import form from './form'
 
 Vue.use(Vuex)
 
@@ -18,7 +18,7 @@ const easyFirestore = createEasyFirestore([firestore.tasks, firestore.calls, fir
 const store = new Vuex.Store({
   modules: {
     user,
-    form
+    model
   },
   plugins: [
     easyFirestore
