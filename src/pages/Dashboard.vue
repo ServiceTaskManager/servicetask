@@ -9,7 +9,7 @@
           :key="key"
           class="col-4">
           <q-btn
-            :to="'/model/'+key"
+            :to="key"
             :icon="m.icon"
             :color="m.color"
             :label="m.name"

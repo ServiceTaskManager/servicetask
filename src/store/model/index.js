@@ -15,8 +15,8 @@ export default {
         color: 'orange',
         default: {
           customer: '',
-          title: 'Describe issue',
-          person: 'Person name',
+          title: 'Random issue',
+          person: 'Random person',
           phone: '06',
           teamviewer_id: '',
           teamviewer_pwd: '',

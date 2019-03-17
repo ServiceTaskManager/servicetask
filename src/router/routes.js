@@ -2,6 +2,20 @@ import base from 'layouts/Base.vue'
 
 const routes = [
   {
+    path: '/login',
+    component: () => import('layouts/Login.vue'),
+    children: [
+      {
+        path: '',
+        name: 'login',
+        component: () => import('pages/Login.vue'),
+        meta: {
+          title: 'Login'
+        }
+      }
+    ]
+  },
+  {
     path: '/',
     component: base,
     children: [
@@ -15,23 +29,9 @@ const routes = [
         }
       },
       {
-        path: 'model/:model',
+        path: ':model',
         name: 'model',
         component: () => import('pages/Dashboard.vue')
-      }
-    ]
-  },
-  {
-    path: '/login',
-    component: () => import('layouts/Login.vue'),
-    children: [
-      {
-        path: '',
-        name: 'login',
-        component: () => import('pages/Login.vue'),
-        meta: {
-          title: 'Login'
-        }
       }
     ]
   }

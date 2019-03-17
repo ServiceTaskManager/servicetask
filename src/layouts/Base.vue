@@ -7,14 +7,27 @@
       behavior="mobile"
       elevated>
       <div class="q-pa-sm bg-grey-10 full-height">
-        <q-btn round color="negative" icon="logout" size="sm" @click="logout" />
 
-        <div class="absolute-bottom">
+        <div class="absolute-bottom bg-grey-9">
           <q-list class="text-white">
+            <q-item class="bg-grey-5">
+              <q-item-section avatar>
+                <q-avatar>
+                  <img :src="user.photoURL">
+                </q-avatar>
+              </q-item-section>
+              <q-item-section class="text-black">
+                {{ user.displayName }}
+              </q-item-section>
+              <q-item-section avatar>
+                <q-btn round size="sm" color="negative" icon="logout" @click="logout" />
+              </q-item-section>
+            </q-item>
+
             <q-item
               v-for="(m, key) in models"
               :key="key"
-              :to="'/model/'+key">
+              :to="key">
               <q-item-section avatar>
                 <q-icon :color="m.color" :name="m.icon" />
               </q-item-section>
