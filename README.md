@@ -11,6 +11,10 @@ Install Node with NVM
 
 	nvm install node
 
+Install Firebase
+
+	npm install -g firebase-tools
+
 Install Service Task
 
 	git clone https://github.com/Fulbert/servicetask.git
@@ -19,10 +23,11 @@ Install Service Task
 
 ## Run Service task in development mode
 
-	quasar dev -m pwa
+	quasar dev -m spa
 
 Explore your [new instance](http://localhost:8080/)
 
-## Setup production mode
+## Run in production mode
 
-...
+	firebase login
+	firebase deploy
