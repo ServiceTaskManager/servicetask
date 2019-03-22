@@ -31,7 +31,7 @@
 <script>
 import { QSelect, QItem } from 'quasar'
 export default {
-  name: 'SSelectCustomer',
+  name: 'SelectCustomer',
   props: ['readonly', 'value'],
   data () {
     return {
@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     filter (val, done) {
-      console.log('Filter with ' + val)
       done(() => {
         if (val !== '') {
           let needle = val.toLowerCase()
@@ -62,7 +61,6 @@ export default {
     },
     getOptions () {
       let options = Object.values(this.$store.state.customers.data)
-      console.log('Retrieve options')
       return options
     }
   },

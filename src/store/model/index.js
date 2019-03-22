@@ -1,18 +1,30 @@
 export default {
   state: {
     models: {
+      users: {
+        name: 'Users',
+        icon: 'person',
+        color: 'green',
+        sync: true,
+        default: {
+          roles: [],
+          available: false
+        }
+      },
       customers: {
-        name: 'Customer',
+        name: 'Customers',
         icon: 'group',
         color: 'pink',
+        sync: true,
         default: {
           name: 'Unknown customer'
         }
       },
       calls: {
-        name: 'Call',
+        name: 'Calls',
         icon: 'phone_forwarded',
         color: 'orange',
+        sync: true,
         default: {
           customer: '',
           title: 'Random issue',
@@ -24,12 +36,12 @@ export default {
         }
       },
       engines: {
-        name: 'Engine',
+        name: 'Engines',
         icon: 'update',
         color: 'purple'
       },
       tasks: {
-        name: 'Task',
+        name: 'Tasks',
         icon: 'done',
         color: 'red'
       }

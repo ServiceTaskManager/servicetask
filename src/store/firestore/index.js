@@ -1,3 +1,14 @@
+const users = {
+  state: {
+    data: {}
+  },
+  namespaced: true,
+  firestorePath: 'users',
+  firestoreRefType: 'collection',
+  moduleName: 'users',
+  statePropName: 'data'
+}
+
 const tasks = {
   state: {
     data: {}
@@ -31,4 +42,15 @@ const customers = {
   statePropName: 'data'
 }
 
-export default { tasks, calls, customers }
+const notifications = {
+  state: {
+    data: {}
+  },
+  namespaced: true,
+  firestorePath: 'notifications',
+  firestoreRefType: 'collection',
+  moduleName: 'notifications',
+  statePropName: 'data'
+}
+
+export default { users, tasks, calls, customers, notifications }

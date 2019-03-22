@@ -1,18 +1,23 @@
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/messaging'
 import * as firebaseui from 'firebaseui'
 
 import config from './firebase.config.json'
 
-export const firebaseApp = firebase.initializeApp(config)
-export const firebaseAuth = firebaseApp.auth()
+const firebaseApp = firebase.initializeApp(config)
+const firebaseAuth = firebaseApp.auth()
 
 export default ({ Vue, router, store }) => {
-  firebaseApp.auth().onAuthStateChanged(function (user) {
+  // Watch for Auth state and redirect to /login if user is not logged in
+  firebaseApp.auth().onAuthStateChanged((user) => {
     if (user) {
-      store.state.user = firebaseAuth.currentUser
-      router.push('/')
+      store.state.user = user
+      let newUser = {
+        id: user.uid
+      }
+      store.dispatch('users/patch', newUser)
     } else {
       store.state.user = null
       if (router.path !== '/login') {
@@ -20,6 +25,34 @@ export default ({ Vue, router, store }) => {
       }
     }
   })
+
+  // Manage messaging is supported by browser
+  if (firebase.messaging.isSupported()) {
+    const firebaseMessaging = firebaseApp.messaging()
+
+    Vue.prototype.$messaging = firebaseMessaging
+    // Configure Firebase messaging to use Push Notifications easily
+    firebaseMessaging.usePublicVapidKey(config.messagingApiKey) // Register messaging API key
+    navigator.serviceWorker.register('statics/firebase-messaging-sw.js')
+      .then((registration) => {
+        firebaseMessaging.useServiceWorker(registration)
+      }).catch(err => {
+        console.log(err)
+      })
+  }
+
+  // Open 2-way sync for models
+  for (let key in store.state.model.models) {
+    let model = store.state.model.models[key]
+    if (model.sync === true) {
+      store.dispatch(key + '/openDBChannel')
+        .then(() => {
+          console.log('Successfully openDBChannel ' + key)
+        }).catch((err) => {
+          console.log('Failed to openDBChannel ' + key + ' with error: ' + err)
+        })
+    }
+  }
 
   Vue.prototype.$firebase = firebase
   Vue.prototype.$firebaseApp = firebaseApp

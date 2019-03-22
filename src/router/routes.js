@@ -1,5 +1,3 @@
-import base from 'layouts/Base.vue'
-
 const routes = [
   {
     path: '/login',
@@ -17,11 +15,15 @@ const routes = [
   },
   {
     path: '/',
-    component: base,
+    component: () => import('layouts/Base.vue'),
     children: [
       {
         path: '',
-        name: 'dashboard',
+        redirect: '/dashboard'
+      },
+      {
+        path: 'dashboard',
+        name: 'component',
         component: () => import('pages/Dashboard.vue'),
         meta: {
           title: 'Dashboard',
@@ -31,7 +33,7 @@ const routes = [
       {
         path: ':model',
         name: 'model',
-        component: () => import('pages/Dashboard.vue')
+        component: (route) => import('pages/Model.vue')
       }
     ]
   }

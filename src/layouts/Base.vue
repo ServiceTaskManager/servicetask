@@ -64,7 +64,7 @@ export default {
   data () {
     return {
       right: false,
-      search: ''
+      notificationToken: ''
     }
   },
   computed: {
@@ -76,13 +76,43 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('tasks/openDBChannel')
-    this.$store.dispatch('calls/openDBChannel')
-    this.$store.dispatch('customers/openDBChannel')
+    // Request permissions for notifications (browser)
+    if (this.$messaging) {
+      console.log('Loading messaging functions')
+      this.$messaging.requestPermission().then(function () {
+        console.log('Notification permission granted.')
+      }).catch(function (err) {
+        console.log('Unable to get permission to notify.', err)
+      })
+
+      this.getToken()
+
+      // Watch for token, update notificationTokens store
+      this.$messaging.onTokenRefresh(() => {
+        this.getToken()
+      })
+
+      // Catch notifications and disply it
+      this.$messaging.onMessage((payload) => {
+        this.$q.notify(JSON.stringify(payload))
+        console.log('Message received. ' + payload)
+      })
+    }
   },
   methods: {
     logout () {
       this.$auth.signOut()
+    },
+    getToken () {
+      this.$messaging.getToken().then((token) => {
+        console.log('Retrieve token ' + token)
+        if (this.notificationToken !== token) {
+          this.notificationToken = token
+          // this.$store.dispatch('notifications/set', { token })
+        }
+      }).catch((err) => {
+        console.log('An error occurred while retrieving token. ', err)
+      })
     }
   }
 }

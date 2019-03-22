@@ -84,6 +84,8 @@ module.exports = function (ctx) {
         orientation: 'portrait',
         background_color: '#ffffff',
         theme_color: '#027be3',
+        gcm_sender_id: '103953800507',
+        start_url: './?utm_source=web_app_manifest',
         icons: [
           {
             'src': 'statics/icons/icon-128x128.png',
