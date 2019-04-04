@@ -18,6 +18,10 @@
       <select-customer
         v-model="call.customer"
         :readonly="!edit" />
+      <select-engine
+        v-model="call.engine"
+        :readonly="!edit"
+        :customer="call.customer" />
       <q-input
         v-model="call.person"
         color="orange"
@@ -81,8 +85,8 @@
 </template>
 
 <script>
-import { QCard, QBtn } from 'quasar'
 import SelectCustomer from './SelectCustomer'
+import SelectEngine from './SelectEngine'
 
 export default {
   name: 'CardCall',
@@ -120,9 +124,8 @@ export default {
     }
   },
   components: {
-    QCard,
-    QBtn,
-    SelectCustomer
+    SelectCustomer,
+    SelectEngine
   }
 }
 </script>

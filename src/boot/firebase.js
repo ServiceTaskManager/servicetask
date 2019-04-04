@@ -14,8 +14,19 @@ export default ({ Vue, router, store }) => {
   firebaseApp.auth().onAuthStateChanged((user) => {
     if (user) {
       store.state.user = user
+
+      store.state.config.models.forEach((key) => {
+        store.dispatch(key + '/openDBChannel')
+          .then(() => {
+            console.log('Successfully openDBChannel ' + key)
+          }).catch((err) => {
+            console.log('Failed to openDBChannel ' + key + ' with error: ' + err)
+          })
+      })
+
       let newUser = {
-        id: user.uid
+        id: user.uid,
+        displayName: user.displayName
       }
       store.dispatch('users/patch', newUser)
     } else {
@@ -39,19 +50,6 @@ export default ({ Vue, router, store }) => {
       }).catch(err => {
         console.log(err)
       })
-  }
-
-  // Open 2-way sync for models
-  for (let key in store.state.model.models) {
-    let model = store.state.model.models[key]
-    if (model.sync === true) {
-      store.dispatch(key + '/openDBChannel')
-        .then(() => {
-          console.log('Successfully openDBChannel ' + key)
-        }).catch((err) => {
-          console.log('Failed to openDBChannel ' + key + ' with error: ' + err)
-        })
-    }
   }
 
   Vue.prototype.$firebase = firebase

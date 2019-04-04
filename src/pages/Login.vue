@@ -21,17 +21,7 @@
 <script>
 export default {
   data () {
-    return {
-      user: {
-        email: '',
-        password: ''
-      }
-    }
-  },
-  methods: {
-    login () {
-      this.$store.dispatch('user/login', this)
-    }
+    return {}
   },
   mounted () {
     var uiConfig = {

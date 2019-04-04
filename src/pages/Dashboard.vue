@@ -5,14 +5,25 @@
       <div
         v-for="(m, key) in models"
         :key="key"
-        class="col-4">
-        <q-btn
-          :to="key"
-          :icon="m.icon"
-          :color="m.color"
-          :label="m.name"
-          class="full-width"
-          push />
+        class="col-sm-4 col-6">
+        <q-card
+          :class="'bg-'+m.color+'-6'"
+          @click="$router.push(key)"
+          clickable>
+          <q-card-section
+            class="q-pa-sm text-white"
+            :class="'bg-'+m.color+'-9'" >
+            <div class="text-h6 text-center">
+              {{ m.name }}
+            </div>
+          </q-card-section>
+
+          <q-separator />
+
+          <q-card-section class="text-center q-pa-none" style="height: 150px">
+            <q-icon color="white" :name="m.icon" class="absolute-center" style="font-size: 100px" />
+          </q-card-section>
+        </q-card>
       </div>
     </div>
   </div>
@@ -23,7 +34,11 @@ export default {
   name: 'Dashboard',
   computed: {
     models () {
-      return this.$store.state.model.models
+      let models = {}
+      this.$store.state.config.models.forEach((model) => {
+        models[model] = this.$store.state[model]
+      })
+      return models
     }
   }
 }

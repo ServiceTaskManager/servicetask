@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     model () {
-      return this.$store.state.model.models.customers
+      return this.$store.state.customers
     }
   },
   methods: {

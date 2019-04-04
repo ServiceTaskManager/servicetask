@@ -27,7 +27,6 @@
       </q-input>
       <q-select
         multiple
-        ellipsis
         v-model="user.roles"
         :options='roles'
         color="black"

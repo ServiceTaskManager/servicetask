@@ -52,7 +52,7 @@ export default {
         if (val !== '') {
           let needle = val.toLowerCase()
           this.options = this.getOptions().filter((v) => {
-            return (v.name !== undefined) ? (v.name.toLowerCase().indexOf(needle) > -1) : false
+            return v.name !== undefined ? (v.name.toLowerCase().indexOf(needle) > -1) : false
           })
         } else {
           this.options = this.getOptions()

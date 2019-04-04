@@ -72,7 +72,11 @@ export default {
       return this.$store.state.user
     },
     models () {
-      return this.$store.state.model.models
+      let models = {}
+      this.$store.state.config.models.forEach((model) => {
+        models[model] = this.$store.state[model]
+      })
+      return models
     }
   },
   mounted () {

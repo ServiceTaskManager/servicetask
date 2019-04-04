@@ -12,6 +12,7 @@
 import Calls from '../components/Calls'
 import Users from '../components/Users'
 import Customers from '../components/Customers'
+import Engines from '../components/Engines'
 
 export default {
   name: 'Model',
@@ -26,7 +27,8 @@ export default {
   components: {
     Calls,
     Users,
-    Customers
+    Customers,
+    Engines
   }
 }
 </script>

@@ -1,26 +1,10 @@
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    function hasRoles (roles) {
+    function hasRole (roles) {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles.hasAny(roles)
     }
-
     match /{document=**} {
-      allow read, write: if hasRoles(['admin'])
-    }
-
-    match /users/{user} {
-      allow read: if hasRoles(['tss']) || hasRoles(['se']) || user == request.auth.uid
-      allow write: if user == request.auth.uid
-    }
-
-    match /calls/{call} { 
-      allow read, write: if hasRoles(['se'])
-    }
-
-    match /customers/{customer} {
-      allow read: if hasRoles(['se'])
-      allow write: if hasRoles(['tss'])
+      allow read, write: if hasRole (['admin'])
     }
   }
 }

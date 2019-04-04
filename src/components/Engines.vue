@@ -3,10 +3,10 @@
     <div
       class="row q-col-gutter-sm">
       <div
-        v-for="(call, key) in calls"
+        v-for="(engine, key) in engines"
         :key="key"
         class="col-12 col-sm-4">
-        <card-call :call="call" />
+        <card-engine :engine="engine" />
       </div>
     </div>
 
@@ -16,35 +16,35 @@
       icon="add"
       class="fixed-bottom-right"
       style="margin-right: 10px; margin-bottom: 10px"
-      @click="createCall" />
+      @click="createEngine" />
   </div>
 </template>
 
 <script>
-import CardCall from '../components/CardCall'
+import CardEngine from '../components/CardEngine'
 
 export default {
-  name: 'Calls',
+  name: 'Engines',
   data () {
     return {
-      calls: {}
+      engines: {}
     }
   },
   mounted () {
-    this.calls = this.$store.state.calls.data
+    this.engines = this.$store.state.engines.data
   },
   computed: {
     model () {
-      return this.$store.state.calls
+      return this.$store.state.model.models.engines
     }
   },
   methods: {
-    createCall () {
-      this.$store.dispatch('calls/set', { create: true, engine: '' })
+    createEngine () {
+      this.$store.dispatch('engines/set', { create: true, ugks: [] })
     }
   },
   components: {
-    CardCall
+    CardEngine
   }
 }
 </script>
