@@ -14,7 +14,7 @@
         :readonly="!edit" />
       <q-select
         v-model="engine.type"
-        :options='types'
+        :options='$store.state.config.engineTypes'
         color="teal"
         label="Engine"
         :readonly="!edit"
@@ -39,7 +39,7 @@
       <q-select
         multiple
         v-model="engine.ugks"
-        :options='ugks'
+        :options='$store.state.config.ugks'
         color="black"
         label="Upgrade"
         :readonly="!edit"
@@ -74,9 +74,7 @@ export default {
   props: ['engine'],
   data () {
     return {
-      edit: false,
-      types: ['Xeikon 5000', 'Xeikon 6000', 'Xeikon 3030', 'Xeikon 3300', 'Xeikon 3050', 'Xeikon 3500', 'Xeikon CX3'],
-      ugks: ['LDA Dirt Catcher', 'Speed Lifetime']
+      edit: false
     }
   },
   mounted () {
@@ -85,7 +83,7 @@ export default {
   computed: {
     customer () {
       let customerData = this.$store.state.customers.data[this.engine.customer]
-      let customerDefault = this.$store.state.model.models.customers.default
+      let customerDefault = this.$store.state.customers.default
       let customer = customerData || customerDefault
       return customer
     }

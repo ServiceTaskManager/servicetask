@@ -15,7 +15,9 @@ const config = {
       'calls',
       'customers',
       'engines'
-    ]
+    ],
+    engineTypes: ['Xeikon 5000', 'Xeikon 6000', 'Xeikon 3030', 'Xeikon 3300', 'Xeikon 3050', 'Xeikon 3500', 'Xeikon CX3'],
+    ugks: ['LDA Dirt Catcher', 'Speed Lifetime']
   }
 }
 
