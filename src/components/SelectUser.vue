@@ -7,11 +7,12 @@
     :display-value="displayValue"
     :value="value"
     @input="$emit('input', $event.id)"
-    label="Engine"
+    label="User"
     :readonly="readonly"
     :options="options"
-    :option-label="opt => opt.type + ' SN/' + opt.sn"
-    option-value="id">
+    option-label="displayName"
+    option-value="id"
+    @filter="filter">
 
     <template v-slot:prepend>
       <q-icon :name="model.icon" :color="model.color" />
@@ -30,17 +31,19 @@
 <script>
 import { QSelect, QItem } from 'quasar'
 export default {
-  name: 'SelectEngine',
-  props: ['readonly', 'value', 'customer'],
+  name: 'SelectUser',
+  props: ['readonly', 'value'],
   data () {
-    return {}
+    return {
+      options: null
+    }
+  },
+  mounted () {
+    this.options = this.getOptions()
   },
   computed: {
-    options () {
-      return this.getOptions()
-    },
     model () {
-      return this.$store.state.engines
+      return this.$store.state.users
     },
     default () {
       return this.model.default
@@ -49,14 +52,24 @@ export default {
       return this.model.data[this.value]
     },
     displayValue () {
-      return this.value ? this.data.type + ' SN/' + this.data.sn : this.default.displayName
+      return this.value ? this.data.displayName : this.default.displayName
     }
   },
   methods: {
-    getOptions () {
-      let options = Object.values(this.$store.state.engines.data).filter((v) => {
-        return v.customer === this.customer
+    filter (val, done) {
+      done(() => {
+        if (val !== '') {
+          let needle = val.toLowerCase()
+          this.options = this.getOptions().filter((v) => {
+            return v.name !== undefined ? (v.name.toLowerCase().indexOf(needle) > -1) : false
+          })
+        } else {
+          this.options = this.getOptions()
+        }
       })
+    },
+    getOptions () {
+      let options = Object.values(this.$store.state.users.data)
       return options
     }
   },

@@ -6,7 +6,8 @@ const users = {
     color: 'green',
     default: {
       roles: [],
-      available: false
+      available: false,
+      displayName: 'No name'
     }
   },
   namespaced: true,
@@ -21,7 +22,10 @@ const tasks = {
     data: {},
     name: 'Tasks',
     icon: 'done',
-    color: 'light-blue'
+    color: 'light-blue',
+    default: {
+      displayName: 'No Name'
+    }
   },
   namespaced: true,
   firestorePath: 'tasks',
@@ -92,6 +96,28 @@ const engines = {
   statePropName: 'data'
 }
 
+const engineTypes = {
+  state: {
+    data: {}
+  },
+  namespaced: true,
+  firestorePath: 'engineTypes',
+  firestoreRefType: 'collection',
+  moduleName: 'engineTypes',
+  statePropName: 'data'
+}
+
+const engineUgks = {
+  state: {
+    data: {}
+  },
+  namespaced: true,
+  firestorePath: 'engineUgks',
+  firestoreRefType: 'collection',
+  moduleName: 'engineUgks',
+  statePropName: 'data'
+}
+
 const notifications = {
   state: {
     data: {}
@@ -103,4 +129,4 @@ const notifications = {
   statePropName: 'data'
 }
 
-export default { users, tasks, calls, customers, engines, notifications }
+export default { users, tasks, calls, customers, engines, notifications, engineTypes, engineUgks }

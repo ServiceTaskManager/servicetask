@@ -2,10 +2,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createEasyFirestore from 'vuex-easy-firestore'
 
-import user from './user'
 import firestore from './firestore'
 
 Vue.use(Vuex)
+
+const user = {
+  state: {}
+}
 
 const config = {
   state: {
@@ -15,9 +18,7 @@ const config = {
       'calls',
       'customers',
       'engines'
-    ],
-    engineTypes: ['Xeikon 5000', 'Xeikon 6000', 'Xeikon 3030', 'Xeikon 3300', 'Xeikon 3050', 'Xeikon 3500', 'Xeikon CX3'],
-    ugks: ['LDA Dirt Catcher', 'Speed Lifetime']
+    ]
   }
 }
 
@@ -28,7 +29,9 @@ const easyFirestore = createEasyFirestore([
   firestore.calls,
   firestore.customers,
   firestore.engines,
-  firestore.notifications], { logging: true })
+  firestore.notifications,
+  firestore.engineTypes,
+  firestore.engineUgks], { logging: true })
 
 /*
  * If not building with SSR mode, you can
