@@ -1,9 +1,8 @@
 <template>
   <div class="container">
-    <div
-      class="row q-col-gutter-sm">
+    <div class="row q-col-gutter-sm">
       <div
-        v-for="(m, key) in models"
+        v-for="(m, key) in $store.state.firestore.metas"
         :key="key"
         class="col-sm-4 col-6">
         <q-card
@@ -31,15 +30,6 @@
 
 <script>
 export default {
-  name: 'Dashboard',
-  computed: {
-    models () {
-      let models = {}
-      this.$store.state.config.models.forEach((model) => {
-        models[model] = this.$store.state[model]
-      })
-      return models
-    }
-  }
+  name: 'Dashboard'
 }
 </script>

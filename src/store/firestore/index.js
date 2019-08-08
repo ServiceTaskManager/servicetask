@@ -1,15 +1,20 @@
 const users = {
   state: {
     data: {},
-    name: 'Users',
-    icon: 'person',
-    color: 'green',
+    meta: {
+      name: 'Users',
+      icon: 'person',
+      color: 'green'
+    },
     default: {
       roles: [],
       available: false,
       displayName: 'No name'
     }
   },
+  vue: 'Users.vue',
+  readRoles: ['admin'],
+  writeRoles: ['admin'],
   namespaced: true,
   firestorePath: 'users',
   firestoreRefType: 'collection',
@@ -20,13 +25,18 @@ const users = {
 const tasks = {
   state: {
     data: {},
-    name: 'Tasks',
-    icon: 'done',
-    color: 'light-blue',
+    meta: {
+      name: 'Tasks',
+      icon: 'done',
+      color: 'light-blue'
+    },
     default: {
       displayName: 'No Name'
     }
   },
+  vue: 'Tasks.vue',
+  readRoles: ['user'],
+  writeRoles: ['user'],
   namespaced: true,
   firestorePath: 'tasks',
   firestoreRefType: 'collection',
@@ -37,9 +47,11 @@ const tasks = {
 const calls = {
   state: {
     data: {},
-    name: 'Calls',
-    icon: 'phone_forwarded',
-    color: 'orange',
+    meta: {
+      name: 'Calls',
+      icon: 'phone_forwarded',
+      color: 'orange'
+    },
     default: {
       customer: '',
       title: 'Random issue',
@@ -50,6 +62,9 @@ const calls = {
       machine_down: true
     }
   },
+  vue: 'Calls.vue',
+  readRoles: ['user'],
+  writeRoles: ['user'],
   namespaced: true,
   firestorePath: 'calls',
   firestoreRefType: 'collection',
@@ -60,13 +75,18 @@ const calls = {
 const customers = {
   state: {
     data: {},
-    name: 'Customers',
-    icon: 'group',
-    color: 'pink',
+    meta: {
+      name: 'Customers',
+      icon: 'group',
+      color: 'pink'
+    },
     default: {
       name: 'Unknown customer'
     }
   },
+  vue: 'Customers.vue',
+  readRoles: ['user'],
+  writeRoles: ['admin'],
   namespaced: true,
   firestorePath: 'customers',
   firestoreRefType: 'collection',
@@ -77,9 +97,11 @@ const customers = {
 const engines = {
   state: {
     data: {},
-    name: 'Engines',
-    icon: 'print',
-    color: 'teal',
+    meta: {
+      name: 'Engines',
+      icon: 'print',
+      color: 'teal'
+    },
     default: {
       type: 'Xeikon 3300',
       sn: '',
@@ -89,6 +111,9 @@ const engines = {
       post_devices: []
     }
   },
+  vue: 'Engines.vue',
+  readRoles: ['user'],
+  writeRoles: ['admin'],
   namespaced: true,
   firestorePath: 'engines',
   firestoreRefType: 'collection',
@@ -100,6 +125,9 @@ const engineTypes = {
   state: {
     data: {}
   },
+  vue: false,
+  readRoles: ['user'],
+  writeRoles: ['admin'],
   namespaced: true,
   firestorePath: 'engineTypes',
   firestoreRefType: 'collection',
@@ -111,6 +139,9 @@ const engineUgks = {
   state: {
     data: {}
   },
+  vue: false,
+  readRoles: ['user'],
+  writeRoles: ['admin'],
   namespaced: true,
   firestorePath: 'engineUgks',
   firestoreRefType: 'collection',
@@ -122,6 +153,9 @@ const notifications = {
   state: {
     data: {}
   },
+  vue: false,
+  readRoles: ['user'],
+  writeRoles: ['admin'],
   namespaced: true,
   firestorePath: 'notifications',
   firestoreRefType: 'collection',
@@ -129,4 +163,35 @@ const notifications = {
   statePropName: 'data'
 }
 
-export default { users, tasks, calls, customers, engines, notifications, engineTypes, engineUgks }
+const firestore = {
+  stores: [users,
+    tasks,
+    calls,
+    customers,
+    engines,
+    engineTypes,
+    engineUgks,
+    notifications],
+  state: {
+    readableStores: [],
+    writableStores: [],
+    metas: {}
+  },
+  mutations: {
+    initFirestore (state, userRoles) {
+      firestore.stores.forEach(store => {
+        if (store.readRoles.filter(r => userRoles.includes(r)).length > 0) {
+          state.readableStores.push(store.moduleName)
+        }
+        if (store.writeRoles.filter(r => userRoles.includes(r)).length > 0) {
+          state.writableStores.push(store.moduleName)
+        }
+        if (store.vue) {
+          state.metas[store.moduleName] = store.state.meta
+        }
+      })
+    }
+  }
+}
+
+export default firestore

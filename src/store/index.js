@@ -10,28 +10,8 @@ const user = {
   state: {}
 }
 
-const config = {
-  state: {
-    models: [
-      'users',
-      'tasks',
-      'calls',
-      'customers',
-      'engines'
-    ]
-  }
-}
-
 // Create Easy Firestore object with models to sync
-const easyFirestore = createEasyFirestore([
-  firestore.users,
-  firestore.tasks,
-  firestore.calls,
-  firestore.customers,
-  firestore.engines,
-  firestore.notifications,
-  firestore.engineTypes,
-  firestore.engineUgks], { logging: true })
+const easyFirestore = createEasyFirestore(firestore.stores, { logging: true })
 
 /*
  * If not building with SSR mode, you can
@@ -41,7 +21,7 @@ const easyFirestore = createEasyFirestore([
 const store = new Vuex.Store({
   modules: {
     user,
-    config
+    firestore
   },
   plugins: [
     easyFirestore

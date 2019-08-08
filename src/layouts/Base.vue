@@ -25,7 +25,7 @@
             </q-item>
 
             <q-item
-              v-for="(m, key) in models"
+              v-for="(m, key) in $store.state.firestore.metas"
               :key="key"
               :to="key">
               <q-item-section avatar>
@@ -70,53 +70,11 @@ export default {
   computed: {
     user () {
       return this.$store.state.user
-    },
-    models () {
-      let models = {}
-      this.$store.state.config.models.forEach((model) => {
-        models[model] = this.$store.state[model]
-      })
-      return models
-    }
-  },
-  mounted () {
-    // Request permissions for notifications (browser)
-    if (this.$messaging) {
-      console.log('Loading messaging functions')
-      this.$messaging.requestPermission().then(function () {
-        console.log('Notification permission granted.')
-      }).catch(function (err) {
-        console.log('Unable to get permission to notify.', err)
-      })
-
-      this.getToken()
-
-      // Watch for token, update notificationTokens store
-      this.$messaging.onTokenRefresh(() => {
-        this.getToken()
-      })
-
-      // Catch notifications and disply it
-      this.$messaging.onMessage((payload) => {
-        this.$q.notify(JSON.stringify(payload))
-        console.log('Message received. ' + payload)
-      })
     }
   },
   methods: {
     logout () {
       this.$auth.signOut()
-    },
-    getToken () {
-      this.$messaging.getToken().then((token) => {
-        console.log('Retrieve token ' + token)
-        if (this.notificationToken !== token) {
-          this.notificationToken = token
-          // this.$store.dispatch('notifications/set', { token })
-        }
-      }).catch((err) => {
-        console.log('An error occurred while retrieving token. ', err)
-      })
     }
   }
 }

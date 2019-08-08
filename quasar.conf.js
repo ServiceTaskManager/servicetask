@@ -32,12 +32,24 @@ module.exports = function (ctx) {
           loader: 'eslint-loader',
           exclude: /node_modules/
         })
+      },
+      chainWebpack (chain) {
+        if (ctx.mode.pwa) {
+          chain
+            .plugin('copy-static-files')
+            .use(require('copy-webpack-plugin'), [
+              [{
+                from: 'src-pwa/firebase-messaging-sw.js',
+                to: '',
+              }]
+            ])
+        }
       }
     },
     devServer: {
       // https: true,
       // port: 8080,
-      open: true // opens browser window automatically
+      open: false // opens browser window automatically
     },
     // framework: 'all' --- includes everything; for dev only!
     framework: 'all', /* {
