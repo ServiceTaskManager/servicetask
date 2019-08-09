@@ -20,7 +20,7 @@ module.exports = function (ctx) {
     supportIE: false,
     build: {
       scopeHoisting: true,
-      // vueRouterMode: 'history',
+      vueRouterMode: 'history',
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
@@ -97,7 +97,7 @@ module.exports = function (ctx) {
         background_color: '#ffffff',
         theme_color: '#027be3',
         gcm_sender_id: '103953800507',
-        start_url: './?utm_source=web_app_manifest',
+        start_url: 'https://servicetask-78359.firebaseapp.com/',
         icons: [
           {
             'src': 'statics/icons/icon-128x128.png',

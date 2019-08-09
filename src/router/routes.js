@@ -3,14 +3,23 @@ import firestore from '../store/firestore'
 // Generate pages routes based on stores.
 let pages = [
   {
-    path: '',
+    path: 'dashboard',
     name: 'dashboard',
     component: () => import('pages/Dashboard.vue'),
     meta: {
       title: 'Dashboard',
       description: 'Global overview',
       requireAuth: true,
-      requireRoles: ['admin']
+      requireRoles: ['user']
+    }
+  },
+  {
+    path: '',
+    name: 'login',
+    component: () => import('pages/Login.vue'),
+    meta: {
+      requireAuth: false,
+      title: 'Login'
     }
   }]
 
@@ -30,21 +39,6 @@ firestore.stores.forEach(store => {
 
 // Set other routes
 const routes = [
-  {
-    path: '/login',
-    component: () => import('layouts/Single.vue'),
-    children: [
-      {
-        path: '',
-        name: 'login',
-        component: () => import('pages/Login.vue'),
-        meta: {
-          requireAuth: false,
-          title: 'Login'
-        }
-      }
-    ]
-  },
   {
     path: '/error',
     component: () => import('layouts/Single.vue'),

@@ -163,6 +163,20 @@ const notifications = {
   statePropName: 'data'
 }
 
+const tokens = {
+  state: {
+    data: {}
+  },
+  vue: false,
+  readRoles: ['user'],
+  writeRoles: ['admin'],
+  namespaced: true,
+  firestorePath: 'tokens',
+  firestoreRefType: 'collection',
+  moduleName: 'tokens',
+  statePropName: 'data'
+}
+
 const firestore = {
   stores: [users,
     tasks,
@@ -171,11 +185,15 @@ const firestore = {
     engines,
     engineTypes,
     engineUgks,
-    notifications],
+    notifications,
+    tokens],
   state: {
     readableStores: [],
     writableStores: [],
-    metas: {}
+    openStores: [],
+    metas: {},
+    ready: false,
+    loading: 0
   },
   mutations: {
     initFirestore (state, userRoles) {
@@ -190,6 +208,11 @@ const firestore = {
           state.metas[store.moduleName] = store.state.meta
         }
       })
+    },
+    updateFirestoreOpenList (state, storeName) {
+      state.openStores.push(storeName)
+      state.loading = state.openStores.length / state.readableStores.length
+      state.ready = (state.loading === 1)
     }
   }
 }

@@ -1,3 +1,24 @@
 {
-  "qdatetimepicker": {}
+  "qdatetimepicker": {},
+  "@quasar/icon-genie": {
+    "minify_dev": "pngquant",
+    "minify_build": "pngquant",
+    "cordova": {
+      "background_color": "#000074",
+      "splashscreen_type": "pure"
+    },
+    "build_always": true,
+    "__internal": {
+      "dev": {
+        "pwa": {
+          "iconHash": "3e161921d1f74e26078759c674b38248"
+        }
+      },
+      "build": {
+        "pwa": {
+          "iconHash": "3e161921d1f74e26078759c674b38248"
+        }
+      }
+    }
+  }
 }

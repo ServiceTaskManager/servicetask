@@ -2,14 +2,16 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/messaging'
-import * as firebaseui from 'firebaseui'
 
 import firebaseConfig from './firebase.config.json'
 
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 const firebaseAuth = firebaseApp.auth()
+const firebaseMessaging = firebaseApp.messaging()
+firebaseMessaging.usePublicVapidKey(firebaseConfig.messagingApiKey)
 
 export default ({ Vue, router, store }) => {
+  console.log('Build Firebase interface')
   let userMatchRequiredRoles = (requireRoles) => {
     let matchedRoles = []
     let userRoles = store.state.user.roles ? store.state.user.roles : []
@@ -28,22 +30,26 @@ export default ({ Vue, router, store }) => {
   firebaseApp.auth().onAuthStateChanged((user) => {
     if (!user) {
       console.log('User logged out')
-      store.state.user = null // Clear user store
-      if (router.path !== '/login' && router.currentRoute.meta.requireAuth) {
-        router.push('/login')
+      store.state.user = null
+      if (router.currentRoute.meta.requireAuth) {
+        router.push('/')
       }
     } else {
-      console.log('User logged in : ' + firebaseAuth.currentUser.displayName)
-      store.dispatch('users/fetchById', firebaseAuth.currentUser.uid).then((userDatas) => {
+      console.log('User logged in : ' + firebaseAuth.currentUser.uid)
+      store.dispatch('users/fetchById', firebaseAuth.currentUser.uid).then(userDatas => {
         console.log('User is registered.')
 
         // Load stores based on user roles
         store.state.user = userDatas
         store.commit('initFirestore', userDatas.roles)
         store.state.firestore.readableStores.forEach(firestore => {
-          store.dispatch(firestore + '/openDBChannel').catch((error) => {
-            console.log(error)
-          })
+          if (!store.state.firestore.openStores.includes(firestore)) {
+            store.dispatch(firestore + '/openDBChannel').then(response => {
+              store.commit('updateFirestoreOpenList', firestore, true)
+            }, error => {
+              console.log(error)
+            })
+          }
         })
 
         // Check if user has enough rights to access ressources
@@ -67,42 +73,32 @@ export default ({ Vue, router, store }) => {
             next()
           }
         })
-      }).catch((error) => {
+
+        // Manage messaging
+        firebaseMessaging.onTokenRefresh(() => {
+          firebaseMessaging.getToken().then(async token => {
+            store.state.user.tokens = [token]
+            store.dispatch('users/patch', store.state.user)
+          })
+        })
+        firebaseMessaging.requestPermission().then(function () {
+          console.log('Notification permission granted.')
+        }).catch(function (err) {
+          console.log('Unable to get permission to notify.', err)
+        })
+
+        firebaseMessaging.onMessage(payload => {
+          console.log('Message received.', payload)
+        })
+      }, error => {
         console.log('User data cannot be fethed. ' + error)
         router.push('403')
       })
     }
   })
 
-  // Manage messaging if supported by browser
-  if (firebase.messaging.isSupported()) {
-    const firebaseMessaging = firebaseApp.messaging()
-
-    // Configure Firebase messaging to use Push Notifications easily
-    firebaseMessaging.usePublicVapidKey(firebaseConfig.messagingApiKey) // Register messaging API key
-
-    firebaseMessaging.onTokenRefresh(() => {
-      firebaseMessaging.getToken().then(async token => {
-        store.state.user.tokens = [token]
-        store.dispatch('users/patch', store.state.user)
-      })
-    })
-
-    // Request Notification Permission
-    firebaseMessaging.requestPermission().then(function () {
-      console.log('Notification permission granted.')
-    }).catch(function (err) {
-      console.log('Unable to get permission to notify.', err)
-    })
-
-    firebaseMessaging.onMessage(payload => {
-      console.log('Message received.', payload)
-    })
-  }
-
   Vue.prototype.$firebase = firebase
   Vue.prototype.$firebaseApp = firebaseApp
   Vue.prototype.$auth = firebaseAuth
-  Vue.prototype.$firebaseui = firebaseui
   Vue.prototype.$db = firebase.firestore()
 }

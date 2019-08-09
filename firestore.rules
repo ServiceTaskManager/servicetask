@@ -4,7 +4,11 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles.hasAny(roles)
     }
     match /{document=**} {
-      allow read, write: if hasRole (['admin'])
+      allow read: if hasRole (['user'])
+      allow write: if hasRole (['admin'])
+    }
+    match /users/{userId} {
+      allow write: if request.auth.uid != null
     }
   }
 }
