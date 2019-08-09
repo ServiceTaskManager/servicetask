@@ -7,7 +7,23 @@ import firestore from './firestore'
 Vue.use(Vuex)
 
 const user = {
-  state: {}
+  state: {
+    data: {},
+    login: false
+  },
+  mutations: {
+    userLoggedIn (state, userData) {
+      console.log('User logged in')
+      state.data = userData
+      state.login = true
+      localStorage.setItem('user', JSON.stringify(state))
+    },
+    userLoggedOut (state) {
+      state.data = {}
+      state.login = false
+      localStorage.setItem('user', JSON.stringify(state))
+    }
+  }
 }
 
 // Create Easy Firestore object with models to sync

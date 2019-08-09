@@ -2,7 +2,6 @@
   <q-layout view="hHr lpR fFr">
 
     <q-drawer
-      v-if="$store.state.user"
       v-model="right"
       side="right"
       behavior="mobile"
@@ -11,7 +10,9 @@
 
         <div class="absolute-bottom bg-grey-9">
           <q-list class="text-white">
-            <q-item class="bg-grey-5">
+            <q-item
+              v-if="$store.state.user.login"
+              class="bg-grey-5">
               <q-item-section avatar>
                 <q-avatar>
                   <img :src="user.photoURL">

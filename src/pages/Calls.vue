@@ -12,7 +12,7 @@
 
     <q-btn
       fab
-      :color="model.color"
+      :color="meta.color"
       icon="add"
       class="fixed-bottom-right"
       style="margin-right: 10px; margin-bottom: 10px"
@@ -34,8 +34,8 @@ export default {
     this.calls = this.$store.state.calls.data
   },
   computed: {
-    model () {
-      return this.$store.state.calls
+    meta () {
+      return this.$store.state.calls.meta
     }
   },
   methods: {

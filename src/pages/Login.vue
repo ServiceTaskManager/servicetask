@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-center items-center window-height" >
+  <div class="row justify-center" >
     <q-card class="bg-grey-3">
       <q-card-section class="bg-grey-10 text-white">
         <q-item>
@@ -42,7 +42,7 @@ export default {
     }
   },
   mounted () {
-    if (this.$store.state.user) {
+    if (this.$store.state.user.login) {
       this.$q.notify({
         message: 'Well, it seems you\'re already logged in',
         color: 'positive',
@@ -71,7 +71,11 @@ export default {
     login () {
       this.$auth.signInWithEmailAndPassword(this.email, this.password).then(signedInUser => {
         if (signedInUser.user.emailVerified) {
-          this.$router.push('dashboard')
+          this.$q.notify({
+            message: 'Welcome on board',
+            color: 'positive',
+            icon: 'done'
+          })
         } else {
           this.sendEmailVerification(signedInUser.user)
         }

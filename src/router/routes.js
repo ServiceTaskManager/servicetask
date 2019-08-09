@@ -41,7 +41,7 @@ firestore.stores.forEach(store => {
 const routes = [
   {
     path: '/error',
-    component: () => import('layouts/Single.vue'),
+    component: () => import('layouts/Base.vue'),
     children: [
       {
         path: '/403',
@@ -50,15 +50,6 @@ const routes = [
         meta: {
           requireAuth: false,
           title: 'Error 403'
-        }
-      },
-      {
-        path: '/404',
-        name: '404',
-        component: () => import('pages/Error404.vue'),
-        meta: {
-          requireAuth: false,
-          title: 'Error 404'
         }
       }
     ]
@@ -70,12 +61,16 @@ const routes = [
   }
 ]
 
-// Always leave this as last one
-if (process.env.MODE !== 'ssr') {
-  routes.push({
-    path: '*',
-    component: () => import('pages/Error404.vue')
-  })
-}
+routes.push({
+  path: '*',
+  component: () => import('layouts/Base'),
+  children: [
+    {
+      path: '*',
+      name: '404',
+      component: () => import('pages/Error404.vue')
+    }
+  ]
+})
 
 export default routes

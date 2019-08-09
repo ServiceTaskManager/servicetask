@@ -197,6 +197,8 @@ const firestore = {
   },
   mutations: {
     initFirestore (state, userRoles) {
+      state.readableStores = []
+      state.writableStores = []
       firestore.stores.forEach(store => {
         if (store.readRoles.filter(r => userRoles.includes(r)).length > 0) {
           state.readableStores.push(store.moduleName)

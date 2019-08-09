@@ -11,37 +11,27 @@ const firebaseMessaging = firebaseApp.messaging()
 firebaseMessaging.usePublicVapidKey(firebaseConfig.messagingApiKey)
 
 export default ({ Vue, router, store }) => {
-  console.log('Build Firebase interface')
-  let userMatchRequiredRoles = (requireRoles) => {
-    let matchedRoles = []
-    let userRoles = store.state.user.roles ? store.state.user.roles : []
-    console.log('Check if user ' + store.state.user.displayName + ' (' + store.state.user.roles + ') has any of roles ' + requireRoles)
-    userRoles.forEach((role) => {
-      if (requireRoles.includes(role)) {
-        console.log(role + ' role matched')
-        matchedRoles.push(role)
-      }
-    })
-    console.log('Matched roles : ' + matchedRoles)
-    return matchedRoles.length > 0
-  }
-
   // Watch for Auth state and redirect to /login if user is not logged in
   firebaseApp.auth().onAuthStateChanged((user) => {
     if (!user) {
       console.log('User logged out')
-      store.state.user = null
+      store.commit('userLoggedOut')
       if (router.currentRoute.meta.requireAuth) {
         router.push('/')
       }
     } else {
       console.log('User logged in : ' + firebaseAuth.currentUser.uid)
-      store.dispatch('users/fetchById', firebaseAuth.currentUser.uid).then(userDatas => {
+      store.dispatch('users/fetchById', firebaseAuth.currentUser.uid).then(userData => {
         console.log('User is registered.')
 
+        // Set user store based on new logged in user
+        store.commit('userLoggedIn', userData)
+
+        // Refresh page to Dashboard
+        router.push('dashboard')
+
         // Load stores based on user roles
-        store.state.user = userDatas
-        store.commit('initFirestore', userDatas.roles)
+        store.commit('initFirestore', userData.roles)
         store.state.firestore.readableStores.forEach(firestore => {
           if (!store.state.firestore.openStores.includes(firestore)) {
             store.dispatch(firestore + '/openDBChannel').then(response => {
@@ -52,32 +42,10 @@ export default ({ Vue, router, store }) => {
           }
         })
 
-        // Check if user has enough rights to access ressources
-        if (router.currentRoute.meta.requireRoles && !userMatchRequiredRoles(router.currentRoute.meta.requireRoles)) {
-          console.log('Sorry, but you shouldn\'t be there...')
-          router.push('403')
-        }
-
-        router.beforeEach((to, from, next) => {
-          console.log('Check access rights to page ' + to.name)
-          if (to.meta.requireRoles) {
-            if (userMatchRequiredRoles(to.meta.requireRoles)) {
-              console.log('Access allowed')
-              next()
-            } else {
-              console.log('Access denied')
-              next('403')
-            }
-          } else { // Role required, no access allowed
-            console.log('Route doesn\'t require any role')
-            next()
-          }
-        })
-
         // Manage messaging
         firebaseMessaging.onTokenRefresh(() => {
           firebaseMessaging.getToken().then(async token => {
-            store.state.user.tokens = [token]
+            store.state.user.data.tokens = [token]
             store.dispatch('users/patch', store.state.user)
           })
         })

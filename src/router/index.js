@@ -10,7 +10,7 @@ Vue.use(VueRouter)
  * directly export the Router instantiation
  */
 
-export default function (/* { store, ssrContext } */) {
+export default function ({ store, ssrContext }) {
   const Router = new VueRouter({
     scrollBehavior: () => ({ y: 0 }),
     routes,
@@ -20,6 +20,40 @@ export default function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
+  })
+
+  Router.beforeEach((to, from, next) => {
+    console.log('[Router] Check access rights to page ' + to.name)
+    let user = JSON.parse(localStorage.getItem('user'))
+    if (user.login) {
+      console.log('[Router] User logged in ' + user.uid)
+      if (to.meta.requireAuth) {
+        if (to.meta.requireRoles) {
+          let roleMatch = to.meta.requireRoles.filter(role => user.data.roles.includes(role)).length > 0
+          if (roleMatch) {
+            console.log('[Router] Access allowed')
+            next()
+          } else {
+            console.log('[Router] Access denied, require roles ' + to.meta.requireRoles)
+            next('403')
+          }
+        } else {
+          console.log('[Router] Access allowed')
+          next()
+        }
+      } else {
+        console.log('[Router] Access allowed')
+        next()
+      }
+    } else {
+      if (to.meta.requireAuth) {
+        console.log('[Router] Access denied, require auth')
+        next('403')
+      } else {
+        console.log('[Router] Access allowed')
+        next()
+      }
+    }
   })
 
   return Router
