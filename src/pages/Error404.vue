@@ -1,17 +1,30 @@
 <template>
-  <div class="fixed-center text-center">
-    <p>
-      <img
-        src="~assets/sad.svg"
-        style="width:30vw;max-width:150px;"
-      >
-    </p>
-    <p class="text-faded">Sorry, nothing here...<strong>(404)</strong></p>
-    <q-btn
-      color="secondary"
-      style="width:200px;"
-      @click="$router.push('/')"
-    >Go back</q-btn>
+  <div class="row justify-center">
+    <q-card class="bg-grey-3">
+      <q-card-section class="bg-grey-10 text-white">
+        <q-item>
+          <q-item-section avatar>
+            <q-avatar>
+              <img src="/statics/app-logo-128x128.png">
+            </q-avatar>
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label class="text-h6">Service Task</q-item-label>
+            <q-item-label caption class="text-white">Tools for customer service</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-card-section>
+      <q-separator />
+      <q-card-section class="q-pa-md">
+        <q-icon name="warning" class="text-red" style="font-size: 4rem;" /> Ressource doesn't exist
+      </q-card-section>
+      <q-separator />
+      <q-card-section class="row">
+        <q-btn v-if="!$store.state.user.login" to="/" icon="people" label="Login" color="primary" class="q-ma-sm" />
+        <q-btn @click="$router.go(-1)" icon="undo" label="Go back" color="negative" class="q-ma-sm" />
+      </q-card-section>
+    </q-card>
   </div>
 </template>
 

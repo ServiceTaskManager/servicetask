@@ -17,7 +17,7 @@
       </q-card-section>
       <q-separator />
       <q-card-section class="q-pa-md">
-        <q-icon name="warning" class="text-red" style="font-size: 4rem;" />Ressources access forbidden
+        <q-icon name="warning" class="text-red" style="font-size: 4rem;" /> Ressources access forbidden
       </q-card-section>
       <q-separator />
       <q-card-section class="row">
