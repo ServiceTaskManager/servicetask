@@ -162,19 +162,15 @@ const notifications = {
   moduleName: 'notifications',
   statePropName: 'data'
 }
-
 const tokens = {
-  state: {
-    data: {}
-  },
+  state: {},
   vue: false,
   readRoles: ['user'],
   writeRoles: ['admin'],
   namespaced: true,
   firestorePath: 'tokens',
   firestoreRefType: 'collection',
-  moduleName: 'tokens',
-  statePropName: 'data'
+  moduleName: 'tokens'
 }
 
 const firestore = {

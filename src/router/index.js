@@ -25,7 +25,8 @@ export default function ({ store, ssrContext }) {
   Router.beforeEach((to, from, next) => {
     console.log('[Router] Check access rights to page ' + to.name)
     let user = JSON.parse(localStorage.getItem('user'))
-    if (user.login) {
+    let login = user ? user.login : false
+    if (login) {
       console.log('[Router] User logged in ' + user.uid)
       if (to.meta.requireAuth) {
         if (to.meta.requireRoles) {

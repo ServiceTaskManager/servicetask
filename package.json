@@ -10,13 +10,13 @@
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0",
     "deploy": "quasar build -m pwa && firebase deploy",
+    "deploy-host": "quasar build -m pwa && firebase deploy --only hosting",
     "dev": "quasar dev -m pwa"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.0",
     "firebase": "^5.8.3",
-    "firebaseui": "^3.5.2",
     "quasar": "^1.0.0-beta.0",
     "vue-i18n": "^7.3.3",
     "vuex-easy-firestore": "^1.29.1"

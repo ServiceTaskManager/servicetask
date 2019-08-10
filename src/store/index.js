@@ -13,7 +13,6 @@ const user = {
   },
   mutations: {
     userLoggedIn (state, userData) {
-      console.log('User logged in')
       state.data = userData
       state.login = true
       localStorage.setItem('user', JSON.stringify(state))

@@ -5,6 +5,8 @@ import 'firebase/messaging'
 
 import firebaseConfig from './firebase.config.json'
 
+import { Notify } from 'quasar'
+
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 const firebaseAuth = firebaseApp.auth()
 const firebaseMessaging = firebaseApp.messaging()
@@ -43,11 +45,23 @@ export default ({ Vue, router, store }) => {
         })
 
         // Manage messaging
-        firebaseMessaging.onTokenRefresh(() => {
+        let addUserToken = () => {
           firebaseMessaging.getToken().then(async token => {
-            store.state.user.data.tokens = [token]
-            store.dispatch('users/patch', store.state.user)
+            let topic = {
+              id: 'calls',
+              tokens: 'calls' in store.state.tokens ? store.state.tokens.calls.tokens : [token]
+            }
+            if (!topic.tokens.includes(token)) { // Le token n'existe pas
+              topic.tokens.push(token)
+            }
+            store.dispatch('tokens/set', topic)
           })
+        }
+
+        addUserToken()
+
+        firebaseMessaging.onTokenRefresh(() => {
+          addUserToken()
         })
         firebaseMessaging.requestPermission().then(function () {
           console.log('Notification permission granted.')
@@ -57,6 +71,17 @@ export default ({ Vue, router, store }) => {
 
         firebaseMessaging.onMessage(payload => {
           console.log('Message received.', payload)
+          Notify.create({
+            message: payload.notification.body,
+            icon: 'notification_important',
+            color: 'accent',
+            actions: [{
+              label: 'open',
+              handler: () => {
+                router.push('calls')
+              }
+            }]
+          })
         })
       }, error => {
         console.log('User data cannot be fethed. ' + error)
