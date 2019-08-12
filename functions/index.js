@@ -8,13 +8,13 @@ const firestore = admin.firestore()
 exports.createCallNotification = functions.firestore.document('calls/{notificationId}').onCreate(
   async (snapshot) => {
     let call = snapshot.data()
-    let tokens = await firestore.collection('tokens').doc('calls').get().then(doc => {
+    let tokens = await firestore.collection('tokens').doc('main').get().then(doc => {
       return doc.data().tokens
     })
 
     let notification = {
-      title: 'New call !',
-      body: 'Yeah!',
+      title: `${call.customer}`,
+      body: `${call.title}`,
       tokens: tokens
     }
 
@@ -32,7 +32,7 @@ exports.sendNotifications = functions.firestore.document('notifications/{notific
       notification: {
         title: notification.title,
         body: notification.body,
-        click_action: `https://${process.env.GCLOUD_PROJECT}.firebaseapp.com`,
+        click_action: `https://${process.env.GCLOUD_PROJECT}.firebaseapp.com/dashboard`,
       }
     }
     

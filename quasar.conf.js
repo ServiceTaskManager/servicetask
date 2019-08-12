@@ -97,7 +97,7 @@ module.exports = function (ctx) {
         background_color: '#ffffff',
         theme_color: '#027be3',
         gcm_sender_id: '103953800507',
-        start_url: 'https://servicetask-78359.firebaseapp.com/',
+        start_url: 'https://servicetask-78359.firebaseapp.com/dashboard',
         icons: [
           {
             'src': 'statics/icons/icon-128x128.png',

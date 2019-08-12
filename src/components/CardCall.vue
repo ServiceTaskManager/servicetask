@@ -1,131 +1,58 @@
 <template>
-  <q-card
-    :key="call.id">
-    <q-card-section
-      class="q-pa-sm text-white"
-      :class="call.machine_down ? 'bg-negative' : 'bg-grey-9'">
-      <div class="text-h6 ellipsis">
-        {{ call.title || 'undefined' }}
-        <q-popup-edit v-model="call.title" v-if="edit" >
-          <q-input v-model="call.title" label="Describe issue" dense autofocus />
-        </q-popup-edit>
-      </div>
-    </q-card-section>
+  <q-item-section avatar top>
+    <q-knob
+      show-value
+      class="text-white q-ma-md"
+      v-model="value"
+      size="90px"
+      :thickness="0.2"
+      color="primary"
+      center-color="grey-8"
+      track-color="transparent"
+    >
+      <q-icon name="volume_up" />
+    </q-knob>
+  </q-item-section>
 
-    <q-separator />
-
-    <q-card-section class="q-pa-sm row bg-grey-7">
-      <select-customer
-        v-model="call.customer"
-        :readonly="!edit" />
-      <select-engine
-        v-model="call.engine"
-        :readonly="!edit"
-        :customer="call.customer" />
-      <q-input
-        v-model="call.person"
-        color="orange"
-        label="Person to contact"
-        :readonly="!edit"
-        class="full-width"
-        dense>
-        <template v-slot:prepend>
-          <q-icon name="person" color="orange" />
-        </template>
-      </q-input>
-      <q-input
-        v-model="call.phone"
-        color="green"
-        label="Phone number"
-        :readonly="!edit"
-        class="full-width"
-        dense>
-        <template v-slot:prepend>
-          <q-icon name="phone" color="green" />
-        </template>
-      </q-input>
-      <q-input
-        v-model="call.teamviewer_id"
-        color="blue"
-        label="Teamviewer ID"
-        :readonly="!edit"
-        class="col-6"
-        dense>
-        <template v-slot:prepend>
-          <q-icon name="screen_share" color="blue" />
-        </template>
-      </q-input>
-      <q-input
-        v-model="call.teamviewer_pwd"
-        color="blue"
-        label="Password"
-        :readonly="!edit"
-        class="col-6"
-        dense />
-    </q-card-section>
-
-    <q-separator />
-
-    <q-card-actions align="around" class="bg-grey-9" v-if="!edit">
-      <q-btn round flat color="secondary" icon="forward" />
-      <q-btn round flat color="positive" icon="done" @click='deleteCall' />
-      <q-toggle
-        color="negative"
-        icon="warning"
-        v-model="call.machine_down"
-        @input="updateCall" />
-      <q-btn round flat color="positive" type="a" :href="'tel:'+call.phone" icon="phone" />
-      <q-btn round flat color="white" icon="edit" @click="edit = true" />
-    </q-card-actions>
-    <q-card-actions align="around" class="bg-white" v-else>
-      <q-btn round flat color="negative" icon="cancel" @click="call.create ? deleteCall() : edit = false" />
-      <q-btn round flat color="positive" icon="done" @click="updateCall" />
-    </q-card-actions>
-  </q-card>
+  <q-item-section top>
+    <q-item-label lines="1">
+      <span class="text-h5">{{ call.title }}</span>
+    </q-item-label>
+    <q-item-label>
+      <span class="text-grey-9">
+        <q-icon name="print" color="teal" /> {{ $store.state.engines.data[call.engine].type }}
+        <q-badge color="teal">SN/{{ $store.state.engines.data[call.engine].sn }}</q-badge>
+      </span>
+    </q-item-label>
+    <q-item-label>
+      <q-icon name="people" color="pink" /> <span class="text-grey-8"> {{ $store.state.customers.data[call.customer].name }}</span>
+      <q-icon name="person" color="green" /> <span class="text-grey-8"> {{ call.person }}</span>
+    </q-item-label>
+    <q-item-label caption lines="1">
+      Called {{ dateDiff(call.created_at) }} hours ago
+    </q-item-label>
+    <q-item-label
+      lines="1"
+      class="text-grey-8 q-gutter-xs row justify-end">
+      <q-btn flat dense round icon="phone" color="positive" type="a" :href="'tel:' + call.phone" />
+      <q-btn flat dense round icon="edit" :to="{ name: 'callsEdit', params: { id: call.id } }" />
+      <q-btn flat dense round icon="remove_circle" color="negative" @click="deleteCall(call.id)" />
+    </q-item-label>
+  </q-item-section>
+</q-item>
 </template>
 
 <script>
-import SelectCustomer from './SelectCustomer'
-import SelectEngine from './SelectEngine'
-
 export default {
-  name: 'CardCall',
+  name: 'ItemCall',
   props: ['call'],
   data () {
-    return {
-      edit: false
-    }
-  },
-  mounted () {
-    this.edit = this.call.create || false
+    return {}
   },
   computed: {
-    customer () {
-      let customerData = this.$store.state.customers.data[this.call.customer]
-      let customerDefault = this.$store.state.model.models.customers.default
-      let customer = customerData || customerDefault
-      return customer
+    timeAgo () {
+      
     }
-  },
-  methods: {
-    deleteCall () {
-      console.log('Delete call ' + this.call.id)
-      this.$store.dispatch('calls/delete', this.call.id)
-    },
-    updateCall () {
-      console.log('Update call ' + this.call.id)
-      this.call.create = false
-      this.$store.dispatch('calls/set', this.call)
-      this.edit = false
-    },
-    toggleMachineDown () {
-      this.call.machine_down = !this.call.machine_down
-      this.updateCall()
-    }
-  },
-  components: {
-    SelectCustomer,
-    SelectEngine
   }
 }
 </script>

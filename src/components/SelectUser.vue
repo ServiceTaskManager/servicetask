@@ -1,6 +1,5 @@
 <template>
   <q-select
-    dense
     use-input
     :color="model.color"
     class="full-width"

@@ -1,7 +1,7 @@
 import firestore from '../store/firestore'
 
 // Generate pages routes based on stores.
-let pages = [
+const pages = [
   {
     path: 'dashboard',
     name: 'dashboard',
@@ -21,20 +21,55 @@ let pages = [
       requireAuth: false,
       title: 'Login'
     }
+  },
+  {
+    path: 'settings',
+    name: 'settings',
+    component: () => import('pages/Settings.vue'),
+    meta: {
+      requireAuth: true,
+      title: 'Settings'
+    }
   }]
 
+// Create routes for stores with vue.
 firestore.stores.forEach(store => {
-  let page = {
-    path: store.moduleName,
-    name: store.moduleName,
-    component: () => import('pages/' + store.vue),
-    meta: {
-      title: store.moduleName,
-      requireAuth: true,
-      requireRoles: store.readRoles
-    }
+  if (store.vue) {
+    let name = store.moduleName.charAt(0).toUpperCase() + store.moduleName.slice(1)
+    pages.push(
+      {
+        path: store.moduleName,
+        name: store.moduleName,
+        component: () => import('pages/' + name + '.vue'),
+        meta: {
+          title: name,
+          requireAuth: true,
+          requireRoles: store.readRoles
+        }
+      })
+    pages.push(
+      {
+        path: store.moduleName + '/edit/:id',
+        name: store.moduleName + 'Edit',
+        component: () => import('pages/' + name + 'Edit.vue'),
+        meta: {
+          title: 'Edit ' + store.moduleName,
+          requireAuth: true,
+          requireRoles: store.writeRoles
+        }
+      })
+    pages.push(
+      {
+        path: store.moduleName + '/create',
+        name: store.moduleName + 'Create',
+        component: () => import('pages/' + name + 'Edit.vue'),
+        meta: {
+          title: 'Create ' + store.moduleName,
+          requireAuth: true,
+          requireRoles: store.writeRoles
+        }
+      })
   }
-  pages.push(page)
 })
 
 // Set other routes

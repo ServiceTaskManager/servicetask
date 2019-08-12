@@ -10,6 +10,8 @@ import { Notify } from 'quasar'
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 const firebaseAuth = firebaseApp.auth()
 const firebaseMessaging = firebaseApp.messaging()
+const firebaseFirestore = firebase.firestore()
+
 firebaseMessaging.usePublicVapidKey(firebaseConfig.messagingApiKey)
 
 export default ({ Vue, router, store }) => {
@@ -19,18 +21,16 @@ export default ({ Vue, router, store }) => {
       console.log('User logged out')
       store.commit('userLoggedOut')
       if (router.currentRoute.meta.requireAuth) {
-        router.push('/')
+        router.push({ name: 'login' })
       }
     } else {
       console.log('User logged in : ' + firebaseAuth.currentUser.uid)
       store.dispatch('users/fetchById', firebaseAuth.currentUser.uid).then(userData => {
-        console.log('User is registered.')
-
         // Set user store based on new logged in user
         store.commit('userLoggedIn', userData)
 
         // Refresh page to Dashboard
-        router.push('dashboard')
+        router.push({ name: 'dashboard' })
 
         // Load stores based on user roles
         store.commit('initFirestore', userData.roles)
@@ -44,24 +44,8 @@ export default ({ Vue, router, store }) => {
           }
         })
 
-        // Manage messaging
-        let addUserToken = () => {
-          firebaseMessaging.getToken().then(async token => {
-            let topic = {
-              id: 'calls',
-              tokens: 'calls' in store.state.tokens ? store.state.tokens.calls.tokens : [token]
-            }
-            if (!topic.tokens.includes(token)) { // Le token n'existe pas
-              topic.tokens.push(token)
-            }
-            store.dispatch('tokens/set', topic)
-          })
-        }
-
-        addUserToken()
-
-        firebaseMessaging.onTokenRefresh(() => {
-          addUserToken()
+        firebaseMessaging.getToken().then(async token => {
+          store.commit('tokenRefresh', token)
         })
         firebaseMessaging.requestPermission().then(function () {
           console.log('Notification permission granted.')
@@ -70,7 +54,8 @@ export default ({ Vue, router, store }) => {
         })
 
         firebaseMessaging.onMessage(payload => {
-          console.log('Message received.', payload)
+          let notificationAudio = new Audio('statics/sounds/notification.mp3')
+          notificationAudio.play()
           Notify.create({
             message: payload.notification.body,
             icon: 'notification_important',
@@ -78,14 +63,14 @@ export default ({ Vue, router, store }) => {
             actions: [{
               label: 'open',
               handler: () => {
-                router.push('calls')
+                router.push({ name: 'calls' })
               }
             }]
           })
         })
       }, error => {
         console.log('User data cannot be fethed. ' + error)
-        router.push('403')
+        router.push({ name: '403' })
       })
     }
   })
@@ -93,5 +78,5 @@ export default ({ Vue, router, store }) => {
   Vue.prototype.$firebase = firebase
   Vue.prototype.$firebaseApp = firebaseApp
   Vue.prototype.$auth = firebaseAuth
-  Vue.prototype.$db = firebase.firestore()
+  Vue.prototype.$db = firebaseFirestore
 }

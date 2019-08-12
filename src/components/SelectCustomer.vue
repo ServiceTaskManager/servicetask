@@ -1,8 +1,7 @@
 <template>
   <q-select
-    dense
     use-input
-    :color="model.color"
+    :color="store.color"
     class="full-width"
     :display-value="displayValue"
     :value="value"
@@ -15,7 +14,7 @@
     @filter="filter">
 
     <template v-slot:prepend>
-      <q-icon :name="model.icon" :color="model.color" />
+      <q-icon :name="store.icon" :color="store.color" />
     </template>
 
     <template v-slot:no-option>
@@ -42,17 +41,17 @@ export default {
     this.options = this.getOptions()
   },
   computed: {
-    model () {
+    store () {
       return this.$store.state.customers
     },
     default () {
-      return this.model.default
+      return this.store.default
     },
     data () {
-      return this.model.data[this.value]
+      return this.store.data[this.value]
     },
     displayValue () {
-      return this.value ? this.data.name : this.default.name
+      return this.value ? this.data.name : ''
     }
   },
   methods: {

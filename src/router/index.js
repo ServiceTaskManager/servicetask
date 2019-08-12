@@ -28,6 +28,10 @@ export default function ({ store, ssrContext }) {
     let login = user ? user.login : false
     if (login) {
       console.log('[Router] User logged in ' + user.uid)
+      if (to.name === 'login') {
+        next('dashboard')
+      }
+
       if (to.meta.requireAuth) {
         if (to.meta.requireRoles) {
           let roleMatch = to.meta.requireRoles.filter(role => user.data.roles.includes(role)).length > 0

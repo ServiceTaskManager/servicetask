@@ -9,10 +9,11 @@ const users = {
     default: {
       roles: [],
       available: false,
-      displayName: 'No name'
-    }
+      display_name: 'John Doe'
+    },
+    user: {}
   },
-  vue: 'Users.vue',
+  vue: true,
   readRoles: ['admin'],
   writeRoles: ['admin'],
   namespaced: true,
@@ -34,7 +35,7 @@ const tasks = {
       displayName: 'No Name'
     }
   },
-  vue: 'Tasks.vue',
+  vue: true,
   readRoles: ['user'],
   writeRoles: ['user'],
   namespaced: true,
@@ -53,23 +54,48 @@ const calls = {
       color: 'orange'
     },
     default: {
-      customer: '',
-      title: 'Random issue',
-      person: 'Random person',
-      phone: '06',
-      teamviewer_id: '',
-      teamviewer_pwd: '',
-      machine_down: true
+      title: '', // string
+      customer: '', // customer id
+      engine: '', // engine id
+      status: 'new', // new, assigned, closed
+      person: '', // string
+      phone: '', // string
+      teamviewer_id: '', // string
+      teamviewer_pwd: '' // string
+    },
+    call: {}
+  },
+  getters: {
+    getNew: state => {
+      let calls = Object.values(state.data)
+      let callsFiltered = calls.filter(call => call.status === 'new' || call.status === undefined)
+      return callsFiltered
+    },
+    getAssigned: state => {
+      let calls = Object.values(state.data)
+      let callsFiltered = calls.filter(call => call.status === 'assigned')
+      return callsFiltered
+    },
+    getClosed: state => {
+      let calls = Object.values(state.data)
+      let callsFiltered = calls.filter(call => call.status === 'closed')
+      return callsFiltered
     }
   },
-  vue: 'Calls.vue',
+  vue: true,
   readRoles: ['user'],
   writeRoles: ['user'],
   namespaced: true,
   firestorePath: 'calls',
   firestoreRefType: 'collection',
   moduleName: 'calls',
-  statePropName: 'data'
+  statePropName: 'data',
+  serverChange: {
+    convertTimestamps: {
+      created_at: '%convertTimestamp%',
+      updated_at: '%convertTimestamp%'
+    }
+  }
 }
 
 const customers = {
@@ -84,7 +110,7 @@ const customers = {
       name: 'Unknown customer'
     }
   },
-  vue: 'Customers.vue',
+  vue: true,
   readRoles: ['user'],
   writeRoles: ['admin'],
   namespaced: true,
@@ -111,7 +137,7 @@ const engines = {
       post_devices: []
     }
   },
-  vue: 'Engines.vue',
+  vue: true,
   readRoles: ['user'],
   writeRoles: ['admin'],
   namespaced: true,
@@ -153,6 +179,11 @@ const notifications = {
   state: {
     data: {}
   },
+  sync: {
+    where: [
+      ['created_at', '>=', new Date()]
+    ]
+  },
   vue: false,
   readRoles: ['user'],
   writeRoles: ['admin'],
@@ -163,7 +194,12 @@ const notifications = {
   statePropName: 'data'
 }
 const tokens = {
-  state: {},
+  state: {
+    main: {
+      id: 'main',
+      tokens: []
+    }
+  },
   vue: false,
   readRoles: ['user'],
   writeRoles: ['admin'],

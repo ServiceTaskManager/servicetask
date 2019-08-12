@@ -10,6 +10,12 @@ const messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(async payload => {
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  let title = payload.title
+  let options = {
+  	body: payload.body,
+    vibrate: [300, 100, 300],
+    icon: '/statics/app-logo-128x128.png'
+  }
   // It was something like this, I am using a different custom format
   return self.registration.showNotification(payload.data.title, payload.data);
 });

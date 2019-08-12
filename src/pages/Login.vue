@@ -41,16 +41,6 @@ export default {
       password: ''
     }
   },
-  mounted () {
-    if (this.$store.state.user.login) {
-      this.$q.notify({
-        message: 'Well, it seems you\'re already logged in',
-        color: 'positive',
-        icon: 'done'
-      })
-      this.$router.push('dashboard')
-    }
-  },
   methods: {
     sendEmailVerification (user) {
       user.sendEmailVerification().then(emailVerification => {

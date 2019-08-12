@@ -11,6 +11,11 @@ const user = {
     data: {},
     login: false
   },
+  getters: {
+    initial: state => {
+      return state.data.display_name.split(' ').map(n => n[0]).join('')
+    }
+  },
   mutations: {
     userLoggedIn (state, userData) {
       state.data = userData
@@ -21,6 +26,9 @@ const user = {
       state.data = {}
       state.login = false
       localStorage.setItem('user', JSON.stringify(state))
+    },
+    tokenRefresh (state, token) {
+      localStorage.setItem('token', token)
     }
   }
 }
