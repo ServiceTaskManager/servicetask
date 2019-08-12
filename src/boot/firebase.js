@@ -20,9 +20,7 @@ export default ({ Vue, router, store }) => {
     if (!user) {
       console.log('User logged out')
       store.commit('userLoggedOut')
-      if (router.currentRoute.meta.requireAuth) {
-        router.push({ name: 'login' })
-      }
+      router.push({ name: 'login' })
     } else {
       console.log('User logged in : ' + firebaseAuth.currentUser.uid)
       store.dispatch('users/fetchById', firebaseAuth.currentUser.uid).then(userData => {

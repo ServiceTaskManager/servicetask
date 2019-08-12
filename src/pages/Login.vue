@@ -1,20 +1,6 @@
 <template>
   <div class="row justify-center" >
-    <q-card class="bg-grey-3">
-      <q-card-section class="bg-grey-10 text-white">
-        <q-item>
-          <q-item-section avatar>
-            <q-avatar>
-              <img src="/statics/app-logo-128x128.png">
-            </q-avatar>
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label class="text-h6">Service Task</q-item-label>
-            <q-item-label caption class="text-white">Tools for customer service</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-card-section>
+    <q-card class="bg-white col-12 col-sm-4">
       <q-separator />
       <q-card-section class="q-pa-md q-gutter-md">
         <q-input standout prefix="Email : " v-model="email" type="email">

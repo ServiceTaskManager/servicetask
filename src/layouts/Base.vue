@@ -80,11 +80,14 @@
 
     <q-page-container>
       <q-page padding class="bg-grey-3">
-        <div v-if="$store.state.firestore.ready" >
+        <div v-if="$store.state.firestore.ready || !$route.meta.requireAuth">
           <router-view />
         </div>
         <div v-else class="row justify-center">
-          <q-linear-progress stripe rounded style="height: 50px; width: 75%; margin-top: 100px;" color="warning" :value="$store.state.firestore.loading" />
+          <q-linear-progress stripe rounded
+            style="height: 50px; width: 75%; margin-top: 100px;"
+            color="warning"
+            :value="$store.state.firestore.loading" />
         </div>
       </q-page>
     </q-page-container>

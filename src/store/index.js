@@ -13,7 +13,7 @@ const user = {
   },
   getters: {
     initial: state => {
-      return state.data.display_name.split(' ').map(n => n[0]).join('')
+      return state.data.display_name ? state.data.display_name.split(' ').map(n => n[0]).join('') : 'XX'
     }
   },
   mutations: {

@@ -44,7 +44,7 @@
             <q-btn dense rounded
               class="q-px-sm"
               size="xs"
-              @click="engine.down = !engine.down"
+              @click="toggleEngineDown"
               :color="engine.down ? 'negative' : 'positive'"
               :label="engine.down ? 'DOWN' : 'UP'" />
           </span>
@@ -128,6 +128,10 @@ export default {
       this.call.assign_to = this.$store.state.user.data.id
       this.$store.dispatch('calls/patch', this.call)
       openURL('tel:' + this.call.phone)
+    },
+    toggleEngineDown () {
+      console.log('toggle')
+      this.engine.down = !this.engine.down
     }
   }
 }
