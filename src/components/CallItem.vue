@@ -2,7 +2,7 @@
   <div>
     <q-item>
       <q-item-section avatar top class="gt-xs">
-        <q-knob
+        <q-circular-progress
           show-value
           class="q-ma-sm"
           v-model="timeAgo.daysRatio"
@@ -11,7 +11,7 @@
           color="red"
           center-color="grey-3"
           track-color="red-3">
-          <q-knob
+          <q-circular-progress
             show-value
             v-model="timeAgo.hoursRatio"
             size="50px"
@@ -19,7 +19,7 @@
             :color="timeAgo.daysRatio > 0 ? 'red' : 'orange'"
             :center-color="timeAgo.daysRatio > 0 ? 'red' : 'orange'"
             :track-color="timeAgo.daysRatio > 0 ? 'red-3' : 'orange-3'">
-            <q-knob
+            <q-circular-progress
               show-value
               v-model="timeAgo.minutesRatio"
               size="40px"
@@ -28,9 +28,9 @@
               :center-color="timeAgo.hoursRatio > 0 ? 'orange' : 'green'"
               :track-color="timeAgo.hoursRatio > 0 ? 'orange-3' : 'green-3'">
               <span class="text-bold">{{ timeAgo.display }}</span>
-            </q-knob>
-          </q-knob>
-        </q-knob>
+            </q-circular-progress>
+          </q-circular-progress>
+        </q-circular-progress>
       </q-item-section>
 
       <q-item-section top>

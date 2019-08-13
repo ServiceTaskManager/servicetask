@@ -35,6 +35,7 @@
 
       <q-item-section avatar middle>
         <q-btn flat round
+          type="a"
           icon="phone"
           color="positive"
           @click="assignCall" />

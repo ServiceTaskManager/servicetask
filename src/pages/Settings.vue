@@ -1,6 +1,13 @@
 <template>
   <q-list>
-    <q-item-label header>User information</q-item-label>
+    <q-item>
+      <q-item-section>
+        <q-item-label header>User information</q-item-label>
+      </q-item-section>
+      <q-item-section avatar>
+        <q-btn rounded color="positive" type="submit" icon="done" @click="setUser" label="Apply" />
+      </q-item-section>
+    </q-item>
 
     <q-item>
       <q-input
@@ -8,8 +15,31 @@
         label="Full name"
         class="full-width">
         <template v-slot:prepend>
-          <q-icon name="person" color="orange" />
+          <q-avatar :style="'background-color:' + user.color">
+            <q-icon name="person" color="white"  />
+          </q-avatar>
         </template>
+      </q-input>
+    </q-item>
+
+    <q-item>
+      <q-input
+        :color="user.color"
+        v-model="user.color"
+        class="full-width"
+        label="Avatar color"
+        @focus="colorPicker = !colorPicker">
+        <template v-slot:prepend>
+          <q-avatar :style="'background-color:' + user.color">
+            <q-icon name="colorize" color="white"  />
+          </q-avatar>
+        </template>
+        <q-dialog position="top" v-model="colorPicker">
+          <q-color
+            v-model="user.color"
+            no-header
+            no-footer />
+        </q-dialog>
       </q-input>
     </q-item>
 
@@ -21,7 +51,7 @@
         <q-item-label caption>Get notification with sounds. Service Task needs to be running to play sound.</q-item-label>
       </q-item-section>
       <q-item-section side top>
-        <q-toggle color="primary" v-model="settings.notification.sound" />
+        <q-toggle color="primary" v-model="settings.notifications.sound" />
       </q-item-section>
     </q-item>
     <q-item>
@@ -30,7 +60,9 @@
         <q-item-label caption>Get push notifications</q-item-label>
       </q-item-section>
       <q-item-section side top>
-        <q-toggle color="primary" v-model="settings.notification.enable" />
+        <q-toggle color="primary"
+          :value="settings.notifications.topics.includes('main')"
+          @input="$store.dispatch('settings/toggleNotificationTopic', 'main')" />
       </q-item-section>
     </q-item>
   </q-list>
@@ -41,21 +73,24 @@ export default {
   name: 'Settings',
   data () {
     return {
-      user: {},
+      user: {
+        display_name: 'John Doe'
+      },
       settings: {
-        notification: {
-          enable: true,
+        notifications: {
           sound: true,
           topics: []
         }
-      }
+      },
+      colorPicker: false
     }
   },
   mounted () {
     this.user = this.$store.state.user.data
+    this.settings = this.$store.state.settings
   },
   methods: {
-    submit () {
+    setUser () {
       this.$store.dispatch('users/patch', this.user).then(r => {
         this.$q.notify({
           message: 'User set',

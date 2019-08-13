@@ -14,7 +14,7 @@ const users = {
     user: {}
   },
   vue: true,
-  readRoles: ['admin'],
+  readRoles: ['user'],
   writeRoles: ['admin'],
   namespaced: true,
   firestorePath: 'users',

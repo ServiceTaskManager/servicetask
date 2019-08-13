@@ -12,20 +12,45 @@ const user = {
     login: false
   },
   mutations: {
-    userLoggedIn (state, userData) {
+    login (state, userData) {
       state.data = userData
       state.login = true
       localStorage.setItem('user', JSON.stringify(state))
     },
-    userLoggedOut (state) {
+    logout (state) {
       state.data = {}
       state.login = false
       localStorage.setItem('user', JSON.stringify(state))
-    },
-    tokenRefresh (state, token) {
-      localStorage.setItem('token', token)
     }
-  }
+  },
+  namespaced: true
+}
+
+const settings = {
+  state: {
+    notifications: {
+      sound: true,
+      token: '',
+      topics: []
+    }
+  },
+  actions: {
+    'toggleNotificationTopic' ({ state, dispatch, rootState }, topic) {
+      let topicTokens = rootState.tokens[topic] ? rootState.tokens[topic].tokens : []
+      let deviceToken = state.notifications.token
+      let deviceTopics = state.notifications.topics
+      let remove = deviceTopics.includes(topic) && topicTokens.includes(topic)
+      if (remove) {
+        state.notifications.topics = deviceTopics.filter(t => t !== topic)
+        topicTokens = topicTokens.filter(t => t !== deviceToken)
+      } else {
+        deviceTopics.push(topic)
+        topicTokens.push(deviceToken)
+      }
+      dispatch('tokens/set', { id: topic, tokens: topicTokens }, { root: true })
+    }
+  },
+  namespaced: true
 }
 
 // Create Easy Firestore object with models to sync
@@ -39,6 +64,7 @@ const easyFirestore = createEasyFirestore(firestore.stores, { logging: true })
 const store = new Vuex.Store({
   modules: {
     user,
+    settings,
     firestore
   },
   plugins: [

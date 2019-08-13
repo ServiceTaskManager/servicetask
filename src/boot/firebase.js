@@ -19,13 +19,13 @@ export default ({ Vue, router, store }) => {
   firebaseApp.auth().onAuthStateChanged((user) => {
     if (!user) {
       console.log('User logged out')
-      store.commit('userLoggedOut')
+      store.commit('user/logout')
       router.push({ name: 'login' })
     } else {
       console.log('User logged in : ' + firebaseAuth.currentUser.uid)
       store.dispatch('users/fetchById', firebaseAuth.currentUser.uid).then(userData => {
         // Set user store based on new logged in user
-        store.commit('userLoggedIn', userData)
+        store.commit('user/login', userData)
 
         // Refresh page to Dashboard
         router.push({ name: 'dashboard' })
@@ -43,7 +43,7 @@ export default ({ Vue, router, store }) => {
         })
 
         firebaseMessaging.getToken().then(async token => {
-          store.commit('tokenRefresh', token)
+          store.state.settings.notifications.token = token
         })
         firebaseMessaging.requestPermission().then(function () {
           console.log('Notification permission granted.')

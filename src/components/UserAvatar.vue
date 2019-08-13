@@ -2,6 +2,7 @@
   <q-avatar
   :size="size"
   elevated
+  :style="'background-color: ' + display.color"
   :color="display.color"
   class="text-white">
   {{ display.initial }}
@@ -13,17 +14,19 @@ export default {
   name: 'UserAvatar',
   props: ['size', 'displayName', 'initial', 'color'],
   data () {
-    return {
-      display: {
+    return {}
+  },
+  computed: {
+    display () {
+      let display = {
         initial: 'XX',
         color: 'red'
       }
+      let name = this.displayName ? this.displayName : this.$store.state.user.data.display_name
+      display.initial = name.split(' ').map(n => n[0]).join('')
+      display.color = this.color ? this.color : this.$store.state.user.data.color ? this.$store.state.user.data.color : 'red'
+      return display
     }
-  },
-  mounted () {
-    let name = this.displayName ? this.displayName : this.$store.state.user.data.display_name
-    this.display.initial = name.split(' ').map(n => n[0]).join('')
-    this.display.color = this.color ? this.color : this.$store.state.user.data.color ? this.$store.state.user.data.color : 'red'
   }
 }
 </script>

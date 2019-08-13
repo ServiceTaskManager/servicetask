@@ -2,17 +2,17 @@
   <div class="row">
     <q-card class="col-12 col-sm-4">
       <q-card-section class="row q-pa-xs">
-        <q-knob
+        <q-circular-progress
           show-value
           class="q-ma-xs q-pa-none"
           :value="callKnob"
           size="90px"
           :thickness="0.2"
-          color="orange"
+          color="green"
           center-color="white"
-          track-color="green">
+          track-color="orange">
           {{  callAssigned.length }} / {{ callNew.length + callAssigned.length }}
-        </q-knob>
+        </q-circular-progress>
         <div v-if="callNew.length === 0" class="vertical-middle q-px-sm">
           <span class="text-h5">Congrats,</span><br>
           <span caption>all the calls are assigned.</span>
