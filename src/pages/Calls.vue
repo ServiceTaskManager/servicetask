@@ -24,7 +24,7 @@
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="new">
           <q-list>
-            <item-call
+            <call-item
               v-for="call in $store.getters['calls/getNew']"
               :key="call.id"
               :id="call.id"
@@ -33,7 +33,7 @@
         </q-tab-panel>
         <q-tab-panel name="assigned">
           <q-list>
-            <item-call
+            <call-item
               v-for="call in $store.getters['calls/getAssigned']"
               :key="call.id"
               :id="call.id"
@@ -42,7 +42,7 @@
         </q-tab-panel>
         <q-tab-panel name="new">
           <q-list>
-            <item-call
+            <call-item
               v-for="call in $store.getters['calls/getClosed']"
               :key="call.id"
               :id="call.id"
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import ItemCall from '../components/ItemCall'
+import CallItem from '../components/CallItem'
 
 export default {
   name: 'Calls',
@@ -68,7 +68,7 @@ export default {
     }
   },
   components: {
-    ItemCall
+    CallItem
   },
   methods: {
     createCall () {

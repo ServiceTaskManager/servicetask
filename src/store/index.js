@@ -11,11 +11,6 @@ const user = {
     data: {},
     login: false
   },
-  getters: {
-    initial: state => {
-      return state.data.display_name ? state.data.display_name.split(' ').map(n => n[0]).join('') : 'XX'
-    }
-  },
   mutations: {
     userLoggedIn (state, userData) {
       state.data = userData

@@ -50,7 +50,7 @@ const calls = {
     data: {},
     meta: {
       name: 'Calls',
-      icon: 'phone_forwarded',
+      icon: 'phone_callback',
       color: 'orange'
     },
     default: {

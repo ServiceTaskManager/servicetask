@@ -52,23 +52,36 @@ module.exports = function (ctx) {
       open: false // opens browser window automatically
     },
     // framework: 'all' --- includes everything; for dev only!
-    framework: 'all', /* {
+    framework: {
       components: [
-        'QLayout',
-        'QLayoutHeader',
-        'QLayoutDrawer',
-        'QPageContainer',
-        'QPage',
-        'QToolbar',
-        'QToolbarTitle',
+        'QAvatar',
+        'QBadge',
         'QBtn',
+        'QCard',
+        'QCardSection',
+        'QDrawer',
+        'QHeader',
         'QIcon',
-        'QList',
-        'QListHeader',
+        'QImg',
+        'QInput',
         'QItem',
-        'QItemMain',
-        'QItemSide',
-        'QSideLink'
+        'QItemLabel',
+        'QItemSection',
+        'QKnob',
+        'QLayout',
+        'QLinearProgress',
+        'QList',
+        'QPage',
+        'QPageContainer',
+        'QPageSticky',
+        'QScrollArea',
+        'QSeparator',
+        'QTab',
+        'QTabPanel',
+        'QTabPanels',
+        'QTabs',
+        'QToolbar',
+        'QToolbarTitle'
       ],
       directives: [
         'Ripple'
@@ -77,10 +90,7 @@ module.exports = function (ctx) {
       plugins: [
         'Notify'
       ]
-      // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
-      // i18n: 'de' // Quasar language
-    },*/
-    // animations: 'all' --- includes all animations
+    },
     animations: [],
     ssr: {
       pwa: false
@@ -95,7 +105,7 @@ module.exports = function (ctx) {
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
-        theme_color: '#027be3',
+        theme_color: '#000000',
         gcm_sender_id: '103953800507',
         start_url: 'https://servicetask-78359.firebaseapp.com/dashboard',
         icons: [

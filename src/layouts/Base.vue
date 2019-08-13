@@ -24,13 +24,7 @@
           <div class="text-weight-bold text-right">{{ user.data.display_name }}</div>
         </div>
         <div class="absolute-bottom-left bg-transparent">
-          <q-avatar
-            size="80px"
-            elevated
-            color="teal"
-            class="text-white">
-            {{ initial }}
-          </q-avatar>
+          <user-avatar size="80px" />
         </div>
         <div class="absolute-top bg-transparent full-width">
           <q-btn round
@@ -95,7 +89,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import UserAvatar from '../components/UserAvatar'
 
 export default {
   name: 'Base',
@@ -114,10 +108,7 @@ export default {
     },
     notificationEnable () {
       return this.$store.state.tokens.main.tokens.includes(this.notificationToken)
-    },
-    ...mapGetters([
-      'initial'
-    ])
+    }
   },
   methods: {
     logout () {
@@ -139,6 +130,9 @@ export default {
       console.log(tokens)
       this.$store.dispatch('tokens/set', tokens)
     }
+  },
+  components: {
+    UserAvatar
   }
 }
 </script>

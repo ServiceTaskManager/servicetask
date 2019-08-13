@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-item>
-      <q-item-section avatar top>
+      <q-item-section avatar top class="gt-xs">
         <q-knob
           show-value
           class="q-ma-sm"
@@ -36,6 +36,7 @@
       <q-item-section top>
         <q-item-label lines="1">
           <span class="text-h5">{{ call.title }}</span>
+          <span caption class="text-grey-6 float-right">{{ timeAgo.display }}</span>
         </q-item-label>
         <q-item-label>
           <span class="text-grey-9">
@@ -58,10 +59,15 @@
           class="text-grey-8 q-gutter-xs row">
           <q-btn flat dense round icon="edit" :to="{ name: 'callsEdit', params: { id: call.id } }" />
           <q-btn flat dense round icon="remove_circle" color="negative" @click="deleteCall(call.id)" />
+          <q-btn flat dense round
+            class="lt-sm"
+            icon="phone"
+            color="positive"
+            @click="assignCall" />
         </q-item-label>
       </q-item-section>
 
-      <q-item-section avatar top>
+      <q-item-section class="gt-xs" avatar top>
         <q-btn flat dense round
           size="30px"
           icon="phone"
@@ -77,7 +83,7 @@
 import { date, openURL } from 'quasar'
 
 export default {
-  name: 'ItemCall',
+  name: 'CallItem',
   props: ['call'],
   data () {
     return {
