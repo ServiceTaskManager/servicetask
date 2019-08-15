@@ -14,6 +14,11 @@
           icon="chevron_left"
           color="grey"
           @click="unassign" />
+        <q-btn v-if="call.status === 'closed'"
+          round
+          icon="chevron_left"
+          color="grey"
+          @click="assign" />
       </q-item-section>
 
       <q-item-section top>
@@ -28,27 +33,36 @@
           round
           icon="phone"
           color="green"
-          @click="callAssignDialog = true" />
+          @click="confirmCall = true" />
         <q-btn v-if="call.status === 'assigned'"
           round
           icon="chevron_right"
           color="blue"
-          @click="taskCreateDialog = true" />
+          @click="createWOTask = true" />
         <q-btn
           round flat
-          icon="edit"
+          icon="close"
           color="grey"
-          :to="{ name: 'callsEdit', params: { id: call.id } }" />
+          @click="close" />
       </q-item-section>
     </q-item>
-    <call-assign-dialog :call="call" v-model="callAssignDialog" />
+    <call-assign-dialog :call="call" v-model="confirmCall" />
     <task-create-dialog
       preset="createWO"
       :fields="{ description: { label: 'Work order name' } }"
-      :overwrite="{ customer: call.customer, engine: call.engine }"
-      v-model="taskCreateDialog">
+      :overwrite="{ customer: call.customer, engine: call.engine, description: call.title }"
+      v-model="createWOTask"
+      @submit="createTask = true">
       Ask a Work Order
     </task-create-dialog>
+    <task-create-dialog
+      :fields="{ description: { label: undefined }, title: { label: undefined } }"
+      :overwrite="{ customer: call.customer, engine: call.engine, title: 'Fix ' + call.title }"
+      v-model="createTask"
+      @submit="closeCall = true">
+      Create a new task
+    </task-create-dialog>
+    <call-close-dialog :call="call" v-model="closeCall" />
   </div>
 </template>
 
@@ -57,6 +71,7 @@ import { date } from 'quasar'
 import UserAvatar from './UserAvatar'
 import CallAssignDialog from './CallAssignDialog'
 import TaskCreateDialog from './TaskCreateDialog'
+import CallCloseDialog from './CallCloseDialog'
 import TitleChip from './TitleChip'
 import EngineChip from './EngineChip'
 import CustomerChip from './CustomerChip'
@@ -75,8 +90,10 @@ export default {
   },
   data () {
     return {
-      callAssignDialog: false,
-      taskCreateDialog: false
+      confirmCall: false,
+      createWOTask: false,
+      createTask: false,
+      closeCall: false
     }
   },
   computed: {
@@ -93,12 +110,17 @@ export default {
       this.call.status = 'unassigned'
       this.call.assign_to = ''
       this.$store.dispatch('calls/patch', this.call)
+    },
+    assign () {
+      this.call.status = 'assigned'
+      this.$store.dispatch('calls/patch', this.call)
     }
   },
   components: {
     UserAvatar,
     CallAssignDialog,
     TaskCreateDialog,
+    CallCloseDialog,
     TitleChip,
     EngineChip,
     CustomerChip,

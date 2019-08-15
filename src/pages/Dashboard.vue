@@ -13,7 +13,7 @@
               color="green"
               center-color="white"
               track-color="orange">
-              {{  callsStats.assigned }} / {{ callsStats.total }}
+              {{  callsStats.assigned }} / {{ callsStats.assigned + callsStats.unassigned }}
             </q-circular-progress>
           </div>
           <div class="col">
@@ -116,7 +116,7 @@ export default {
       return this.$store.getters['tasks/stats']
     },
     callKnob () {
-      return this.callsStats.assigned / this.callsStats.total * 100
+      return this.callsStats.assigned / (this.callsStats.assigned + this.callsStats.unassigned) * 100
     }
   },
   components: {

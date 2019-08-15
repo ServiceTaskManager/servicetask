@@ -17,7 +17,7 @@
       <q-btn rounded flat
         color="grey"
         icon="undo"
-        @click="$emit('submit')" />
+        @click="$emit('cancel')" />
       <q-btn rounded
         color="positive"
         label="Submit"
@@ -60,12 +60,12 @@ export default {
   },
   data () {
     return {
-      task: this.$store.state.tasks.default
+      task: {}
     }
   },
   mounted () {
-    this.task = Object.assign(
-      this.task,
+    this.task = Object.assign({},
+      this.$store.state.tasks.default,
       this.$store.state.tasks.presets[this.preset],
       this.overwrite,
       this.$store.state.tasks.data[this.taskId])

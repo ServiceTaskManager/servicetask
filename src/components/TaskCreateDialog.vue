@@ -6,7 +6,7 @@
       </q-card-section>
       <q-separator />
       <q-card-section class="row items-center q-pa-sm">
-        <task-form @submit="close" :fields="fields" :overwrite="overwrite" :preset="preset" />
+        <task-form @submit="submit" @cancel="cancel" :fields="fields" :overwrite="overwrite" :preset="preset" />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -42,7 +42,11 @@ export default {
     return {}
   },
   methods: {
-    close () {
+    submit () {
+      this.$emit('input')
+      this.$emit('submit')
+    },
+    cancel () {
       this.$emit('input')
     }
   },

@@ -9,20 +9,20 @@
         indicator-color="primary"
         align="justify"
         narrow-indicator>
-        <q-tab name="new" icon="phone_callback" label="Incoming call">
+        <q-tab name="unassigned" icon="phone_callback" label="Incoming call">
           <q-badge :label="stats.unassigned" floating></q-badge>
         </q-tab>
         <q-tab name="assigned" icon="person" label="Assigned">
           <q-badge :label="stats.assigned" floating></q-badge>
         </q-tab>
-        <q-tab name="close" icon="done" label="Closed">
+        <q-tab name="closed" icon="done" label="Closed">
           <q-badge :label="stats.closed" floating></q-badge>
         </q-tab>
       </q-tabs>
       <q-separator />
 
       <q-tab-panels v-model="tab" animated>
-        <q-tab-panel name="new">
+        <q-tab-panel name="unassigned">
           <q-list>
             <call-item
               v-for="call in $store.getters['calls/byStatus'](['unassigned'])"
@@ -40,7 +40,7 @@
               :call="call" />
           </q-list>
         </q-tab-panel>
-        <q-tab-panel name="new">
+        <q-tab-panel name="closed">
           <q-list>
             <call-item
               v-for="call in $store.getters['calls/byStatus'](['closed'])"

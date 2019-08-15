@@ -58,7 +58,7 @@
                 </q-item-section>
               </q-item>
 
-              <q-item to="{ name: 'dashboard' }">
+              <q-item :to="{ name: 'dashboard' }">
                 <q-item-section avatar>
                   <q-icon color="grey" name="dashboard" />
                 </q-item-section>

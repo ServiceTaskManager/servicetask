@@ -85,7 +85,8 @@ const calls = {
       phone: '', // string
       teamviewer_id: '', // string
       teamviewer_pwd: '', // string
-      assign_to: '' // user id
+      assign_to: '', // user id
+      closed_at: '' // date
     },
     call: {}
   },
