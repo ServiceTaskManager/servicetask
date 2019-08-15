@@ -1,13 +1,6 @@
 <template>
   <q-list>
-    <q-item>
-      <q-item-section>
-        <q-item-label header>User information</q-item-label>
-      </q-item-section>
-      <q-item-section avatar>
-        <q-btn rounded color="positive" type="submit" icon="done" @click="setUser" label="Apply" />
-      </q-item-section>
-    </q-item>
+    <q-item-label header>User information</q-item-label>
 
     <q-item>
       <q-input
@@ -34,7 +27,7 @@
             <q-icon name="colorize" color="white"  />
           </q-avatar>
         </template>
-        <q-dialog position="top" v-model="colorPicker">
+        <q-dialog v-model="colorPicker">
           <q-color
             v-model="user.color"
             no-header
@@ -63,6 +56,24 @@
         <q-toggle color="primary"
           :value="settings.notifications.topics.includes('main')"
           @input="$store.dispatch('settings/toggleNotificationTopic', 'main')" />
+      </q-item-section>
+    </q-item>
+
+    <q-item class="absolute-bottom bg-white">
+      <q-item-section class="text-right">
+        <div>
+          <q-btn rounded flat
+            color="grey"
+            label="Dashboard"
+            icon="undo"
+            :to="{ name: 'dashboard' }" />
+          <q-btn rounded
+            color="positive"
+            type="submit"
+            icon="done"
+            @click="setUser"
+            label="Apply" />
+        </div>
       </q-item-section>
     </q-item>
   </q-list>

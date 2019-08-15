@@ -1,56 +1,85 @@
 <template>
-  <div>
-    <select-customer v-model="call.customer" />
-    <select-engine
-      v-model="call.engine"
-      :customer="call.customer" />
-    <q-input
-      v-model="call.title"
-      label="Describe issue"
-      class="full-width" />
-    <q-input
-      v-model="call.person"
-      color="orange"
-      label="Person to contact"
-      class="full-width">
-      <template v-slot:prepend>
-        <q-icon name="person" color="orange" />
-      </template>
-    </q-input>
-    <q-input
-      v-model="call.phone"
-      color="green"
-      label="Phone number"
-      class="full-width">
-      <template v-slot:prepend>
-        <q-icon name="phone" color="green" />
-      </template>
-    </q-input>
-    <q-input
-      v-model="call.teamviewer_id"
-      color="blue"
-      label="Teamviewer ID"
-      class="col-6">
-      <template v-slot:prepend>
-        <q-icon name="screen_share" color="blue" />
-      </template>
-    </q-input>
-    <q-input
-      v-model="call.teamviewer_pwd"
-      color="blue"
-      label="Password"
-      class="col-6"/>
-
-    <div class="row justify-around q-gutter-sm q-mt-md">
-      <q-btn round-corner flat color="white" class="bg-negative col-4" icon="undo" :to="{ name: 'calls' }" />
-      <q-btn round-corner flat color="white" class="bg-positive col-4" icon="done" @click='setCall' />
-    </div>
-  </div>
+  <q-list>
+    <q-item>
+      <customer-field v-model="call.customer" />
+    </q-item>
+    <q-item>
+      <engine-field
+        v-model="call.engine"
+        :customer="call.customer" />
+    </q-item>
+    <q-item>
+      <q-input
+        v-model="call.title"
+        color="grey"
+        label="Describe issue"
+        class="full-width">
+        <template v-slot:prepend>
+          <q-icon name="description" color="grey" />
+        </template>
+      </q-input>
+    </q-item>
+    <q-item>
+      <q-input
+        v-model="call.person"
+        color="orange"
+        label="Contact name"
+        class="full-width">
+        <template v-slot:prepend>
+          <q-icon name="person" color="orange" />
+        </template>
+      </q-input>
+    </q-item>
+    <q-item>
+      <q-input
+        v-model="call.phone"
+        color="green"
+        label="Phone number"
+        class="full-width">
+        <template v-slot:prepend>
+          <q-icon name="phone" color="green" />
+        </template>
+      </q-input>
+    </q-item>
+    <q-item class="row">
+      <q-input
+        v-model="call.teamviewer_id"
+        color="blue"
+        label="Teamviewer ID"
+        class="col-6">
+        <template v-slot:prepend>
+          <q-icon name="screen_share" color="blue" />
+        </template>
+      </q-input>
+      <q-input
+        v-model="call.teamviewer_pwd"
+        color="blue"
+        label="Password"
+        class="col-6"/>
+    </q-item>
+    <q-item class="absolute-bottom bg-white">
+      <q-item-section class="text-right">
+        <div>
+          <q-btn rounded flat
+            color="grey"
+            label="Back to calls list"
+            icon="undo"
+            :to="{ name: 'calls' }" />
+          <q-btn rounded
+            color="positive"
+            type="submit"
+            icon="done"
+            @click="setCall"
+            :label="create ? 'Create' : 'Edit'" />
+        </div>
+      </q-item-section>
+    </q-item>
+  </q-list>
 </template>
 
 <script>
-import SelectCustomer from '../components/SelectCustomer'
-import SelectEngine from '../components/SelectEngine'
+import CustomerField from '../components/CustomerField'
+import EngineField from '../components/EngineField'
 
 export default {
   name: 'CallsEdit',
@@ -85,8 +114,8 @@ export default {
     }
   },
   components: {
-    SelectCustomer,
-    SelectEngine
+    CustomerField,
+    EngineField
   }
 }
 </script>

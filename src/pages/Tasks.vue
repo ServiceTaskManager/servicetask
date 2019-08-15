@@ -1,50 +1,66 @@
 <template>
   <div class="container">
-    <div
-      class="row q-col-gutter-sm">
-      <div
-        v-for="(task, key) in tasks"
-        :key="key"
-        class="col-12 col-sm-4">
-        <card-task :task="task" />
-      </div>
-    </div>
+    <q-card>
+      <q-tabs
+        v-model="tab"
+        dense
+        class="text-grey"
+        active-color="primary"
+        indicator-color="primary"
+        align="justify"
+        narrow-indicator>
+        <q-tab name="todo" icon="list" label="Incoming call">
+          <q-badge :label="stats.todo" floating></q-badge>
+        </q-tab>
+        <q-tab name="done" icon="done" label="Assigned">
+          <q-badge :label="stats.done" floating></q-badge>
+        </q-tab>
+      </q-tabs>
+      <q-separator />
 
-    <q-btn
-      fab
-      :color="model.color"
-      icon="add"
-      class="fixed-bottom-right"
-      style="margin-right: 10px; margin-bottom: 10px"
-      @click="createTask" />
+      <q-tab-panels v-model="tab" animated>
+        <q-tab-panel name="todo">
+          <q-list>
+            <task-item
+              v-for="task in $store.getters['tasks/todo']"
+              :key="task.id"
+              :id="task.id"
+              :task="task" />
+          </q-list>
+        </q-tab-panel>
+        <q-tab-panel name="done">
+          <q-list>
+            <task-item
+              v-for="task in $store.getters['tasks/done']"
+              :key="task.id"
+              :id="task.id"
+              :task="task" />
+          </q-list>
+        </q-tab-panel>
+      </q-tab-panels>
+    </q-card>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab icon="add" color="black" :to="{ name: 'tasksCreate', params: { id: undefined } }" />
+    </q-page-sticky>
   </div>
 </template>
 
 <script>
-import CardTask from '../components/CardTask'
-
+import TaskItem from '../components/TaskItem'
 export default {
   name: 'Tasks',
   data () {
     return {
-      tasks: {}
+      tab: 'todo'
     }
-  },
-  mounted () {
-    this.tasks = this.$store.state.tasks.data
   },
   computed: {
-    model () {
-      return this.$store.state.tasks
-    }
-  },
-  methods: {
-    createTask () {
-      this.$store.dispatch('tasks/set', { create: true, engine: '' })
+    stats () {
+      return this.$store.getters['tasks/stats']
     }
   },
   components: {
-    CardTask
+    TaskItem
   }
 }
 </script>

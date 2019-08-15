@@ -10,13 +10,13 @@
         align="justify"
         narrow-indicator>
         <q-tab name="new" icon="phone_callback" label="Incoming call">
-          <q-badge :label="$store.getters['calls/getNew'].length" floating></q-badge>
+          <q-badge :label="stats.unassigned" floating></q-badge>
         </q-tab>
         <q-tab name="assigned" icon="person" label="Assigned">
-          <q-badge :label="$store.getters['calls/getAssigned'].length" floating></q-badge>
+          <q-badge :label="stats.assigned" floating></q-badge>
         </q-tab>
         <q-tab name="close" icon="done" label="Closed">
-          <q-badge :label="$store.getters['calls/getClosed'].length" floating></q-badge>
+          <q-badge :label="stats.closed" floating></q-badge>
         </q-tab>
       </q-tabs>
       <q-separator />
@@ -25,7 +25,7 @@
         <q-tab-panel name="new">
           <q-list>
             <call-item
-              v-for="call in $store.getters['calls/getNew']"
+              v-for="call in $store.getters['calls/byStatus'](['unassigned'])"
               :key="call.id"
               :id="call.id"
               :call="call" />
@@ -34,7 +34,7 @@
         <q-tab-panel name="assigned">
           <q-list>
             <call-item
-              v-for="call in $store.getters['calls/getAssigned']"
+              v-for="call in $store.getters['calls/byStatus'](['assigned'])"
               :key="call.id"
               :id="call.id"
               :call="call" />
@@ -43,7 +43,7 @@
         <q-tab-panel name="new">
           <q-list>
             <call-item
-              v-for="call in $store.getters['calls/getClosed']"
+              v-for="call in $store.getters['calls/byStatus'](['closed'])"
               :key="call.id"
               :id="call.id"
               :call="call" />
@@ -52,7 +52,7 @@
       </q-tab-panels>
     </q-card>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" color="black" @click="createCall" />
+      <q-btn fab icon="add" color="black" :to="{ name: 'callsCreate', params: { id: 'create' } }" />
     </q-page-sticky>
   </div>
 </template>
@@ -67,14 +67,13 @@ export default {
       tab: 'new'
     }
   },
+  computed: {
+    stats () {
+      return this.$store.getters['calls/stats']
+    }
+  },
   components: {
     CallItem
-  },
-  methods: {
-    createCall () {
-      this.$store.state.calls.call = this.$store.state.calls.default
-      this.$router.push({ name: 'callsCreate', params: { id: 'create' } })
-    }
   }
 }
 </script>

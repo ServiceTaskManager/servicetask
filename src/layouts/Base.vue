@@ -24,7 +24,7 @@
           <div class="text-weight-bold text-right">{{ user.data.display_name }}</div>
         </div>
         <div class="absolute-bottom-left bg-transparent">
-          <user-avatar size="80px" />
+          <user-avatar :user-id="user.data.id" size="80px" />
         </div>
         <div class="absolute-top bg-transparent full-width">
           <q-btn round
@@ -58,7 +58,7 @@
                 </q-item-section>
               </q-item>
 
-              <q-item to="dashboard">
+              <q-item to="{ name: 'dashboard' }">
                 <q-item-section avatar>
                   <q-icon color="grey" name="dashboard" />
                 </q-item-section>
@@ -74,11 +74,9 @@
 
     <q-page-container>
       <q-page padding class="bg-grey-3">
-        <div v-if="$store.state.firestore.ready || !$route.meta.requireAuth">
-          <router-view />
-        </div>
+        <router-view v-if="$store.state.firestore.ready || !$route.meta.requireAuth" />
         <div v-else class="row justify-center">
-          <q-linear-progress stripe rounded
+          <q-linear-progress rounded
             style="height: 50px; width: 75%; margin-top: 100px;"
             color="warning"
             :value="$store.state.firestore.loading" />
@@ -95,40 +93,17 @@ export default {
   name: 'Base',
   data () {
     return {
-      right: false,
-      notificationToken: ''
+      right: false
     }
-  },
-  mounted () {
-    this.notificationToken = localStorage.getItem('token')
   },
   computed: {
     user () {
       return this.$store.state.user
-    },
-    notificationEnable () {
-      return this.$store.state.tokens.main.tokens.includes(this.notificationToken)
     }
   },
   methods: {
     logout () {
       this.$auth.signOut()
-    },
-    toggleNotification () {
-      console.log('toggleNotification')
-      let tokens = this.$store.state.tokens.main
-      if (this.notificationEnable) {
-        console.log('Remove token from list')
-        let newTokens = tokens.tokens.filter(t => t !== this.notificationToken)
-        tokens.tokens = newTokens
-      } else {
-        console.log('Add token to list')
-        if (!tokens.tokens.includes(this.notificationToken) && this.notificationToken) {
-          tokens.tokens.push(this.notificationToken)
-        }
-      }
-      console.log(tokens)
-      this.$store.dispatch('tokens/set', tokens)
     }
   },
   components: {

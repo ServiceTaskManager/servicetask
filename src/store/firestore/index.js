@@ -9,7 +9,8 @@ const users = {
     default: {
       roles: [],
       available: false,
-      display_name: 'John Doe'
+      display_name: '?',
+      color: 'grey'
     },
     user: {}
   },
@@ -32,7 +33,29 @@ const tasks = {
       color: 'light-blue'
     },
     default: {
-      displayName: 'No Name'
+      customer: '',
+      engine: '',
+      title: '',
+      description: '',
+      done: false,
+      done_at: '',
+      schedule_at: '',
+      subTasks: []
+    },
+    presets: {
+      createWO: {
+        title: 'Create WO'
+      }
+    }
+  },
+  getters: {
+    done: state => Object.values(state.data).filter(t => t.done),
+    todo: state => Object.values(state.data).filter(t => !t.done),
+    stats: (state, getters) => {
+      return {
+        done: getters.done.length,
+        todo: getters.todo.length
+      }
     }
   },
   vue: true,
@@ -57,29 +80,40 @@ const calls = {
       title: '', // string
       customer: '', // customer id
       engine: '', // engine id
-      status: 'new', // new, assigned, closed
+      status: 'unassigned', // unassigned, assigned, closed
       person: '', // string
       phone: '', // string
       teamviewer_id: '', // string
-      teamviewer_pwd: '' // string
+      teamviewer_pwd: '', // string
+      assign_to: '' // user id
     },
     call: {}
   },
   getters: {
-    getNew: state => {
+    byStatus: state => status => {
       let calls = Object.values(state.data)
-      let callsFiltered = calls.filter(call => call.status === 'new' || call.status === undefined)
+      let callsFiltered = calls.filter(call => status.includes(call.status))
       return callsFiltered
     },
-    getAssigned: state => {
+    stats: state => {
       let calls = Object.values(state.data)
-      let callsFiltered = calls.filter(call => call.status === 'assigned')
-      return callsFiltered
-    },
-    getClosed: state => {
-      let calls = Object.values(state.data)
-      let callsFiltered = calls.filter(call => call.status === 'closed')
-      return callsFiltered
+      let stats = {
+        unassigned: 0,
+        assigned: 0,
+        closed: 0,
+        error: 0,
+        total: 0
+      }
+
+      calls.forEach(call => {
+        if (call.status === 'unassigned') stats.unassigned++
+        else if (call.status === 'assigned' && call.assign_to !== undefined) stats.assigned++
+        else if (call.status === 'closed' && call.assign_to !== undefined) stats.closed++
+        else stats.error++
+        stats.total++
+      })
+
+      return stats
     }
   },
   vue: true,

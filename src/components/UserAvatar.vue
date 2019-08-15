@@ -1,32 +1,34 @@
 <template>
   <q-avatar
-  :size="size"
-  elevated
-  :style="'background-color: ' + display.color"
-  :color="display.color"
-  class="text-white">
-  {{ display.initial }}
+    v-bind="$attrs"
+    :style="'background-color: ' + user.color"
+    :color="user.color"
+    class="text-white text-bold shadow-2">
+    {{ user.display_name | initial }}
 </q-avatar>
 </template>
 
 <script>
 export default {
   name: 'UserAvatar',
-  props: ['size', 'displayName', 'initial', 'color'],
+  props: {
+    userId: {
+      type: String,
+      default: undefined
+    }
+  },
   data () {
-    return {}
+    return {
+      meta: this.$store.state.users.meta
+    }
   },
   computed: {
-    display () {
-      let display = {
-        initial: 'XX',
-        color: 'red'
-      }
-      let name = this.displayName ? this.displayName : this.$store.state.user.data.display_name
-      display.initial = name.split(' ').map(n => n[0]).join('')
-      display.color = this.color ? this.color : this.$store.state.user.data.color ? this.$store.state.user.data.color : 'red'
-      return display
+    user () {
+      return this.userId ? this.$store.state.users.data[this.userId] : this.$store.state.users.default
     }
+  },
+  filters: {
+    initial: (value) => value.split(' ').map(n => n[0]).join('')
   }
 }
 </script>
