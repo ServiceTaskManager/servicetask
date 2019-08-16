@@ -3,7 +3,6 @@
 module.exports = function (ctx) {
   return {
     boot: [
-      'axios',
       'i18n',
       'firebase'
     ],
