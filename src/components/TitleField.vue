@@ -2,9 +2,9 @@
   <q-input
     v-bind="$attrs"
     v-on="$listeners"
+    color="black"
     :label="label"
-    class="full-width"
-    @input="$emit('input')">
+    class="full-width">
     <template v-slot:prepend>
       <q-icon name="title" color="black" />
     </template>

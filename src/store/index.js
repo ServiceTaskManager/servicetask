@@ -29,6 +29,8 @@ const user = {
 const settings = {
   state: {
     notifications: {
+      supported: false,
+      permission: false,
       sound: true,
       token: '',
       topics: []
@@ -39,7 +41,7 @@ const settings = {
       let topicTokens = rootState.tokens[topic] ? rootState.tokens[topic].tokens : []
       let deviceToken = state.notifications.token
       let deviceTopics = state.notifications.topics
-      let remove = deviceTopics.includes(topic) && topicTokens.includes(topic)
+      let remove = deviceTopics.includes(topic) && topicTokens.includes(deviceToken)
       if (remove) {
         state.notifications.topics = deviceTopics.filter(t => t !== topic)
         topicTokens = topicTokens.filter(t => t !== deviceToken)
@@ -48,6 +50,22 @@ const settings = {
         topicTokens.push(deviceToken)
       }
       dispatch('tokens/set', { id: topic, tokens: topicTokens }, { root: true })
+    },
+    'setTopics' ({ state, dispatch, rootState }) {
+      let topics = []
+      let tokens = rootState.tokens
+      for (let topicName in tokens) {
+        let topic = tokens[topicName]
+        if (topic.tokens) {
+          if (topic.tokens.includes(state.notifications.token)) {
+            topics.push(topic.id)
+          } else {
+            console.log(state.notifications.token, 'not in')
+          }
+        }
+      }
+
+      state.notifications.topics = topics
     }
   },
   namespaced: true

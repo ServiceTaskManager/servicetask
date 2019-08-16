@@ -51,9 +51,15 @@
       <q-item-section>
         <q-item-label>Enable notifications</q-item-label>
         <q-item-label caption>Get push notifications</q-item-label>
+        <q-item-label v-if="!$store.state.settings.notifications.supported"
+          caption
+          class="text-negative">
+          Your browser doesn't support push notifications.
+        </q-item-label>
       </q-item-section>
       <q-item-section side top>
         <q-toggle color="primary"
+          :disable="!$store.state.settings.notifications.supported"
           :value="settings.notifications.topics.includes('main')"
           @input="$store.dispatch('settings/toggleNotificationTopic', 'main')" />
       </q-item-section>

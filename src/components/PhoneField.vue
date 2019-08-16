@@ -2,26 +2,28 @@
   <q-input
     v-bind="$attrs"
     v-on="$listeners"
-    color="grey"
+    :color="meta.color"
     class="full-width"
     :label="label">
     <template v-slot:prepend>
-      <q-icon name="description" color="grey" />
+      <q-icon :name="meta.icon" :color="meta.color" />
     </template>
   </q-input>
 </template>
 
 <script>
 export default {
-  name: 'DescriptionField',
+  name: 'PhoneField',
   props: {
     label: {
       type: String,
-      default: 'Description'
+      default: 'Phone number'
     }
   },
   data () {
-    return {}
+    return {
+      meta: this.$store.state.users.meta
+    }
   }
 }
 </script>

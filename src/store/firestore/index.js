@@ -1,3 +1,5 @@
+import PostFirestoreLoading from './PostFirestoreLoading'
+
 const users = {
   state: {
     data: {},
@@ -83,11 +85,14 @@ const calls = {
       status: 'unassigned', // unassigned, assigned, closed
       person: '', // string
       phone: '', // string
-      teamviewer_id: '', // string
-      teamviewer_pwd: '', // string
+      teamviewer: {
+        id: '',
+        pwd: ''
+      },
       assign_to: '', // user id
       closed_at: '' // date
     },
+    presets: {},
     call: {}
   },
   getters: {
@@ -278,10 +283,12 @@ const firestore = {
         }
       })
     },
-    updateFirestoreOpenList (state, storeName) {
-      state.openStores.push(storeName)
+    updateFirestoreOpenList (state, opt) {
+      if (opt.open) state.openStores.push(opt.firestore)
+      else state.openStores = state.openStores.filter(store => opt.firestore !== store)
+
       state.loading = state.openStores.length / state.readableStores.length
-      state.ready = (state.loading === 1)
+      if (state.loading === 1) PostFirestoreLoading()
     }
   }
 }

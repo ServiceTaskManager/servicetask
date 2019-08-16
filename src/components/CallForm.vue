@@ -1,16 +1,22 @@
 <template>
   <q-list>
     <q-item v-if="'customer' in fields">
-      <customer-field v-model="task.customer" @input="task.engine = ''" v-bind="fields['customer']" />
+      <customer-field v-model="call.customer" @input="call.engine = ''" v-bind="fields.customer" />
     </q-item>
     <q-item v-if="'engine' in fields">
-      <engine-field v-model="task.engine" v-bind="fields['engine']" :customer-id="task.customer" />
+      <engine-field v-model="call.engine" v-bind="fields.engine" :customer-id="call.customer" />
     </q-item>
     <q-item v-if="'title' in fields">
-      <title-field v-model="task.title" v-bind="fields['title']" />
+      <title-field v-model="call.title" v-bind="fields.title" />
     </q-item>
-    <q-item v-if="'description' in fields">
-      <description-field v-model="task.description" v-bind="fields['description']" />
+    <q-item v-if="'person' in fields">
+      <person-field v-model="call.person" v-bind="fields.person" />
+    </q-item>
+    <q-item v-if="'phone' in fields">
+      <phone-field v-model="call.phone" v-bind="fields.phone" />
+    </q-item>
+    <q-item v-if="'teamviewer' in fields">
+      <teamviewer-field v-model="call.teamviewer" v-bind="fields.teamviewer" />
     </q-item>
 
     <q-item class="row justify-end">
@@ -30,9 +36,9 @@
 
 <script>
 export default {
-  name: 'TaskForm',
+  name: 'CallForm',
   props: {
-    taskId: {
+    callId: {
       type: String,
       default: undefined
     },
@@ -47,7 +53,9 @@ export default {
           customer: {},
           engine: {},
           title: {},
-          description: {}
+          person: {},
+          phone: {},
+          teamviewer: {}
         }
       }
     },
@@ -60,19 +68,19 @@ export default {
   },
   data () {
     return {
-      task: {}
+      call: {}
     }
   },
   mounted () {
-    this.task = Object.assign({},
-      this.$store.state.tasks.default,
-      this.$store.state.tasks.presets[this.preset],
+    this.call = Object.assign({},
+      this.$store.state.calls.default,
+      this.$store.state.calls.presets[this.preset],
       this.overwrite,
-      this.$store.state.tasks.data[this.taskId])
+      this.$store.state.calls.data[this.callId])
   },
   methods: {
     set () {
-      this.$store.dispatch('tasks/set', this.task)
+      this.$store.dispatch('calls/set', this.call)
       this.$emit('submit')
     }
   },
@@ -80,7 +88,9 @@ export default {
     CustomerField: () => import('./CustomerField'),
     EngineField: () => import('./EngineField'),
     TitleField: () => import('./TitleField'),
-    DescriptionField: () => import('./DescriptionField')
+    PersonField: () => import('./PersonField'),
+    PhoneField: () => import('./PhoneField'),
+    TeamviewerField: () => import('./TeamviewerField')
   }
 }
 </script>

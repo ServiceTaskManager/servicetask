@@ -39,11 +39,15 @@
           icon="chevron_right"
           color="blue"
           @click="createWOTask = true" />
-        <q-btn
+        <q-btn v-if="call.status === 'assigned'"
           round flat
           icon="close"
           color="grey"
           @click="close" />
+        <q-btn round flat
+          icon="delete"
+          color="negative"
+          @click="deleteCall" />
       </q-item-section>
     </q-item>
     <call-assign-dialog :call="call" v-model="confirmCall" />
@@ -114,6 +118,9 @@ export default {
     assign () {
       this.call.status = 'assigned'
       this.$store.dispatch('calls/patch', this.call)
+    },
+    deleteCall () {
+      this.$store.dispatch('calls/delete', this.call.id)
     }
   },
   components: {

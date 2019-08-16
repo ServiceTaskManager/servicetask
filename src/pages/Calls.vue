@@ -64,7 +64,7 @@ export default {
   name: 'Calls',
   data () {
     return {
-      tab: 'new'
+      tab: 'unassigned'
     }
   },
   computed: {

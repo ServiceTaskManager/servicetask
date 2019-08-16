@@ -1,6 +1,6 @@
 <template>
   <div>
-    <task-form @submit="submit" :task-id="$route.params.id" />
+    <task-form @submit="$router.push({ name: 'tasks' })" @cancel="$router.push({ name: 'tasks' })" :task-id="$route.params.id" />
   </div>
 </template>
 
@@ -11,11 +11,6 @@ export default {
   name: 'TasksEdit',
   data () {
     return {}
-  },
-  methods: {
-    submit () {
-      this.$router.push({ name: 'tasks' })
-    }
   },
   components: {
     TaskForm

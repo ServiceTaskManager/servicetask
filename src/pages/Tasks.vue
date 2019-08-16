@@ -9,10 +9,10 @@
         indicator-color="primary"
         align="justify"
         narrow-indicator>
-        <q-tab name="todo" icon="list" label="Incoming call">
+        <q-tab name="todo" icon="list" label="To do list">
           <q-badge :label="stats.todo" floating></q-badge>
         </q-tab>
-        <q-tab name="done" icon="done" label="Assigned">
+        <q-tab name="done" icon="done" label="Done">
           <q-badge :label="stats.done" floating></q-badge>
         </q-tab>
       </q-tabs>
