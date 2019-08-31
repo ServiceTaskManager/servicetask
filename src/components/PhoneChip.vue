@@ -1,5 +1,8 @@
 <template>
-  <q-chip v-bind="$attrs" v-on="$listeners" class="full-width">
+  <q-chip v-bind="$attrs" v-on="$listeners"
+    clickable
+    @click="call"
+    class="full-width">
     <q-avatar :color="meta.color" :icon="meta.icon" />
     {{ phone }}
     <q-badge v-if="person"
@@ -10,6 +13,8 @@
 </template>
 
 <script>
+import { openURL } from 'quasar'
+
 export default {
   name: 'PhoneChip',
   props: {
@@ -25,6 +30,11 @@ export default {
   data () {
     return {
       meta: this.$store.state.users.meta
+    }
+  },
+  methods: {
+    call () {
+      openURL('tel:' + this.phone)
     }
   }
 }

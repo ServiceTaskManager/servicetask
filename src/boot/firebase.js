@@ -11,6 +11,12 @@ const firebaseApp = firebase.initializeApp(firebaseConfig)
 const firebaseAuth = firebaseApp.auth()
 const firebaseFirestore = firebase.firestore()
 
+firebaseFirestore.enablePersistence().catch(err => {
+  if (err.code === 'failed-precondition') console.log('Firestore: persistence error: failed-precondition')
+  else if (err.code === 'unimplemented') console.log('Firestore: persistence error: unimplemented')
+  else console.log('Firestore: persistence error: ' + err)
+})
+
 export default ({ Vue, router, store }) => {
   // Watch for Auth state and redirect to /login if user is not logged in
   firebaseApp.auth().onAuthStateChanged((user) => {

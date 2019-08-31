@@ -4,11 +4,11 @@
     v-on="$attrs"
     :value="value"
     @input="$emit('input', $event.id)"
-    :display-value="value ? engines[value].type + ' SN/' + engines[value].sn : ''"
+    :display-value="value ? engines[value].name + ' SN/' + engines[value].sn : ''"
     :color="meta.color"
     class="full-width"
     :options="enginesFiltered"
-    :option-label="opt => opt.type + ' SN/' + opt.sn"
+    :option-label="opt => opt.name + ' SN/' + opt.sn"
     option-value="id"
     :label="label">
 

@@ -17,7 +17,7 @@ export default {
   props: {
     label: {
       type: String,
-      default: 'Task'
+      default: 'Title'
     }
   },
   data () {

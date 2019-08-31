@@ -51,6 +51,19 @@ const tasks = {
     }
   },
   getters: {
+    filter: state => filters => {
+      let tasks = Object.values(state.data).sort((a, b) => (a.title > b.title) ? 1 : -1)
+      let tasksFiltered = tasks.filter(t => {
+        let customer = true
+        let done = true
+        let keep = true
+        if (filters.customers !== undefined) customer = filters.customers.includes(t.customer)
+        if (filters.done !== undefined) done = t.done === filters.done
+        keep = (customer && done)
+        return keep
+      })
+      return tasksFiltered
+    },
     done: state => Object.values(state.data).filter(t => t.done),
     todo: state => Object.values(state.data).filter(t => !t.done),
     stats: (state, getters) => {
@@ -98,7 +111,12 @@ const calls = {
   getters: {
     byStatus: state => status => {
       let calls = Object.values(state.data)
-      let callsFiltered = calls.filter(call => status.includes(call.status))
+      let callsFiltered = calls.filter(c => status.includes(c.status))
+      return callsFiltered
+    },
+    byCustomer: state => customerId => {
+      let calls = Object.values(state.data)
+      let callsFiltered = calls.filter(c => c.customer === customerId)
       return callsFiltered
     },
     stats: state => {
@@ -147,7 +165,21 @@ const customers = {
       color: 'pink'
     },
     default: {
-      name: 'Unknown customer'
+      name: '',
+      addr1: '',
+      addr2: '',
+      postal_code: '',
+      city: '',
+      country: '',
+      phone: '',
+      email: ''
+    },
+    presets: {}
+  },
+  getters: {
+    filter: state => filters => {
+      let customers = Object.values(state.data)
+      return customers
     }
   },
   vue: true,
@@ -175,6 +207,13 @@ const engines = {
       ugks: [],
       pre_devices: [],
       post_devices: []
+    }
+  },
+  getters: {
+    byCustomer: state => customerId => {
+      let engines = Object.values(state.data)
+      let enginesFiltered = engines.filter(e => e.customer === customerId)
+      return enginesFiltered
     }
   },
   vue: true,

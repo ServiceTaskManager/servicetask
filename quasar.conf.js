@@ -64,6 +64,7 @@ module.exports = function (ctx) {
         'QColor',
         'QDialog',
         'QDrawer',
+        'QExpansionItem',
         'QHeader',
         'QIcon',
         'QImg',

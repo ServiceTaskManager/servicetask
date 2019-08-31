@@ -1,8 +1,8 @@
 <template>
   <q-chip v-bind="$attrs" v-on="$listeners" class="full-width">
     <q-avatar :color="meta.color" :icon="meta.icon" />
-    {{ engine.type }}
-    <q-badge :label="'SN/' + engine.sn" color="white" class="q-ml-sm text-black" />
+    {{ engineData.name }}
+    <q-badge :label="'SN/' + engineData.sn" color="white" class="q-ml-sm text-black" />
   </q-chip>
 </template>
 
@@ -13,6 +13,10 @@ export default {
     engineId: {
       type: String,
       default: undefined
+    },
+    engine: {
+      type: Object,
+      default: undefined
     }
   },
   data () {
@@ -21,8 +25,9 @@ export default {
     }
   },
   computed: {
-    engine () {
-      return this.engineId ? this.$store.state.engines.data[this.engineId] : this.$store.state.engines.default
+    engineData () {
+      if (this.engine) return this.engine
+      else return this.engineId ? this.$store.state.engines.data[this.engineId] : this.$store.state.engines.default
     }
   }
 }

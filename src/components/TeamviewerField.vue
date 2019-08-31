@@ -6,6 +6,7 @@
       class="col"
       color="blue-6"
       label="Teamviewer ID"
+      type="number"
       @input="$emit('input', { id: $event, pwd: value.pwd })">
       <template v-slot:prepend>
         <q-icon name="screen_share" color="blue-6" />

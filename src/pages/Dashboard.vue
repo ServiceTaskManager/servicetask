@@ -84,13 +84,9 @@
           </div>
         </q-card-section>
 
-        <q-card-section class="q-pa-sm">
+        <q-card-section class="q-pa-none">
           <q-list>
-            <task-item
-              v-for="task in $store.getters['tasks/todo']"
-              :key="task.id"
-              :task="task"
-              light />
+            <task-list :filters="{ done: false }" />
           </q-list>
         </q-card-section>
       </q-card>
@@ -100,7 +96,7 @@
 
 <script>
 import CallItem from '../components/CallItem'
-import TaskItem from '../components/TaskItem'
+import TaskList from '../components/TaskList'
 
 export default {
   name: 'Dashboard',
@@ -122,7 +118,7 @@ export default {
   },
   components: {
     CallItem,
-    TaskItem
+    TaskList
   }
 }
 </script>

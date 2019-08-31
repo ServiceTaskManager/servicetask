@@ -1,7 +1,10 @@
 <template>
-  <q-chip v-bind="$attrs" v-on="$listeners" class="full-width">
+  <q-chip v-bind="$attrs" v-on="$listeners"
+    clickable
+    @click="$router.push({ name: 'customersView', params: { id: customerData.id } })"
+    class="full-width">
     <q-avatar :color="meta.color" :icon="meta.icon" />
-    {{ customer.name }}
+    {{ customerData.name }}
   </q-chip>
 </template>
 
@@ -12,6 +15,10 @@ export default {
     customerId: {
       type: String,
       default: undefined
+    },
+    customer: {
+      type: Object,
+      default: undefined
     }
   },
   data () {
@@ -20,8 +27,9 @@ export default {
     }
   },
   computed: {
-    customer () {
-      return this.customerId ? this.$store.state.customers.data[this.customerId] : this.$store.state.customers.default
+    customerData () {
+      if (this.customer) return this.customer
+      else return this.customerId ? this.$store.state.customers.data[this.customerId] : this.$store.state.customers.default
     }
   }
 }

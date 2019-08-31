@@ -46,8 +46,8 @@ export default {
     return {
       meta: this.$store.state.customers.meta,
       customers: this.$store.state.customers.data,
-      customersArray: Object.values(this.$store.state.customers.data),
-      customersFiltered: Object.values(this.$store.state.customers.data)
+      customersArray: Object.values(this.$store.state.customers.data).sort((a, b) => (a.name > b.name) ? 1 : -1),
+      customersFiltered: Object.values(this.$store.state.customers.data).sort((a, b) => (a.name > b.name) ? 1 : -1)
     }
   },
   computed: {
@@ -59,7 +59,7 @@ export default {
     filter (val, done) {
       done(() => {
         if (val !== '') {
-          this.customersFiltered = this.customersArray.filter((c) => c.name.toLowerCase().indexOf(val.toLowerCase()) > -1)
+          this.customersFiltered = this.customersArray.filter(c => c.name.toLowerCase().indexOf(val.toLowerCase()) > -1)
         } else {
           this.customersFiltered = this.customersArray
         }

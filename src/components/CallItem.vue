@@ -45,6 +45,10 @@
           color="grey"
           @click="close" />
         <q-btn round flat
+          icon="edit"
+          color="grey"
+          :to="{ name: 'callsEdit', params: { id: call.id }}" />
+        <q-btn round flat
           icon="delete"
           color="negative"
           @click="deleteCall" />

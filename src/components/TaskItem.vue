@@ -1,52 +1,54 @@
 <template>
-  <div>
-    <q-separator />
-    <q-item :class="light ? 'q-pa-xs' : null">
-      <q-item-section avatar top class="q-gutter-sm">
-        <user-avatar :user-id="task.created_by" />
-        <q-btn v-if="task.done"
-          round
-          icon="chevron_left"
-          color="grey"
-          @click="todo" />
+  <q-expansion-item class="q-pa-xs">
+    <template v-slot:header>
+      <q-item-section avatar>
+        <user-avatar :userId="task.created_by" />
       </q-item-section>
-
-      <q-item-section top>
-        <title-chip :dense="light" :title="task.title" />
-        <description-chip :dense="light" :description="task.description" />
-        <engine-chip :dense="light" :engine-id="task.engine" />
-        <customer-chip :dense="light" :customer-id="task.customer" />
+      <q-item-section>
+        <q-item-label class="text-bold">{{ task.title }}</q-item-label>
+        <q-item-label caption>{{ task.description }}</q-item-label>
       </q-item-section>
-
-      <q-item-section side top class="q-gutter-sm">
-        <q-btn v-if="!task.done"
-          round
-          icon="done"
-          color="green"
-          @click="done" />
-        <q-btn v-if="task.status === 'assigned'"
-          round
-          icon="close"
-          color="negative" />
-        <q-btn
-          round flat
-          icon="edit"
-          color="grey"
-          :to="{ name: 'tasksEdit', params: { id: task.id } }" />
-        <q-btn
-          round flat
-          icon="delete"
-          color="negative"
-          @click="deleteTask" />
-      </q-item-section>
-    </q-item>
-  </div>
+    </template>
+    <q-card>
+      <q-card-section>
+        <q-card-section>
+          <customer-chip :customer-id="task.customer" />
+          <engine-chip :engine-id="task.engine" />
+        </q-card-section>
+        <q-separator />
+        <q-card-actions>
+          <q-btn v-if="!task.done"
+            round
+            icon="done"
+            color="green"
+            @click="done" />
+          <q-btn v-if="task.done"
+            round
+            icon="undo"
+            color="red"
+            @click="todo" />
+          <q-btn v-if="task.status === 'assigned'"
+            round
+            icon="close"
+            color="negative" />
+          <q-btn
+            round flat
+            icon="edit"
+            color="grey"
+            :to="{ name: 'tasksEdit', params: { id: task.id } }" />
+          <q-btn
+            round flat
+            icon="delete"
+            color="negative"
+            @click="deleteTask" />
+        </q-card-actions>
+      </q-card-section>
+    </q-card>
+  </q-expansion-item>
 </template>
 
 <script>
 import UserAvatar from './UserAvatar'
-import TitleChip from './TitleChip'
-import DescriptionChip from './DescriptionChip'
 import EngineChip from './EngineChip'
 import CustomerChip from './CustomerChip'
 
@@ -58,14 +60,12 @@ export default {
       default: () => {
         return this.$store.state.tasks.default
       }
-    },
-    light: {
-      type: Boolean,
-      default: false
     }
   },
   data () {
-    return {}
+    return {
+      meta: this.$store.state.tasks.meta
+    }
   },
   methods: {
     deleteTask () {
@@ -82,8 +82,6 @@ export default {
   },
   components: {
     UserAvatar,
-    TitleChip,
-    DescriptionChip,
     EngineChip,
     CustomerChip
   }

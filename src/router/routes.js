@@ -69,6 +69,17 @@ firestore.stores.forEach(store => {
           requireRoles: store.writeRoles
         }
       })
+    pages.push(
+      {
+        path: store.moduleName + '/view',
+        name: store.moduleName + 'View',
+        component: () => import('pages/' + name + 'View.vue'),
+        meta: {
+          title: 'View ' + store.moduleName,
+          requireAuth: true,
+          requireRoles: store.writeRoles
+        }
+      })
   }
 })
 

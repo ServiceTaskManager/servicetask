@@ -7,7 +7,7 @@
       <engine-field v-model="call.engine" v-bind="fields.engine" :customer-id="call.customer" />
     </q-item>
     <q-item v-if="'title' in fields">
-      <title-field v-model="call.title" v-bind="fields.title" />
+      <title-field v-model="call.title" label="Problem description" v-bind="fields.title" />
     </q-item>
     <q-item v-if="'person' in fields">
       <person-field v-model="call.person" v-bind="fields.person" />
