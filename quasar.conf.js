@@ -76,6 +76,7 @@ module.exports = function (ctx) {
         'QLinearProgress',
         'QList',
         'QMenu',
+        'QOptionGroup',
         'QPage',
         'QPageContainer',
         'QPageSticky',

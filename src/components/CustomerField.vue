@@ -17,6 +17,10 @@
       <q-icon :name="meta.icon" :color="meta.color" />
     </template>
 
+    <template v-slot:append v-if="value !== ''">
+      <q-btn flat round icon="close" color="grey" @click="$emit('input', '')" />
+    </template>
+
     <template v-slot:no-option>
       <q-item>
         <q-item-section class="text-grey">
@@ -52,7 +56,7 @@ export default {
   },
   computed: {
     displayValue () {
-      return this.value !== '' ? this.customers[this.value].name : ''
+      return this.value === '' ? '' : this.customers[this.value].name
     }
   },
   methods: {

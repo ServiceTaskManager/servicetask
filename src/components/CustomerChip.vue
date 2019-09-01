@@ -1,8 +1,7 @@
 <template>
   <q-chip v-bind="$attrs" v-on="$listeners"
     clickable
-    @click="$router.push({ name: 'customersView', params: { id: customerData.id } })"
-    class="full-width">
+    @click="$router.push({ name: 'customersView', params: { id: customerData.id } })">
     <q-avatar :color="meta.color" :icon="meta.icon" />
     {{ customerData.name }}
   </q-chip>

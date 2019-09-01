@@ -6,43 +6,41 @@
       </q-item-section>
       <q-item-section>
         <q-item-label class="text-bold">{{ task.title }}</q-item-label>
-        <q-item-label caption>{{ task.description }}</q-item-label>
+        <q-item-label caption lines="1">
+          <customer-chip :customer="customer" dense v-if="customer" />
+          <engine-chip :engine="engine" dense v-if="engine" />
+        </q-item-label>
       </q-item-section>
     </template>
     <q-card>
       <q-card-section>
-        <q-card-section>
-          <customer-chip :customer-id="task.customer" />
-          <engine-chip :engine-id="task.engine" />
-        </q-card-section>
-        <q-separator />
-        <q-card-actions>
-          <q-btn v-if="!task.done"
-            round
-            icon="done"
-            color="green"
-            @click="done" />
-          <q-btn v-if="task.done"
-            round
-            icon="undo"
-            color="red"
-            @click="todo" />
-          <q-btn v-if="task.status === 'assigned'"
-            round
-            icon="close"
-            color="negative" />
-          <q-btn
-            round flat
-            icon="edit"
-            color="grey"
-            :to="{ name: 'tasksEdit', params: { id: task.id } }" />
-          <q-btn
-            round flat
-            icon="delete"
-            color="negative"
-            @click="deleteTask" />
-        </q-card-actions>
+        <p class="text-grey">
+          {{ task.description }}
+        </p>
+        <customer-chip :customer="customer" v-if="customer" class="full-width" />
+        <engine-chip :engine="engine" v-if="engine" SN class="full-width" />
       </q-card-section>
+      <q-card-actions align="around">
+        <q-btn v-if="!task.done"
+          flat round
+          icon="done"
+          color="green"
+          @click="done" />
+        <q-btn v-if="task.done"
+          float round
+          icon="undo"
+          color="red"
+          @click="todo" />
+        <q-btn flat round
+          icon="edit"
+          color="grey"
+          :to="{ name: 'tasksEdit', params: { id: task.id } }" />
+        <q-btn flat round
+          icon="delete"
+          color="negative"
+          @click="deleteTask" />
+      </q-card-actions>
+      <q-separator />
     </q-card>
   </q-expansion-item>
 </template>
@@ -65,6 +63,14 @@ export default {
   data () {
     return {
       meta: this.$store.state.tasks.meta
+    }
+  },
+  computed: {
+    customer () {
+      return this.$store.state.customers.data[this.task.customer]
+    },
+    engine () {
+      return this.$store.state.engines.data[this.task.engine]
     }
   },
   methods: {

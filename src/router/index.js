@@ -23,11 +23,9 @@ export default function ({ store, ssrContext }) {
   })
 
   Router.beforeEach((to, from, next) => {
-    console.log('[Router] Check access rights to page ' + to.name)
     let user = JSON.parse(localStorage.getItem('user'))
     let login = user ? user.login : false
     if (login) {
-      console.log('[Router] User logged in ' + user.uid)
       if (to.name === 'login') {
         next('dashboard')
       }
@@ -36,26 +34,20 @@ export default function ({ store, ssrContext }) {
         if (to.meta.requireRoles) {
           let roleMatch = to.meta.requireRoles.filter(role => user.data.roles.includes(role)).length > 0
           if (roleMatch) {
-            console.log('[Router] Access allowed')
             next()
           } else {
-            console.log('[Router] Access denied, require roles ' + to.meta.requireRoles)
-            next('403')
+            next({ name: '403' })
           }
         } else {
-          console.log('[Router] Access allowed')
           next()
         }
       } else {
-        console.log('[Router] Access allowed')
         next()
       }
     } else {
       if (to.meta.requireAuth) {
-        console.log('[Router] Access denied, require auth')
-        next('403')
+        next({ name: '403' })
       } else {
-        console.log('[Router] Access allowed')
         next()
       }
     }

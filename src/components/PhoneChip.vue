@@ -1,8 +1,6 @@
 <template>
   <q-chip v-bind="$attrs" v-on="$listeners"
-    clickable
-    @click="call"
-    class="full-width">
+    @click="call">
     <q-avatar :color="meta.color" :icon="meta.icon" />
     {{ phone }}
     <q-badge v-if="person"

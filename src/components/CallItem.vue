@@ -1,59 +1,66 @@
 <template>
-  <div>
-    <q-separator />
-    <q-item :class="light ? 'q-pa-xs' : null">
+  <q-expansion-item>
+    <template v-slot:header>
       <q-item-section avatar top class="q-gutter-sm">
-        <user-avatar :user-id="call.assign_to" />
-        <span v-if="call.status === 'new'"
-          caption
-          class="text-grey-6 text-center full-width">
-          {{ timeAgo }} h
-        </span>
-        <q-btn v-if="call.status === 'assigned'"
-          round
-          icon="chevron_left"
-          color="grey"
-          @click="unassign" />
-        <q-btn v-if="call.status === 'closed'"
-          round
-          icon="chevron_left"
-          color="grey"
-          @click="assign" />
-      </q-item-section>
-
-      <q-item-section top>
-        <title-chip :dense="light" :title="call.title" />
-        <engine-chip :dense="light" :engine-id="call.engine" />
-        <customer-chip :dense="light" :customer-id="call.customer" />
-        <phone-chip :dense="light" clickable :phone="call.phone" :person="call.person" @click="callAssignDialog = true" />
-      </q-item-section>
-
-      <q-item-section side top class="q-gutter-sm">
         <q-btn v-if="call.status === 'unassigned'"
           round
           icon="phone"
           color="green"
           @click="confirmCall = true" />
+        <user-avatar v-else :user-id="call.assign_to" />
+        <span v-if="call.status === 'unassigned'"
+          caption
+          class="text-grey-6 text-center full-width">
+          {{ timeAgo }} h
+        </span>
+      </q-item-section>
+
+      <q-item-section top>
+        <q-item-label class="text-bold">{{ call.title }}</q-item-label>
+        <q-item-label caption lines="1">
+          <customer-chip :customer="customer" dense v-if="customer" />
+          <engine-chip :engine="engine" dense v-if="engine" />
+        </q-item-label>
+      </q-item-section>
+    </template>
+
+    <q-card>
+      <q-card-section>
+        <customer-chip :customer="customer" class="full-width" />
+        <engine-chip :engine="engine" SN class="full-width" />
+        <phone-chip :phone="call.phone" :person="call.person" :clickable="call.status === 'assigned'" class="full-width" />
+      </q-card-section>
+      <q-card-actions align="around">
+        <q-btn v-if="call.status === 'assigned'"
+          flat round
+          icon="chevron_left"
+          color="grey"
+          @click="unassign" />
+        <q-btn v-if="call.status === 'closed'"
+          flat round
+          icon="chevron_left"
+          color="grey"
+          @click="assign" />
         <q-btn v-if="call.status === 'assigned'"
           round
           icon="chevron_right"
           color="blue"
           @click="createWOTask = true" />
         <q-btn v-if="call.status === 'assigned'"
-          round flat
+          flat round
           icon="close"
           color="grey"
           @click="close" />
-        <q-btn round flat
+        <q-btn flat round
           icon="edit"
           color="grey"
           :to="{ name: 'callsEdit', params: { id: call.id }}" />
-        <q-btn round flat
+        <q-btn flat round
           icon="delete"
           color="negative"
           @click="deleteCall" />
-      </q-item-section>
-    </q-item>
+      </q-card-actions>
+    </q-card>
     <call-assign-dialog :call="call" v-model="confirmCall" />
     <task-create-dialog
       preset="createWO"
@@ -71,7 +78,7 @@
       Create a new task
     </task-create-dialog>
     <call-close-dialog :call="call" v-model="closeCall" />
-  </div>
+  </q-expansion-item>
 </template>
 
 <script>
@@ -80,7 +87,6 @@ import UserAvatar from './UserAvatar'
 import CallAssignDialog from './CallAssignDialog'
 import TaskCreateDialog from './TaskCreateDialog'
 import CallCloseDialog from './CallCloseDialog'
-import TitleChip from './TitleChip'
 import EngineChip from './EngineChip'
 import CustomerChip from './CustomerChip'
 import PhoneChip from './PhoneChip'
@@ -93,8 +99,7 @@ export default {
       default: () => {
         return this.$store.state.calls.default
       }
-    },
-    light: Boolean
+    }
   },
   data () {
     return {
@@ -107,6 +112,12 @@ export default {
   computed: {
     timeAgo () {
       return date.getDateDiff(new Date(), this.call.created_at, 'hours')
+    },
+    customer () {
+      return this.$store.state.customers.data[this.call.customer]
+    },
+    engine () {
+      return this.$store.state.engines.data[this.call.engine]
     }
   },
   methods: {
@@ -132,7 +143,6 @@ export default {
     CallAssignDialog,
     TaskCreateDialog,
     CallCloseDialog,
-    TitleChip,
     EngineChip,
     CustomerChip,
     PhoneChip

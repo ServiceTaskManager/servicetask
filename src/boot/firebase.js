@@ -21,7 +21,6 @@ export default ({ Vue, router, store }) => {
   // Watch for Auth state and redirect to /login if user is not logged in
   firebaseApp.auth().onAuthStateChanged((user) => {
     if (!user) {
-      console.log('User logged out')
       store.state.firestore.openStores.forEach(firestore => {
         store.dispatch(firestore + '/closeDBChannel', { clearModule: true })
         store.commit('updateFirestoreOpenList', { firestore: firestore, open: false })
@@ -29,7 +28,6 @@ export default ({ Vue, router, store }) => {
       store.commit('user/logout')
       router.push({ name: 'login' })
     } else {
-      console.log('User logged in : ' + firebaseAuth.currentUser.uid)
       store.dispatch('users/fetchById', firebaseAuth.currentUser.uid).then(userData => {
         // Set user store based on new logged in user
         store.commit('user/login', userData)
@@ -50,20 +48,18 @@ export default ({ Vue, router, store }) => {
         })
 
         if (firebase.messaging.isSupported()) {
-          console.log('Messagin is supported')
           store.state.settings.notifications.supported = true
 
           const firebaseMessaging = firebaseApp.messaging()
           firebaseMessaging.usePublicVapidKey(firebaseConfig.messagingApiKey)
 
           firebaseMessaging.requestPermission().then(function () {
-            console.log('Notification permission allowed')
             firebaseMessaging.getToken().then(async token => {
               store.state.settings.notifications.token = token
               store.state.settings.notifications.permission = true
             })
-          }).catch(function (err) {
-            console.log('Notification permission denied', err)
+          }).catch(err => {
+            console.log(err)
             store.state.settings.notifications.permission = false
           })
 
@@ -84,7 +80,6 @@ export default ({ Vue, router, store }) => {
             })
           })
         } else {
-          console.log('Messagin is not supported')
           store.state.settings.notifications.supported = false
 
           Notify.create({

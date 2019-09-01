@@ -23,31 +23,15 @@
 
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="unassigned">
-          <q-list>
-            <call-item
-              v-for="call in $store.getters['calls/byStatus'](['unassigned'])"
-              :key="call.id"
-              :id="call.id"
-              :call="call" />
-          </q-list>
+          <call-list :filters="callsUnassignedFilters" />
         </q-tab-panel>
         <q-tab-panel name="assigned">
           <q-list>
-            <call-item
-              v-for="call in $store.getters['calls/byStatus'](['assigned'])"
-              :key="call.id"
-              :id="call.id"
-              :call="call" />
+            <call-list :filters="callsAssignedFilters" />
           </q-list>
         </q-tab-panel>
         <q-tab-panel name="closed">
-          <q-list>
-            <call-item
-              v-for="call in $store.getters['calls/byStatus'](['closed'])"
-              :key="call.id"
-              :id="call.id"
-              :call="call" />
-          </q-list>
+          <call-list :filters="callsClosedFilters" />
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
@@ -58,13 +42,28 @@
 </template>
 
 <script>
-import CallItem from '../components/CallItem'
+import CallList from '../components/CallList'
 
 export default {
   name: 'Calls',
   data () {
     return {
-      tab: 'unassigned'
+      tab: 'unassigned',
+      callsUnassignedFilters: [{
+        name: 'Status',
+        property: 'status',
+        filter: 'contains',
+        value: 'unassigned' }],
+      callsAssignedFilters: [{
+        name: 'Status',
+        property: 'status',
+        filter: 'contains',
+        value: 'assigned' }],
+      callsClosedFilters: [{
+        name: 'Status',
+        property: 'status',
+        filter: 'contains',
+        value: 'closed' }]
     }
   },
   computed: {
@@ -73,7 +72,7 @@ export default {
     }
   },
   components: {
-    CallItem
+    CallList
   }
 }
 </script>

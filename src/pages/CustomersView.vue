@@ -1,6 +1,6 @@
 <template>
   <q-card>
-    <q-card-section header class="row">
+    <q-card-section header>
       <span class="text-h6 full-width">{{ customer.name }}</span>
       <address-chip :address="{
         addr1: customer.addr1,
@@ -8,8 +8,9 @@
         postal_code: customer.postal_code,
         city: customer.city,
         country: customer.country
-        }" />
-      <phone-chip :phone="customer.phone" />
+        }"
+        class="full-width" />
+      <phone-chip :phone="customer.phone" class="full-width" />
       <q-btn class="absolute-top-right" icon="edit" color="grey" flat :to="{ name: 'customersEdit', params: { id: customer.id } }" />
     </q-card-section>
 
@@ -22,43 +23,32 @@
       align="justify"
       narrow-indicator>
       <q-tab name="main" icon="description" label="Overview" />
-      <q-tab name="engines" icon="print" label="Engines">
-        <q-badge :label="engines.length" floating></q-badge>
-      </q-tab>
-      <q-tab name="calls" icon="phone" label="Calls">
-        <q-badge :label="calls.length" floating></q-badge>
-      </q-tab>
-      <q-tab name="tasks" icon="done" label="Tasks">
-      </q-tab>
+      <q-tab name="engines" icon="print" label="Engines" />
+      <q-tab name="calls" icon="phone" label="Calls" />
+      <q-tab name="tasks" icon="done" label="Tasks" />
     </q-tabs>
     <q-separator />
 
     <q-tab-panels v-model="tab" animated>
       <q-tab-panel name="main">
-        <p>{{ calls.length }} calls open</p>
-        <p>{{ engines.length }} engines</p>
+        Coming soon
       </q-tab-panel>
       <q-tab-panel name="engines">
-        <engine-chip v-for="engine in engines" :key="engine.id" :engine="engine" />
+        <engine-list :filters="{ customers: [customer.id], main: true }" hideCustomer hideFilters />
       </q-tab-panel>
       <q-tab-panel name="calls">
-        <q-list>
-          <call-item
-            v-for="call in calls"
-            :key="call.id"
-            :call="call" />
-        </q-list>
+        <call-list :filters="{ customers: [customer.id] }"  />
       </q-tab-panel>
       <q-tab-panel name="tasks">
-        <task-list :filters="{ customers: [customer.id], done: false }" />
+        <task-list :filters="{ customers: [customer.id] }" />
       </q-tab-panel>
     </q-tab-panels>
   </q-card>
 </template>
 
 <script>
-import EngineChip from '../components/EngineChip'
-import CallItem from '../components/CallItem'
+import EngineList from '../components/EngineList'
+import CallList from '../components/CallList'
 import TaskList from '../components/TaskList'
 import PhoneChip from '../components/PhoneChip'
 import AddressChip from '../components/AddressChip'
@@ -68,14 +58,12 @@ export default {
   data () {
     return {
       tab: 'main',
-      customer: this.$store.state.customers.data[this.$route.params.id],
-      engines: this.$store.getters['engines/byCustomer'](this.$route.params.id),
-      calls: this.$store.getters['calls/byCustomer'](this.$route.params.id)
+      customer: this.$store.state.customers.data[this.$route.params.id]
     }
   },
   components: {
-    EngineChip,
-    CallItem,
+    EngineList,
+    CallList,
     TaskList,
     PhoneChip,
     AddressChip

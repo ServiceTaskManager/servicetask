@@ -20,22 +20,10 @@
 
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="todo">
-          <q-list>
-            <task-item
-              v-for="task in $store.getters['tasks/todo']"
-              :key="task.id"
-              :id="task.id"
-              :task="task" />
-          </q-list>
+          <task-list :filters="tasksToDoFilters" />
         </q-tab-panel>
         <q-tab-panel name="done">
-          <q-list>
-            <task-item
-              v-for="task in $store.getters['tasks/done']"
-              :key="task.id"
-              :id="task.id"
-              :task="task" />
-          </q-list>
+          <task-list :filters="tasksDoneFilters" />
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
@@ -46,12 +34,24 @@
 </template>
 
 <script>
-import TaskItem from '../components/TaskItem'
+import TaskList from '../components/TaskList'
 export default {
   name: 'Tasks',
   data () {
     return {
-      tab: 'todo'
+      tab: 'todo',
+      tasksToDoFilters: [{
+        name: 'Done',
+        property: 'done',
+        filter: 'boolean',
+        value: false
+      }],
+      tasksDoneFilters: [{
+        name: 'Done',
+        property: 'done',
+        filter: 'boolean',
+        value: true
+      }]
     }
   },
   computed: {
@@ -60,7 +60,7 @@ export default {
     }
   },
   components: {
-    TaskItem
+    TaskList
   }
 }
 </script>

@@ -1,4 +1,5 @@
 import PostFirestoreLoading from './PostFirestoreLoading'
+import filter from './utils'
 
 const users = {
   state: {
@@ -52,25 +53,21 @@ const tasks = {
   },
   getters: {
     filter: state => filters => {
-      let tasks = Object.values(state.data).sort((a, b) => (a.title > b.title) ? 1 : -1)
-      let tasksFiltered = tasks.filter(t => {
-        let customer = true
-        let done = true
-        let keep = true
-        if (filters.customers !== undefined) customer = filters.customers.includes(t.customer)
-        if (filters.done !== undefined) done = t.done === filters.done
-        keep = (customer && done)
-        return keep
-      })
-      return tasksFiltered
+      let tasks = Object.values(state.data)
+      return filter(tasks, filters)
     },
-    done: state => Object.values(state.data).filter(t => t.done),
-    todo: state => Object.values(state.data).filter(t => !t.done),
-    stats: (state, getters) => {
-      return {
-        done: getters.done.length,
-        todo: getters.todo.length
+    stats: state => {
+      let tasks = Object.values(state.data)
+      let reducer = (stats, task) => {
+        if (task.done) stats.done++
+        else stats.todo++
+        return stats
       }
+      let stats = tasks.reduce(reducer, {
+        done: 0,
+        todo: 0
+      })
+      return stats
     }
   },
   vue: true,
@@ -105,38 +102,24 @@ const calls = {
       assign_to: '', // user id
       closed_at: '' // date
     },
-    presets: {},
-    call: {}
+    presets: {}
   },
   getters: {
-    byStatus: state => status => {
+    filter: state => filters => {
       let calls = Object.values(state.data)
-      let callsFiltered = calls.filter(c => status.includes(c.status))
-      return callsFiltered
-    },
-    byCustomer: state => customerId => {
-      let calls = Object.values(state.data)
-      let callsFiltered = calls.filter(c => c.customer === customerId)
-      return callsFiltered
+      return filter(calls, filters)
     },
     stats: state => {
       let calls = Object.values(state.data)
-      let stats = {
-        unassigned: 0,
-        assigned: 0,
-        closed: 0,
-        error: 0,
-        total: 0
+      let reducer = (stats, call) => {
+        stats[call.status]++
+        return stats
       }
-
-      calls.forEach(call => {
-        if (call.status === 'unassigned') stats.unassigned++
-        else if (call.status === 'assigned' && call.assign_to !== undefined) stats.assigned++
-        else if (call.status === 'closed' && call.assign_to !== undefined) stats.closed++
-        else stats.error++
-        stats.total++
+      let stats = calls.reduce(reducer, {
+        assigned: 0,
+        unassigned: 0,
+        closed: 0
       })
-
       return stats
     }
   },
@@ -179,7 +162,7 @@ const customers = {
   getters: {
     filter: state => filters => {
       let customers = Object.values(state.data)
-      return customers
+      return filter(customers, filters)
     }
   },
   vue: true,
@@ -210,10 +193,9 @@ const engines = {
     }
   },
   getters: {
-    byCustomer: state => customerId => {
+    filter: state => filters => {
       let engines = Object.values(state.data)
-      let enginesFiltered = engines.filter(e => e.customer === customerId)
-      return enginesFiltered
+      return filter(engines, filters)
     }
   },
   vue: true,

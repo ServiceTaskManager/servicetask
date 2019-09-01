@@ -59,8 +59,6 @@ const settings = {
         if (topic.tokens) {
           if (topic.tokens.includes(state.notifications.token)) {
             topics.push(topic.id)
-          } else {
-            console.log(state.notifications.token, 'not in')
           }
         }
       }

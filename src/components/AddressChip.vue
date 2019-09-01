@@ -2,9 +2,9 @@
   <q-chip v-bind="$attrs" v-on="$listeners"
     clickable
     @click="startNavigation"
-    class="full-width">
+    style="overflow: hidden;">
     <q-avatar color="blue" icon="map" />
-    {{ customerAddressInline }}
+    {{ displayAddress }}
   </q-chip>
 </template>
 
@@ -25,15 +25,31 @@ export default {
           country: ''
         }
       }
+    },
+    show: {
+      type: Array,
+      default: () => {
+        return ['addr1', 'addr2', 'postal_code', 'city', 'country']
+      }
     }
   },
   computed: {
-    customerAddressInline () {
-      return `${this.address.addr1}, ${this.address.addr2 || ''}, ${this.address.postal_code} ${this.address.city}, ${this.address.country}`
+    displayAddress () {
+      let show = this.show
+      return this.addressInline(show)
+    },
+    addressInline: c => show => {
+      let customerAddress = ''
+      show.forEach(e => {
+        let suffix = show.indexOf(e) === show.length - 1 ? '' : ', '
+        if (c.address[e] !== undefined && typeof e === 'string') customerAddress += c.address[e] + suffix
+      })
+      return customerAddress
     },
     navigationURL () {
       let baseURL = 'https://www.google.com/maps/dir/?api=1&destination='
-      return baseURL + encodeURI(this.customerAddressInline)
+      let addressInline = this.addressInline(['addr1', 'addr2', 'postal_code', 'city', 'country'])
+      return baseURL + encodeURI(addressInline)
     }
   },
   methods: {

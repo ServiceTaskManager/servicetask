@@ -45,15 +45,9 @@
               class="col" />
           </div>
         </q-card-section>
-
+        <q-separator />
         <q-card-section class="q-pa-sm">
-          <q-list>
-            <call-item
-              v-for="call in $store.getters['calls/byStatus'](['unassigned'])"
-              :key="call.id"
-              :call="call"
-              light />
-          </q-list>
+          <call-list :filters="callsFilters" hideFilters />
         </q-card-section>
       </q-card>
     </div>
@@ -83,10 +77,10 @@
               class="col" />
           </div>
         </q-card-section>
-
+        <q-separator />
         <q-card-section class="q-pa-none">
           <q-list>
-            <task-list :filters="{ done: false }" />
+            <task-list :filters="tasksFilters" hideFilters />
           </q-list>
         </q-card-section>
       </q-card>
@@ -95,14 +89,23 @@
 </template>
 
 <script>
-import CallItem from '../components/CallItem'
+import CallList from '../components/CallList'
 import TaskList from '../components/TaskList'
 
 export default {
   name: 'Dashboard',
   data () {
     return {
-      tasks: []
+      tasksFilters: [{
+        name: 'Done',
+        property: 'done',
+        filter: 'boolean',
+        value: false }],
+      callsFilters: [{
+        name: 'Status',
+        property: 'status',
+        filter: 'contains',
+        value: 'unassigned' }]
     }
   },
   computed: {
@@ -117,7 +120,7 @@ export default {
     }
   },
   components: {
-    CallItem,
+    CallList,
     TaskList
   }
 }
