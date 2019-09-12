@@ -14,8 +14,13 @@ const users = {
       available: false,
       display_name: '?',
       color: 'grey'
-    },
-    user: {}
+    }
+  },
+  getters: {
+    filter: state => filters => {
+      let users = Object.values(state.data)
+      return filter(users, filters)
+    }
   },
   vue: true,
   readRoles: ['user'],
@@ -24,6 +29,33 @@ const users = {
   firestorePath: 'users',
   firestoreRefType: 'collection',
   moduleName: 'users',
+  statePropName: 'data'
+}
+
+const groups = {
+  state: {
+    data: {},
+    meta: {
+      name: 'Groups',
+      icon: 'people',
+      color: 'green'
+    },
+    default: {
+      name: ''
+    }
+  },
+  getters: {
+    filter: state => filters => {
+      let users = Object.values(state.data)
+      return filter(users, filters)
+    }
+  },
+  readRoles: ['user'],
+  writeRoles: ['admin'],
+  namespaced: true,
+  firestorePath: 'groups',
+  firestoreRefType: 'collection',
+  moduleName: 'groups',
   statePropName: 'data'
 }
 
@@ -42,7 +74,8 @@ const tasks = {
       description: '',
       done: false,
       done_at: '',
-      schedule_at: '',
+      schedule_from: undefined,
+      schedule_to: undefined,
       subTasks: []
     },
     presets: {
@@ -77,7 +110,15 @@ const tasks = {
   firestorePath: 'tasks',
   firestoreRefType: 'collection',
   moduleName: 'tasks',
-  statePropName: 'data'
+  statePropName: 'data',
+  serverChange: {
+    convertTimestamps: {
+      created_at: '%convertTimestamp%',
+      updated_at: '%convertTimestamp%',
+      schedule_from: '%convertTimestamp%',
+      schedule_to: '%convertTimestamp%'
+    }
+  }
 }
 
 const calls = {
@@ -220,6 +261,7 @@ const engineTypes = {
   firestoreRefType: 'collection',
   moduleName: 'engineTypes',
   statePropName: 'data'
+
 }
 
 const engineUgks = {
@@ -268,10 +310,12 @@ const tokens = {
   firestorePath: 'tokens',
   firestoreRefType: 'collection',
   moduleName: 'tokens'
+
 }
 
 const firestore = {
   stores: [users,
+    groups,
     tasks,
     calls,
     customers,

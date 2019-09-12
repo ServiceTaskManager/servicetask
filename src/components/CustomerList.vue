@@ -29,22 +29,15 @@ export default {
   },
   data () {
     return {
-      customFilters: [{
-        name: 'Name',
-        property: 'name',
-        filter: 'contains',
-        value: ''
-      }, {
-        name: 'Postal code',
-        property: 'postal_code',
-        filter: 'contains',
-        value: ''
-      }]
+      customFilters: {
+        name: ['contains', '', 'Customer name'],
+        postal_code: ['contains', '', 'Postal code']
+      }
     }
   },
   computed: {
     customers () {
-      return this.$store.getters['customers/filter'](this.filters.concat(this.customFilters))
+      return this.$store.getters['customers/filter'](Object.assign({}, this.filters, this.customFilters))
     }
   },
   components: {

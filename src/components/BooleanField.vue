@@ -24,8 +24,8 @@ export default {
   name: 'BooleanField',
   props: {
     value: {
-      type: String,
-      default: ''
+      type: Boolean,
+      default: undefined
     },
     label: {
       type: String,

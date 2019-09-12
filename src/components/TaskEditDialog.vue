@@ -1,12 +1,12 @@
 <template>
-  <q-dialog v-bind="$attrs" v-on="$listeners" :value="value" persistent>
+  <q-dialog v-bind="$attrs" v-on="$listeners" :value="value" maximized>
     <q-card>
       <q-card-section class="bg-black text-white text-h6">
-        <slot>Create a task</slot>
+        <q-btn @click="cancel" icon="close" class="text-white" /><slot>Create a task</slot>
       </q-card-section>
       <q-separator />
-      <q-card-section class="row items-center q-pa-sm">
-        <task-form @submit="submit" @cancel="cancel" :fields="fields" :overwrite="overwrite" :preset="preset" />
+      <q-card-section class="row q-pa-sm">
+        <task-form @submit="submit" @cancel="cancel" :fields="fields" :task="task" :preset="preset" />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -15,7 +15,7 @@
 import TaskForm from './TaskForm'
 
 export default {
-  name: 'TaskCreateDialog',
+  name: 'TaskEditDialog',
   props: {
     value: {
       type: Boolean,
@@ -31,7 +31,7 @@ export default {
         return undefined
       }
     },
-    overwrite: {
+    task: {
       type: Object,
       default: () => {
         return undefined

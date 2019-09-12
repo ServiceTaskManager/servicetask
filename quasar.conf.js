@@ -4,7 +4,8 @@ module.exports = function (ctx) {
   return {
     boot: [
       'i18n',
-      'firebase'
+      'firebase',
+      'moment'
     ],
     css: [
       'app.styl'
@@ -62,6 +63,7 @@ module.exports = function (ctx) {
         'QChip',
         'QCircularProgress',
         'QColor',
+        'QDate',
         'QDialog',
         'QDrawer',
         'QExpansionItem',
@@ -87,6 +89,7 @@ module.exports = function (ctx) {
         'QTabPanel',
         'QTabPanels',
         'QTabs',
+        'QTime',
         'QToggle',
         'QToolbar',
         'QToolbarTitle'

@@ -30,6 +30,24 @@ const pages = [
       requireAuth: true,
       title: 'Settings'
     }
+  },
+  {
+    path: 'maps',
+    name: 'maps',
+    component: () => import('pages/Maps.vue'),
+    meta: {
+      requireAuth: true,
+      title: 'Maps'
+    }
+  },
+  {
+    path: 'calendar',
+    name: 'calendar',
+    component: () => import('pages/Calendar.vue'),
+    meta: {
+      requireAuth: true,
+      title: 'Calendar'
+    }
   }]
 
 // Create routes for stores with vue.
@@ -45,28 +63,6 @@ firestore.stores.forEach(store => {
           title: name,
           requireAuth: true,
           requireRoles: store.readRoles
-        }
-      })
-    pages.push(
-      {
-        path: store.moduleName + '/edit/:id',
-        name: store.moduleName + 'Edit',
-        component: () => import('pages/' + name + 'Edit.vue'),
-        meta: {
-          title: 'Edit ' + store.moduleName,
-          requireAuth: true,
-          requireRoles: store.writeRoles
-        }
-      })
-    pages.push(
-      {
-        path: store.moduleName + '/create',
-        name: store.moduleName + 'Create',
-        component: () => import('pages/' + name + 'Edit.vue'),
-        meta: {
-          title: 'Create ' + store.moduleName,
-          requireAuth: true,
-          requireRoles: store.writeRoles
         }
       })
     pages.push(

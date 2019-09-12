@@ -1,22 +1,22 @@
 <template>
-  <q-list>
+  <q-list class="full-width">
     <q-item v-if="'customer' in fields">
-      <customer-field v-model="call.customer" @input="call.engine = ''" v-bind="fields.customer" />
+      <customer-field v-model="callData.customer" @input="callData.engine = ''" v-bind="fields.customer" />
     </q-item>
     <q-item v-if="'engine' in fields">
-      <engine-field v-model="call.engine" v-bind="fields.engine" :customer-id="call.customer" />
+      <engine-field v-model="callData.engine" v-bind="fields.engine" :customer-id="callData.customer" />
     </q-item>
     <q-item v-if="'title' in fields">
-      <title-field v-model="call.title" label="Problem description" v-bind="fields.title" />
+      <title-field v-model="callData.title" label="Problem description" v-bind="fields.title" />
     </q-item>
     <q-item v-if="'person' in fields">
-      <person-field v-model="call.person" v-bind="fields.person" />
+      <person-field v-model="callData.person" v-bind="fields.person" />
     </q-item>
     <q-item v-if="'phone' in fields">
-      <phone-field v-model="call.phone" v-bind="fields.phone" />
+      <phone-field v-model="callData.phone" v-bind="fields.phone" />
     </q-item>
     <q-item v-if="'teamviewer' in fields">
-      <teamviewer-field v-model="call.teamviewer" v-bind="fields.teamviewer" />
+      <teamviewer-field v-model="callData.teamviewer" v-bind="fields.teamviewer" />
     </q-item>
 
     <q-item class="row justify-end">
@@ -59,7 +59,7 @@ export default {
         }
       }
     },
-    overwrite: {
+    call: {
       type: Object,
       default: () => {
         return {}
@@ -68,19 +68,19 @@ export default {
   },
   data () {
     return {
-      call: {}
+      callData: {}
     }
   },
   mounted () {
-    this.call = Object.assign({},
-      this.$store.state.calls.default,
-      this.$store.state.calls.presets[this.preset],
-      this.overwrite,
-      this.$store.state.calls.data[this.callId])
+    this.callData = Object.assign({},
+      this.$calls.default,
+      this.$calls.presets[this.preset],
+      this.call,
+      this.$calls.data[this.callId])
   },
   methods: {
     set () {
-      this.$store.dispatch('calls/set', this.call)
+      this.$store.dispatch('calls/set', this.callData)
       this.$emit('submit')
     }
   },

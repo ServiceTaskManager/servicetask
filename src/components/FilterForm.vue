@@ -2,16 +2,16 @@
   <q-expansion-item
     v-bind="$attrs"
     v-on="$attrs"
-    class="bg-grey-4 rounded-borders q-mb-sm">
+    class="bg-grey-4">
     <template v-slot:header>
       <q-item-section avatar>
         <q-icon name="filter_list" />
       </q-item-section>
       <q-item-section>
         <div>
-          <q-badge v-for="filter in activeFilters"
-            :key="'badge-' + filter.property"
-            :label="filter.name + ' ' + filter.filter + ' ' + filter.value"
+          <q-badge v-for="(filter, key) in activeFilters"
+            :key="'badge-' + key"
+            :label="filter[2] + ' ' + filter[0] + ' ' + filter[1]"
             dense
             class="q-mr-sm" />
         </div>
@@ -19,18 +19,18 @@
       </q-item-section>
     </template>
     <q-list>
-      <q-item v-for="filter in filters"
-        :key="filter.property">
-        <text-field v-if="textFields.includes(filter.property)"
-          v-model="filter.value"
-          :label="filter.name" />
-        <component v-if="customFields.includes(filter.property)"
-          :is="componentName(filter.property)"
-          v-model="filter.value"
-          :label="filter.name" />
-        <boolean-field v-if="booleanFields.includes(filter.property)"
-          v-model="filter.value"
-          :label="'Is ' + filter.property" />
+      <q-item v-for="(filter, key) in filters"
+        :key="key">
+        <text-field v-if="textFields.includes(key)"
+          v-model="filter[1]"
+          :label="filter[2]" />
+        <component v-if="customFields.includes(key)"
+          :is="componentName(key)"
+          v-model="filter[1]"
+          :label="filter[2]" />
+        <boolean-field v-if="booleanFields.includes(key)"
+          v-model="filter[1]"
+          :label="'Is ' + key" />
       </q-item>
     </q-list>
   </q-expansion-item>
@@ -42,9 +42,9 @@ export default {
   name: 'FilterForm',
   props: {
     value: {
-      type: Array,
+      type: Object,
       default: () => {
-        return []
+        return {}
       }
     }
   },
@@ -58,7 +58,12 @@ export default {
   },
   computed: {
     activeFilters () {
-      return this.filters.filter(f => f.value !== '')
+      let activeFilters = {}
+      for (let f in this.filters) {
+        let filter = this.filters[f]
+        if (filter[1] !== '') activeFilters[f] = filter
+      }
+      return activeFilters
     }
   },
   methods: {

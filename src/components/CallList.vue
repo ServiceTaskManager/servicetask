@@ -1,5 +1,15 @@
 <template>
   <q-list>
+    <q-item v-if="addButton">
+      <q-btn @click="callCreate = true"
+        rounded
+        label="Add a call"
+        :icon="$calls.meta.icon"
+        :color="$calls.meta.color"
+        class="full-width" />
+        <call-edit-dialog v-model="callCreate" />
+    </q-item>
+
     <filter-form v-model="customFilters" v-if="!hideFilters" />
 
     <call-item
@@ -19,44 +29,43 @@
 <script>
 import CallItem from './CallItem'
 import FilterForm from './FilterForm'
+import CallEditDialog from './CallEditDialog'
 
 export default {
   name: 'CallList',
   props: {
     filters: {
-      type: Array,
+      type: Object,
       default: () => {
-        return []
+        return {}
       }
     },
     hideFilters: {
+      type: Boolean,
+      default: false
+    },
+    addButton: {
       type: Boolean,
       default: false
     }
   },
   data () {
     return {
-      customFilters: [{
-        name: 'Title',
-        property: 'title',
-        filter: 'contains',
-        value: ''
-      }, {
-        name: 'Customer',
-        property: 'customer',
-        filter: 'includes',
-        value: ''
-      }]
+      callCreate: false,
+      customFilters: {
+        title: ['contains', '', 'Title'],
+        customer: ['includes', '', 'Customer'] }
     }
   },
   computed: {
     callsFiltered () {
-      return this.$store.getters['calls/filter'](this.filters.concat(this.customFilters))
+      return this.$store.getters['calls/filter'](Object.assign({}, this.customFilters, this.filters))
     }
   },
   components: {
     CallItem,
-    FilterForm
+    FilterForm,
+    CallEditDialog
   }
 }
 </script>

@@ -26,9 +26,9 @@ export default {
   name: 'EngineList',
   props: {
     filters: {
-      type: Array,
+      type: Object,
       default: () => {
-        return []
+        return {}
       }
     },
     hideFilters: {
@@ -42,33 +42,17 @@ export default {
   },
   data () {
     return {
-      customFilters: [{
-        name: 'Name',
-        property: 'name',
-        filter: 'contains',
-        value: ''
-      }, {
-        name: 'Serial number',
-        property: 'sn',
-        filter: 'contains',
-        value: ''
-      }, {
-        name: 'Customer',
-        property: 'customer',
-        filter: 'includes',
-        value: ''
-      }, {
-        name: 'Main',
-        property: 'main',
-        filter: 'boolean',
-        value: ''
-      }]
+      customFilters: {
+        name: ['contains', '', 'Name'],
+        sn: ['contains', '', 'Serial number'],
+        customer: ['includes', '', 'Customer'],
+        main: ['==', true, 'Main']
+      }
     }
   },
   computed: {
     enginesFiltered () {
-      console.log(this.filters.concat(this.customFilters))
-      return this.$store.getters['engines/filter'](this.filters.concat(this.customFilters))
+      return this.$store.getters['engines/filter'](Object.assign(this.customFilters, this.filters))
     }
   },
   components: {

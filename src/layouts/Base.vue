@@ -5,7 +5,8 @@
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
-            <img src="statics/app-logo-128x128.png">
+            <img src="statics/app-logo-128x128.png" v-if="$route.name === 'dashboard' || $route.name === 'login'" />
+            <q-btn @click="$router.go(-1)" icon="chevron_left" class="text-white" v-else />
           </q-avatar>
           {{ $route.meta.title }}
         </q-toolbar-title>
@@ -19,42 +20,92 @@
       side="right"
       behavior="mobile"
       elevated>
-      <q-img class="absolute-top bg-black" v-if="$store.state.user.login" src="https://cdn.quasar.dev/img/material.png" style="height: 110px">
-        <div class="absolute-bottom">
-          <div class="text-weight-bold text-right">{{ user.data.display_name }}</div>
-        </div>
-        <div class="absolute-bottom-left bg-transparent">
+      <q-img v-if="user.login"
+        class="absolute-top bg-white"
+        src="statics/icons/icon-512x512.png"
+        style="height: 110px;">
+        <div class="absolute-full flex flex-center">
           <user-avatar :user-id="user.data.id" size="80px" />
-        </div>
-        <div class="absolute-top bg-transparent full-width">
-          <q-btn round
-            size="sm"
-            class="float-right on-right"
-            color="grey-5"
-            icon="settings"
-            :to="{ name: 'settings' }" />
-          <q-btn round
-            size="sm"
-            class="float-right on-right"
-            color="negative"
-            icon="logout"
-            @click="logout" />
         </div>
       </q-img>
 
-      <div class="q-pa-sm bg-grey-9 full-height">
-        <q-scroll-area style="height: calc(100% - 110px); margin-top: 110px">
+      <div class="q-pa-xs bg-grey-9 full-height">
+        <q-scroll-area style="height: calc(100% - 110px); margin-top: 110px;">
           <div>
             <q-list class="text-white">
-              <q-item
-                v-for="(m, key) in $store.state.firestore.metas"
-                :key="key"
-                :to="{ name: key }">
+              <q-item :to="{ name: 'settings' }"
+                class="bg-black rounded-borders">
                 <q-item-section avatar>
-                  <q-icon :color="m.color" :name="m.icon" />
+                  <q-icon color="white" name="settings" />
+                </q-item-section>
+                <q-item-section class="text-bold">
+                  {{ user.data.name }}
+                </q-item-section>
+                <q-item-section side>
+                  <q-separator vertical class="q-mr-sm" color="black" />
+                  <q-btn flat round
+                    size="sm"
+                    color="negative"
+                    icon="logout"
+                    @click="logout" />
+                </q-item-section>
+              </q-item>
+              <q-item :to="{ name: 'users' }">
+                <q-item-section avatar>
+                  <q-icon :color="$users.meta.color" :name="$users.meta.icon" />
                 </q-item-section>
                 <q-item-section>
-                  {{ m.name }}
+                  Users
+                </q-item-section>
+              </q-item>
+              <q-item :to="{ name: 'tasks' }">
+                <q-item-section avatar>
+                  <q-icon :color="$tasks.meta.color" :name="$tasks.meta.icon" />
+                </q-item-section>
+                <q-item-section>
+                  Tasks
+                </q-item-section>
+                <q-item-section side>
+                  <q-separator vertical class="q-mr-sm" :color="$tasks.meta.color" />
+                  <q-btn flat round
+                    size="sm"
+                    :color="$tasks.meta.color"
+                    icon="add"
+                    @click.prevent="taskCreate = true" />
+                  <task-edit-dialog v-model="taskCreate" />
+                </q-item-section>
+              </q-item>
+              <q-item :to="{ name: 'calls' }">
+                <q-item-section avatar>
+                  <q-icon :color="$calls.meta.color" :name="$calls.meta.icon" />
+                </q-item-section>
+                <q-item-section>
+                  Calls
+                </q-item-section>
+                <q-item-section side>
+                  <q-separator vertical class="q-mr-sm" :color="$calls.meta.color" />
+                  <q-btn flat round
+                    size="sm"
+                    :color="$calls.meta.color"
+                    icon="add"
+                    @click.prevent="callCreate = true" />
+                  <call-edit-dialog v-model="callCreate" />
+                </q-item-section>
+              </q-item>
+              <q-item :to="{ name: 'customers' }">
+                <q-item-section avatar>
+                  <q-icon :color="$customers.meta.color" :name="$customers.meta.icon" />
+                </q-item-section>
+                <q-item-section>
+                  Customers
+                </q-item-section>
+              </q-item>
+              <q-item :to="{ name: 'maps' }">
+                <q-item-section avatar>
+                  <q-icon color="white" name="map" />
+                </q-item-section>
+                <q-item-section>
+                  Maps
                 </q-item-section>
               </q-item>
 
@@ -88,12 +139,16 @@
 
 <script>
 import UserAvatar from '../components/UserAvatar'
+import TaskEditDialog from '../components/TaskEditDialog'
+import CallEditDialog from '../components/CallEditDialog'
 
 export default {
   name: 'Base',
   data () {
     return {
-      right: false
+      right: false,
+      taskCreate: false,
+      callCreate: false
     }
   },
   computed: {
@@ -107,7 +162,9 @@ export default {
     }
   },
   components: {
-    UserAvatar
+    UserAvatar,
+    TaskEditDialog,
+    CallEditDialog
   }
 }
 </script>

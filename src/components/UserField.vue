@@ -4,9 +4,9 @@
     v-on="$attrs"
     :value="value"
     @input="$emit('input', $event.id)"
-    :color="$customers.meta.color"
+    :color="$users.meta.color"
     class="full-width"
-    :options="customersFiltered"
+    :options="usersFiltered"
     :display-value="displayValue"
     option-label="name"
     option-value="id"
@@ -14,7 +14,7 @@
     :label="label">
 
     <template v-slot:prepend>
-      <q-icon :name="$customers.meta.icon" :color="$customers.meta.color" />
+      <q-icon :name="$users.meta.icon" :color="$users.meta.color" />
     </template>
 
     <template v-slot:append v-if="value !== ''">
@@ -35,7 +35,7 @@
 import { QSelect } from 'quasar'
 
 export default {
-  name: 'CustomerField',
+  name: 'UserField',
   props: {
     value: {
       type: String,
@@ -43,23 +43,30 @@ export default {
     },
     label: {
       type: String,
-      default: 'Customer'
+      default: 'User'
     }
   },
   data () {
     return {
-      customersFiltered: this.$store.getters['customers/filter']()
+      usersFiltered: this.$store.getters['users/filter']()
     }
   },
   computed: {
     displayValue () {
-      return this.value === '' ? '' : this.$customers.data[this.value].name
+      return this.value === '' ? '' : this.$users.data[this.value].name
     }
   },
   methods: {
     filter (val, done) {
-      this.customersFiltered = this.$store.getters['customers/filter']({ name: ['contains', val] })
+      this.usersFiltered = this.$store.getters['users/filter']({ name: ['contains', val] })
       done()
+      /* done(() => {
+        if (val !== '') {
+          this.usersFiltered = this.usersArray.filter(c => c.name.toLowerCase().indexOf(val.toLowerCase()) > -1)
+        } else {
+          this.usersFiltered = this.usersArray
+        }
+      }) */
     }
   },
   components: {

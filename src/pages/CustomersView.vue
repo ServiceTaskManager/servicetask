@@ -34,13 +34,13 @@
         Coming soon
       </q-tab-panel>
       <q-tab-panel name="engines">
-        <engine-list :filters="{ customers: [customer.id], main: true }" hideCustomer hideFilters />
+        <engine-list :filters="enginesFilter" hideCustomer hideFilters />
       </q-tab-panel>
       <q-tab-panel name="calls">
-        <call-list :filters="{ customers: [customer.id] }"  />
+        <call-list :filters="filterByCustomer"  />
       </q-tab-panel>
       <q-tab-panel name="tasks">
-        <task-list :filters="{ customers: [customer.id] }" />
+        <task-list :filters="filterByCustomer" />
       </q-tab-panel>
     </q-tab-panels>
   </q-card>
@@ -58,7 +58,12 @@ export default {
   data () {
     return {
       tab: 'main',
-      customer: this.$store.state.customers.data[this.$route.params.id]
+      customer: this.$customers.data[this.$route.params.id],
+      filterByCustomer: { customer: ['includes', this.$route.params.id] },
+      enginesFilter: {
+        customer: ['includes', this.$route.params.id],
+        main: ['==', true]
+      }
     }
   },
   components: {

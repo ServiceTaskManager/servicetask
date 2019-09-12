@@ -1,18 +1,24 @@
 const filter = (data, filters) => {
   let dataFiltered = data.filter(d => {
     let keep = Boolean
-    filters.forEach(f => {
-      let value = d[f.property]
+    for (let property in filters) {
+      let operator = filters[property][0]
+      let filterValue = filters[property][1]
+      let dataValue = d[property]
       let result = Boolean
-      if (f.value !== '') {
-        if (f.filter === 'contains') result = value.toLowerCase().indexOf(f.value.toLowerCase()) > -1
-        else if (f.filter === 'includes') result = value.includes(f.value)
-        else if (f.filter === 'boolean') result = value === f.value
+      if (filterValue !== '') {
+        if (dataValue !== undefined) {
+          if (operator === 'contains') result = dataValue.toLowerCase().indexOf(filterValue.toLowerCase()) > -1
+          else if (operator === 'includes') result = dataValue.includes(filterValue)
+          else if (operator === '==') result = dataValue === filterValue
+        } else {
+          result = false
+        }
       } else {
-        return true
+        result = true
       }
       keep = keep && result
-    })
+    }
     return keep
   })
   return dataFiltered

@@ -4,7 +4,8 @@
     v-on="$listeners"
     color="grey"
     class="full-width"
-    :label="label">
+    :label="label"
+    type="textarea">
     <template v-slot:prepend>
       <q-icon name="description" color="grey" />
     </template>

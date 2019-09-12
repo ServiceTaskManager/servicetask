@@ -95,8 +95,9 @@ export default ({ Vue, router, store }) => {
     }
   })
 
-  Vue.prototype.$firebase = firebase
-  Vue.prototype.$firebaseApp = firebaseApp
-  Vue.prototype.$auth = firebaseAuth
-  Vue.prototype.$db = firebaseFirestore
+  for (let s in store.state) {
+    Vue.prototype['$' + s] = store.state[s]
+  }
+
+  Vue.prototype.$Timestamp = firebaseFirestore.Timestamp
 }

@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="row justify-end">
-            <q-btn :to="{ name: 'callsCreate', params: { id: 'create' } }"
+            <q-btn @click="callCreate = true"
               flat
               icon="add"
               color="primary"
@@ -45,8 +45,7 @@
               class="col" />
           </div>
         </q-card-section>
-        <q-separator />
-        <q-card-section class="q-pa-sm">
+        <q-card-section class="q-pa-none">
           <call-list :filters="callsFilters" hideFilters />
         </q-card-section>
       </q-card>
@@ -65,7 +64,7 @@
             </div>
           </div>
           <div class="row justify-end">
-            <q-btn :to="{ name: 'tasksCreate', params: { id: '' } }"
+            <q-btn @click="taskCreate = true"
               flat
               icon="add"
               color="primary"
@@ -77,35 +76,32 @@
               class="col" />
           </div>
         </q-card-section>
-        <q-separator />
         <q-card-section class="q-pa-none">
           <q-list>
-            <task-list :filters="tasksFilters" hideFilters />
+            <task-list :filters="tasksFilters" />
           </q-list>
         </q-card-section>
       </q-card>
     </div>
+    <call-edit-dialog v-model="callCreate" />
+    <task-edit-dialog v-model="taskCreate" />
   </div>
 </template>
 
 <script>
 import CallList from '../components/CallList'
 import TaskList from '../components/TaskList'
+import TaskEditDialog from '../components/TaskEditDialog'
+import CallEditDialog from '../components/CallEditDialog'
 
 export default {
   name: 'Dashboard',
   data () {
     return {
-      tasksFilters: [{
-        name: 'Done',
-        property: 'done',
-        filter: 'boolean',
-        value: false }],
-      callsFilters: [{
-        name: 'Status',
-        property: 'status',
-        filter: 'contains',
-        value: 'unassigned' }]
+      taskCreate: false,
+      callCreate: false,
+      tasksFilters: { done: ['==', false] },
+      callsFilters: { status: ['==', 'unassigned'] }
     }
   },
   computed: {
@@ -121,7 +117,9 @@ export default {
   },
   components: {
     CallList,
-    TaskList
+    TaskList,
+    TaskEditDialog,
+    CallEditDialog
   }
 }
 </script>

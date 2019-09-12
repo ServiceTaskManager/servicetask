@@ -23,23 +23,28 @@
     </q-tab-panels>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" color="black" :to="{ name: 'enginesCreate' }" />
+      <q-btn fab icon="add" color="black" @click="engineCreate = true" />
     </q-page-sticky>
+
+    <engine-edit-dialog v-model="engineCreate" />
   </div>
 </template>
 
 <script>
 import EngineList from '../components/EngineList'
+import EngineEditDialog from '../components/EngineEditDialog'
 
 export default {
   name: 'Engines',
   data () {
     return {
-      tab: 'engines'
+      tab: 'engines',
+      engineCreate: false
     }
   },
   components: {
-    EngineList
+    EngineList,
+    EngineEditDialog
   }
 }
 </script>

@@ -1,54 +1,58 @@
 <template>
-  <q-expansion-item class="q-pa-xs">
-    <template v-slot:header>
-      <q-item-section avatar>
-        <user-avatar :userId="task.created_by" />
-      </q-item-section>
-      <q-item-section>
-        <q-item-label class="text-bold">{{ task.title }}</q-item-label>
-        <q-item-label caption lines="1">
-          <customer-chip :customer="customer" dense v-if="customer" />
-          <engine-chip :engine="engine" dense v-if="engine" />
-        </q-item-label>
-      </q-item-section>
-    </template>
-    <q-card>
-      <q-card-section>
-        <p class="text-grey">
-          {{ task.description }}
-        </p>
-        <customer-chip :customer="customer" v-if="customer" class="full-width" />
-        <engine-chip :engine="engine" v-if="engine" SN class="full-width" />
-      </q-card-section>
-      <q-card-actions align="around">
-        <q-btn v-if="!task.done"
-          flat round
-          icon="done"
-          color="green"
-          @click="done" />
-        <q-btn v-if="task.done"
-          float round
-          icon="undo"
-          color="red"
-          @click="todo" />
-        <q-btn flat round
-          icon="edit"
-          color="grey"
-          :to="{ name: 'tasksEdit', params: { id: task.id } }" />
-        <q-btn flat round
-          icon="delete"
-          color="negative"
-          @click="deleteTask" />
-      </q-card-actions>
-      <q-separator />
-    </q-card>
-  </q-expansion-item>
+  <div>
+    <q-separator />
+    <q-expansion-item>
+      <template v-slot:header>
+        <q-item-section>
+          <q-item-label overline v-if="task.schedule_from">{{ task.schedule_from.toISOString() | moment('from') }}</q-item-label>
+          <q-item-label class="text-bold">{{ task.title }}</q-item-label>
+          <q-item-label caption lines="1">
+            <user-chip :user-id="task.user" dense v-if="task.user" />
+            <customer-chip :customer-id="task.customer" dense v-if="task.customer" />
+          </q-item-label>
+        </q-item-section>
+      </template>
+      <q-card>
+        <q-card-section>
+          <p class="text-grey">
+            {{ task.description }}
+          </p>
+          <user-chip :user-id="task.user" v-if="task.user" class="full-width" />
+          <customer-chip :customer-id="task.customer" v-if="task.customer" class="full-width" />
+          <engine-chip :engine-id="task.engine" v-if="task.engine" SN class="full-width" />
+        </q-card-section>
+        <q-card-actions align="around">
+          <q-btn v-if="!task.done"
+            flat round
+            icon="done"
+            color="green"
+            @click="done" />
+          <q-btn v-if="task.done"
+            float round
+            icon="undo"
+            color="red"
+            @click="todo" />
+          <q-btn flat round
+            icon="edit"
+            color="grey"
+            @click="taskEditDialog = true" />
+          <q-btn flat round
+            icon="delete"
+            color="negative"
+            @click="deleteTask" />
+        </q-card-actions>
+        <q-separator />
+      </q-card>
+      <task-edit-dialog v-model="taskEditDialog" :task="task">Edit task</task-edit-dialog>
+    </q-expansion-item>
+  </div>
 </template>
 
 <script>
-import UserAvatar from './UserAvatar'
+import UserChip from './UserChip'
 import EngineChip from './EngineChip'
 import CustomerChip from './CustomerChip'
+import TaskEditDialog from './TaskEditDialog'
 
 export default {
   name: 'TaskItem',
@@ -56,21 +60,13 @@ export default {
     task: {
       type: Object,
       default: () => {
-        return this.$store.state.tasks.default
+        return this.$tasks.default
       }
     }
   },
   data () {
     return {
-      meta: this.$store.state.tasks.meta
-    }
-  },
-  computed: {
-    customer () {
-      return this.$store.state.customers.data[this.task.customer]
-    },
-    engine () {
-      return this.$store.state.engines.data[this.task.engine]
+      taskEditDialog: false
     }
   },
   methods: {
@@ -87,9 +83,10 @@ export default {
     }
   },
   components: {
-    UserAvatar,
+    UserChip,
     EngineChip,
-    CustomerChip
+    CustomerChip,
+    TaskEditDialog
   }
 }
 </script>

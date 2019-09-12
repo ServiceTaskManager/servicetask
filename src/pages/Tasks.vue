@@ -28,30 +28,24 @@
       </q-tab-panels>
     </q-card>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" color="black" :to="{ name: 'tasksCreate', params: { id: undefined } }" />
+      <q-btn fab icon="add" :color="$tasks.meta.color" @click="taskCreate = true" />
     </q-page-sticky>
+    <task-edit-dialog v-model="taskCreate" />
   </div>
 </template>
 
 <script>
 import TaskList from '../components/TaskList'
+import TaskEditDialog from '../components/TaskEditDialog'
+
 export default {
   name: 'Tasks',
   data () {
     return {
       tab: 'todo',
-      tasksToDoFilters: [{
-        name: 'Done',
-        property: 'done',
-        filter: 'boolean',
-        value: false
-      }],
-      tasksDoneFilters: [{
-        name: 'Done',
-        property: 'done',
-        filter: 'boolean',
-        value: true
-      }]
+      taskCreate: false,
+      tasksToDoFilters: { done: ['==', false] },
+      tasksDoneFilters: { done: ['==', true] }
     }
   },
   computed: {
@@ -60,7 +54,8 @@ export default {
     }
   },
   components: {
-    TaskList
+    TaskList,
+    TaskEditDialog
   }
 }
 </script>

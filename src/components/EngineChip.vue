@@ -1,5 +1,8 @@
 <template>
-  <q-chip v-bind="$attrs" v-on="$listeners" clickable @click="$router.push({ name: 'enginesView', params: { id: engineData.id }})">
+  <q-chip v-bind="$attrs" v-on="$listeners"
+    clickable
+    @click="$router.push({ name: 'enginesView', params: { id: engineData.id }})"
+    style="overflow: hidden;">
     <q-avatar :color="meta.color" :icon="meta.icon" />
     {{ engineData.name }}
     <q-badge :label="customerData.name" color="white" class="q-ml-sm text-black" v-if="customer" />
