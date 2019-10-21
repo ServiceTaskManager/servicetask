@@ -64,7 +64,8 @@ export default {
     },
     taskFormData () {
       return {
-        customer: this.filters.customer !== undefined ? '' : this.filters.customer[1]
+        customer: this.filters.customer[1][0],
+        engine: this.filters.engine[1][0]
       }
     }
   },

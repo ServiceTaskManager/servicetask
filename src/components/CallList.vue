@@ -7,7 +7,7 @@
         :icon="$calls.meta.icon"
         :color="$calls.meta.color"
         class="full-width" />
-        <call-edit-dialog v-model="callCreate" />
+        <call-edit-dialog v-model="callCreate" :call="callFormData" />
     </q-item>
 
     <filter-form v-model="customFilters" v-if="!hideFilters" />
@@ -20,7 +20,7 @@
     <q-item v-if="callsFiltered.length === 0">
       <q-item-section class="text-center">
         <q-item-label class="text-h5">There's no call to display.</q-item-label>
-        <q-item-label caption v-if="Object.values(customFilters).length > 0">Check the filters</q-item-label>
+        <q-item-label caption v-if="Object.values(customFilters).filter(f => f[1] !== '').length > 0">Check the filters</q-item-label>
       </q-item-section>
     </q-item>
   </q-list>
@@ -60,6 +60,12 @@ export default {
   computed: {
     callsFiltered () {
       return this.$store.getters['calls/filter'](Object.assign({}, this.customFilters, this.filters))
+    },
+    callFormData () {
+      return {
+        customer: this.filters.customer[1][0],
+        engine: this.filters.engine[1][0]
+      }
     }
   },
   components: {

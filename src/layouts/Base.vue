@@ -47,7 +47,7 @@
                     size="sm"
                     color="negative"
                     icon="logout"
-                    @click="logout" />
+                    @click.prevent="logout" />
                 </q-item-section>
               </q-item>
               <q-item :to="{ name: 'users' }">
@@ -125,12 +125,15 @@
 
     <q-page-container>
       <q-page padding class="bg-grey-3">
-        <router-view v-if="$store.state.firestore.ready || !$route.meta.requireAuth" />
-        <div v-else class="row justify-center">
-          <q-linear-progress rounded
-            style="height: 50px; width: 75%; margin-top: 100px;"
-            color="warning"
-            :value="$store.state.firestore.loading" />
+        <router-view v-if="$store.state.firestore.ready || $route.name === 'login'" />
+        <div v-else class="row justify-center text-center">
+          <div class="col-8 col-offset-2" style="margin-top: 100px;">
+            <q-linear-progress rounded
+              style="height: 50px; "
+              color="warning"
+              :value="$store.state.firestore.loading" />
+            <span>Loading {{ $store.state.firestore.loadingStore }}...</span>
+          </div>
         </div>
       </q-page>
     </q-page-container>

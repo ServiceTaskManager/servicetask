@@ -51,6 +51,9 @@ export default {
       usersFiltered: this.$store.getters['users/filter']()
     }
   },
+  mounted () {
+    this.$emit('input', this.$store.state.user.data.id)
+  },
   computed: {
     displayValue () {
       return this.value === '' ? '' : this.$users.data[this.value].name

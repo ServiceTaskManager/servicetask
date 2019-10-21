@@ -21,7 +21,7 @@ export default ({ Vue, router, store }) => {
   // Watch for Auth state and redirect to /login if user is not logged in
   firebaseApp.auth().onAuthStateChanged((user) => {
     if (!user) {
-      store.state.firestore.openStores.forEach(firestore => {
+      store.state.firestore.storesOpened.forEach(firestore => {
         store.dispatch(firestore + '/closeDBChannel', { clearModule: true })
         store.commit('updateFirestoreOpenList', { firestore: firestore, open: false })
       })
@@ -31,14 +31,12 @@ export default ({ Vue, router, store }) => {
       store.dispatch('users/fetchById', firebaseAuth.currentUser.uid).then(userData => {
         // Set user store based on new logged in user
         store.commit('user/login', userData)
-
-        // Refresh page to Dashboard
         router.push({ name: 'dashboard' })
 
         // Load stores based on user roles
-        store.commit('initFirestore', userData.roles)
-        store.state.firestore.readableStores.forEach(firestore => {
-          if (!store.state.firestore.openStores.includes(firestore)) {
+        store.state.firestore.storesToOpen.forEach(firestore => {
+          if (!store.state.firestore.storesOpened.includes(firestore)) {
+            store.state.firestore.loadingStore = firestore
             store.dispatch(firestore + '/openDBChannel').then(response => {
               store.commit('updateFirestoreOpenList', { firestore: firestore, open: true })
             }, error => {
@@ -99,5 +97,5 @@ export default ({ Vue, router, store }) => {
     Vue.prototype['$' + s] = store.state[s]
   }
 
-  Vue.prototype.$Timestamp = firebaseFirestore.Timestamp
+  Vue.prototype.$auth = firebaseAuth
 }

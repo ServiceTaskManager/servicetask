@@ -25,31 +25,10 @@ export default function ({ store, ssrContext }) {
   Router.beforeEach((to, from, next) => {
     let user = JSON.parse(localStorage.getItem('user'))
     let login = user ? user.login : false
-    if (login) {
-      if (to.name === 'login') {
-        next('dashboard')
-      }
-
-      if (to.meta.requireAuth) {
-        if (to.meta.requireRoles) {
-          let roleMatch = to.meta.requireRoles.filter(role => user.data.roles.includes(role)).length > 0
-          if (roleMatch) {
-            next()
-          } else {
-            next({ name: '403' })
-          }
-        } else {
-          next()
-        }
-      } else {
-        next()
-      }
-    } else {
-      if (to.meta.requireAuth) {
-        next({ name: '403' })
-      } else {
-        next()
-      }
+    if (login) next()
+    else {
+      if (to.name === 'login') next()
+      else next({ name: 'login' })
     }
   })
 

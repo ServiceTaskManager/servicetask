@@ -10,8 +10,19 @@
         <q-btn round icon="settings" color="black" @click="paramsDialog = true" />
       </l-control>
 
-      <l-marker :lat-lng="customers">
-        <l-popup>customer.name</l-popup>
+      <l-marker v-for="customer in customers"
+        :key="customer.id"
+        :lat-lng="customer.address.lat_lng">
+        <l-popup>
+          <q-card>
+            <q-card-section>
+              {{ customer.name }}
+            </q-card-section>
+          </q-card>
+        </l-popup>
+        <l-icon :icon-anchor="[10, 10]">
+          <q-avatar :icon="$customers.meta.icon" :color="$customers.meta.color" style="color: white;" size="20px"  />
+        </l-icon>
       </l-marker>
     </l-map>
 
@@ -24,11 +35,8 @@
 </template>
 
 <script>
-import { LMap, LTileLayer, LControl, LMarker, LPopup } from 'vue2-leaflet'
-import { GoogleProvider } from 'leaflet-geosearch'
+import { LMap, LIcon, LTileLayer, LControl, LMarker, LPopup } from 'vue2-leaflet'
 import { Icon } from 'leaflet'
-
-const provider = new GoogleProvider()
 
 delete Icon.Default.prototype._getIconUrl
 
@@ -53,37 +61,15 @@ export default {
   },
   mounted () {
     let customers = this.$store.getters['customers/filter']()
-    let newCustomers = []
-    customers.forEach(c => {
-      let customer = JSON.parse(JSON.stringify(c))
-      let address = {
-        addr1: c.addr1,
-        addr2: c.addr2,
-        postal_code: c.postal_code,
-        city: c.city,
-        country: c.country }
-      let addressInline = Object.values(address).filter(a => a !== undefined).join(', ')
-      provider.search({ query: addressInline }).then(r => {
-        if (r.length !== 1) console.log(addressInline, r)
-        let result = r
-        address.lat_lng = [result.y, result.y]
-      })
-      customer.address = address
-      delete customer.addr1
-      delete customer.addr2
-      delete customer.postal_code
-      delete customer.city
-      delete customer.country
-      newCustomers.push(customer)
-    })
-    console.log(newCustomers)
+    this.customers = customers.filter(c => c.address.lat_lng !== undefined)
   },
   components: {
     LMap,
     LTileLayer,
     LControl,
     LMarker,
-    LPopup
+    LPopup,
+    LIcon
   }
 }
 </script>

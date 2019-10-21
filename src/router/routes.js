@@ -1,85 +1,3 @@
-import firestore from '../store/firestore'
-
-// Generate pages routes based on stores.
-const pages = [
-  {
-    path: 'dashboard',
-    name: 'dashboard',
-    component: () => import('pages/Dashboard.vue'),
-    meta: {
-      title: 'Dashboard',
-      description: 'Global overview',
-      requireAuth: true,
-      requireRoles: ['user']
-    }
-  },
-  {
-    path: '',
-    name: 'login',
-    component: () => import('pages/Login.vue'),
-    meta: {
-      requireAuth: false,
-      title: 'Login'
-    }
-  },
-  {
-    path: 'settings',
-    name: 'settings',
-    component: () => import('pages/Settings.vue'),
-    meta: {
-      requireAuth: true,
-      title: 'Settings'
-    }
-  },
-  {
-    path: 'maps',
-    name: 'maps',
-    component: () => import('pages/Maps.vue'),
-    meta: {
-      requireAuth: true,
-      title: 'Maps'
-    }
-  },
-  {
-    path: 'calendar',
-    name: 'calendar',
-    component: () => import('pages/Calendar.vue'),
-    meta: {
-      requireAuth: true,
-      title: 'Calendar'
-    }
-  }]
-
-// Create routes for stores with vue.
-firestore.stores.forEach(store => {
-  if (store.vue) {
-    let name = store.moduleName.charAt(0).toUpperCase() + store.moduleName.slice(1)
-    pages.push(
-      {
-        path: store.moduleName,
-        name: store.moduleName,
-        component: () => import('pages/' + name + '.vue'),
-        meta: {
-          title: name,
-          requireAuth: true,
-          requireRoles: store.readRoles
-        }
-      })
-    pages.push(
-      {
-        path: store.moduleName + '/view',
-        name: store.moduleName + 'View',
-        component: () => import('pages/' + name + 'View.vue'),
-        meta: {
-          title: 'View ' + store.moduleName,
-          requireAuth: true,
-          requireRoles: store.writeRoles
-        }
-      })
-  }
-})
-
-// Set other routes
 const routes = [
   {
     path: '/error',
@@ -90,7 +8,6 @@ const routes = [
         name: '403',
         component: () => import('pages/Error403.vue'),
         meta: {
-          requireAuth: false,
           title: 'Error 403'
         }
       }
@@ -99,7 +16,105 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/Base.vue'),
-    children: pages
+    children: [
+      {
+        path: '',
+        name: 'dashboard',
+        component: () => import('pages/Dashboard.vue'),
+        meta: {
+          title: 'Dashboard',
+          description: 'Global overview'
+        }
+      },
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import('pages/Login.vue'),
+        meta: {
+          title: 'Login'
+        }
+      },
+      {
+        path: 'settings',
+        name: 'settings',
+        component: () => import('pages/Settings.vue'),
+        meta: {
+          title: 'Settings'
+        }
+      },
+      {
+        path: 'maps',
+        name: 'maps',
+        component: () => import('pages/Maps.vue'),
+        meta: {
+          title: 'Maps'
+        }
+      },
+      {
+        path: 'calendar',
+        name: 'calendar',
+        component: () => import('pages/Calendar.vue'),
+        meta: {
+          title: 'Calendar'
+        }
+      },
+      {
+        path: 'users',
+        name: 'users',
+        component: () => import('pages/Users.vue'),
+        meta: {
+          title: 'Users'
+        }
+      },
+      {
+        path: 'calls',
+        name: 'calls',
+        component: () => import('pages/Calls.vue'),
+        meta: {
+          title: 'Calls'
+        }
+      },
+      {
+        path: 'tasks',
+        name: 'tasks',
+        component: () => import('pages/Tasks.vue'),
+        meta: {
+          title: 'Tasks'
+        }
+      },
+      {
+        path: 'engines',
+        name: 'engines',
+        component: () => import('pages/Engines.vue'),
+        meta: {
+          title: 'Engines'
+        }
+      },
+      {
+        path: 'engine',
+        name: 'engine',
+        component: () => import('pages/Engine.vue'),
+        meta: {
+          title: 'Engine details'
+        }
+      },
+      {
+        path: 'customers',
+        name: 'customers',
+        component: () => import('pages/Customers.vue'),
+        meta: {
+          title: 'Customers'
+        }
+      },
+      {
+        path: 'customer',
+        name: 'customer',
+        component: () => import('pages/Customer.vue'),
+        meta: {
+          title: 'Customer details'
+        }
+      }
+    ]
   }
 ]
 

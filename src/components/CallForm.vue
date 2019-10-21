@@ -29,7 +29,7 @@
         label="Submit"
         type="submit"
         icon="done"
-        @click="set" />
+        @click="patch" />
     </q-item>
   </q-list>
 </template>
@@ -79,8 +79,8 @@ export default {
       this.$calls.data[this.callId])
   },
   methods: {
-    set () {
-      this.$store.dispatch('calls/set', this.callData)
+    patch () {
+      this.$store.dispatch('calls/patch', this.callData)
       this.$emit('submit')
     }
   },
