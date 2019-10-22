@@ -8,12 +8,14 @@
 
     <div class="row q-col-gutter-md">
       <div class="col-12 col-sm-6">
-        <call-list :filters="filter" hide-filters add-button />
+        <call-list :filters="filter" hide-filters hide-customer hide-engine add-button />
       </div>
       <div class="col-12 col-sm-6">
-        <task-list :filters="filter" hide-filters add-button />
+        <task-list :filters="filter" hide-filters hide-customer hide-engine add-button />
       </div>
     </div>
+
+    <engine-edit-dialog v-model="editDialog" :engine="engine" />
   </div>
 </template>
 
@@ -21,6 +23,7 @@
 import CallList from './CallList'
 import TaskList from './TaskList'
 import CustomerChip from './CustomerChip'
+import EngineEditDialog from './EngineEditDialog'
 
 export default {
   name: 'EngineTabPanel',
@@ -28,14 +31,19 @@ export default {
     engine: {
       type: Object,
       default: () => {
-        return this.$engines.default
+        return undefined
       }
     }
   },
   data () {
     return {
-      tab: 'calls'
+      tab: 'calls',
+      editDialog: false
     }
+  },
+  mounted () {
+    this.$ui.header.title = this.engine.name + ' SN/' + this.engine.sn
+    this.$root.$on('editDialog', () => { this.editDialog = true })
   },
   computed: {
     filter () {
@@ -48,7 +56,8 @@ export default {
   components: {
     CallList,
     TaskList,
-    CustomerChip
+    CustomerChip,
+    EngineEditDialog
   }
 }
 </script>

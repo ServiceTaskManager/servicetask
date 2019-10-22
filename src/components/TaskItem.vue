@@ -1,27 +1,33 @@
 <template>
   <div>
     <q-separator />
-    <q-expansion-item>
+    <q-expansion-item @show="caption = false" @hide="caption = true" header-class="q-pa-sm">
       <template v-slot:header>
         <q-item-section>
-          <q-item-label overline v-if="task.schedule_from">{{ task.schedule_from.toISOString() | moment('from') }}</q-item-label>
+          <q-item-label overline v-if="task.schedule_from">
+            <span class="q-pr-sm">
+              <user-avatar :user-id="task.user" size="20px" v-if="task.user" />
+              <user-avatar :user="{ color: 'grey', name: '?' }" size="20px" v-else />
+            </span>
+            <span>{{ task.schedule_from.toISOString() | moment('from') }}</span>
+          </q-item-label>
           <q-item-label class="text-bold">{{ task.title }}</q-item-label>
-          <q-item-label caption lines="1">
-            <user-chip :user-id="task.user" dense v-if="task.user" />
-            <customer-chip :customer-id="task.customer" dense v-if="task.customer" />
+          <q-item-label caption lines="1" v-if="caption">
+            <customer-chip :customer-id="task.customer" dense v-if="task.customer && !hideCustomer" />
+            <engine-chip :engine-id="task.engine" dense v-if="task.engine && !hideEngine" />
           </q-item-label>
         </q-item-section>
       </template>
       <q-card>
-        <q-card-section>
-          <p class="text-grey">
+        <q-card-section class="q-pa-sm">
+          <p class="text-grey" v-if="task.description">
             {{ task.description }}
           </p>
           <user-chip :user-id="task.user" v-if="task.user" class="full-width" />
-          <customer-chip :customer-id="task.customer" v-if="task.customer" class="full-width" />
-          <engine-chip :engine-id="task.engine" v-if="task.engine" SN class="full-width" />
+          <customer-chip :customer-id="task.customer" v-if="task.customer && !hideCustomer" class="full-width" />
+          <engine-chip :engine-id="task.engine" v-if="task.engine && !hideEngine" SN class="full-width" />
         </q-card-section>
-        <q-card-actions align="around">
+        <q-card-actions align="around" class="q-pa-sm">
           <q-btn v-if="!task.done"
             flat round
             icon="done"
@@ -50,6 +56,7 @@
 
 <script>
 import UserChip from './UserChip'
+import UserAvatar from './UserAvatar'
 import EngineChip from './EngineChip'
 import CustomerChip from './CustomerChip'
 import TaskEditDialog from './TaskEditDialog'
@@ -60,13 +67,22 @@ export default {
     task: {
       type: Object,
       default: () => {
-        return this.$tasks.default
+        return {}
       }
+    },
+    hideCustomer: {
+      type: Boolean,
+      default: false
+    },
+    hideEngine: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
-      taskEditDialog: false
+      taskEditDialog: false,
+      caption: true
     }
   },
   methods: {
@@ -84,6 +100,7 @@ export default {
   },
   components: {
     UserChip,
+    UserAvatar,
     EngineChip,
     CustomerChip,
     TaskEditDialog

@@ -19,7 +19,7 @@ firebaseFirestore.enablePersistence().catch(err => {
 
 export default ({ Vue, router, store }) => {
   // Watch for Auth state and redirect to /login if user is not logged in
-  firebaseApp.auth().onAuthStateChanged((user) => {
+  firebaseAuth.onAuthStateChanged((user) => {
     if (!user) {
       store.state.firestore.storesOpened.forEach(firestore => {
         store.dispatch(firestore + '/closeDBChannel', { clearModule: true })
@@ -29,62 +29,72 @@ export default ({ Vue, router, store }) => {
       router.push({ name: 'login' })
     } else {
       store.dispatch('users/fetchById', firebaseAuth.currentUser.uid).then(userData => {
-        // Set user store based on new logged in user
-        store.commit('user/login', userData)
-        router.push({ name: 'dashboard' })
-
-        // Load stores based on user roles
-        store.state.firestore.storesToOpen.forEach(firestore => {
-          if (!store.state.firestore.storesOpened.includes(firestore)) {
-            store.state.firestore.loadingStore = firestore
-            store.dispatch(firestore + '/openDBChannel').then(response => {
-              store.commit('updateFirestoreOpenList', { firestore: firestore, open: true })
-            }, error => {
-              console.log(error)
-            })
-          }
-        })
-
-        if (firebase.messaging.isSupported()) {
-          store.state.settings.notifications.supported = true
-
-          const firebaseMessaging = firebaseApp.messaging()
-          firebaseMessaging.usePublicVapidKey(firebaseConfig.messagingApiKey)
-
-          firebaseMessaging.requestPermission().then(function () {
-            firebaseMessaging.getToken().then(async token => {
-              store.state.settings.notifications.token = token
-              store.state.settings.notifications.permission = true
-            })
-          }).catch(err => {
-            console.log(err)
-            store.state.settings.notifications.permission = false
-          })
-
-          firebaseMessaging.onMessage(payload => {
-            console.log(payload)
-            let notificationAudio = new Audio('statics/sounds/notification.mp3')
-            notificationAudio.play()
-            Notify({
-              message: payload.notification.title,
-              icon: 'notification_important',
-              color: 'accent',
-              actions: [{
-                label: 'open',
-                handler: () => {
-                  this.$router.push({ name: 'dashboard' })
-                }
-              }]
-            })
-          })
-        } else {
-          store.state.settings.notifications.supported = false
-
+        // Check if user is registered
+        let roles = (userData.roles || [])
+        if (!roles.includes('user')) {
           Notify.create({
-            message: 'Notifications are not supported by your browser.',
-            icon: 'error',
+            message: 'An admin must validate your access, come back later',
+            icon: 'cancel',
             color: 'negative'
           })
+          firebaseAuth.signOut()
+        } else {
+          // Set user store based on new logged in user
+          store.commit('user/login', userData)
+          router.push({ name: 'dashboard' })
+
+          // Load stores based on user roles
+          store.state.firestore.storesToOpen.forEach(firestore => {
+            if (!store.state.firestore.storesOpened.includes(firestore)) {
+              store.state.firestore.loadingStore = firestore
+              store.dispatch(firestore + '/openDBChannel').then(response => {
+                store.commit('updateFirestoreOpenList', { firestore: firestore, open: true })
+              }, error => {
+                console.log(error)
+              })
+            }
+          })
+
+          if (firebase.messaging.isSupported()) {
+            store.state.settings.notifications.supported = true
+
+            const firebaseMessaging = firebaseApp.messaging()
+            firebaseMessaging.usePublicVapidKey(firebaseConfig.messagingApiKey)
+
+            firebaseMessaging.requestPermission().then(function () {
+              firebaseMessaging.getToken().then(async token => {
+                store.state.settings.notifications.token = token
+                store.state.settings.notifications.permission = true
+              })
+            }).catch(err => {
+              console.log(err)
+              store.state.settings.notifications.permission = false
+            })
+
+            firebaseMessaging.onMessage(payload => {
+              let notificationAudio = new Audio('statics/sounds/notification.mp3')
+              notificationAudio.play()
+              Notify.create({
+                message: payload.notification.title,
+                icon: 'notification_important',
+                color: 'accent',
+                actions: [{
+                  label: 'open',
+                  handler: () => {
+                    this.$router.push({ name: 'dashboard' })
+                  }
+                }]
+              })
+            })
+          } else {
+            store.state.settings.notifications.supported = false
+
+            Notify.create({
+              message: 'Notifications are not supported by your browser.',
+              icon: 'error',
+              color: 'negative'
+            })
+          }
         }
       }, error => {
         console.log('User data cannot be fethed. ' + error)

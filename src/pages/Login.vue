@@ -1,14 +1,24 @@
 <template>
-  <div class="row justify-center" >
+  <div class="row justify-center">
     <q-card class="bg-white col-12 col-sm-4">
+      <q-card-section class="row">
+        <div class="col-3">
+          <img src="statics/icons/icon-512x512.png" class="full-width" />
+        </div>
+        <div class="col-9 text-h5">
+          <div class="row full-height">
+            <div class="self-center q-pl-md">Service Task</div>
+          </div>
+        </div>
+      </q-card-section>
       <q-separator />
       <q-card-section class="q-pa-md q-gutter-md">
-        <q-input standout prefix="Email : " v-model="email" type="email">
+        <q-input standout label="Email" v-model="email" type="email">
           <template v-slot:prepend>
             <q-icon name="mail" />
           </template>
         </q-input>
-        <q-input standout prefix="Password : " v-model="password" type="password">
+        <q-input standout label="Password" v-model="password" type="password">
           <template v-slot:prepend>
             <q-icon name="lock" />
           </template>
@@ -47,22 +57,14 @@ export default {
     },
     login () {
       this.$auth.signInWithEmailAndPassword(this.email, this.password).then(signedInUser => {
-        if (signedInUser.user.emailVerified) {
-          this.$q.notify({
-            message: 'Welcome on board',
-            color: 'positive',
-            icon: 'done'
-          })
-        } else {
-          this.sendEmailVerification(signedInUser.user)
-        }
+        if (!signedInUser.user.emailVerified) this.sendEmailVerification(signedInUser.user)
       }).catch(error => {
         if (error.code === 'auth/user-not-found') {
           this.$auth.createUserWithEmailAndPassword(this.email, this.password).then(userCreate => {
             this.sendEmailVerification(userCreate.user)
             this.$store.dispatch('users/set', {
               id: userCreate.user.uid,
-              roles: ['user']
+              name: this.email
             })
           }).catch(error => {
             console.log(error)

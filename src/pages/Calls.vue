@@ -33,7 +33,7 @@
     </q-tab-panels>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" color="black" @click="callCreate = true" />
+      <q-btn fab icon="add" :color="$calls.meta.color" @click="callCreate = true" />
     </q-page-sticky>
 
     <call-edit-dialog v-model="callCreate" />

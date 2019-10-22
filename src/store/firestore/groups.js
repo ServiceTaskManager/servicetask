@@ -1,11 +1,6 @@
 const groups = {
   state: {
     data: {},
-    meta: {
-      name: 'Groups',
-      icon: 'people',
-      color: 'green'
-    },
     default: {
       name: ''
     }

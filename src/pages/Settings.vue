@@ -4,7 +4,7 @@
 
     <q-item>
       <q-input
-        v-model="user.display_name"
+        v-model="user.name"
         label="Full name"
         class="full-width">
         <template v-slot:prepend>

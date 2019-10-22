@@ -2,7 +2,7 @@ const calls = {
   state: {
     data: {},
     meta: {
-      name: 'Calls',
+      title: 'Calls',
       icon: 'phone_callback',
       color: 'orange'
     },

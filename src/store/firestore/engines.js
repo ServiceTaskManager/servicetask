@@ -2,7 +2,7 @@ const engines = {
   state: {
     data: {},
     meta: {
-      name: 'Engines',
+      title: 'Engines',
       icon: 'print',
       color: 'teal'
     },

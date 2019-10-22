@@ -8,8 +8,8 @@
           <q-item-label overline>{{ call.created_at.toISOString() | moment('from') }}</q-item-label>
           <q-item-label class="text-bold">{{ call.title }}</q-item-label>
           <q-item-label caption lines="1" v-if="caption">
-            <customer-chip :customer-id="call.customer" dense v-if="call.customer" />
-            <engine-chip :engine-id="call.engine" dense v-if="call.engine" />
+            <customer-chip :customer-id="call.customer" dense v-if="call.customer && !hideCustomer" />
+            <engine-chip :engine-id="call.engine" dense v-if="call.engine && !hideEngine" />
           </q-item-label>
         </q-item-section>
       </template>
@@ -17,8 +17,8 @@
       <q-card>
         <q-card-section>
           <user-chip :user-id="call.assign_to" class="full-width" v-if="call.assign_to" />
-          <customer-chip :customer-id="call.customer" class="full-width" />
-          <engine-chip :engine-id="call.engine" SN class="full-width" />
+          <customer-chip :customer-id="call.customer" class="full-width" v-if="!hideCustomer" />
+          <engine-chip :engine-id="call.engine" SN class="full-width" v-if="!hideEngine" />
           <phone-chip :phone="call.phone" :person="call.person" clickable @click="confirmCall = true" class="full-width" />
         </q-card-section>
         <q-card-actions align="around">
@@ -92,6 +92,14 @@ export default {
       default: () => {
         return {}
       }
+    },
+    hideCustomer: {
+      type: Boolean,
+      default: false
+    },
+    hideEngine: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

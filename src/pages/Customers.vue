@@ -3,21 +3,27 @@
     <customer-list />
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" color="black" :to="{ name: 'customersCreate' }" />
+      <q-btn fab icon="add" :color="$customers.meta.color" @click="customerCreate = true" />
     </q-page-sticky>
+
+    <customer-edit-dialog v-model="customerCreate" />
   </div>
 </template>
 
 <script>
 import CustomerList from '../components/CustomerList'
+import CustomerEditDialog from '../components/CustomerEditDialog'
 
 export default {
   name: 'Customers',
   data () {
-    return {}
+    return {
+      customerCreate: false
+    }
   },
   components: {
-    CustomerList
+    CustomerList,
+    CustomerEditDialog
   }
 }
 </script>

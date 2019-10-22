@@ -2,20 +2,20 @@
   <q-dialog v-bind="$attrs" v-on="$listeners" :value="value" maximized>
     <q-card>
       <q-card-section class="bg-black text-white text-h6">
-        <q-btn @click="cancel" icon="close" class="text-white" /><slot>Create a engine</slot>
+        <q-btn @click="cancel" icon="close" class="text-white" /><slot>Create a customer</slot>
       </q-card-section>
       <q-separator />
       <q-card-section class="row q-pa-sm">
-        <engine-form @submit="submit" @cancel="cancel" :fields="fields" :engine="engine" :engine-id="engineId" />
+        <customer-form @submit="submit" @cancel="cancel" :fields="fields" :customer="customer" :customer-id="customerId" />
       </q-card-section>
     </q-card>
   </q-dialog>
 </template>
 <script>
-import EngineForm from './EngineForm'
+import CustomerForm from './CustomerForm'
 
 export default {
-  name: 'EngineEditDialog',
+  name: 'CustomerEditDialog',
   props: {
     value: {
       type: Boolean,
@@ -27,13 +27,13 @@ export default {
         return undefined
       }
     },
-    engine: {
+    customer: {
       type: Object,
       default: () => {
         return undefined
       }
     },
-    engineId: {
+    customerId: {
       type: String,
       default: ''
     }
@@ -51,7 +51,7 @@ export default {
     }
   },
   components: {
-    EngineForm
+    CustomerForm
   }
 }
 </script>

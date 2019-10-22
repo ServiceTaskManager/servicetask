@@ -6,7 +6,7 @@
 import EngineLine from '../components/EngineLine'
 
 export default {
-  name: 'EngineView',
+  name: 'Engine',
   data () {
     return {
       engine: {}

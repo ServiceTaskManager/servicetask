@@ -1,6 +1,6 @@
 <template>
   <q-chip v-bind="$attrs" v-on="$listeners" class="full-width">
-    <q-avatar :color="meta.color" :icon="meta.icon" />
+    <q-avatar :color="$users.meta.color" :icon="$users.meta.icon" />
     {{ person }}
   </q-chip>
 </template>
@@ -15,9 +15,7 @@ export default {
     }
   },
   data () {
-    return {
-      meta: this.$store.state.users.meta
-    }
+    return {}
   }
 }
 </script>

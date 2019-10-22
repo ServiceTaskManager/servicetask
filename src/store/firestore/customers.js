@@ -2,17 +2,19 @@ const customers = {
   state: {
     data: {},
     meta: {
-      name: 'Customers',
+      title: 'Customers',
       icon: 'group',
       color: 'pink'
     },
     default: {
       name: '',
-      addr1: '',
-      addr2: '',
-      postal_code: '',
-      city: '',
-      country: '',
+      address: {
+        addr1: '',
+        addr2: '',
+        postal_code: '',
+        city: '',
+        country: ''
+      },
       phone: '',
       email: ''
     }

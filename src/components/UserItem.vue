@@ -1,5 +1,5 @@
 <template>
-  <q-item class="q-pa-xs" :to="{ name: 'usersView', params: { id: user.id } }">
+  <q-item class="q-pa-xs" :to="{ name: 'user', params: { id: user.id } }">
     <q-item-section avatar>
       <user-avatar :user="user" />
     </q-item-section>

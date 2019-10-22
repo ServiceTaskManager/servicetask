@@ -31,7 +31,7 @@ export default {
     return {
       customFilters: {
         name: ['contains', '', 'Customer name'],
-        postal_code: ['contains', '', 'Postal code']
+        'address.postal_code': ['contains', '', 'Postal code']
       }
     }
   },

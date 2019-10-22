@@ -2,7 +2,7 @@ const tasks = {
   state: {
     data: {},
     meta: {
-      name: 'Tasks',
+      title: 'Tasks',
       icon: 'done',
       color: 'light-blue'
     },
@@ -13,8 +13,8 @@ const tasks = {
       description: '',
       done: false,
       done_at: '',
-      schedule_from: undefined,
-      schedule_to: undefined,
+      schedule_from: '',
+      schedule_to: '',
       subTasks: []
     },
     presets: {

@@ -1,5 +1,5 @@
 <template>
-  <q-item class="q-pa-xs" :to="{ name: 'enginesView', params: { id: engine.id }}">
+  <q-item class="q-pa-xs" :to="{ name: 'engine', params: { id: engine.id }}">
     <q-item-section avatar>
       <q-avatar color="teal" icon="print" />
     </q-item-section>

@@ -1,16 +1,18 @@
 <template>
   <q-layout view="hHh lpR fFf">
 
-    <q-header elevated class="bg-black text-white">
+    <q-header elevated
+      :class="headerClass"
+      v-if="!$route.meta.noHeader">
       <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="statics/app-logo-128x128.png" v-if="$route.name === 'dashboard' || $route.name === 'login'" />
-            <q-btn @click="$router.go(-1)" icon="chevron_left" class="text-white" v-else />
-          </q-avatar>
-          {{ $route.meta.title }}
-        </q-toolbar-title>
+        <q-avatar v-if="$route.name === 'dashboard' || $route.name === 'login'">
+          <img src="statics/app-logo-128x128.png" />
+        </q-avatar>
+        <q-btn flat round @click="$router.go(-1)" icon="chevron_left" class="text-white" v-else />
 
+        <q-toolbar-title>{{ title }}</q-toolbar-title>
+
+        <q-btn dense flat round icon="edit" @click="$root.$emit('editDialog', true)" v-if="$route.meta.editButton" />
         <q-btn dense flat round icon="menu" @click="right = !right" />
       </q-toolbar>
     </q-header>
@@ -19,7 +21,8 @@
       v-model="right"
       side="right"
       behavior="mobile"
-      elevated>
+      elevated
+      v-if="!$route.meta.noDrawer">
       <q-img v-if="user.login"
         class="absolute-top bg-white"
         src="statics/icons/icon-512x512.png"
@@ -99,6 +102,15 @@
                 <q-item-section>
                   Customers
                 </q-item-section>
+                <q-item-section side>
+                  <q-separator vertical class="q-mr-sm" :color="$customers.meta.color" />
+                  <q-btn flat round
+                    size="sm"
+                    :color="$customers.meta.color"
+                    icon="add"
+                    @click.prevent="customerCreate = true" />
+                  <customer-edit-dialog v-model="customerCreate" />
+                </q-item-section>
               </q-item>
               <q-item :to="{ name: 'maps' }">
                 <q-item-section avatar>
@@ -144,6 +156,7 @@
 import UserAvatar from '../components/UserAvatar'
 import TaskEditDialog from '../components/TaskEditDialog'
 import CallEditDialog from '../components/CallEditDialog'
+import CustomerEditDialog from '../components/CustomerEditDialog'
 
 export default {
   name: 'Base',
@@ -151,12 +164,19 @@ export default {
     return {
       right: false,
       taskCreate: false,
-      callCreate: false
+      callCreate: false,
+      customerCreate: false
     }
   },
   computed: {
     user () {
       return this.$store.state.user
+    },
+    headerClass () {
+      return 'bg-' + (this.$route.meta.color || 'black') + ' text-white'
+    },
+    title () {
+      return this.$route.meta.customTitle ? this.$ui.header.title : this.$route.meta.title
     }
   },
   methods: {
@@ -167,7 +187,8 @@ export default {
   components: {
     UserAvatar,
     TaskEditDialog,
-    CallEditDialog
+    CallEditDialog,
+    CustomerEditDialog
   }
 }
 </script>

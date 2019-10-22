@@ -69,6 +69,14 @@ const settings = {
   namespaced: true
 }
 
+const ui = {
+  state: {
+    header: {
+      title: 'Default title'
+    }
+  }
+}
+
 // Create Easy Firestore object with models to sync
 const easyFirestore = createEasyFirestore(firestore.stores, { logging: true })
 
@@ -81,6 +89,7 @@ const store = new Vuex.Store({
   modules: {
     user,
     settings,
+    ui,
     firestore
   },
   plugins: [

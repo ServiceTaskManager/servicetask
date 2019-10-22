@@ -16,7 +16,9 @@
     <task-item
       v-for="task in tasksFiltered"
       :key="task.id"
-      :task="task" />
+      :task="task"
+      :hide-customer="hideCustomer"
+      :hide-engine="hideEngine" />
 
     <q-item v-if="tasksFiltered.length === 0">
       <q-item-section class="text-center">
@@ -42,6 +44,14 @@ export default {
       }
     },
     hideFilters: {
+      type: Boolean,
+      default: false
+    },
+    hideCustomer: {
+      type: Boolean,
+      default: false
+    },
+    hideEngine: {
       type: Boolean,
       default: false
     },

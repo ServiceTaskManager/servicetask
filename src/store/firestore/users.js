@@ -2,7 +2,7 @@ const users = {
   state: {
     data: {},
     meta: {
-      name: 'Users',
+      title: 'Users',
       icon: 'person',
       color: 'green'
     },

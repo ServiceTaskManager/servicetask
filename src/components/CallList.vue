@@ -15,7 +15,9 @@
     <call-item
       v-for="call in callsFiltered"
       :key="call.id"
-      :call="call" />
+      :call="call"
+      :hide-customer="hideCustomer"
+      :hide-engine="hideEngine" />
 
     <q-item v-if="callsFiltered.length === 0">
       <q-item-section class="text-center">
@@ -41,6 +43,14 @@ export default {
       }
     },
     hideFilters: {
+      type: Boolean,
+      default: false
+    },
+    hideCustomer: {
+      type: Boolean,
+      default: false
+    },
+    hideEngine: {
       type: Boolean,
       default: false
     },

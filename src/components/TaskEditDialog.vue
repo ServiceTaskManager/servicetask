@@ -1,12 +1,14 @@
 <template>
   <q-dialog v-bind="$attrs" v-on="$listeners" :value="value" maximized>
     <q-card>
-      <q-card-section class="bg-black text-white text-h6">
-        <q-btn @click="cancel" icon="close" class="text-white" /><slot>Create a task</slot>
-      </q-card-section>
+      <q-toolbar :class="'bg-' + $tasks.meta.color" class="text-white">
+        <q-btn flat round dense icon="close" v-close-popup />
+        <q-toolbar-title><slot>Create a task</slot></q-toolbar-title>
+        <q-btn flat rounded dense @click="$emit('submit')" icon="done" v-close-popup />
+      </q-toolbar>
       <q-separator />
       <q-card-section class="row q-pa-sm">
-        <task-form @submit="submit" @cancel="cancel" :fields="fields" :task="task" :preset="preset" />
+        <task-form :fields="fields" :task="task" :preset="preset" no-submit />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -40,15 +42,6 @@ export default {
   },
   data () {
     return {}
-  },
-  methods: {
-    submit () {
-      this.$emit('input')
-      this.$emit('submit')
-    },
-    cancel () {
-      this.$emit('input')
-    }
   },
   components: {
     TaskForm

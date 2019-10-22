@@ -22,7 +22,7 @@
       <date-time-field v-model="taskData.schedule_to" v-bind="fields.schedule_to" />
     </q-item>
 
-    <q-item class="row justify-end">
+    <q-item class="row justify-end" v-if="noButton">
       <q-btn rounded flat
         color="grey"
         icon="undo"
@@ -68,25 +68,33 @@ export default {
       default: () => {
         return {}
       }
+    },
+    noButton: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
-      taskData: {},
-      test: {}
+      taskData: {}
     }
   },
   mounted () {
-    this.taskData = Object.assign({},
-      this.$store.state.tasks.default,
-      this.$store.state.tasks.presets[this.preset],
+    this.taskData = Object.assign(
+      {
+        schedule_from: new Date(),
+        schedule_to: new Date()
+      },
+      this.$tasks.default,
+      this.$tasks.presets[this.preset],
       this.task,
-      this.$store.state.tasks.data[this.taskId])
+      this.$tasks.data[this.taskId])
+
+    this.$on('submit', this.set())
   },
   methods: {
     set () {
       this.$store.dispatch('tasks/set', this.taskData)
-      this.$emit('submit')
     }
   },
   components: {

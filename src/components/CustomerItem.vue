@@ -1,19 +1,14 @@
 <template>
-  <q-item class="q-pa-xs" :to="{ name: 'customersView', params: { id: customer.id } }">
+  <q-item class="q-pa-xs" :to="{ name: 'customer', params: { id: customer.id } }">
     <q-item-section avatar>
-      <q-avatar :color="meta.color" :icon="meta.icon" />
+      <q-avatar :color="$customers.meta.color" :icon="$customers.meta.icon" />
     </q-item-section>
     <q-item-section>
       <q-item-label class="text-bold">
         {{ customer.name }}
       </q-item-label>
       <q-item-label caption lines="1">
-        <address-chip dense :address="{
-          addr1: customer.addr1,
-          addr2: customer.addr2,
-          postal_code: customer.postal_code,
-          city: customer.city,
-          country: customer.country}"
+        <address-chip dense :address="customer.address"
           :show="['city', 'country']" />
       </q-item-label>
     </q-item-section>
@@ -29,14 +24,12 @@ export default {
     customer: {
       type: Object,
       default: () => {
-        return this.$store.state.customers.default
+        return {}
       }
     }
   },
   data () {
-    return {
-      meta: this.$store.state.customers.meta
-    }
+    return {}
   },
   components: {
     AddressChip

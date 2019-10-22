@@ -1,3 +1,9 @@
+import users from '../store/firestore/users'
+import tasks from '../store/firestore/tasks'
+import calls from '../store/firestore/calls'
+import customers from '../store/firestore/customers'
+import { engines } from '../store/firestore/engines'
+
 const routes = [
   {
     path: '/error',
@@ -31,7 +37,9 @@ const routes = [
         name: 'login',
         component: () => import('pages/Login.vue'),
         meta: {
-          title: 'Login'
+          title: 'Login',
+          noHeader: true,
+          noDrawer: true
         }
       },
       {
@@ -62,57 +70,49 @@ const routes = [
         path: 'users',
         name: 'users',
         component: () => import('pages/Users.vue'),
-        meta: {
-          title: 'Users'
-        }
+        meta: users.state.meta
+      },
+      {
+        path: 'user/:id',
+        name: 'user',
+        component: () => import('pages/User.vue'),
+        meta: Object.assign(users.state.meta, { customTitle: true, editButton: true })
       },
       {
         path: 'calls',
         name: 'calls',
         component: () => import('pages/Calls.vue'),
-        meta: {
-          title: 'Calls'
-        }
+        meta: calls.state.meta
       },
       {
         path: 'tasks',
         name: 'tasks',
         component: () => import('pages/Tasks.vue'),
-        meta: {
-          title: 'Tasks'
-        }
+        meta: tasks.state.meta
       },
       {
         path: 'engines',
         name: 'engines',
         component: () => import('pages/Engines.vue'),
-        meta: {
-          title: 'Engines'
-        }
+        meta: engines.state.meta
       },
       {
-        path: 'engine',
+        path: 'engine/:id',
         name: 'engine',
         component: () => import('pages/Engine.vue'),
-        meta: {
-          title: 'Engine details'
-        }
+        meta: Object.assign(engines.state.meta, { customTitle: true, editButton: true })
       },
       {
         path: 'customers',
         name: 'customers',
         component: () => import('pages/Customers.vue'),
-        meta: {
-          title: 'Customers'
-        }
+        meta: customers.state.meta
       },
       {
-        path: 'customer',
+        path: 'customer/:id',
         name: 'customer',
         component: () => import('pages/Customer.vue'),
-        meta: {
-          title: 'Customer details'
-        }
+        meta: Object.assign(customers.state.meta, { customTitle: true, editButton: true })
       }
     ]
   }

@@ -3,11 +3,11 @@
     <q-item v-if="'customer' in fields">
       <customer-field v-model="engineData.customer" @input="engine.engine = ''" v-bind="fields.customer" />
     </q-item>
-    <q-item v-if="'customer' in fields">
+    <q-item v-if="'name' in fields">
       <name-field v-model="engineData.name" v-bind="fields.name" />
     </q-item>
     <q-item v-if="'sn' in fields">
-      <text-field v-model="engineData.sn" v-bind="fields.sn" />
+      <name-field v-model="engineData.sn" v-bind="fields.sn" />
     </q-item>
 
     <q-item class="row justify-end">
@@ -33,17 +33,13 @@ export default {
       type: String,
       default: undefined
     },
-    preset: {
-      type: String,
-      default: undefined
-    },
     fields: {
       type: Object,
       default: () => {
         return {
           customer: {},
-          name: {},
-          sn: {}
+          name: { label: 'Engine name' },
+          sn: { label: 'Serial number' }
         }
       }
     },
@@ -62,7 +58,6 @@ export default {
   mounted () {
     this.engineData = Object.assign({},
       this.$engines.default,
-      this.$engines.presets[this.preset],
       this.engine,
       this.$engines.data[this.engineId])
   },
@@ -74,8 +69,7 @@ export default {
   },
   components: {
     CustomerField: () => import('./CustomerField'),
-    NameField: () => import('./NameField'),
-    TextField: () => import('./TextField')
+    NameField: () => import('./NameField')
   }
 }
 </script>

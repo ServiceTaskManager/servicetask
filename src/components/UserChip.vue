@@ -1,5 +1,5 @@
 <template>
-  <q-chip v-bind="$attrs" v-on="$listeners" clickable @click="$router.push({ name: 'usersView', params: { id: userData.id }})">
+  <q-chip v-bind="$attrs" v-on="$listeners" clickable @click="$router.push({ name: 'user', params: { id: userData.id }})">
     <user-avatar :user="userData" />
     {{ userData.name }}
   </q-chip>

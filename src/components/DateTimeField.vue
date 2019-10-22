@@ -47,7 +47,7 @@ export default {
     value: {
       type: Date,
       default: () => {
-        return undefined
+        return new Date()
       }
     }
   },
@@ -58,6 +58,9 @@ export default {
       time: '',
       showDialog: false
     }
+  },
+  mounted () {
+    this.$emit('input', this.dateFormatted)
   },
   watch: {
     value: function (val) {
@@ -77,7 +80,7 @@ export default {
         let date = new Date(dateTimeArray[0], parseInt(dateTimeArray[1]) - 1, dateTimeArray[2], dateTimeArray[3], dateTimeArray[4])
         return date
       } else {
-        return undefined
+        return new Date()
       }
     },
     displayValue () {
