@@ -10,7 +10,7 @@
 
       <q-item v-if="enginesFiltered.length === 0">
         <q-item-section class="text-center">
-          <q-item-label class="text-h5">There's no engine to display.</q-item-label>
+          <q-item-label>There's no engine to display.</q-item-label>
           <q-item-label caption>Check the filters</q-item-label>
         </q-item-section>
       </q-item>
@@ -26,9 +26,9 @@ export default {
   name: 'EngineList',
   props: {
     filters: {
-      type: Object,
+      type: Array,
       default: () => {
-        return {}
+        return []
       }
     },
     hideFilters: {
@@ -42,17 +42,16 @@ export default {
   },
   data () {
     return {
-      customFilters: {
-        name: ['contains', '', 'Name'],
-        sn: ['contains', '', 'Serial number'],
-        customer: ['includes', '', 'Customer'],
-        main: ['==', true, 'Main']
-      }
+      customFilters: [
+        ['name', 'contains', '', 'Name'],
+        ['sn', 'contains', '', 'Serial number'],
+        ['customer', 'includes', '', 'Customer'],
+        ['main', '==', 'all', 'Main']]
     }
   },
   computed: {
     enginesFiltered () {
-      return this.$store.getters['engines/filter'](Object.assign(this.customFilters, this.filters))
+      return this.$store.getters['engines/filter'](this.filters.concat(this.customFilters))
     }
   },
   components: {

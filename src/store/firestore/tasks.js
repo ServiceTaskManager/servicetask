@@ -1,3 +1,6 @@
+import { Dialog } from 'quasar'
+import UserPrompt from '../../components/UserPrompt'
+
 const tasks = {
   state: {
     data: {},
@@ -7,6 +10,7 @@ const tasks = {
       color: 'light-blue'
     },
     default: {
+      user: '',
       customer: '',
       engine: '',
       title: '',
@@ -16,26 +20,55 @@ const tasks = {
       schedule_from: '',
       schedule_to: '',
       subTasks: []
-    },
-    presets: {
-      createWO: {
-        title: 'Create WO'
-      }
     }
   },
   getters: {
-    stats: state => {
-      let tasks = Object.values(state.data)
-      let reducer = (stats, task) => {
-        if (task.done) stats.done++
-        else stats.todo++
-        return stats
+    getActions: state => taskId => {
+      let task = (state.data[taskId] || {})
+      let actions = [
+        {
+          label: 'Assign',
+          icon: 'person_add',
+          color: 'grey',
+          action: 'userPrompt'
+        }
+      ]
+      if (task.user !== '') {
+        actions.push({
+          label: 'Unassign',
+          icon: 'person_add_disabled',
+          color: 'grey',
+          patch: { user: '' }
+        })
       }
-      let stats = tasks.reduce(reducer, {
-        done: 0,
-        todo: 0
+      if (task.done !== true) {
+        actions.push({
+          label: 'Done',
+          icon: 'done',
+          color: state.meta.color,
+          patch: { done: true, done_at: new Date() }
+        })
+      }
+      if (task.status !== false) {
+        actions.push({
+          label: 'To do',
+          icon: 'cancel',
+          color: 'negative',
+          patch: { done: false }
+        })
+      }
+      return actions
+    }
+  },
+  actions: {
+    userPrompt ({ dispatch }, data) {
+      Dialog.create({
+        component: UserPrompt,
+        parent: data.parent,
+        text: 'Assign to'
+      }).onOk(userInput => {
+        dispatch('patchBatch', { doc: { user: userInput }, ids: data.ids })
       })
-      return stats
     }
   },
   namespaced: true,
@@ -48,7 +81,8 @@ const tasks = {
       created_at: '%convertTimestamp%',
       updated_at: '%convertTimestamp%',
       schedule_from: '%convertTimestamp%',
-      schedule_to: '%convertTimestamp%'
+      schedule_to: '%convertTimestamp%',
+      done_at: '%convertTimestamp%'
     }
   }
 }

@@ -1,29 +1,38 @@
 <template>
-  <div class="container">
-    <customer-list />
-
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" :color="$customers.meta.color" @click="customerCreate = true" />
-    </q-page-sticky>
-
-    <customer-edit-dialog v-model="customerCreate" />
+  <div>
+    <filter-form v-model="filters" class="q-pa-xs" expand-icon-toggle>
+      <template v-slot:header>
+        <q-input v-model="filters[0][2]"
+          class="full-width"
+          spread
+          stretch
+          dense>
+          <template v-slot:append>
+            <q-icon name="search" color="grey" />
+          </template>
+        </q-input>
+      </template>
+    </filter-form>
+    <customer-list :filters="filters" hide-filters />
   </div>
 </template>
 
 <script>
 import CustomerList from '../components/CustomerList'
-import CustomerEditDialog from '../components/CustomerEditDialog'
+import FilterForm from '../components/FilterForm'
 
 export default {
   name: 'Customers',
   data () {
     return {
-      customerCreate: false
+      filters: [
+        ['name', 'contains', '', '', true],
+        ['technician', '==', '', 'Technician']]
     }
   },
   components: {
     CustomerList,
-    CustomerEditDialog
+    FilterForm
   }
 }
 </script>

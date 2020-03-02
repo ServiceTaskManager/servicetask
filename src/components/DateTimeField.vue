@@ -45,7 +45,7 @@ export default {
   name: 'DateTimeField',
   props: {
     value: {
-      type: Date,
+      type: [Date, String],
       default: () => {
         return new Date()
       }

@@ -1,7 +1,7 @@
 <template>
   <q-chip v-bind="$attrs" v-on="$listeners"
     clickable
-    @click="$router.push({ name: 'engine', params: { id: engineData.id }})"
+    @click.prevent="$router.push({ name: 'engine', params: { id: engineData.id }})"
     style="overflow: hidden;">
     <q-avatar :color="meta.color" :icon="meta.icon" />
     {{ engineData.name }}

@@ -17,17 +17,8 @@ export default {
     if (engine.main) {
       this.engine = engine
     } else {
-      let preDevices = this.$store.getters['engines/filter']([{
-        property: 'pre_devices',
-        filter: 'includes',
-        value: engine.id
-      }])
-      let postDevices = this.$store.getters['engines/filter']([{
-        property: 'post_devices',
-        filter: 'includes',
-        value: engine.id
-      }])
-      console.log(preDevices, postDevices)
+      let preDevices = this.$store.getters['engines/filter']([['pre_devices', 'includes', engine.id]])
+      let postDevices = this.$store.getters['engines/filter']([['post_devices', 'includes', engine.id]])
       if (preDevices.length === 1) this.engine = preDevices[0]
       else if (postDevices.length === 1) this.engine = postDevices[0]
       else this.engine = engine

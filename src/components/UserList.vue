@@ -10,7 +10,7 @@
 
       <q-item v-if="usersFiltered.length === 0">
         <q-item-section class="text-center">
-          <q-item-label class="text-h5">There's no user to display.</q-item-label>
+          <q-item-label>There's no user to display.</q-item-label>
           <q-item-label caption>Check the filters</q-item-label>
         </q-item-section>
       </q-item>
@@ -38,15 +38,15 @@ export default {
   },
   data () {
     return {
-      customFilters: {
-        name: ['contains', '', 'Name'],
-        groups: ['includes', '', 'Group']
-      }
+      customFilters: [
+        ['name', 'contains', '', 'Name'],
+        ['groups', 'includes', '', 'Group']
+      ]
     }
   },
   computed: {
     usersFiltered () {
-      return this.$store.getters['users/filter'](Object.assign(this.filters, this.customFilters))
+      return this.$store.getters['users/filter'](this.filters.concat(this.customFilters))
     }
   },
   components: {

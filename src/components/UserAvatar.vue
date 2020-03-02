@@ -5,7 +5,7 @@
     :color="userData.color"
     class="text-white text-bold">
     {{ userData.name | initial }}
-</q-avatar>
+  </q-avatar>
 </template>
 
 <script>
@@ -15,7 +15,10 @@ export default {
     user: {
       type: Object,
       default: () => {
-        return {}
+        return {
+          color: 'grey',
+          name: '?'
+        }
       }
     },
     userId: {

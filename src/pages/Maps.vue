@@ -1,6 +1,6 @@
 <template>
   <div>
-    <l-map style="width: 100%; height: 100%; min-height: calc(100vh - 100px);"
+    <l-map style="height: calc(100vh - 50px);"
       :zoom="map.zoom"
       :center="map.center">
 
@@ -13,13 +13,6 @@
       <l-marker v-for="customer in customers"
         :key="customer.id"
         :lat-lng="customer.address.lat_lng">
-        <l-popup>
-          <q-card>
-            <q-card-section>
-              {{ customer.name }}
-            </q-card-section>
-          </q-card>
-        </l-popup>
         <l-icon :icon-anchor="[10, 10]">
           <q-avatar :icon="$customers.meta.icon" :color="$customers.meta.color" style="color: white;" size="20px"  />
         </l-icon>
@@ -35,7 +28,7 @@
 </template>
 
 <script>
-import { LMap, LIcon, LTileLayer, LControl, LMarker, LPopup } from 'vue2-leaflet'
+import { LMap, LIcon, LTileLayer, LControl, LMarker } from 'vue2-leaflet'
 import { Icon } from 'leaflet'
 
 delete Icon.Default.prototype._getIconUrl
@@ -68,7 +61,6 @@ export default {
     LTileLayer,
     LControl,
     LMarker,
-    LPopup,
     LIcon
   }
 }

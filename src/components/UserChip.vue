@@ -1,6 +1,7 @@
 <template>
   <q-chip v-bind="$attrs" v-on="$listeners" clickable @click="$router.push({ name: 'user', params: { id: userData.id }})">
     <user-avatar :user="userData" />
+    <slot />
     {{ userData.name }}
   </q-chip>
 </template>
@@ -17,7 +18,9 @@ export default {
     },
     user: {
       type: Object,
-      default: undefined
+      default: () => {
+        return {}
+      }
     }
   },
   data () {
@@ -25,8 +28,7 @@ export default {
   },
   computed: {
     userData () {
-      if (this.user) return this.user
-      else return this.userId ? this.$users.data[this.userId] : this.$store.state.users.default
+      return this.userId ? this.$users.data[this.userId] : this.$users.default
     }
   },
   components: {

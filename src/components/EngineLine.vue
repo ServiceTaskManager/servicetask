@@ -53,8 +53,8 @@ export default {
   },
   computed: {
     mixinEngines () {
-      let preDevices = this.$store.getters['engines/filter']({ id: ['includes', this.engine.pre_devices] })
-      let postDevices = this.$store.getters['engines/filter']({ id: ['includes', this.engine.post_devices] })
+      let preDevices = this.$store.getters['engines/filter']([['id', 'includes', (this.engine.pre_devices || [])]])
+      let postDevices = this.$store.getters['engines/filter']([['id', 'includes', (this.engine.post_devices || [])]])
       let mixin = preDevices.concat(this.engine, postDevices)
       return mixin
     }

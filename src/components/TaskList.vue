@@ -1,29 +1,22 @@
 <template>
   <q-list>
-    <q-item v-if="addButton">
-      <q-btn @click="taskCreate = true"
-        rounded
-        label="Add a task"
-        :icon="$tasks.meta.icon"
-        :color="$tasks.meta.color"
-        class="full-width" />
-      <task-edit-dialog v-model="taskCreate"
-        :task="taskFormData" />
-    </q-item>
-
-    <filter-form v-model="customFilters" v-if="!hideFilters" />
+    <slot name="header" />
+    <slot name="filter">
+      <filter-form v-model="customFilters" v-if="!hideFilters" />
+    </slot>
 
     <task-item
       v-for="task in tasksFiltered"
       :key="task.id"
       :task="task"
       :hide-customer="hideCustomer"
-      :hide-engine="hideEngine" />
+      :hide-engine="hideEngine"
+      :no-select="noSelect" />
 
-    <q-item v-if="tasksFiltered.length === 0">
+    <q-item v-if="tasksFiltered.length === 0 && !hideNoResult">
       <q-item-section class="text-center">
-        <q-item-label class="text-h5">There's no task to display.</q-item-label>
-        <q-item-label caption v-if="Object.values(customFilters).length > 0">Check the filters</q-item-label>
+        <q-item-label>There's no task to display.</q-item-label>
+        <q-item-label caption v-if="customFilters.filter(f => f[2] !== '').length > 0">Check the filters</q-item-label>
       </q-item-section>
     </q-item>
   </q-list>
@@ -32,15 +25,14 @@
 <script>
 import TaskItem from './TaskItem'
 import FilterForm from './FilterForm'
-import TaskEditDialog from './TaskEditDialog'
 
 export default {
   name: 'TaskList',
   props: {
     filters: {
-      type: Object,
+      type: Array,
       default: () => {
-        return {}
+        return []
       }
     },
     hideFilters: {
@@ -55,7 +47,11 @@ export default {
       type: Boolean,
       default: false
     },
-    addButton: {
+    noSelect: {
+      type: Boolean,
+      default: false
+    },
+    hideNoResult: {
       type: Boolean,
       default: false
     }
@@ -63,26 +59,31 @@ export default {
   data () {
     return {
       taskCreate: false,
-      customFilters: {
-        title: ['contains', '', 'Title'],
-        customer: ['includes', '', 'Customer'] }
+      taskFilters: [
+        ['title', 'contains', '', 'Title'],
+        ['customer', '==', '', 'Customer'],
+        ['user', '==', '', 'Technician']
+      ]
     }
   },
   computed: {
     tasksFiltered () {
-      return this.$store.getters['tasks/filter'](Object.assign({}, this.customFilters, this.filters))
+      return this.$store.getters['tasks/filter'](this.filters.concat(this.customFilters))
     },
-    taskFormData () {
-      return {
-        customer: this.filters.customer[1][0],
-        engine: this.filters.engine[1][0]
+    customFilters: {
+      get () {
+        let filteredKey = this.filters.map(f => f[0])
+        let filters = this.taskFilters.filter(f => !filteredKey.includes(f[0]))
+        return filters
+      },
+      set (val) {
+        this.callFilters = val
       }
     }
   },
   components: {
     TaskItem,
-    FilterForm,
-    TaskEditDialog
+    FilterForm
   }
 }
 </script>

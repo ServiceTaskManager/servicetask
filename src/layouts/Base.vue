@@ -1,9 +1,8 @@
 <template>
-  <q-layout view="hHh lpR fFf">
-
+  <q-layout view="hHr lpR fFf">
     <q-header elevated
       :class="headerClass"
-      v-if="!$route.meta.noHeader">
+      v-if="!$route.meta.noHeader && $store.state.firestore.ready">
       <q-toolbar>
         <q-avatar v-if="$route.name === 'dashboard' || $route.name === 'login'">
           <img src="statics/app-logo-128x128.png" />
@@ -12,32 +11,23 @@
 
         <q-toolbar-title>{{ title }}</q-toolbar-title>
 
-        <q-btn dense flat round icon="edit" @click="$root.$emit('editDialog', true)" v-if="$route.meta.editButton" />
-        <q-btn dense flat round icon="menu" @click="right = !right" />
+        <router-view name="toolbar" />
       </q-toolbar>
     </q-header>
 
     <q-drawer
-      v-model="right"
+      v-model="drawer"
       side="right"
-      behavior="mobile"
+      :behavior="$q.platform.is.mobile ? 'mobile' : 'desktop'"
       elevated
-      v-if="!$route.meta.noDrawer">
-      <q-img v-if="user.login"
-        class="absolute-top bg-white"
-        src="statics/icons/icon-512x512.png"
-        style="height: 110px;">
-        <div class="absolute-full flex flex-center">
-          <user-avatar :user-id="user.data.id" size="80px" />
-        </div>
-      </q-img>
-
-      <div class="q-pa-xs bg-grey-9 full-height">
-        <q-scroll-area style="height: calc(100% - 110px); margin-top: 110px;">
+      v-if="!$route.meta.noDrawer && $store.state.firestore.ready">
+      <div class="q-pa-none bg-grey-9 full-height">
+        <q-scroll-area class="full-height">
           <div>
             <q-list class="text-white">
               <q-item :to="{ name: 'settings' }"
-                class="bg-black rounded-borders">
+                :class="'bg-' + ($route.meta.color || 'black')"
+                style="height: 50px;">
                 <q-item-section avatar>
                   <q-icon color="white" name="settings" />
                 </q-item-section>
@@ -45,10 +35,10 @@
                   {{ user.data.name }}
                 </q-item-section>
                 <q-item-section side>
-                  <q-separator vertical class="q-mr-sm" color="black" />
-                  <q-btn flat round
+                  <q-btn round
                     size="sm"
-                    color="negative"
+                    color="white"
+                    :class="'text-' + ($route.meta.color || 'black')"
                     icon="logout"
                     @click.prevent="logout" />
                 </q-item-section>
@@ -68,8 +58,8 @@
                 <q-item-section>
                   Tasks
                 </q-item-section>
+                <q-separator vertical class="q-mr-sm" :color="$tasks.meta.color" />
                 <q-item-section side>
-                  <q-separator vertical class="q-mr-sm" :color="$tasks.meta.color" />
                   <q-btn flat round
                     size="sm"
                     :color="$tasks.meta.color"
@@ -85,8 +75,8 @@
                 <q-item-section>
                   Calls
                 </q-item-section>
+                <q-separator vertical class="q-mr-sm" :color="$calls.meta.color" />
                 <q-item-section side>
-                  <q-separator vertical class="q-mr-sm" :color="$calls.meta.color" />
                   <q-btn flat round
                     size="sm"
                     :color="$calls.meta.color"
@@ -102,8 +92,8 @@
                 <q-item-section>
                   Customers
                 </q-item-section>
+                <q-separator vertical class="q-mr-sm" :color="$customers.meta.color" />
                 <q-item-section side>
-                  <q-separator vertical class="q-mr-sm" :color="$customers.meta.color" />
                   <q-btn flat round
                     size="sm"
                     :color="$customers.meta.color"
@@ -136,24 +126,33 @@
     </q-drawer>
 
     <q-page-container>
-      <q-page padding class="bg-grey-3">
-        <router-view v-if="$store.state.firestore.ready || $route.name === 'login'" />
-        <div v-else class="row justify-center text-center">
-          <div class="col-8 col-offset-2" style="margin-top: 100px;">
-            <q-linear-progress rounded
-              style="height: 50px; "
-              color="warning"
-              :value="$store.state.firestore.loading" />
-            <span>Loading {{ $store.state.firestore.loadingStore }}...</span>
+      <q-page class="bg-grey-3" style="height: calc(100vh - 50px)">
+        <q-scroll-area class="full-height" :thumb-style="thumbStyle">
+          <router-view v-if="$store.state.firestore.ready || $route.name === 'login'" />
+          <div v-else class="row justify-center text-center">
+            <div class="col-8 col-offset-2" style="margin-top: 100px;">
+              <q-circular-progress
+                show-value
+                font-size="10px"
+                class="q-ma-md"
+                :value="$firestore.loading"
+                size="100px"
+                :thickness="0.25"
+                color="primary"
+                track-color="grey-3">
+                <q-avatar size="75px">
+                  <img src="statics/icons/icon-512x512.png" class="full-width" />
+                </q-avatar>
+              </q-circular-progress>
+            </div>
           </div>
-        </div>
+        </q-scroll-area>
       </q-page>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import UserAvatar from '../components/UserAvatar'
 import TaskEditDialog from '../components/TaskEditDialog'
 import CallEditDialog from '../components/CallEditDialog'
 import CustomerEditDialog from '../components/CustomerEditDialog'
@@ -162,10 +161,17 @@ export default {
   name: 'Base',
   data () {
     return {
-      right: false,
+      drawer: !this.$q.platform.is.mobile,
       taskCreate: false,
       callCreate: false,
-      customerCreate: false
+      customerCreate: false,
+      thumbStyle: {
+        backgroundColor: 'black',
+        opacity: 1,
+        right: '2px',
+        borderRadius: '2.5px',
+        width: '5px'
+      }
     }
   },
   computed: {
@@ -185,7 +191,6 @@ export default {
     }
   },
   components: {
-    UserAvatar,
     TaskEditDialog,
     CallEditDialog,
     CustomerEditDialog

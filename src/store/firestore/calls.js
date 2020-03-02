@@ -1,3 +1,6 @@
+import { Dialog } from 'quasar'
+import UserPrompt from '../../components/UserPrompt'
+
 const calls = {
   state: {
     data: {},
@@ -10,7 +13,7 @@ const calls = {
       title: '', // string
       customer: '', // customer id
       engine: '', // engine id
-      status: 'unassigned', // unassigned, assigned, closed
+      status: 'open', // unassigned, assigned, closed
       person: '', // string
       phone: '', // string
       teamviewer: {
@@ -19,22 +22,55 @@ const calls = {
       },
       assign_to: '', // user id
       closed_at: '' // date
-    },
-    presets: {}
+    }
   },
   getters: {
-    stats: state => {
-      let calls = Object.values(state.data)
-      let reducer = (stats, call) => {
-        stats[call.status]++
-        return stats
+    getActions: state => callId => {
+      let call = (state.data[callId] || {})
+      let actions = [
+        {
+          label: 'Assign',
+          icon: 'person_add',
+          color: 'grey',
+          action: 'userPrompt'
+        }
+      ]
+      if (call.user !== '') {
+        actions.push({
+          label: 'Unassign',
+          icon: 'person_add_disabled',
+          color: 'grey',
+          patch: { user: '' }
+        })
       }
-      let stats = calls.reduce(reducer, {
-        assigned: 0,
-        unassigned: 0,
-        closed: 0
+      if (call.status !== 'close') {
+        actions.push({
+          label: 'Close',
+          icon: 'cancel',
+          color: 'grey',
+          patch: { status: 'close', closed_at: new Date() }
+        })
+      }
+      if (call.status !== 'open') {
+        actions.push({
+          label: 'Open',
+          icon: 'arrow_back',
+          color: 'grey',
+          patch: { status: 'open' }
+        })
+      }
+      return actions
+    }
+  },
+  actions: {
+    userPrompt ({ dispatch }, data) {
+      Dialog.create({
+        component: UserPrompt,
+        parent: data.parent,
+        text: 'Assign to'
+      }).onOk(userInput => {
+        dispatch('patchBatch', { doc: { user: userInput }, ids: data.ids })
       })
-      return stats
     }
   },
   namespaced: true,
@@ -45,7 +81,8 @@ const calls = {
   serverChange: {
     convertTimestamps: {
       created_at: '%convertTimestamp%',
-      updated_at: '%convertTimestamp%'
+      updated_at: '%convertTimestamp%',
+      closed_at: '%convertTimestamp%'
     }
   }
 }

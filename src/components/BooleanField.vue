@@ -1,53 +1,50 @@
 <template>
-  <q-select use-input
+  <q-btn-toggle
     v-bind="$attrs"
     v-on="$attrs"
     :value="value"
-    @input="$emit('input', $event.value)"
-    color="black"
+    @input="$emit('input', $event)"
     class="full-width"
+    spread
+    stretch
+    outline
+    no-caps
+    toggle-color="primary"
+    color="white"
+    text-color="black"
     :options="options"
-    option-label="label"
-    option-value="value"
-    :label="label">
-
-    <template v-slot:prepend>
-      <q-icon name="?" color="black" />
-    </template>
-  </q-select>
+  />
 </template>
-
 <script>
-import { QSelect } from 'quasar'
-
 export default {
   name: 'BooleanField',
   props: {
     value: {
-      type: Boolean,
+      type: [Boolean, String],
       default: undefined
     },
     label: {
       type: String,
       default: 'Customer'
+    },
+    options: {
+      type: Array,
+      default: () => {
+        return [{
+          label: 'All',
+          value: 'all'
+        }, {
+          label: 'Yes',
+          value: true
+        }, {
+          label: 'No',
+          value: false
+        }]
+      }
     }
   },
   data () {
-    return {
-      options: [{
-        label: 'All',
-        value: ''
-      }, {
-        label: 'Yes',
-        value: true
-      }, {
-        label: 'No',
-        value: false
-      }]
-    }
-  },
-  components: {
-    QSelect
+    return {}
   }
 }
 </script>

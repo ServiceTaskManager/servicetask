@@ -1,90 +1,81 @@
 <template>
-  <div class="row q-col-gutter-md">
-    <div class="col-12 col-sm-6">
-      <q-card>
-        <q-card-section top class="q-pa-xs">
-          <div class="row items-center">
-            <div class="col-4">
-              <q-circular-progress
-                show-value
-                class="q-ma-xs q-pa-none"
-                :value="callKnob"
-                size="80px"
-                :thickness="0.2"
-                color="green"
-                center-color="white"
-                track-color="orange">
-                {{  callsStats.assigned }} / {{ callsStats.assigned + callsStats.unassigned }}
-              </q-circular-progress>
-            </div>
-            <div class="col-8">
-              <div v-if="callsStats.unassigned === 0">
-                <span class="text-h5">Congrats,</span><br>
-                <span caption>all the calls are assigned.</span>
-              </div>
-              <div v-else-if="callsStats.unassigned === 1">
-                <span class="text-h5">1 customer</span><br>
-                <span caption>is waiting for a call back.</span>
-              </div>
-              <div v-else>
-                <span class="text-h5">{{ callsStats.unassigned }} calls</span><br>
-                <span caption>remains without any call back.</span>
-              </div>
-            </div>
-          </div>
-          <div class="row justify-end">
-            <q-btn @click="callCreate = true"
-              flat
-              icon="add"
-              color="primary"
-              class="col" />
-            <q-btn :to="{ name: 'calls' }"
-              flat
-              icon="list"
-              color="grey-8"
-              class="col" />
-          </div>
-        </q-card-section>
-        <q-card-section class="q-pa-none">
-          <call-list :filters="callsFilters" hideFilters />
-        </q-card-section>
+  <div class="row q-col-gutter-md q-pa-md">
+    <div class="col-12">
+      <q-card class="full-width">
+        <q-item>
+          <q-item-section>
+            <call-list :filters="callsFilters" hideFilters hideNoResult no-select>
+              <template v-slot:header>
+                <q-item>
+                  <q-item-section avatar>
+                    <q-icon :name="$calls.meta.icon" :color="$calls.meta.color" />
+                  </q-item-section>
+                  <q-item-section class="text-bold">
+                    <span v-if="callStat < 1">
+                      So far, so good.
+                    </span>
+                    <span v-else>
+                      Keep going
+                    </span>
+                  </q-item-section>
+                  <q-item-section side>
+                    <div class="row">
+                      <q-btn @click="callDialog = true"
+                        flat round dense
+                        icon="add"
+                        :color="$calls.meta.color" />
+                      <q-btn :to="{ name: 'calls' }"
+                        flat round dense
+                        icon="list"
+                        :color="$calls.meta.color" />
+                    </div>
+                  </q-item-section>
+                </q-item>
+              </template>
+            </call-list>
+          </q-item-section>
+        </q-item>
       </q-card>
     </div>
-    <div class="col-12 col-sm-6">
-      <q-card>
-        <q-card-section top class="q-pa-md text-center">
-          <div>
-            <div v-if="tasksStats.todo === 0">
-              <span class="text-h5">Congrats,</span><br>
-              <span caption>you're done with everything. Take a rest.</span>
-            </div>
-            <div v-else>
-              <span class="text-h5">Keep going,</span><br>
-              <span caption>you can do it.</span>
-            </div>
-          </div>
-          <div class="row justify-end">
-            <q-btn @click="taskCreate = true"
-              flat
-              icon="add"
-              color="primary"
-              class="col" />
-            <q-btn :to="{ name: 'tasks' }"
-              flat
-              icon="list"
-              color="grey-8"
-              class="col" />
-          </div>
-        </q-card-section>
-        <q-card-section class="q-pa-none">
-          <q-list>
-            <task-list :filters="tasksFilters" />
-          </q-list>
-        </q-card-section>
+    <div class="col-12">
+      <q-card class="full-width">
+        <q-item>
+          <q-item-section>
+            <task-list :filters="tasksFilters" hideFilters hideNoResult no-select>
+              <template v-slot:header>
+                <q-item>
+                  <q-item-section avatar>
+                    <q-icon :name="$tasks.meta.icon" :color="$tasks.meta.color" />
+                  </q-item-section>
+                  <q-item-section class="text-bold">
+                    <span v-if="taskStat < 1">
+                      So far, so good.
+                    </span>
+                    <span v-else>
+                      Keep going
+                    </span>
+                  </q-item-section>
+                  <q-item-section side>
+                    <div class="row">
+                      <q-btn @click="taskDialog = true"
+                        flat round dense
+                        icon="add"
+                        :color="$tasks.meta.color" />
+                      <q-btn :to="{ name: 'tasks' }"
+                        flat round dense
+                        icon="list"
+                        :color="$tasks.meta.color" />
+                    </div>
+                  </q-item-section>
+                </q-item>
+              </template>
+            </task-list>
+          </q-item-section>
+        </q-item>
       </q-card>
     </div>
-    <call-edit-dialog v-model="callCreate" />
-    <task-edit-dialog v-model="taskCreate" />
+    <call-edit-dialog v-model="callDialog" />
+    <task-edit-dialog v-model="taskDialog" />
   </div>
 </template>
 
@@ -98,21 +89,22 @@ export default {
   name: 'Dashboard',
   data () {
     return {
-      taskCreate: false,
-      callCreate: false,
-      tasksFilters: { done: ['==', false] },
-      callsFilters: { status: ['==', 'unassigned'] }
+      tasksFilters: [
+        ['done', '==', false],
+        ['user', '==', this.$user.data.id]],
+      callsFilters: [
+        ['status', '==', 'open']
+      ],
+      callDialog: false,
+      taskDialog: false
     }
   },
   computed: {
-    callsStats () {
-      return this.$store.getters['calls/stats']
+    callStat () {
+      return this.$store.getters['calls/stat'](this.callsFilters)
     },
-    tasksStats () {
-      return this.$store.getters['tasks/stats']
-    },
-    callKnob () {
-      return this.callsStats.assigned / (this.callsStats.assigned + this.callsStats.unassigned) * 100
+    taskStat () {
+      return this.$store.getters['tasks/stat'](this.tasksFilters)
     }
   },
   components: {

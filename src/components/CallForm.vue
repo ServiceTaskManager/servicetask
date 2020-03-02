@@ -1,68 +1,54 @@
 <template>
-  <q-list class="full-width">
-    <q-item v-if="'customer' in fields">
-      <customer-field v-model="callData.customer" @input="callData.engine = ''" v-bind="fields.customer" />
-    </q-item>
-    <q-item v-if="'engine' in fields">
-      <engine-field v-model="callData.engine" v-bind="fields.engine" :customer-id="callData.customer" />
-    </q-item>
-    <q-item v-if="'title' in fields">
-      <title-field v-model="callData.title" label="Problem description" v-bind="fields.title" />
-    </q-item>
-    <q-item v-if="'person' in fields">
-      <person-field v-model="callData.person" v-bind="fields.person" />
-    </q-item>
-    <q-item v-if="'phone' in fields">
-      <phone-field v-model="callData.phone" v-bind="fields.phone" />
-    </q-item>
-    <q-item v-if="'teamviewer' in fields">
-      <teamviewer-field v-model="callData.teamviewer" v-bind="fields.teamviewer" />
-    </q-item>
-
-    <q-item class="row justify-end">
-      <q-btn rounded flat
-        color="grey"
-        icon="undo"
-        @click="$emit('cancel')" />
-      <q-btn rounded
-        color="positive"
-        label="Submit"
-        type="submit"
-        icon="done"
-        @click="set" />
-    </q-item>
-  </q-list>
+  <q-form class="full-width">
+    <user-field v-if="'user' in fields"
+      v-model="callData.user"
+      v-bind="fields.user" />
+    <customer-field v-if="'customer' in fields"
+      v-model="callData.customer"
+      @input="callData.engine = ''"
+      v-bind="fields.customer" />
+    <engine-field v-if="'engine' in fields"
+      v-model="callData.engine"
+      v-bind="fields.engine"
+      :customer-id="callData.customer" />
+    <title-field v-if="'title' in fields"
+      v-model="callData.title"
+      label="Problem description"
+      v-bind="fields.title" />
+    <person-field v-if="'person' in fields"
+      v-model="callData.person"
+      v-bind="fields.person" />
+    <phone-field v-if="'phone' in fields"
+      v-model="callData.phone"
+      v-bind="fields.phone" />
+    <teamviewer-field v-if="'teamviewer' in fields"
+      v-model="callData.teamviewer"
+      v-bind="fields.teamviewer" />
+  </q-form>
 </template>
 
 <script>
 export default {
   name: 'CallForm',
   props: {
-    callId: {
-      type: String,
-      default: undefined
-    },
-    preset: {
-      type: String,
-      default: undefined
+    value: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     },
     fields: {
       type: Object,
       default: () => {
         return {
+          user: { label: 'Assign to' },
           customer: {},
           engine: {},
-          title: {},
           person: {},
           phone: {},
-          teamviewer: {}
+          teamviewer: {},
+          title: { label: 'Problem' }
         }
-      }
-    },
-    call: {
-      type: Object,
-      default: () => {
-        return {}
       }
     }
   },
@@ -74,17 +60,15 @@ export default {
   mounted () {
     this.callData = Object.assign({},
       this.$calls.default,
-      this.$calls.presets[this.preset],
-      this.call,
-      this.$calls.data[this.callId])
+      this.value)
   },
-  methods: {
-    set () {
-      this.$store.dispatch('calls/set', this.callData)
-      this.$emit('submit')
+  watch: {
+    callData: function (val) {
+      this.$emit('input', val)
     }
   },
   components: {
+    UserField: () => import('./UserField'),
     CustomerField: () => import('./CustomerField'),
     EngineField: () => import('./EngineField'),
     TitleField: () => import('./TitleField'),

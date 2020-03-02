@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     filter (val, done) {
-      this.customersFiltered = this.$store.getters['customers/filter']({ name: ['contains', val] })
+      this.customersFiltered = this.$store.getters['customers/filter']([['name', 'contains', val]])
       done()
     }
   },

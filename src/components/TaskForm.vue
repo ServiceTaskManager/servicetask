@@ -1,53 +1,40 @@
 <template>
-  <q-list class="full-width">
-    <q-item v-if="'user' in fields">
-      <user-field v-model="taskData.user" v-bind="fields.user" />
-    </q-item>
-    <q-item v-if="'customer' in fields">
-      <customer-field v-model="taskData.customer" @input="taskData.engine = ''" v-bind="fields.customer" />
-    </q-item>
-    <q-item v-if="'engine' in fields">
-      <engine-field v-model="taskData.engine" v-bind="fields.engine" :customer-id="taskData.customer" />
-    </q-item>
-    <q-item v-if="'title' in fields">
-      <title-field v-model="taskData.title" v-bind="fields.title" />
-    </q-item>
-    <q-item v-if="'description' in fields">
-      <description-field v-model="taskData.description" v-bind="fields.description" />
-    </q-item>
-    <q-item v-if="'schedule_from' in fields">
-      <date-time-field v-model="taskData.schedule_from" v-bind="fields.schedule_from" />
-    </q-item>
-    <q-item v-if="'schedule_to' in fields">
-      <date-time-field v-model="taskData.schedule_to" v-bind="fields.schedule_to" />
-    </q-item>
-
-    <q-item class="row justify-end" v-if="noButton">
-      <q-btn rounded flat
-        color="grey"
-        icon="undo"
-        @click="$emit('cancel')" />
-      <q-btn rounded
-        color="positive"
-        label="Submit"
-        type="submit"
-        icon="done"
-        @click="set" />
-    </q-item>
-  </q-list>
+  <q-form class="full-width">
+    <user-field v-if="'user' in fields"
+      v-model="taskData.user"
+      v-bind="fields.user" />
+    <customer-field v-if="'customer' in fields"
+      v-model="taskData.customer"
+      @input="taskData.engine = ''"
+      v-bind="fields.customer" />
+    <engine-field v-if="'engine' in fields"
+      v-model="taskData.engine"
+      v-bind="fields.engine"
+      :customer-id="taskData.customer" />
+    <title-field v-if="'title' in fields"
+      v-model="taskData.title"
+      v-bind="fields.title" />
+    <description-field v-if="'description' in fields"
+      v-model="taskData.description"
+      v-bind="fields.description" />
+    <date-time-field v-if="'schedule_from' in fields"
+      v-model="taskData.schedule_from"
+      v-bind="fields.schedule_from" />
+    <date-time-field v-if="'schedule_to' in fields"
+      v-model="taskData.schedule_to"
+      v-bind="fields.schedule_to" />
+  </q-form>
 </template>
 
 <script>
 export default {
   name: 'TaskForm',
   props: {
-    taskId: {
-      type: String,
-      default: undefined
-    },
-    preset: {
-      type: String,
-      default: undefined
+    value: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     },
     fields: {
       type: Object,
@@ -62,16 +49,6 @@ export default {
           schedule_to: { label: 'End date' }
         }
       }
-    },
-    task: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    },
-    noButton: {
-      type: Boolean,
-      default: false
     }
   },
   data () {
@@ -80,21 +57,13 @@ export default {
     }
   },
   mounted () {
-    this.taskData = Object.assign(
-      {
-        schedule_from: new Date(),
-        schedule_to: new Date()
-      },
+    this.taskData = Object.assign({},
       this.$tasks.default,
-      this.$tasks.presets[this.preset],
-      this.task,
-      this.$tasks.data[this.taskId])
-
-    this.$on('submit', this.set())
+      this.value)
   },
-  methods: {
-    set () {
-      this.$store.dispatch('tasks/set', this.taskData)
+  watch: {
+    taskData: function (val) {
+      this.$emit('input', val)
     }
   },
   components: {

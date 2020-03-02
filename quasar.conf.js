@@ -53,54 +53,11 @@ module.exports = function (ctx) {
     },
     // framework: 'all' --- includes everything; for dev only!
     framework: {
-      components: [
-        'QAvatar',
-        'QBadge',
-        'QBtn',
-        'QCard',
-        'QCardActions',
-        'QCardSection',
-        'QChip',
-        'QCircularProgress',
-        'QColor',
-        'QDate',
-        'QDialog',
-        'QDrawer',
-        'QExpansionItem',
-        'QHeader',
-        'QIcon',
-        'QImg',
-        'QInput',
-        'QItem',
-        'QItemLabel',
-        'QItemSection',
-        'QLayout',
-        'QLinearProgress',
-        'QList',
-        'QMenu',
-        'QOptionGroup',
-        'QPage',
-        'QPageContainer',
-        'QPageSticky',
-        'QPopupProxy',
-        'QScrollArea',
-        'QSeparator',
-        'QTab',
-        'QTabPanel',
-        'QTabPanels',
-        'QTabs',
-        'QTime',
-        'QToggle',
-        'QToolbar',
-        'QToolbarTitle'
-      ],
-      directives: [
-        'Ripple',
-        'ClosePopup'
-      ],
-      // Quasar plugins
+      all: 'auto',
       plugins: [
-        'Notify'
+        'Notify',
+        'Dialog',
+        'BottomSheet'
       ]
     },
     animations: [],

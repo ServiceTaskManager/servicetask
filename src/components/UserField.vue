@@ -21,6 +21,10 @@
       <q-btn flat round icon="close" color="grey" @click="$emit('input', '')" />
     </template>
 
+    <template v-slot:append v-else>
+      <q-btn flat round icon="person_add" :color="$users.meta.color" @click="$emit('input', $user.data.id)" />
+    </template>
+
     <template v-slot:no-option>
       <q-item>
         <q-item-section class="text-grey">
@@ -51,9 +55,6 @@ export default {
       usersFiltered: this.$store.getters['users/filter']()
     }
   },
-  mounted () {
-    this.$emit('input', this.$store.state.user.data.id)
-  },
   computed: {
     displayValue () {
       return this.value === '' ? '' : this.$users.data[this.value].name
@@ -61,15 +62,8 @@ export default {
   },
   methods: {
     filter (val, done) {
-      this.usersFiltered = this.$store.getters['users/filter']({ name: ['contains', val] })
+      this.usersFiltered = this.$store.getters['users/filter']([['name', 'contains', val]])
       done()
-      /* done(() => {
-        if (val !== '') {
-          this.usersFiltered = this.usersArray.filter(c => c.name.toLowerCase().indexOf(val.toLowerCase()) > -1)
-        } else {
-          this.usersFiltered = this.usersArray
-        }
-      }) */
     }
   },
   components: {

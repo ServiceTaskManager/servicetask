@@ -1,3 +1,6 @@
+import { Dialog } from 'quasar'
+import UserPrompt from '../../components/UserPrompt'
+
 const customers = {
   state: {
     data: {},
@@ -17,6 +20,24 @@ const customers = {
       },
       phone: '',
       email: ''
+    },
+    actions: [{
+      label: 'Assign a default technician',
+      icon: 'person_add',
+      color: 'grey',
+      action: 'assignTechnician',
+      more: true
+    }]
+  },
+  actions: {
+    assignTechnician ({ dispatch }, data) {
+      Dialog.create({
+        component: UserPrompt,
+        parent: data.parent,
+        text: 'Assign to'
+      }).onOk(userInput => {
+        dispatch('patchBatch', { doc: { technician: userInput }, ids: data.ids })
+      })
     }
   },
   vue: true,

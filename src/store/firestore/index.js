@@ -1,5 +1,5 @@
 import PostFirestoreLoading from './PostFirestoreLoading'
-import filter from './utils'
+import * as utils from './utils'
 import users from './users'
 import groups from './groups'
 import tasks from './tasks'
@@ -21,13 +21,27 @@ const stores = [users,
 ]
 
 stores.forEach(s => {
-  let getters = {
-    filter: state => filters => {
-      let data = Object.values(state.data)
-      return filter(data, filters)
-    }
+  let filter = state => filters => {
+    let data = Object.values(state.data)
+    return utils.filter(data, filters)
   }
-  s.getters = Object.assign({}, s.getters, getters)
+  let stat = state => filters => {
+    let data = Object.values(state.data)
+    return utils.stat(data, filters)
+  }
+  let selected = state => {
+    return Object.values(state.data).filter(s => s.selected)
+  }
+  let selectedIds = state => {
+    let selected = Object.values(state.data).filter(s => s.selected)
+    return selected.map(s => s.id)
+  }
+  s.getters = { ...s.getters, filter, stat, selected, selectedIds }
+
+  let toggleSelected = (state, id) => {
+    state.data[id] = { ...state.data[id], selected: !state.data[id].selected }
+  }
+  s.mutations = { ...s.mutations, toggleSelected }
 })
 
 const firestore = {

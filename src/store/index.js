@@ -73,8 +73,17 @@ const ui = {
   state: {
     header: {
       title: 'Default title'
+    },
+    selected: [],
+    search: ''
+  },
+  mutations: {
+    reset (state) {
+      state.selected = []
+      state.search = ''
     }
-  }
+  },
+  namespaced: true
 }
 
 // Create Easy Firestore object with models to sync

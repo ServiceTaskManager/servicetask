@@ -1,7 +1,8 @@
 <template>
   <q-chip v-bind="$attrs" v-on="$listeners"
     clickable
-    @click="$router.push({ name: 'customer', params: { id: customerData.id } })">
+    @click.prevent="$router.push({ name: 'customer', params: { id: customerData.id } })"
+    style="overflow: hidden;">
     <q-avatar :color="meta.color" :icon="meta.icon" />
     {{ customerData.name }}
   </q-chip>
@@ -28,7 +29,7 @@ export default {
   computed: {
     customerData () {
       if (this.customer) return this.customer
-      else return this.customerId ? this.$store.state.customers.data[this.customerId] : this.$store.state.customers.default
+      else return this.customerId ? this.$customers.data[this.customerId] : this.$customers.default
     }
   }
 }

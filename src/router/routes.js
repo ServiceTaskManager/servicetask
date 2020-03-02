@@ -26,7 +26,10 @@ const routes = [
       {
         path: '',
         name: 'dashboard',
-        component: () => import('pages/Dashboard.vue'),
+        components: {
+          default: () => import('pages/Dashboard.vue'),
+          toolbar: () => import('components/DashboardToolbar.vue')
+        },
         meta: {
           title: 'Dashboard',
           description: 'Global overview'
@@ -76,19 +79,43 @@ const routes = [
         path: 'user/:id',
         name: 'user',
         component: () => import('pages/User.vue'),
-        meta: Object.assign(users.state.meta, { customTitle: true, editButton: true })
+        meta: Object.assign({}, users.state.meta, { customTitle: true })
       },
       {
         path: 'calls',
         name: 'calls',
-        component: () => import('pages/Calls.vue'),
+        components: {
+          default: () => import('pages/Calls.vue'),
+          toolbar: () => import('components/CallsToolbar.vue')
+        },
         meta: calls.state.meta
+      },
+      {
+        path: 'call/:id',
+        name: 'call',
+        components: {
+          default: () => import('pages/Call.vue'),
+          toolbar: () => import('components/CallToolbar.vue')
+        },
+        meta: Object.assign({}, calls.state.meta, { customTitle: true })
       },
       {
         path: 'tasks',
         name: 'tasks',
-        component: () => import('pages/Tasks.vue'),
+        components: {
+          default: () => import('pages/Tasks.vue'),
+          toolbar: () => import('components/TasksToolbar.vue')
+        },
         meta: tasks.state.meta
+      },
+      {
+        path: 'task/:id',
+        name: 'task',
+        components: {
+          default: () => import('pages/Task.vue'),
+          toolbar: () => import('components/TaskToolbar.vue')
+        },
+        meta: Object.assign({}, tasks.state.meta, { customTitle: true })
       },
       {
         path: 'engines',
@@ -100,19 +127,25 @@ const routes = [
         path: 'engine/:id',
         name: 'engine',
         component: () => import('pages/Engine.vue'),
-        meta: Object.assign(engines.state.meta, { customTitle: true, editButton: true })
+        meta: Object.assign({}, engines.state.meta, { customTitle: true })
       },
       {
         path: 'customers',
         name: 'customers',
-        component: () => import('pages/Customers.vue'),
-        meta: customers.state.meta
+        components: {
+          default: () => import('pages/Customers.vue'),
+          toolbar: () => import('components/Toolbar.vue')
+        },
+        meta: { ...customers.state.meta, store: customers.moduleName }
       },
       {
         path: 'customer/:id',
         name: 'customer',
-        component: () => import('pages/Customer.vue'),
-        meta: Object.assign(customers.state.meta, { customTitle: true, editButton: true })
+        components: {
+          default: () => import('pages/Customer.vue'),
+          toolbar: () => import('components/CustomerToolbar.vue')
+        },
+        meta: Object.assign({}, customers.state.meta, { customTitle: true })
       }
     ]
   }

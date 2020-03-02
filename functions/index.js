@@ -32,9 +32,11 @@ exports.sendNotifications = functions.firestore.document('notifications/{notific
       notification: {
         title: notification.title,
         body: notification.body,
-        click_action: `https://${process.env.GCLOUD_PROJECT}.firebaseapp.com/dashboard`,
+        click_action: `https://${process.env.GCLOUD_PROJECT}.firebaseapp.com/dashboard`
       }
     }
-    
-    const response = await admin.messaging().sendToDevice(notification.tokens, payload)
+
+    await admin.messaging().sendToDevice(notification.tokens, payload)
+
+    return true
   })

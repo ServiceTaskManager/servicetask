@@ -23,6 +23,7 @@ export default function ({ store, ssrContext }) {
   })
 
   Router.beforeEach((to, from, next) => {
+    store.commit('ui/reset')
     let user = JSON.parse(localStorage.getItem('user'))
     let login = user ? user.login : false
     if (login) next()

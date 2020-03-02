@@ -1,68 +1,45 @@
 <template>
   <div>
-    <q-tabs
-      v-model="tab"
-      dense
-      class="text-grey"
-      :active-color="$calls.meta.color"
-      :indicator-color="$calls.meta.color"
-      align="justify"
-      narrow-indicator>
-      <q-tab name="unassigned" icon="phone_callback" label="Incoming call">
-        <q-badge :label="stats.unassigned" :color="$calls.meta.color" floating></q-badge>
-      </q-tab>
-      <q-tab name="assigned" icon="person" label="Assigned">
-        <q-badge :label="stats.assigned" :color="$calls.meta.color" floating></q-badge>
-      </q-tab>
-      <q-tab name="closed" icon="done" label="Closed">
-        <q-badge :label="stats.closed" :color="$calls.meta.color" floating></q-badge>
-      </q-tab>
-    </q-tabs>
-    <q-separator />
-
-    <q-tab-panels v-model="tab" animated>
-      <q-tab-panel name="unassigned">
-        <call-list :filters="callsUnassignedFilters" />
-      </q-tab-panel>
-      <q-tab-panel name="assigned">
-        <call-list :filters="callsAssignedFilters" />
-      </q-tab-panel>
-      <q-tab-panel name="closed">
-        <call-list :filters="callsClosedFilters" />
-      </q-tab-panel>
-    </q-tab-panels>
-
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" :color="$calls.meta.color" @click="callCreate = true" />
-    </q-page-sticky>
-
-    <call-edit-dialog v-model="callCreate" />
+    <filter-form v-model="filters" class="q-pa-sm" expand-icon-toggle>
+      <template v-slot:header>
+        <boolean-field @click.native.stop=""
+          v-model="filters[0][2]"
+          :options="options" />
+      </template>
+    </filter-form>
+    <call-list :filters="filters" hide-filters />
   </div>
 </template>
 
 <script>
 import CallList from '../components/CallList'
-import CallEditDialog from '../components/CallEditDialog'
+import FilterForm from '../components/FilterForm'
+import BooleanField from '../components/BooleanField'
 
 export default {
   name: 'Calls',
   data () {
     return {
-      tab: 'unassigned',
-      callCreate: false,
-      callsUnassignedFilters: { status: ['==', 'unassigned'] },
-      callsAssignedFilters: { status: ['==', 'assigned'] },
-      callsClosedFilters: { status: ['==', 'closed'] }
-    }
-  },
-  computed: {
-    stats () {
-      return this.$store.getters['calls/stats']
+      filters: [
+        ['status', '==', 'open', 'Status ?', true],
+        ['customer', 'contains', ''],
+        ['user', 'contains', '']],
+      options: [{
+        label: 'Open',
+        value: 'open'
+      }, {
+        label: 'Closed',
+        value: 'close'
+      }, {
+        label: 'All',
+        value: 'all'
+      }]
     }
   },
   components: {
     CallList,
-    CallEditDialog
+    FilterForm,
+    BooleanField
   }
 }
 </script>
