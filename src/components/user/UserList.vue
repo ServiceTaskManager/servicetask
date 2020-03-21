@@ -19,9 +19,6 @@
 </template>
 
 <script>
-import UserItem from './UserItem'
-import FilterForm from './FilterForm'
-
 export default {
   name: 'UserList',
   props: {
@@ -50,8 +47,8 @@ export default {
     }
   },
   components: {
-    UserItem,
-    FilterForm
+    UserItem: () => import('./UserItem'),
+    FilterForm: () => import('../generic/FilterForm')
   }
 }
 </script>

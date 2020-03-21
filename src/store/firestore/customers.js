@@ -1,5 +1,5 @@
 import { Dialog } from 'quasar'
-import UserPrompt from '../../components/UserPrompt'
+import UserPrompt from '../../components/user/UserPrompt'
 
 const customers = {
   state: {
@@ -7,7 +7,8 @@ const customers = {
     meta: {
       title: 'Customers',
       icon: 'group',
-      color: 'pink'
+      color: 'pink',
+      titleProperty: 'name'
     },
     default: {
       name: '',
@@ -21,12 +22,50 @@ const customers = {
       phone: '',
       email: ''
     },
+    fields: [{
+      key: 'name',
+      component: 'TextField',
+      attributes: {
+        iconName: 'group',
+        iconColor: 'pink',
+        label: 'Company name'
+      }
+    },
+    {
+      key: 'email',
+      component: 'TextField',
+      attributes: {
+        type: 'email',
+        iconName: 'alternate_email',
+        iconColor: 'grey',
+        label: 'Company email address'
+      }
+    },
+    {
+      key: 'phone',
+      component: 'TextField',
+      attributes: {
+        type: 'phone',
+        iconName: 'phone',
+        iconColor: 'grey',
+        label: 'Company phone number'
+      }
+    },
+    {
+      key: 'address',
+      component: 'AddressField',
+      attributes: {}
+    }],
     actions: [{
-      label: 'Assign a default technician',
+      label: 'Assign',
       icon: 'person_add',
       color: 'grey',
-      action: 'assignTechnician',
-      more: true
+      action: 'assignTechnician'
+    }, {
+      label: 'Unassign',
+      icon: 'person_add_disabled',
+      color: 'grey',
+      patch: { technician: '' }
     }]
   },
   actions: {

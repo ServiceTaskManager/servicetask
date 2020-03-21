@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import CustomerChip from './CustomerChip'
 export default {
   name: 'EngineItem',
   props: {
@@ -40,7 +39,7 @@ export default {
     }
   },
   components: {
-    CustomerChip
+    CustomerChip: () => import('../customer/CustomerChip')
   }
 }
 </script>

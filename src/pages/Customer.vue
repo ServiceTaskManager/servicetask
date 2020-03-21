@@ -5,7 +5,7 @@
       dense
       align="justify"
       narrow-indicator>
-      <q-tab name="customers" icon="description" label="Overview" :class="'text-' + $customers.meta.color" />
+      <q-tab name="customer" icon="description" label="Overview" :class="'text-' + $customers.meta.color" />
       <q-tab name="engines" icon="print" label="Engines" :class="'text-' + $engines.meta.color" />
       <q-tab name="calls" icon="phone" label="Calls" :class="'text-' + $calls.meta.color" />
       <q-tab name="tasks" icon="done" label="Tasks" :class="'text-' + $tasks.meta.color" />
@@ -13,7 +13,7 @@
     <q-separator />
 
     <q-tab-panels v-model="tab" animated>
-      <q-tab-panel name="customers">
+      <q-tab-panel name="customer">
         <user-chip v-if="customer.technician"
           :user-id="customer.technician"
           class="full-width">
@@ -36,20 +36,11 @@
 </template>
 
 <script>
-import EngineList from '../components/EngineList'
-import CallList from '../components/CallList'
-import TaskList from '../components/TaskList'
-import UserChip from '../components/UserChip'
-import PhoneChip from '../components/PhoneChip'
-import AddressChip from '../components/AddressChip'
-
 export default {
   name: 'CustomerView',
   data () {
     return {
-      editDialog: false,
-      tab: 'customers',
-      customer: this.$customers.default,
+      tab: 'customer',
       filterByCustomer: [['customer', '==', this.$route.params.id]],
       enginesFilter: [
         ['customer', '==', this.$route.params.id],
@@ -57,16 +48,20 @@ export default {
     }
   },
   mounted () {
-    this.customer = this.$customers.data[this.$route.params.id]
-    this.$ui.header.title = this.customer.name
+    this.$store.dispatch('customers/selectOneOnly', this.customer.id)
+  },
+  computed: {
+    customer () {
+      return this.$customers.data[this.$route.params.id]
+    }
   },
   components: {
-    EngineList,
-    CallList,
-    TaskList,
-    UserChip,
-    PhoneChip,
-    AddressChip
+    EngineList: () => import('../components/engine/EngineList'),
+    CallList: () => import('../components/call/CallList'),
+    TaskList: () => import('../components/task/TaskList'),
+    UserChip: () => import('../components/user/UserChip'),
+    PhoneChip: () => import('../components/generic/PhoneChip'),
+    AddressChip: () => import('../components/generic/AddressChip')
   }
 }
 </script>

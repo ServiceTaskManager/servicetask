@@ -1,18 +1,12 @@
-import users from '../store/firestore/users'
-import tasks from '../store/firestore/tasks'
-import calls from '../store/firestore/calls'
-import customers from '../store/firestore/customers'
-import { engines } from '../store/firestore/engines'
-
 const routes = [
   {
     path: '/error',
-    component: () => import('layouts/Base.vue'),
+    component: () => import('layouts/Base'),
     children: [
       {
         path: '/403',
         name: '403',
-        component: () => import('pages/Error403.vue'),
+        component: () => import('pages/Error403'),
         meta: {
           title: 'Error 403'
         }
@@ -21,15 +15,12 @@ const routes = [
   },
   {
     path: '/',
-    component: () => import('layouts/Base.vue'),
+    component: () => import('layouts/Base'),
     children: [
       {
         path: '',
         name: 'dashboard',
-        components: {
-          default: () => import('pages/Dashboard.vue'),
-          toolbar: () => import('components/DashboardToolbar.vue')
-        },
+        component: () => import('pages/Dashboard'),
         meta: {
           title: 'Dashboard',
           description: 'Global overview'
@@ -38,7 +29,7 @@ const routes = [
       {
         path: 'login',
         name: 'login',
-        component: () => import('pages/Login.vue'),
+        component: () => import('pages/Login'),
         meta: {
           title: 'Login',
           noHeader: true,
@@ -48,7 +39,7 @@ const routes = [
       {
         path: 'settings',
         name: 'settings',
-        component: () => import('pages/Settings.vue'),
+        component: () => import('pages/Settings'),
         meta: {
           title: 'Settings'
         }
@@ -56,7 +47,7 @@ const routes = [
       {
         path: 'maps',
         name: 'maps',
-        component: () => import('pages/Maps.vue'),
+        component: () => import('pages/Maps'),
         meta: {
           title: 'Maps'
         }
@@ -64,7 +55,7 @@ const routes = [
       {
         path: 'calendar',
         name: 'calendar',
-        component: () => import('pages/Calendar.vue'),
+        component: () => import('pages/Calendar'),
         meta: {
           title: 'Calendar'
         }
@@ -72,80 +63,62 @@ const routes = [
       {
         path: 'users',
         name: 'users',
-        component: () => import('pages/Users.vue'),
-        meta: users.state.meta
+        component: () => import('pages/Users'),
+        meta: { store: 'users' }
       },
       {
         path: 'user/:id',
         name: 'user',
-        component: () => import('pages/User.vue'),
-        meta: Object.assign({}, users.state.meta, { customTitle: true })
+        component: () => import('pages/User'),
+        meta: { store: 'users' }
       },
       {
         path: 'calls',
         name: 'calls',
-        components: {
-          default: () => import('pages/Calls.vue'),
-          toolbar: () => import('components/CallsToolbar.vue')
-        },
-        meta: calls.state.meta
+        component: () => import('pages/Calls'),
+        meta: { store: 'calls' }
       },
       {
         path: 'call/:id',
         name: 'call',
-        components: {
-          default: () => import('pages/Call.vue'),
-          toolbar: () => import('components/CallToolbar.vue')
-        },
-        meta: Object.assign({}, calls.state.meta, { customTitle: true })
+        component: () => import('pages/Call'),
+        meta: { store: 'calls' }
       },
       {
         path: 'tasks',
         name: 'tasks',
-        components: {
-          default: () => import('pages/Tasks.vue'),
-          toolbar: () => import('components/TasksToolbar.vue')
-        },
-        meta: tasks.state.meta
+        component: () => import('pages/Tasks'),
+        meta: { store: 'tasks' }
       },
       {
         path: 'task/:id',
         name: 'task',
-        components: {
-          default: () => import('pages/Task.vue'),
-          toolbar: () => import('components/TaskToolbar.vue')
-        },
-        meta: Object.assign({}, tasks.state.meta, { customTitle: true })
+        component: () => import('pages/Task'),
+        meta: { store: 'tasks' }
       },
       {
         path: 'engines',
         name: 'engines',
-        component: () => import('pages/Engines.vue'),
-        meta: engines.state.meta
+        component: () => import('pages/Engines'),
+        meta: { store: 'engines' }
       },
       {
         path: 'engine/:id',
         name: 'engine',
-        component: () => import('pages/Engine.vue'),
-        meta: Object.assign({}, engines.state.meta, { customTitle: true })
+        component: () => import('pages/Engine'),
+        meta: { store: 'engines' }
       },
       {
         path: 'customers',
         name: 'customers',
-        components: {
-          default: () => import('pages/Customers.vue'),
-          toolbar: () => import('components/Toolbar.vue')
-        },
-        meta: { ...customers.state.meta, store: customers.moduleName }
+        component: () => import('pages/Customers'),
+        meta: { store: 'customers' }
       },
       {
         path: 'customer/:id',
         name: 'customer',
-        components: {
-          default: () => import('pages/Customer.vue'),
-          toolbar: () => import('components/CustomerToolbar.vue')
-        },
-        meta: Object.assign({}, customers.state.meta, { customTitle: true })
+        component: () => import('pages/Customer'),
+        meta: { store: 'customers' }
       }
     ]
   }
@@ -158,7 +131,7 @@ routes.push({
     {
       path: '*',
       name: '404',
-      component: () => import('pages/Error404.vue')
+      component: () => import('pages/Error404')
     }
   ]
 })

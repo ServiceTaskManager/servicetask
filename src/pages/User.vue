@@ -34,11 +34,6 @@
 </template>
 
 <script>
-import CustomerList from '../components/CustomerList'
-import EngineList from '../components/EngineList'
-import CallList from '../components/CallList'
-import TaskList from '../components/TaskList'
-
 export default {
   name: 'CustomerView',
   data () {
@@ -51,7 +46,6 @@ export default {
   },
   mounted () {
     this.user = this.$users.data[this.$route.params.id]
-    this.$ui.header.title = this.user.name
   },
   computed: {
     enginesFilter () {
@@ -62,10 +56,10 @@ export default {
     }
   },
   components: {
-    CustomerList,
-    EngineList,
-    CallList,
-    TaskList
+    CustomerList: () => import('../components/customer/CustomerList'),
+    EngineList: () => import('../components/engine/EngineList'),
+    CallList: () => import('../components/call/CallList'),
+    TaskList: () => import('../components/task/TaskList')
   }
 }
 </script>

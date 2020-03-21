@@ -20,7 +20,7 @@
                   </q-item-section>
                   <q-item-section side>
                     <div class="row">
-                      <q-btn @click="callDialog = true"
+                      <q-btn @click="callCreateDialog = true"
                         flat round dense
                         icon="add"
                         :color="$calls.meta.color" />
@@ -57,7 +57,7 @@
                   </q-item-section>
                   <q-item-section side>
                     <div class="row">
-                      <q-btn @click="taskDialog = true"
+                      <q-btn @click="taskCreateDialog = true"
                         flat round dense
                         icon="add"
                         :color="$tasks.meta.color" />
@@ -74,17 +74,12 @@
         </q-item>
       </q-card>
     </div>
-    <call-edit-dialog v-model="callDialog" />
-    <task-edit-dialog v-model="taskDialog" />
+    <edit-dialog v-model="callCreateDialog" store="calls" />
+    <edit-dialog v-model="taskCreateDialog" store="tasks" />
   </div>
 </template>
 
 <script>
-import CallList from '../components/CallList'
-import TaskList from '../components/TaskList'
-import TaskEditDialog from '../components/TaskEditDialog'
-import CallEditDialog from '../components/CallEditDialog'
-
 export default {
   name: 'Dashboard',
   data () {
@@ -95,8 +90,8 @@ export default {
       callsFilters: [
         ['status', '==', 'open']
       ],
-      callDialog: false,
-      taskDialog: false
+      callCreateDialog: false,
+      taskCreateDialog: false
     }
   },
   computed: {
@@ -108,10 +103,9 @@ export default {
     }
   },
   components: {
-    CallList,
-    TaskList,
-    TaskEditDialog,
-    CallEditDialog
+    CallList: () => import('../components/call/CallList'),
+    TaskList: () => import('../components/task/TaskList'),
+    EditDialog: () => import('../components/generic/EditDialog')
   }
 }
 </script>

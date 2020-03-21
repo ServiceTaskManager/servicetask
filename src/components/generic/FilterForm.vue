@@ -73,10 +73,10 @@ export default {
     }
   },
   components: {
-    TextField: () => import('./TitleField'),
-    CustomerField: () => import('./CustomerField'),
-    UserField: () => import('./UserField'),
-    BooleanField: () => import('./BooleanField'),
+    TextField: () => import('../generic/TextField'),
+    CustomerField: () => import('../customer/CustomerField'),
+    UserField: () => import('../user/UserField'),
+    BooleanField: () => import('../generic/BooleanField'),
     QSelect
   }
 }

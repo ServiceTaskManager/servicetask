@@ -15,18 +15,10 @@
         <task-list :filters="filter" hide-customer hide-engine />
       </div>
     </div>
-
-    <engine-edit-dialog v-model="editDialog" :engine="engine" />
   </div>
 </template>
 
 <script>
-import CallList from './CallList'
-import TaskList from './TaskList'
-import UserChip from './UserChip'
-import CustomerChip from './CustomerChip'
-import EngineEditDialog from './EngineEditDialog'
-
 export default {
   name: 'EngineTabPanel',
   props: {
@@ -40,7 +32,6 @@ export default {
   data () {
     return {
       tab: 'calls',
-      editDialog: false,
       filter: [
         ['customer', '==', this.engine.customer],
         ['engine', 'includes', this.engine.id]
@@ -52,11 +43,10 @@ export default {
     this.$root.$on('editDialog', () => { this.editDialog = true })
   },
   components: {
-    CallList,
-    TaskList,
-    UserChip,
-    CustomerChip,
-    EngineEditDialog
+    CallList: () => import('../call/CallList'),
+    TaskList: () => import('../task/TaskList'),
+    UserChip: () => import('../user/UserChip'),
+    CustomerChip: () => import('../customer/CustomerChip')
   }
 }
 </script>

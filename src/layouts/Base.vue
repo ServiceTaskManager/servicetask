@@ -11,7 +11,36 @@
 
         <q-toolbar-title>{{ title }}</q-toolbar-title>
 
-        <router-view name="toolbar" />
+        <!-- Toolbar button -->
+        <q-btn v-if="store"
+          flat round
+          icon="add" color="white"
+          @click="createDialog = true" />
+
+        <q-btn v-if="data"
+          flat round
+          icon="edit" color="white"
+          @click="editDialog = true" />
+
+        <q-btn v-if="selectedIds.length > 0"
+          flat round
+          icon="more_vert" color="white"
+          @click="bottomSheet" />
+
+        <q-btn v-if="selectedIds.length > 0 && !$route.params.id"
+          flat round
+          icon="cancel" color="white"
+          @click="unselectAll" />
+
+        <!-- Edit dialog from creation & edition -->
+        <edit-dialog v-if="this.$route.meta.store"
+          v-model="createDialog"
+          :store="$route.meta.store" />
+
+        <edit-dialog v-if="data"
+          v-model="editDialog"
+          :store="$route.meta.store"
+          :data="data" />
       </q-toolbar>
     </q-header>
 
@@ -64,8 +93,8 @@
                     size="sm"
                     :color="$tasks.meta.color"
                     icon="add"
-                    @click.prevent="taskCreate = true" />
-                  <task-edit-dialog v-model="taskCreate" />
+                    @click.prevent="taskCreateDialog = true" />
+                  <edit-dialog v-model="taskCreateDialog" store="tasks">New task</edit-dialog>
                 </q-item-section>
               </q-item>
               <q-item :to="{ name: 'calls' }">
@@ -81,8 +110,8 @@
                     size="sm"
                     :color="$calls.meta.color"
                     icon="add"
-                    @click.prevent="callCreate = true" />
-                  <call-edit-dialog v-model="callCreate" />
+                    @click.prevent="callCreateDialog = true" />
+                  <edit-dialog v-model="callCreateDialog" store="calls">New call</edit-dialog>
                 </q-item-section>
               </q-item>
               <q-item :to="{ name: 'customers' }">
@@ -98,8 +127,8 @@
                     size="sm"
                     :color="$customers.meta.color"
                     icon="add"
-                    @click.prevent="customerCreate = true" />
-                  <customer-edit-dialog v-model="customerCreate" />
+                    @click.prevent="customerCreateDialog = true" />
+                  <edit-dialog v-model="customerCreateDialog" store="customers">Add a customer</edit-dialog>
                 </q-item-section>
               </q-item>
               <q-item :to="{ name: 'maps' }">
@@ -153,18 +182,16 @@
 </template>
 
 <script>
-import TaskEditDialog from '../components/TaskEditDialog'
-import CallEditDialog from '../components/CallEditDialog'
-import CustomerEditDialog from '../components/CustomerEditDialog'
-
 export default {
   name: 'Base',
   data () {
     return {
       drawer: !this.$q.platform.is.mobile,
-      taskCreate: false,
-      callCreate: false,
-      customerCreate: false,
+      customerCreateDialog: false,
+      taskCreateDialog: false,
+      callCreateDialog: false,
+      createDialog: false,
+      editDialog: false,
       thumbStyle: {
         backgroundColor: 'black',
         opacity: 1,
@@ -178,22 +205,63 @@ export default {
     user () {
       return this.$store.state.user
     },
+    storeName () {
+      return this.$route.meta.store
+    },
+    store () {
+      return this.$route.meta.store ? this['$' + this.$route.meta.store] : false
+    },
+    meta () {
+      return this.store ? this.store.meta : this.$route.meta
+    },
     headerClass () {
-      return 'bg-' + (this.$route.meta.color || 'black') + ' text-white'
+      return 'bg-' + (this.meta.color || 'black') + ' text-white'
+    },
+    data () {
+      return this.$route.params.id ? this.store.data[this.$route.params.id] : false
     },
     title () {
-      return this.$route.meta.customTitle ? this.$ui.header.title : this.$route.meta.title
+      return this.data ? this.data[this.meta.titleProperty] : this.meta.title
+    },
+    selectedIds () {
+      let selectedIds = []
+      if (this.$route.meta.store) {
+        const selected = this.$store.getters[this.$route.meta.store + '/filter']([['selected', '==', true]])
+        selectedIds = selected.map(o => o.id)
+      }
+      return selectedIds
     }
   },
   methods: {
     logout () {
       this.$auth.signOut()
+    },
+    bottomSheet () {
+      this.$q.bottomSheet({
+        message: 'Actions',
+        actions: this.store.actions
+      }).onOk(action => {
+        if (action.patch) {
+          let payload = {
+            doc: action.patch,
+            ids: this.selectedIds
+          }
+          this.$store.dispatch(this.storeName + '/patchBatch', payload)
+        } else if (action.action) {
+          let payload = {
+            parent: this,
+            ids: this.selectedIds
+          }
+          this.$store.dispatch(this.storeName + '/' + action.action, payload)
+        }
+      })
+    },
+    unselectAll () {
+      this.$store.dispatch(this.storeName + '/unselectAll')
     }
   },
   components: {
-    TaskEditDialog,
-    CallEditDialog,
-    CustomerEditDialog
+    EditDialog: () => import('../components/generic/EditDialog')
   }
 }
 </script>

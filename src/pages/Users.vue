@@ -17,17 +17,11 @@
       <q-tab-panel name="users">
         <user-list />
       </q-tab-panel>
-      <q-tab-panel name="groups">
-        <group-list />
-      </q-tab-panel>
     </q-tab-panels>
   </div>
 </template>
 
 <script>
-import UserList from '../components/UserList'
-import GroupList from '../components/GroupList'
-
 export default {
   name: 'Users',
   data () {
@@ -36,8 +30,7 @@ export default {
     }
   },
   components: {
-    UserList,
-    GroupList
+    UserList: () => import('../components/user/UserList')
   }
 }
 </script>

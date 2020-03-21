@@ -16,7 +16,8 @@
       icon="more_vert"
       @click="bottomSheet" />
 
-    <customer-edit-dialog
+    <edit-dialog
+      store="customer"
       :data="data"
       v-model="editDialog" />
   </div>
@@ -68,7 +69,7 @@ export default {
     }
   },
   components: {
-    CustomerEditDialog: () => import('./CustomerEditDialog')
+    EditDialog: () => import('./EditDialog')
   }
 }
 </script>

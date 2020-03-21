@@ -3,7 +3,7 @@
     <q-card>
       <q-item>
         <q-item-section avatar>
-          <user-avatar :user-id="call.user" v-if="call.user" />
+          <user-avatar :user-id="call.assign_to" v-if="call.assign_to" />
           <user-avatar v-else />
         </q-item-section>
          <q-item-section>
@@ -27,26 +27,10 @@
 </template>
 
 <script>
-import CustomerChip from '../components/CustomerChip'
-import UserAvatar from '../components/UserAvatar'
-import EngineChip from '../components/EngineChip'
-import PhoneChip from '../components/PhoneChip'
-import TeamviewerChip from '../components/TeamviewerChip'
-
 export default {
   name: 'Call',
-  data () {
-    return {
-      editDialog: false,
-      confirmCall: false,
-      createWOTask: false,
-      createTask: false,
-      closeCall: false,
-      callEdit: false
-    }
-  },
   mounted () {
-    this.$ui.header.title = this.call.title
+    this.$store.dispatch('calls/selectOneOnly', this.call.id)
   },
   computed: {
     call () {
@@ -54,11 +38,11 @@ export default {
     }
   },
   components: {
-    CustomerChip,
-    UserAvatar,
-    EngineChip,
-    PhoneChip,
-    TeamviewerChip
+    CustomerChip: () => import('../components/customer/CustomerChip'),
+    UserAvatar: () => import('../components/user/UserAvatar'),
+    EngineChip: () => import('../components/engine/EngineChip'),
+    PhoneChip: () => import('../components/generic/PhoneChip'),
+    TeamviewerChip: () => import('../components/generic/TeamviewerChip')
   }
 }
 </script>

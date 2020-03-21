@@ -21,9 +21,6 @@
 </template>
 
 <script>
-import AddressChip from './AddressChip'
-import UserAvatar from './UserAvatar'
-
 export default {
   name: 'UserItem',
   props: {
@@ -38,8 +35,8 @@ export default {
     return {}
   },
   components: {
-    AddressChip,
-    UserAvatar
+    AddressChip: () => import('../generic/AddressChip'),
+    UserAvatar: () => import('./UserAvatar')
   }
 }
 </script>

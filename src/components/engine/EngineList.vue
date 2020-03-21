@@ -19,9 +19,6 @@
 </template>
 
 <script>
-import EngineItem from './EngineItem'
-import FilterForm from './FilterForm'
-
 export default {
   name: 'EngineList',
   props: {
@@ -55,8 +52,8 @@ export default {
     }
   },
   components: {
-    EngineItem,
-    FilterForm
+    EngineItem: () => import('./EngineItem'),
+    FilterForm: () => import('../generic/FilterForm')
   }
 }
 </script>

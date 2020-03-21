@@ -12,10 +12,6 @@
 </template>
 
 <script>
-import CallList from '../components/CallList'
-import FilterForm from '../components/FilterForm'
-import BooleanField from '../components/BooleanField'
-
 export default {
   name: 'Calls',
   data () {
@@ -37,9 +33,9 @@ export default {
     }
   },
   components: {
-    CallList,
-    FilterForm,
-    BooleanField
+    CallList: () => import('../components/call/CallList'),
+    FilterForm: () => import('../components/generic/FilterForm'),
+    BooleanField: () => import('../components/generic/BooleanField')
   }
 }
 </script>

@@ -12,10 +12,6 @@
 </template>
 
 <script>
-import TaskList from '../components/TaskList'
-import FilterForm from '../components/FilterForm'
-import BooleanField from '../components/BooleanField'
-
 export default {
   name: 'Tasks',
   data () {
@@ -38,9 +34,9 @@ export default {
     }
   },
   components: {
-    TaskList,
-    FilterForm,
-    BooleanField
+    TaskList: () => import('../components/task/TaskList'),
+    FilterForm: () => import('../components/generic/FilterForm'),
+    BooleanField: () => import('../components/generic/BooleanField')
   }
 }
 </script>

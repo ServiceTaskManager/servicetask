@@ -5,14 +5,12 @@
     <customer-item
       v-for="customer in customers"
       :key="customer.id"
-      :customer="customer" />
+      :customer="customer"
+      :no-select="noSelect" />
   </q-list>
 </template>
 
 <script>
-import CustomerItem from './CustomerItem'
-import FilterForm from './FilterForm'
-
 export default {
   name: 'CustomerList',
   props: {
@@ -23,6 +21,10 @@ export default {
       }
     },
     hideFilters: {
+      type: Boolean,
+      default: false
+    },
+    noSelect: {
       type: Boolean,
       default: false
     }
@@ -38,8 +40,8 @@ export default {
     }
   },
   components: {
-    CustomerItem,
-    FilterForm
+    CustomerItem: () => import('./CustomerItem'),
+    FilterForm: () => import('../generic/FilterForm')
   }
 }
 </script>

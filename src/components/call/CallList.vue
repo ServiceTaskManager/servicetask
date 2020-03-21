@@ -5,17 +5,17 @@
       <filter-form v-model="customFilters" v-if="!hideFilters" />
     </slot>
 
-    <task-item
-      v-for="task in tasksFiltered"
-      :key="task.id"
-      :task="task"
+    <call-item
+      v-for="call in callsFiltered"
+      :key="call.id"
+      :call="call"
       :hide-customer="hideCustomer"
       :hide-engine="hideEngine"
       :no-select="noSelect" />
 
-    <q-item v-if="tasksFiltered.length === 0 && !hideNoResult">
+    <q-item v-if="callsFiltered.length === 0 && !hideNoResult">
       <q-item-section class="text-center">
-        <q-item-label>There's no task to display.</q-item-label>
+        <q-item-label>There's no call to display.</q-item-label>
         <q-item-label caption v-if="customFilters.filter(f => f[2] !== '').length > 0">Check the filters</q-item-label>
       </q-item-section>
     </q-item>
@@ -23,11 +23,8 @@
 </template>
 
 <script>
-import TaskItem from './TaskItem'
-import FilterForm from './FilterForm'
-
 export default {
-  name: 'TaskList',
+  name: 'CallList',
   props: {
     filters: {
       type: Array,
@@ -47,19 +44,18 @@ export default {
       type: Boolean,
       default: false
     },
-    noSelect: {
+    hideNoResult: {
       type: Boolean,
       default: false
     },
-    hideNoResult: {
+    noSelect: {
       type: Boolean,
       default: false
     }
   },
   data () {
     return {
-      taskCreate: false,
-      taskFilters: [
+      callFilters: [
         ['title', 'contains', '', 'Title'],
         ['customer', '==', '', 'Customer'],
         ['user', '==', '', 'Technician']
@@ -67,13 +63,13 @@ export default {
     }
   },
   computed: {
-    tasksFiltered () {
-      return this.$store.getters['tasks/filter'](this.filters.concat(this.customFilters))
+    callsFiltered () {
+      return this.$store.getters['calls/filter'](this.filters.concat(this.customFilters))
     },
     customFilters: {
       get () {
         let filteredKey = this.filters.map(f => f[0])
-        let filters = this.taskFilters.filter(f => !filteredKey.includes(f[0]))
+        let filters = this.callFilters.filter(f => !filteredKey.includes(f[0]))
         return filters
       },
       set (val) {
@@ -82,8 +78,8 @@ export default {
     }
   },
   components: {
-    TaskItem,
-    FilterForm
+    CallItem: () => import('./CallItem'),
+    FilterForm: () => import('../generic/FilterForm')
   }
 }
 </script>

@@ -1,5 +1,5 @@
 import { Dialog } from 'quasar'
-import UserPrompt from '../../components/UserPrompt'
+import UserPrompt from '../../components/user/UserPrompt'
 
 const tasks = {
   state: {
@@ -7,7 +7,8 @@ const tasks = {
     meta: {
       title: 'Tasks',
       icon: 'done',
-      color: 'light-blue'
+      color: 'light-blue',
+      titleProperty: 'title'
     },
     default: {
       user: '',
@@ -16,49 +17,59 @@ const tasks = {
       title: '',
       description: '',
       done: false,
-      done_at: '',
-      schedule_from: '',
-      schedule_to: '',
+      time_shifts: [],
       subTasks: []
-    }
-  },
-  getters: {
-    getActions: state => taskId => {
-      let task = (state.data[taskId] || {})
-      let actions = [
-        {
-          label: 'Assign',
-          icon: 'person_add',
-          color: 'grey',
-          action: 'userPrompt'
-        }
-      ]
-      if (task.user !== '') {
-        actions.push({
-          label: 'Unassign',
-          icon: 'person_add_disabled',
-          color: 'grey',
-          patch: { user: '' }
-        })
+    },
+    fields: [{
+      key: 'user',
+      component: 'UserField'
+    }, {
+      key: 'customer',
+      component: 'CustomerField'
+    }, {
+      key: 'engine',
+      component: 'EngineField'
+    }, {
+      key: 'title',
+      component: 'TextField',
+      attributes: {
+        iconName: 'title',
+        iconColor: 'light-blue',
+        label: 'Task'
       }
-      if (task.done !== true) {
-        actions.push({
-          label: 'Done',
-          icon: 'done',
-          color: state.meta.color,
-          patch: { done: true, done_at: new Date() }
-        })
+    }, {
+      key: 'description',
+      component: 'TextField',
+      attributes: {
+        iconName: 'title',
+        iconColor: 'grey',
+        label: 'Task details'
       }
-      if (task.status !== false) {
-        actions.push({
-          label: 'To do',
-          icon: 'cancel',
-          color: 'negative',
-          patch: { done: false }
-        })
-      }
-      return actions
-    }
+    }, {
+      key: 'time_shifts',
+      component: 'TimeShiftField'
+    }],
+    actions: [{
+      label: 'Assign',
+      icon: 'person_add',
+      color: 'grey',
+      action: 'userPrompt'
+    }, {
+      label: 'Unassign',
+      icon: 'person_add_disabled',
+      color: 'grey',
+      patch: { user: '' }
+    }, {
+      label: 'Done',
+      icon: 'done',
+      color: 'light-blue',
+      patch: { done: true, done_at: new Date() }
+    }, {
+      label: 'To do',
+      icon: 'cancel',
+      color: 'negative',
+      patch: { done: false }
+    }]
   },
   actions: {
     userPrompt ({ dispatch }, data) {
@@ -75,16 +86,7 @@ const tasks = {
   firestorePath: 'tasks',
   firestoreRefType: 'collection',
   moduleName: 'tasks',
-  statePropName: 'data',
-  serverChange: {
-    convertTimestamps: {
-      created_at: '%convertTimestamp%',
-      updated_at: '%convertTimestamp%',
-      schedule_from: '%convertTimestamp%',
-      schedule_to: '%convertTimestamp%',
-      done_at: '%convertTimestamp%'
-    }
-  }
+  statePropName: 'data'
 }
 
 export default tasks

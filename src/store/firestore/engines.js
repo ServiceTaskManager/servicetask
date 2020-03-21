@@ -22,29 +22,4 @@ const engines = {
   statePropName: 'data'
 }
 
-const engineTypes = {
-  state: {
-    data: {}
-  },
-  namespaced: true,
-  firestorePath: 'engineTypes',
-  firestoreRefType: 'collection',
-  moduleName: 'engineTypes',
-  statePropName: 'data'
-}
-
-const engineUgks = {
-  state: {
-    data: {}
-  },
-  vue: false,
-  readRoles: ['user'],
-  writeRoles: ['admin'],
-  namespaced: true,
-  firestorePath: 'engineUgks',
-  firestoreRefType: 'collection',
-  moduleName: 'engineUgks',
-  statePropName: 'data'
-}
-
-export { engines, engineTypes, engineUgks }
+export default engines

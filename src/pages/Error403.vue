@@ -30,8 +30,6 @@
 
 <script>
 export default {
-  data () {
-    return {}
-  }
+  name: 'Error403'
 }
 </script>

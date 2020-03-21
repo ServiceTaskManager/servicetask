@@ -3,9 +3,9 @@
     <q-separator />
     <q-item :to="{ name: 'task', params: { id: task.id } }"
       class="q-pa-xs"
-      :class="selected ? 'bg-grey-4' : ''">
-      <q-item-section avatar @click.prevent="noSelect ? null : selected = !selected">
-        <q-avatar v-if="selected" icon="done" :color="$tasks.meta.color" />
+      :class="task.selected ? 'bg-grey-4' : ''">
+      <q-item-section avatar @click.prevent="noSelect ? null : toggleSelected()">
+        <q-avatar v-if="task.selected" icon="done" :color="$tasks.meta.color" />
         <user-avatar v-else-if="task.user" :user-id="task.user" />
         <user-avatar v-else />
       </q-item-section>
@@ -35,10 +35,6 @@
 </template>
 
 <script>
-import UserAvatar from './UserAvatar'
-import EngineChip from './EngineChip'
-import CustomerChip from './CustomerChip'
-
 export default {
   name: 'TaskItem',
   props: {
@@ -61,24 +57,16 @@ export default {
       default: false
     }
   },
-  data () {
-    return {}
-  },
-  computed: {
-    selected: {
-      get () {
-        return this.$ui.selected.includes(this.task.id)
-      },
-      set (val) {
-        if (val) this.$ui.selected.push(this.task.id)
-        else this.$ui.selected = this.$ui.selected.filter(t => t !== this.task.id)
-      }
+  methods: {
+    toggleSelected () {
+      const id = this.task.id
+      this.$store.dispatch('tasks/patch', { id, selected: !this.task.selected })
     }
   },
   components: {
-    UserAvatar,
-    EngineChip,
-    CustomerChip
+    UserAvatar: () => import('../user/UserAvatar'),
+    EngineChip: () => import('../engine/EngineChip'),
+    CustomerChip: () => import('../customer/CustomerChip')
   }
 }
 </script>

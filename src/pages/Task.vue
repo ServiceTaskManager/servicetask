@@ -8,11 +8,8 @@
         </q-item-section>
          <q-item-section>
           <q-item-label>{{ task.title }}</q-item-label>
-          <q-item-label caption :class="'text-' + $tasks.meta.color" v-if="!task.done">
-            To do {{ task.schedule_from.toISOString() | moment('from') }}
-          </q-item-label>
-          <q-item-label caption v-if="task.done && task.done_at">
-            Done {{ task.done_at.toISOString() | moment('from') }}
+          <q-item-label caption :class="'text-' + $tasks.meta.color" v-if="task.schedule_start">
+            To do {{ task.schedule_start.toISOString() | moment('from') }}
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -28,10 +25,6 @@
 </template>
 
 <script>
-import CustomerChip from '../components/CustomerChip'
-import UserAvatar from '../components/UserAvatar'
-import EngineChip from '../components/EngineChip'
-
 export default {
   name: 'Task',
   data () {
@@ -44,18 +37,15 @@ export default {
       taskEdit: false
     }
   },
-  mounted () {
-    this.$ui.header.title = this.task.title
-  },
   computed: {
     task () {
       return this.$tasks.data[this.$route.params.id]
     }
   },
   components: {
-    CustomerChip,
-    UserAvatar,
-    EngineChip
+    CustomerChip: () => import('../components/customer/CustomerChip'),
+    UserAvatar: () => import('../components/user/UserAvatar'),
+    EngineChip: () => import('../components/engine/EngineChip')
   }
 }
 </script>

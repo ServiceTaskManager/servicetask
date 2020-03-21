@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import EngineLine from '../components/EngineLine'
-
 export default {
   name: 'Engine',
   data () {
@@ -25,7 +23,7 @@ export default {
     }
   },
   components: {
-    EngineLine
+    EngineLine: () => import('../components/engine/EngineLine')
   }
 }
 </script>

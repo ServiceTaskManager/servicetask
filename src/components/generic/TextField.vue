@@ -6,7 +6,7 @@
     :label="label"
     class="full-width">
     <template v-slot:prepend>
-      <q-icon name="text" color="black" />
+      <q-icon :name="iconName" :color="iconColor" />
     </template>
   </q-input>
 </template>
@@ -18,14 +18,14 @@ export default {
     label: {
       type: String,
       default: 'Text'
-    }
-  },
-  data () {
-    return {
-      meta: {
-        icon: 'description',
-        color: 'grey'
-      }
+    },
+    iconName: {
+      type: String,
+      default: 'text'
+    },
+    iconColor: {
+      type: String,
+      default: 'black'
     }
   }
 }

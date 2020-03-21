@@ -1,5 +1,5 @@
 import { Dialog } from 'quasar'
-import UserPrompt from '../../components/UserPrompt'
+import UserPrompt from '../../components/user/UserPrompt'
 
 const calls = {
   state: {
@@ -7,7 +7,8 @@ const calls = {
     meta: {
       title: 'Calls',
       icon: 'phone_callback',
-      color: 'orange'
+      color: 'orange',
+      titleProperty: 'title'
     },
     default: {
       title: '', // string
@@ -22,45 +23,66 @@ const calls = {
       },
       assign_to: '', // user id
       closed_at: '' // date
-    }
-  },
-  getters: {
-    getActions: state => callId => {
-      let call = (state.data[callId] || {})
-      let actions = [
-        {
-          label: 'Assign',
-          icon: 'person_add',
-          color: 'grey',
-          action: 'userPrompt'
-        }
-      ]
-      if (call.user !== '') {
-        actions.push({
-          label: 'Unassign',
-          icon: 'person_add_disabled',
-          color: 'grey',
-          patch: { user: '' }
-        })
+    },
+    fields: [{
+      key: 'title',
+      component: 'TextField',
+      attributes: {
+        iconName: 'phone_callback',
+        iconColor: 'orange',
+        label: 'Call reason'
       }
-      if (call.status !== 'close') {
-        actions.push({
-          label: 'Close',
-          icon: 'cancel',
-          color: 'grey',
-          patch: { status: 'close', closed_at: new Date() }
-        })
+    }, {
+      key: 'customer',
+      component: 'CustomerField'
+    }, {
+      key: 'engine',
+      component: 'EngineField'
+    }, {
+      key: 'person',
+      component: 'UserField',
+      attributes: {
+        label: 'Person calling'
       }
-      if (call.status !== 'open') {
-        actions.push({
-          label: 'Open',
-          icon: 'arrow_back',
-          color: 'grey',
-          patch: { status: 'open' }
-        })
+    }, {
+      key: 'teamviewer',
+      component: 'TeamviewerField'
+    }, {
+      key: 'phone',
+      component: 'TextField',
+      attributes: {
+        iconName: 'phone',
+        iconColor: 'grey',
+        label: 'Phone number'
       }
-      return actions
-    }
+    }, {
+      key: 'assign_to',
+      component: 'UserField',
+      attributes: {
+        label: 'Assign to'
+      }
+    }],
+    actions: [{
+      label: 'Assign',
+      icon: 'person_add',
+      color: 'grey',
+      action: 'userPrompt'
+    }, {
+      label: 'Unassign',
+      icon: 'person_add_disabled',
+      color: 'grey',
+      patch: { user: '' }
+    }, {
+      label: 'Close',
+      icon: 'cancel',
+      color: 'grey',
+      patch: { status: 'close', closed_at: new Date() }
+    }, {
+      label: 'Open',
+      icon: 'arrow_back',
+      color: 'grey',
+      patch: { status: 'open' }
+    }]
   },
   actions: {
     userPrompt ({ dispatch }, data) {
@@ -69,7 +91,7 @@ const calls = {
         parent: data.parent,
         text: 'Assign to'
       }).onOk(userInput => {
-        dispatch('patchBatch', { doc: { user: userInput }, ids: data.ids })
+        dispatch('patchBatch', { doc: { assign_to: userInput }, ids: data.ids })
       })
     }
   },
@@ -77,14 +99,7 @@ const calls = {
   firestorePath: 'calls',
   firestoreRefType: 'collection',
   moduleName: 'calls',
-  statePropName: 'data',
-  serverChange: {
-    convertTimestamps: {
-      created_at: '%convertTimestamp%',
-      updated_at: '%convertTimestamp%',
-      closed_at: '%convertTimestamp%'
-    }
-  }
+  statePropName: 'data'
 }
 
 export default calls

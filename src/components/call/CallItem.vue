@@ -4,10 +4,10 @@
     <q-item
       :to="{ name: 'call', params: { id: call.id } }"
       class="q-pa-xs"
-      :class="selected ? 'bg-grey-4' : ''">
-      <q-item-section avatar @click.prevent="noSelect ? null : selected = !selected">
-        <q-avatar v-if="selected" icon="done" :color="$calls.meta.color" />
-        <user-avatar v-else-if="call.user" :user-id="call.user" />
+      :class="call.selected ? 'bg-grey-4' : ''">
+      <q-item-section avatar @click.prevent="noSelect ? null : toggleSelected()">
+        <q-avatar v-if="call.selected" icon="done" :color="$calls.meta.color" />
+        <user-avatar v-else-if="call.assign_to" :user-id="call.assign_to" />
         <user-avatar v-else />
       </q-item-section>
       <q-item-section top>
@@ -32,10 +32,6 @@
 </template>
 
 <script>
-import UserAvatar from './UserAvatar'
-import EngineChip from './EngineChip'
-import CustomerChip from './CustomerChip'
-
 export default {
   name: 'CallItem',
   props: {
@@ -58,24 +54,15 @@ export default {
       default: false
     }
   },
-  data () {
-    return {}
-  },
-  computed: {
-    selected: {
-      get () {
-        return this.$ui.selected.includes(this.call.id)
-      },
-      set (val) {
-        if (val) this.$ui.selected.push(this.call.id)
-        else this.$ui.selected = this.$ui.selected.filter(t => t !== this.call.id)
-      }
+  methods: {
+    toggleSelected () {
+      this.$store.dispatch('calls/toggleSelected', this.call.id)
     }
   },
   components: {
-    UserAvatar,
-    EngineChip,
-    CustomerChip
+    UserAvatar: () => import('../user/UserAvatar'),
+    EngineChip: () => import('../engine/EngineChip'),
+    CustomerChip: () => import('../customer/CustomerChip')
   }
 }
 </script>

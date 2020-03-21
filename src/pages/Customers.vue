@@ -18,9 +18,6 @@
 </template>
 
 <script>
-import CustomerList from '../components/CustomerList'
-import FilterForm from '../components/FilterForm'
-
 export default {
   name: 'Customers',
   data () {
@@ -31,8 +28,8 @@ export default {
     }
   },
   components: {
-    CustomerList,
-    FilterForm
+    CustomerList: () => import('../components/customer/CustomerList'),
+    FilterForm: () => import('../components/generic/FilterForm')
   }
 }
 </script>
