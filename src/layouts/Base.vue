@@ -131,6 +131,14 @@
                   <edit-dialog v-model="customerCreateDialog" store="customers">Add a customer</edit-dialog>
                 </q-item-section>
               </q-item>
+              <q-item :to="{ name: 'calendar' }">
+                <q-item-section avatar>
+                  <q-icon color="white" name="event" />
+                </q-item-section>
+                <q-item-section>
+                  Calendar
+                </q-item-section>
+              </q-item>
               <q-item :to="{ name: 'maps' }">
                 <q-item-section avatar>
                   <q-icon color="white" name="map" />

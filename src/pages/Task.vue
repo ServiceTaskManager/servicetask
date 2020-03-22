@@ -27,6 +27,12 @@
 <script>
 export default {
   name: 'Task',
+  props: {
+    taskId: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       editDialog: false,
@@ -38,8 +44,11 @@ export default {
     }
   },
   computed: {
+    id () {
+      return this.$route.params.id ? this.$route.params.id : this.taskId
+    },
     task () {
-      return this.$tasks.data[this.$route.params.id]
+      return this.$tasks.data[this.id]
     }
   },
   components: {

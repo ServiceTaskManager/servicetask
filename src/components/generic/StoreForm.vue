@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'GenericForm',
+  name: 'StoreForm',
   props: {
     value: {
       type: Object,
@@ -19,8 +19,10 @@ export default {
       }
     },
     fields: {
-      type: Object,
-      default: () => undefined
+      type: Array,
+      default: () => {
+        return undefined
+      }
     },
     store: {
       type: String,
@@ -48,7 +50,7 @@ export default {
     EngineField: () => import('../engine/EngineField'),
     TextField: () => import('./TextField'),
     AddressField: () => import('./AddressField'),
-    TimeShiftField: () => import('./TimeShiftField'),
+    ShiftsField: () => import('./ShiftsField'),
     TeamviewerField: () => import('./TeamviewerField')
   }
 }

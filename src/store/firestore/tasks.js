@@ -47,7 +47,7 @@ const tasks = {
       }
     }, {
       key: 'time_shifts',
-      component: 'TimeShiftField'
+      component: 'ShiftsField'
     }],
     actions: [{
       label: 'Assign',
