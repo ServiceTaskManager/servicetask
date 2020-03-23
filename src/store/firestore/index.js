@@ -72,6 +72,11 @@ stores.forEach(s => {
     dispatch('patch', data)
   }
 
+  const selectAll = ({ state, dispatch }) => {
+    const ids = Object.values(state.data).filter(s => s.selected).map(s => s.id)
+    dispatch('patchBatch', { doc: { selected: true }, ids: ids })
+  }
+
   const unselectAll = ({ state, dispatch }) => {
     const ids = Object.values(state.data).filter(s => s.selected).map(s => s.id)
     dispatch('patchBatch', { doc: { selected: false }, ids: ids })
@@ -93,7 +98,7 @@ stores.forEach(s => {
     })
   }
 
-  s.actions = { ...s.actions, toggleSelected, unselectAll, selectOneOnly, deleteItem }
+  s.actions = { ...s.actions, toggleSelected, selectAll, unselectAll, selectOneOnly, deleteItem }
 })
 
 const firestore = {

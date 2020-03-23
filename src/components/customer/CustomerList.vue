@@ -6,7 +6,16 @@
       v-for="customer in customers"
       :key="customer.id"
       :customer="customer"
-      :no-select="noSelect" />
+      :no-select="noSelect"
+      :no-link="noLink">
+
+      <template #item-left>
+        <slot name="item-left" :customer="customer"></slot>
+      </template>
+      <template #item-right>
+        <slot name="item-right" :customer="customer"></slot>
+      </template>
+    </customer-item>
   </q-list>
 </template>
 
@@ -25,6 +34,10 @@ export default {
       default: false
     },
     noSelect: {
+      type: Boolean,
+      default: false
+    },
+    noLink: {
       type: Boolean,
       default: false
     }

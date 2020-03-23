@@ -1,5 +1,7 @@
 <template>
   <q-input
+    :value="text"
+    @input="text = $event"
     v-bind="$attrs"
     v-on="$listeners"
     color="black"
@@ -15,6 +17,10 @@
 export default {
   name: 'TextField',
   props: {
+    value: {
+      type: String,
+      default: ''
+    },
     label: {
       type: String,
       default: 'Text'
@@ -26,6 +32,11 @@ export default {
     iconColor: {
       type: String,
       default: 'black'
+    }
+  },
+  data () {
+    return {
+      text: this.value
     }
   }
 }

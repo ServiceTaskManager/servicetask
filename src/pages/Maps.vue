@@ -1,13 +1,29 @@
 <template>
   <div>
+    <q-drawer v-model="drawer" left overlay>
+      <customer-list no-link>
+        <template #item-left="{ customer }">
+          <q-checkbox
+            :value="customer.selected"
+            @input="$store.dispatch('customers/toggleSelected', customer.id)" />
+        </template>
+        <template #item-right="{ customer }">
+          <q-btn flat round
+            :icon="customer.address.lat_lng ? 'navigation' : 'search'"
+            @click.prevent="search(customer)"></q-btn>
+        </template>
+      </customer-list>
+    </q-drawer>
+
     <l-map style="height: calc(100vh - 50px);"
       :zoom="map.zoom"
-      :center="map.center">
+      :center="map.center"
+      ref="map">
 
       <l-tile-layer :url="map.url" />
 
       <l-control position="bottomleft">
-        <q-btn round icon="settings" color="black" @click="paramsDialog = true" />
+        <q-btn round icon="settings" color="black" @click="drawer = !drawer" />
       </l-control>
 
       <l-marker v-for="customer in customers"
@@ -18,18 +34,15 @@
         </l-icon>
       </l-marker>
     </l-map>
-
-    <q-dialog v-model="paramsDialog">
-      <q-card>
-        {{ map }}
-      </q-card>
-    </q-dialog>
   </div>
 </template>
 
 <script>
 import { LMap, LIcon, LTileLayer, LControl, LMarker } from 'vue2-leaflet'
 import { Icon } from 'leaflet'
+import { OpenStreetMapProvider } from 'leaflet-geosearch'
+
+const provider = new OpenStreetMapProvider()
 
 delete Icon.Default.prototype._getIconUrl
 
@@ -48,20 +61,47 @@ export default {
         zoom: 5,
         center: [47.41322, -1.219482]
       },
-      paramsDialog: false,
-      customers: []
+      drawer: false
     }
   },
-  mounted () {
-    let customers = this.$store.getters['customers/filter']()
-    this.customers = customers.filter(c => c.address.lat_lng !== undefined)
+  computed: {
+    customers () {
+      const customers = this.$store.getters['customers/filter']([['selected', '==', true]])
+      console.log(customers)
+      return customers.filter(c => c.address.lat_lng !== undefined)
+    }
+  },
+  methods: {
+    async search (customer) {
+      if (customer.address.lat_lng === undefined) {
+        const addressInline = `${customer.name}, 
+          ${customer.address.addr1}, 
+          ${customer.address.postal_code}, 
+          ${customer.address.city}, 
+          ${customer.address.country}`
+        const latLng = await provider.search({ query: addressInline })
+        if (latLng.length === 1) {
+          customer.address.lat_lng = { lat: parseFloat(latLng[0].y), lng: parseFloat(latLng[0].x) }
+          this.$store.dispatch('customers/patch', customer)
+        } else {
+          this.$q.notify({
+            message: `Cannot find customer address`,
+            color: 'negative'
+          })
+        }
+      } else {
+        this.$refs.map.mapObject.setView([customer.address.lat_lng.lat, customer.address.lat_lng.lng], 12)
+        if (!customer.selected) this.$store.dispatch('customers/toggleSelected', customer.id)
+      }
+    }
   },
   components: {
     LMap,
     LTileLayer,
     LControl,
     LMarker,
-    LIcon
+    LIcon,
+    CustomerList: () => import('../components/customer/CustomerList')
   }
 }
 </script>

@@ -40,7 +40,9 @@
         <edit-dialog v-if="data"
           v-model="editDialog"
           :store="$route.meta.store"
-          :data="data" />
+          :data="data">
+          Edit
+        </edit-dialog>
       </q-toolbar>
     </q-header>
 

@@ -91,7 +91,12 @@ export default {
   data () {
     return {
       shift: this.value,
-      periodOptions: ['day', 'morning', 'afternoon', 'custom']
+      periodOptions: ['day', 'morning', 'afternoon', 'custom'],
+      timeOffset: {
+        day: { start: 8, end: 18 },
+        morning: { start: 8, end: 12 },
+        afternoon: { start: 13, end: 18 }
+      }
     }
   },
   computed: {
@@ -119,19 +124,19 @@ export default {
   },
   watch: {
     'shift.period' (period) {
-      const timeOffset = {
-        day: { start: 8, end: 18 },
-        morning: { start: 8, end: 12 },
-        afternoon: { start: 13, end: 18 }
-      }
-
       if (period !== 'custom') {
-        this.shift.start = moment(this.shift.start).startOf('day').add(timeOffset[period].start, 'h').format('YYYY-MM-DDTHH:mm')
-        this.shift.end = moment(this.shift.start).startOf('day').add(timeOffset[period].end, 'h').format('YYYY-MM-DDTHH:mm')
+        this.shift.start = moment(this.shift.start).startOf('day').add(this.timeOffset[period].start, 'h').format('YYYY-MM-DDTHH:mm')
+        this.shift.end = moment(this.shift.start).startOf('day').add(this.timeOffset[period].end, 'h').format('YYYY-MM-DDTHH:mm')
       }
     },
     'shift.start' (start) {
-      if (moment(this.shift.end).isBefore(moment(start))) this.shift.end = moment(start).add(1, 'h').format('YYYY-MM-DDTHH:mm')
+      const period = this.shift.period
+      if (period !== 'custom') {
+        this.shift.start = moment(this.shift.start).startOf('day').add(this.timeOffset[period].start, 'h').format('YYYY-MM-DDTHH:mm')
+        this.shift.end = moment(this.shift.start).startOf('day').add(this.timeOffset[period].end, 'h').format('YYYY-MM-DDTHH:mm')
+      } else {
+        if (moment(this.shift.end).isBefore(moment(start))) this.shift.end = moment(start).add(1, 'h').format('YYYY-MM-DDTHH:mm')
+      }
     },
     shift (val) {
       this.$emit('input', val)
