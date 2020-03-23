@@ -1,36 +1,41 @@
 <template>
   <div>
     <q-drawer v-model="drawer" left overlay>
-      <customer-list no-link>
-        <template #item-left="{ customer }">
-          <q-checkbox
-            :value="customer.selected"
-            @input="$store.dispatch('customers/toggleSelected', customer.id)" />
-        </template>
-        <template #item-right="{ customer }">
+      <store-list store="customers" no-link>
+        <template #item-right="{ data }">
           <q-btn flat round
-            :icon="customer.address.lat_lng ? 'navigation' : 'search'"
-            @click.prevent="search(customer)"></q-btn>
+            :icon="data.address.lat_lng ? 'navigation' : 'search'"
+            @click.prevent="search(data)"></q-btn>
         </template>
-      </customer-list>
+      </store-list>
+
+      {{ map }}
+
+      <q-btn round
+        icon="keyboard_arrow_left" color="black"
+        class="absolute"
+        style="bottom: 10px; right: -20px;"
+        @click="drawer = !drawer" />
     </q-drawer>
 
     <l-map style="height: calc(100vh - 50px);"
       :zoom="map.zoom"
       :center="map.center"
+      @update:zoom="map.zoom = $event"
+      @update:center="map.center = $event"
       ref="map">
 
       <l-tile-layer :url="map.url" />
-
-      <l-control position="bottomleft">
-        <q-btn round icon="settings" color="black" @click="drawer = !drawer" />
-      </l-control>
 
       <l-marker v-for="customer in customers"
         :key="customer.id"
         :lat-lng="customer.address.lat_lng">
         <l-icon :icon-anchor="[10, 10]">
-          <q-avatar :icon="$customers.meta.icon" :color="$customers.meta.color" style="color: white;" size="20px"  />
+          <q-avatar
+            :icon="$customers.meta.icon"
+            :color="$customers.meta.color"
+            style="color: white;" :size="`${markerSize}px`">
+          </q-avatar>
         </l-icon>
       </l-marker>
     </l-map>
@@ -38,7 +43,7 @@
 </template>
 
 <script>
-import { LMap, LIcon, LTileLayer, LControl, LMarker } from 'vue2-leaflet'
+import { LMap, LIcon, LTileLayer, LMarker } from 'vue2-leaflet'
 import { Icon } from 'leaflet'
 import { OpenStreetMapProvider } from 'leaflet-geosearch'
 
@@ -58,10 +63,10 @@ export default {
     return {
       map: {
         url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-        zoom: 5,
-        center: [47.41322, -1.219482]
+        zoom: 4,
+        center: [37.822802, -12.700195]
       },
-      drawer: false
+      drawer: true
     }
   },
   computed: {
@@ -69,6 +74,9 @@ export default {
       const customers = this.$store.getters['customers/filter']([['selected', '==', true]])
       console.log(customers)
       return customers.filter(c => c.address.lat_lng !== undefined)
+    },
+    markerSize () {
+      return this.map.zoom / 0.50
     }
   },
   methods: {
@@ -90,7 +98,7 @@ export default {
           })
         }
       } else {
-        this.$refs.map.mapObject.setView([customer.address.lat_lng.lat, customer.address.lat_lng.lng], 12)
+        this.$refs.map.mapObject.setView([customer.address.lat_lng.lat, customer.address.lat_lng.lng - 0.05], 12)
         if (!customer.selected) this.$store.dispatch('customers/toggleSelected', customer.id)
       }
     }
@@ -98,10 +106,9 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    LControl,
     LMarker,
     LIcon,
-    CustomerList: () => import('../components/customer/CustomerList')
+    StoreList: () => import('../components/generic/StoreList')
   }
 }
 </script>

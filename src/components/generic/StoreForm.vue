@@ -46,7 +46,9 @@ export default {
     TextField: () => import('./TextField'),
     AddressField: () => import('./AddressField'),
     ShiftsField: () => import('./ShiftsField'),
-    TeamviewerField: () => import('./TeamviewerField')
+    TeamviewerField: () => import('./TeamviewerField'),
+    ColorPicker: () => import('./ColorPicker'),
+    SelectField: () => import('./SelectField')
   }
 }
 </script>

@@ -9,10 +9,10 @@
 
     <div class="row q-col-gutter-md">
       <div class="col-12 col-sm-6">
-        <call-list :filters="filter" hide-customer hide-engine />
+        <store-list store="calls" :filters="filters" />
       </div>
       <div class="col-12 col-sm-6">
-        <task-list :filters="filter" hide-customer hide-engine />
+        <store-list store="tasks" :filters="filters" />
       </div>
     </div>
   </div>
@@ -43,8 +43,7 @@ export default {
     this.$root.$on('editDialog', () => { this.editDialog = true })
   },
   components: {
-    CallList: () => import('../call/CallList'),
-    TaskList: () => import('../task/TaskList'),
+    StoreList: () => import('../generic/StoreList'),
     UserChip: () => import('../user/UserChip'),
     CustomerChip: () => import('../customer/CustomerChip')
   }

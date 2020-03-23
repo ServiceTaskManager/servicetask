@@ -40,3 +40,13 @@ exports.sendNotifications = functions.firestore.document('notifications/{notific
 
     return true
   })
+
+// Create user document
+exports.createUserDocOnRegister = functions.auth.user().onCreate(
+  async (user) => {
+    var userObject = {
+      email: user.email
+    }
+
+    return admin.firestore().doc('users/' + user.uid).set(userObject)
+  })

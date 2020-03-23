@@ -4,7 +4,7 @@
       <q-card class="full-width">
         <q-item>
           <q-item-section>
-            <call-list :filters="callsFilters" hideFilters hideNoResult no-select>
+            <store-list store="calls" :filters="callsFilters" hideFilters hideNoResult no-select>
               <template v-slot:header>
                 <q-item>
                   <q-item-section avatar>
@@ -32,7 +32,7 @@
                   </q-item-section>
                 </q-item>
               </template>
-            </call-list>
+            </store-list>
           </q-item-section>
         </q-item>
       </q-card>
@@ -41,7 +41,7 @@
       <q-card class="full-width">
         <q-item>
           <q-item-section>
-            <task-list :filters="tasksFilters" hideFilters hideNoResult no-select>
+            <store-list store="tasks" :filters="tasksFilters" hideFilters hideNoResult no-select>
               <template v-slot:header>
                 <q-item>
                   <q-item-section avatar>
@@ -69,7 +69,7 @@
                   </q-item-section>
                 </q-item>
               </template>
-            </task-list>
+            </store-list>
           </q-item-section>
         </q-item>
       </q-card>
@@ -103,8 +103,7 @@ export default {
     }
   },
   components: {
-    CallList: () => import('../components/call/CallList'),
-    TaskList: () => import('../components/task/TaskList'),
+    StoreList: () => import('../components/generic/StoreList'),
     EditDialog: () => import('../components/generic/EditDialog')
   }
 }

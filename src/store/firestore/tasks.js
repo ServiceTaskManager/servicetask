@@ -4,12 +4,28 @@ import UserPrompt from '../../components/user/UserPrompt'
 const tasks = {
   state: {
     data: {},
-    meta: {
-      title: 'Tasks',
-      icon: 'done',
-      color: 'light-blue',
-      titleProperty: 'title'
-    },
+    titleProp: 'title',
+    routes: [{
+      path: 'tasks',
+      name: 'tasks',
+      component: () => import('../../pages/StoreListPage'),
+      meta: {
+        title: 'Tasks',
+        icon: 'done',
+        color: 'light-blue',
+        menu: true
+      }
+    }, {
+      path: 'task/:id',
+      name: 'task',
+      component: () => import('../../pages/StorePage'),
+      meta: {
+        title: 'Task',
+        icon: 'done',
+        color: 'light-blue',
+        propertyTitle: 'title'
+      }
+    }],
     default: {
       user: '',
       customer: '',

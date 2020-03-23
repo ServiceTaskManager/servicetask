@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     meta () {
-      return this['$' + this.store].meta
+      return this['$' + this.store].routes[0].meta
     }
   },
   methods: {

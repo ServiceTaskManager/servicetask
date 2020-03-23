@@ -37,6 +37,8 @@ stores.forEach(s => {
     guard: ['selected', 'updated_at', 'updated_by']
   }
 
+  s.state.meta = s.state.routes ? s.state.routes[0].meta : {}
+
   // Add toolbar actions
   if (s.state.actions) {
     s.state.actions.push({

@@ -1,11 +1,27 @@
 const engines = {
   state: {
     data: {},
-    meta: {
-      title: 'Engines',
-      icon: 'print',
-      color: 'teal'
-    },
+    titleProp: 'type',
+    routes: [{
+      path: 'engines',
+      name: 'engines',
+      component: () => import('../../pages/StoreListPage'),
+      meta: {
+        title: 'Engines',
+        icon: 'print',
+        color: 'teal',
+        menu: true
+      }
+    }, {
+      path: 'engine/:id',
+      name: 'engine',
+      component: () => import('../../pages/StorePage'),
+      meta: {
+        title: 'Engine',
+        icon: 'print',
+        color: 'teal'
+      }
+    }],
     default: {
       type: 'Xeikon 3300',
       sn: '',

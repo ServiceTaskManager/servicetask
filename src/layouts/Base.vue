@@ -15,12 +15,12 @@
         <q-btn v-if="store"
           flat round
           icon="add" color="white"
-          @click="createDialog = true" />
+          @click="showEditDialog(storeName)" />
 
         <q-btn v-if="data"
           flat round
           icon="edit" color="white"
-          @click="editDialog = true" />
+          @click="showEditDialog(storeName, data)" />
 
         <q-btn v-if="selectedIds.length > 0"
           flat round
@@ -31,18 +31,6 @@
           flat round
           icon="cancel" color="white"
           @click="unselectAll" />
-
-        <!-- Edit dialog from creation & edition -->
-        <edit-dialog v-if="this.$route.meta.store"
-          v-model="createDialog"
-          :store="$route.meta.store" />
-
-        <edit-dialog v-if="data"
-          v-model="editDialog"
-          :store="$route.meta.store"
-          :data="data">
-          Edit
-        </edit-dialog>
       </q-toolbar>
     </q-header>
 
@@ -74,65 +62,25 @@
                     @click.prevent="logout" />
                 </q-item-section>
               </q-item>
-              <q-item :to="{ name: 'users' }">
+
+              <!-- Add store in menu  -->
+              <q-item v-for="store in storesInMenu" :key="store.meta.store" :to="{ name: store.meta.store }">
                 <q-item-section avatar>
-                  <q-icon :color="$users.meta.color" :name="$users.meta.icon" />
+                  <q-icon :color="store.meta.color" :name="store.meta.icon" />
                 </q-item-section>
                 <q-item-section>
-                  Users
+                  {{ store.meta.title }}
                 </q-item-section>
-              </q-item>
-              <q-item :to="{ name: 'tasks' }">
-                <q-item-section avatar>
-                  <q-icon :color="$tasks.meta.color" :name="$tasks.meta.icon" />
-                </q-item-section>
-                <q-item-section>
-                  Tasks
-                </q-item-section>
-                <q-separator vertical class="q-mr-sm" :color="$tasks.meta.color" />
+                <q-separator vertical class="q-mr-sm" :color="store.meta.color" />
                 <q-item-section side>
                   <q-btn flat round
                     size="sm"
-                    :color="$tasks.meta.color"
+                    :color="store.meta.color"
                     icon="add"
-                    @click.prevent="taskCreateDialog = true" />
-                  <edit-dialog v-model="taskCreateDialog" store="tasks">New task</edit-dialog>
+                    @click.prevent="showEditDialog(store.meta.store)" />
                 </q-item-section>
               </q-item>
-              <q-item :to="{ name: 'calls' }">
-                <q-item-section avatar>
-                  <q-icon :color="$calls.meta.color" :name="$calls.meta.icon" />
-                </q-item-section>
-                <q-item-section>
-                  Calls
-                </q-item-section>
-                <q-separator vertical class="q-mr-sm" :color="$calls.meta.color" />
-                <q-item-section side>
-                  <q-btn flat round
-                    size="sm"
-                    :color="$calls.meta.color"
-                    icon="add"
-                    @click.prevent="callCreateDialog = true" />
-                  <edit-dialog v-model="callCreateDialog" store="calls">New call</edit-dialog>
-                </q-item-section>
-              </q-item>
-              <q-item :to="{ name: 'customers' }">
-                <q-item-section avatar>
-                  <q-icon :color="$customers.meta.color" :name="$customers.meta.icon" />
-                </q-item-section>
-                <q-item-section>
-                  Customers
-                </q-item-section>
-                <q-separator vertical class="q-mr-sm" :color="$customers.meta.color" />
-                <q-item-section side>
-                  <q-btn flat round
-                    size="sm"
-                    :color="$customers.meta.color"
-                    icon="add"
-                    @click.prevent="customerCreateDialog = true" />
-                  <edit-dialog v-model="customerCreateDialog" store="customers">Add a customer</edit-dialog>
-                </q-item-section>
-              </q-item>
+
               <q-item :to="{ name: 'calendar' }">
                 <q-item-section avatar>
                   <q-icon color="white" name="event" />
@@ -187,6 +135,8 @@
           </div>
         </q-scroll-area>
       </q-page>
+
+      <edit-dialog v-if="editDialog" v-model="editDialog" :store="storeToEdit" :data="dataToEdit">{{ editDialogTitle }}</edit-dialog>
     </q-page-container>
   </q-layout>
 </template>
@@ -197,11 +147,10 @@ export default {
   data () {
     return {
       drawer: !this.$q.platform.is.mobile,
-      customerCreateDialog: false,
-      taskCreateDialog: false,
-      callCreateDialog: false,
-      createDialog: false,
       editDialog: false,
+      storeToEdit: '',
+      dataToEdit: '',
+      editDialogTitle: '',
       thumbStyle: {
         backgroundColor: 'black',
         opacity: 1,
@@ -222,7 +171,7 @@ export default {
       return this.$route.meta.store ? this['$' + this.$route.meta.store] : false
     },
     meta () {
-      return this.store ? this.store.meta : this.$route.meta
+      return this.$route.meta
     },
     headerClass () {
       return 'bg-' + (this.meta.color || 'black') + ' text-white'
@@ -240,6 +189,13 @@ export default {
         selectedIds = selected.map(o => o.id)
       }
       return selectedIds
+    },
+    storesInMenu () {
+      return this.$router.options.routes[1].children.filter(r => {
+        if (r.meta) {
+          if (r.meta.menu) return true
+        }
+      })
     }
   },
   methods: {
@@ -268,6 +224,13 @@ export default {
     },
     unselectAll () {
       this.$store.dispatch(this.storeName + '/unselectAll')
+    },
+    showEditDialog (store, data = undefined) {
+      console.log(store)
+      this.editDialog = true
+      this.storeToEdit = store
+      this.dataToEdit = data
+      this.editDialogTitle = data === undefined ? 'Create a ' + store.slice(0, -1) : 'Edit a ' + store.slice(0, -1)
     }
   },
   components: {

@@ -2,23 +2,24 @@
   <q-chip v-bind="$attrs" v-on="$listeners"
     clickable
     class="q-ma-none"
-    style="overflow: hidden;"
-    @click="taskPreview = true">
+    style="overflow: hidden;">
     <user-avatar :user="user" />
+
     {{ event.task.title }}
+
+    <q-tooltip content-class="rotate-90" anchor="top right" self="top left">
+      {{ customer.name }}
+    </q-tooltip>
+
     <q-menu
       anchor="top right"
       selft="top left"
-      context-menu
       class="q-pa-sm"
       @hide="patchTask()">
       <q-card style="width: 400px" class="q-pa-sm">
-        <store-form v-model="event.task" :fields="editShiftFields" />
+        <store-form v-model="event.task" store="tasks" />
       </q-card>
     </q-menu>
-    <q-dialog v-model="taskPreview">
-      <task :task-id="event.task.id" />
-    </q-dialog>
   </q-chip>
 </template>
 
@@ -35,7 +36,6 @@ export default {
   },
   data () {
     return {
-      taskPreview: false,
       editShiftFields: [{
         key: 'time_shifts',
         component: 'ShiftsField'
@@ -45,6 +45,9 @@ export default {
   computed: {
     user () {
       return this.$users.data[this.event.task.user]
+    },
+    customer () {
+      return this.$customers.data[this.event.task.customer]
     }
   },
   methods: {
@@ -59,7 +62,6 @@ export default {
   },
   components: {
     UserAvatar: () => import('../user/UserAvatar'),
-    Task: () => import('../../pages/Task'),
     StoreForm: () => import('./StoreForm')
   }
 }

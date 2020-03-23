@@ -4,12 +4,27 @@ import UserPrompt from '../../components/user/UserPrompt'
 const calls = {
   state: {
     data: {},
-    meta: {
-      title: 'Calls',
-      icon: 'phone_callback',
-      color: 'orange',
-      titleProperty: 'title'
-    },
+    titleProp: 'title',
+    routes: [{
+      path: 'calls',
+      name: 'calls',
+      component: () => import('../../pages/StoreListPage'),
+      meta: {
+        title: 'Calls',
+        icon: 'phone_callback',
+        color: 'orange',
+        menu: true
+      }
+    }, {
+      path: 'call/:id',
+      name: 'call',
+      component: () => import('../../pages/StorePage'),
+      meta: {
+        title: 'Call',
+        icon: 'phone_callback',
+        color: 'orange'
+      }
+    }],
     default: {
       title: '', // string
       customer: '', // customer id

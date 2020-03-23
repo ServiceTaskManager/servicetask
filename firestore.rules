@@ -1,3 +1,4 @@
+rules_version = 2;
 service cloud.firestore {
   match /databases/{database}/documents {
     function hasRole (roles) {
@@ -5,9 +6,6 @@ service cloud.firestore {
     }
     match /{document=**} {
       allow read, write: if hasRole (['user'])
-    }
-    match /users/{userId} {
-      allow write: if request.auth.uid != null
     }
   }
 }

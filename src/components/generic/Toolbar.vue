@@ -17,7 +17,7 @@
       @click="bottomSheet" />
 
     <edit-dialog
-      store="customer"
+      store="customers"
       :data="data"
       v-model="editDialog" />
   </div>

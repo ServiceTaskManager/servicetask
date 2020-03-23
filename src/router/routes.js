@@ -1,3 +1,5 @@
+import firestore from '../store/firestore'
+
 const routes = [
   {
     path: '/error',
@@ -59,70 +61,21 @@ const routes = [
         meta: {
           title: 'Calendar'
         }
-      },
-      {
-        path: 'users',
-        name: 'users',
-        component: () => import('pages/Users'),
-        meta: { store: 'users' }
-      },
-      {
-        path: 'user/:id',
-        name: 'user',
-        component: () => import('pages/User'),
-        meta: { store: 'users' }
-      },
-      {
-        path: 'calls',
-        name: 'calls',
-        component: () => import('pages/Calls'),
-        meta: { store: 'calls' }
-      },
-      {
-        path: 'call/:id',
-        name: 'call',
-        component: () => import('pages/Call'),
-        meta: { store: 'calls' }
-      },
-      {
-        path: 'tasks',
-        name: 'tasks',
-        component: () => import('pages/Tasks'),
-        meta: { store: 'tasks' }
-      },
-      {
-        path: 'task/:id',
-        name: 'task',
-        component: () => import('pages/Task'),
-        meta: { store: 'tasks' }
-      },
-      {
-        path: 'engines',
-        name: 'engines',
-        component: () => import('pages/Engines'),
-        meta: { store: 'engines' }
-      },
-      {
-        path: 'engine/:id',
-        name: 'engine',
-        component: () => import('pages/Engine'),
-        meta: { store: 'engines' }
-      },
-      {
-        path: 'customers',
-        name: 'customers',
-        component: () => import('pages/Customers'),
-        meta: { store: 'customers' }
-      },
-      {
-        path: 'customer/:id',
-        name: 'customer',
-        component: () => import('pages/Customer'),
-        meta: { store: 'customers' }
       }
     ]
   }
 ]
+
+firestore.stores.forEach(s => {
+  if (s.state.routes) {
+    s.state.routes.forEach(r => {
+      let newRoute = r
+      // newRoute.component = () => import('pages/' + r.component)
+      newRoute.meta.store = s.moduleName
+      routes[1].children.push(newRoute)
+    })
+  }
+})
 
 routes.push({
   path: '*',

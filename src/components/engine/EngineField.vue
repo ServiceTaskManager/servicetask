@@ -51,9 +51,9 @@ export default {
   },
   data () {
     return {
-      meta: this.$store.state.engines.meta,
-      engines: this.$store.state.engines.data,
-      enginesArray: Object.values(this.$store.state.engines.data)
+      meta: this.$engines.routes[0].meta,
+      engines: this.$engines.data,
+      enginesArray: Object.values(this.$engines.data)
     }
   },
   computed: {
