@@ -30,22 +30,29 @@
               unit="px"
               reverse
               :limits="[30, 1000]"
-              before-class="q-pa-md">
+              class="row items-stretch"
+              before-class="q-pa-md splitter"
+              after-class="splitter">
               <template #before>
-                <q-markdown :src="`${report.note}`" />
+                <div class="row" ref="markdownPreview">
+                  <q-markdown :src="`${report.note}`" />
+                </div>
               </template>
               <template #after>
-                <div class="row itemps-stretch">
+                <div class="row full-height" ref="markdownEdit">
                   <q-btn @click="splitter = splitter > 100 ? 30 : 500"
+                    :icon="splitter > 100 ? 'keyboard_arrow_right' : 'keyboard_arrow_left'"
                     stretch dense
                     class="col-auto"
-                    color="black" text-color="white" icon="edit" />
-                  <q-input v-model="report.note"
-                    v-if="splitter > 30"
-                    square filled
-                    label="Type your report here (markdown)"
-                    type="textarea"
-                    class="col-grow" />
+                    color="grey" text-color="white" />
+                  <div class="col-grow q-px-md bg-grey-2">
+                    <q-input v-model="report.note"
+                      v-if="splitter > 30"
+                      borderless square
+                      autogrow=""
+                      label="Type your report here (markdown)"
+                      type="textarea" />
+                  </div>
                 </div>
               </template>
             </q-splitter>
@@ -59,7 +66,7 @@
           :columns="taskTableColumns"
           row-key="title"
           :rows-per-page-options="[0]"
-          :pagination="{ rowsPerPage: 0 }"
+          :pagination.sync="tasksTablePagination"
           class="q-mt-md">
 
           <template #top>
@@ -98,6 +105,12 @@
     </q-page-container>
   </q-layout>
 </template>
+
+<style>
+.splitter {
+  height: auto !important;
+}
+</style>
 
 <script>
 import SignatureDialog from '../components/generic/SignatureDialog'
@@ -141,7 +154,7 @@ export default {
           align: 'left',
           field: t => t.shift.end,
           format: val => `${moment(val).format('DD/MM/YYYY HH:mm')}`,
-          sortable: true
+          sortable: false
         }, {
           name: 'Total',
           required: true,
@@ -151,7 +164,8 @@ export default {
           format: val => `${moment(val.end).diff(val.start, 'hours')} h`,
           sortable: false
         }
-      ]
+      ],
+      tasksTablePagination: { rowsPerPage: 0, sortBy: 'start', descending: false }
     }
   },
   mounted () {
@@ -177,7 +191,7 @@ export default {
     },
     tasksTotalTime: function () {
       const times = this.tasksTableData.map(t => moment(t.shift.end).diff(t.shift.start, 'hours'))
-      return times.reduce((sum, val) => sum + val)
+      return times.lenght > 0 ? times.reduce((sum, val) => sum + val) : 0
     }
   },
   methods: {
