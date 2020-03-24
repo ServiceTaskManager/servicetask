@@ -35,7 +35,7 @@ const users = {
     fields: [{
       key: 'name',
       component: 'TextField',
-      attributes: {
+      attrs: {
         iconName: 'person',
         iconColor: 'green',
         label: 'Full name'
@@ -43,7 +43,7 @@ const users = {
     }, {
       key: 'phone',
       component: 'TextField',
-      attributes: {
+      attrs: {
         iconName: 'phone',
         iconColor: 'grey',
         label: 'Phone number'
@@ -51,7 +51,7 @@ const users = {
     }, {
       key: 'email',
       component: 'TextField',
-      attributes: {
+      attrs: {
         iconName: 'alternate_email',
         iconColor: 'grey',
         label: 'Email address',
@@ -66,7 +66,7 @@ const users = {
     }, {
       key: 'roles',
       component: 'SelectField',
-      attributes: {
+      attrs: {
         options: ['user', 'admin'],
         multiple: true
       }

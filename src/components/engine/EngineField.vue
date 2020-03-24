@@ -4,11 +4,11 @@
     v-on="$attrs"
     :value="value"
     @input="$emit('input', $event.id)"
-    :display-value="value ? engines[value].name + ' SN/' + engines[value].sn : ''"
+    :display-value="value ? displayName(engines[value]) : ''"
     :color="meta.color"
     class="full-width"
     :options="enginesFiltered"
-    :option-label="opt => opt.name + ' SN/' + opt.sn"
+    :option-label="opt => displayName(opt)"
     option-value="id"
     :label="label">
 
@@ -40,7 +40,7 @@ export default {
       type: String,
       default: ''
     },
-    customerId: {
+    customer: {
       type: String,
       default: ''
     },
@@ -52,13 +52,18 @@ export default {
   data () {
     return {
       meta: this.$engines.routes[0].meta,
-      engines: this.$engines.data,
-      enginesArray: Object.values(this.$engines.data)
+      engines: this.$engines.data
     }
   },
   computed: {
     enginesFiltered () {
-      return this.enginesArray.filter(v => v.customer === this.customerId)
+      return this.$store.getters['engines/filter']([['customer', '==', this.customer]])
+    }
+  },
+  methods: {
+    displayName (engine) {
+      console.log(engine)
+      return `${engine.type} ${engine.sn ? 'SN/' + engine.sn : ''}`
     }
   },
   components: {

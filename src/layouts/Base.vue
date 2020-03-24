@@ -98,6 +98,15 @@
                 </q-item-section>
               </q-item>
 
+              <q-item :to="{ name: 'report' }">
+                <q-item-section avatar>
+                  <q-icon color="grey" name="outlined_flag" />
+                </q-item-section>
+                <q-item-section>
+                  Report
+                </q-item-section>
+              </q-item>
+
               <q-item :to="{ name: 'dashboard' }">
                 <q-item-section avatar>
                   <q-icon color="grey" name="dashboard" />
@@ -157,7 +166,8 @@ export default {
         right: '2px',
         borderRadius: '2.5px',
         width: '5px'
-      }
+      },
+      signaturePad: false
     }
   },
   computed: {

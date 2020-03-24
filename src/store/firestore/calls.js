@@ -42,7 +42,7 @@ const calls = {
     fields: [{
       key: 'title',
       component: 'TextField',
-      attributes: {
+      attrs: {
         iconName: 'phone_callback',
         iconColor: 'orange',
         label: 'Call reason'
@@ -56,7 +56,7 @@ const calls = {
     }, {
       key: 'person',
       component: 'UserField',
-      attributes: {
+      attrs: {
         label: 'Person calling'
       }
     }, {
@@ -65,7 +65,7 @@ const calls = {
     }, {
       key: 'phone',
       component: 'TextField',
-      attributes: {
+      attrs: {
         iconName: 'phone',
         iconColor: 'grey',
         label: 'Phone number'
@@ -73,7 +73,7 @@ const calls = {
     }, {
       key: 'assign_to',
       component: 'UserField',
-      attributes: {
+      attrs: {
         label: 'Assign to'
       }
     }],

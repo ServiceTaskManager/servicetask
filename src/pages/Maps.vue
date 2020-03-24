@@ -1,24 +1,25 @@
 <template>
-  <div>
-    <q-drawer v-model="drawer" left overlay>
-      <store-list store="customers" no-link>
-        <template #item-right="{ data }">
-          <q-btn flat round
-            :icon="data.address.lat_lng ? 'navigation' : 'search'"
-            @click.prevent="search(data)"></q-btn>
-        </template>
-      </store-list>
+  <q-layout container view="hHh lpR fFf" style="height: calc(100vh - 50px)">
+    <q-drawer v-model="drawer" side="left">
+        <store-list store="customers" no-link>
+          <template #item-right="{ data }">
+            <q-btn flat round
+              :icon="data.address.lat_lng ? 'navigation' : 'search'"
+              @click.prevent="search(data)" />
+          </template>
+        </store-list>
 
-      {{ map }}
+        {{ map }}
 
-      <q-btn round
-        icon="keyboard_arrow_left" color="black"
-        class="absolute"
-        style="bottom: 10px; right: -20px;"
-        @click="drawer = !drawer" />
+        <q-btn round
+          icon="keyboard_arrow_left" color="black"
+          class="absolute"
+          style="bottom: 10px; right: -20px;"
+          @click="drawer = !drawer" />
     </q-drawer>
 
-    <l-map style="height: calc(100vh - 50px);"
+    <l-map
+      style="height: calc(100vh - 50px)"
       :zoom="map.zoom"
       :center="map.center"
       @update:zoom="map.zoom = $event"
@@ -39,7 +40,7 @@
         </l-icon>
       </l-marker>
     </l-map>
-  </div>
+  </q-layout>
 </template>
 
 <script>

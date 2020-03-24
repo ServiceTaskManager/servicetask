@@ -4,7 +4,7 @@
       :key="field.key"
       :is="field.component"
       v-model="formData[field.key]"
-      v-bind="field.attributes" />
+      v-bind="mergeAttributes(field.attrs, field.props)" />
   </q-form>
 </template>
 
@@ -38,6 +38,14 @@ export default {
   mounted () {
     this.value === undefined ? this.formData = Object.assign({}, this['$' + this.store].default) : this.formData = this.value
     this.fields === undefined ? this.formFields = this['$' + this.store].fields : this.formFields = this.fields
+  },
+  methods: {
+    mergeAttributes (attrs = {}, props = []) {
+      props.forEach(p => {
+        attrs[p] = this.formData[p]
+      })
+      return attrs
+    }
   },
   components: {
     UserField: () => import('../user/UserField'),

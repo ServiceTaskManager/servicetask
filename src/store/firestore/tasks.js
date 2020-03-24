@@ -44,11 +44,12 @@ const tasks = {
       component: 'CustomerField'
     }, {
       key: 'engine',
-      component: 'EngineField'
+      component: 'EngineField',
+      props: ['customer']
     }, {
       key: 'title',
       component: 'TextField',
-      attributes: {
+      attrs: {
         iconName: 'title',
         iconColor: 'light-blue',
         label: 'Task'
@@ -56,7 +57,7 @@ const tasks = {
     }, {
       key: 'description',
       component: 'TextField',
-      attributes: {
+      attrs: {
         iconName: 'title',
         iconColor: 'grey',
         label: 'Task details'

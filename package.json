@@ -22,6 +22,7 @@
     "quasar": "^1.0.0",
     "vue-i18n": "^8.0.0",
     "vue-moment": "^4.0.0",
+    "vue-signature-pad": "^2.0.0",
     "vue2-leaflet": "^2.5.2",
     "vuex-easy-firestore": "^1.35.3"
   },
@@ -29,6 +30,7 @@
     "@quasar/app": "^1.0.0",
     "@quasar/quasar-app-extension-icon-genie": "^1.0.1",
     "@quasar/quasar-app-extension-qcalendar": "^1.5.1",
+    "@quasar/quasar-app-extension-qmarkdown": "^1.0.24",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",

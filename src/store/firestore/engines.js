@@ -23,13 +23,30 @@ const engines = {
       }
     }],
     default: {
-      type: 'Xeikon 3300',
+      type: '',
       sn: '',
-      customer: '',
-      ugks: [],
-      pre_devices: [],
-      post_devices: []
-    }
+      customer: ''
+    },
+    fields: [{
+      key: 'type',
+      component: 'SelectField',
+      attrs: {
+        iconName: 'print',
+        iconColor: 'teal',
+        label: 'Engine type',
+        options: ['Durst Tau 330', 'Durst Tau 330E']
+      }
+    }, {
+      key: 'customer',
+      component: 'CustomerField'
+    }, {
+      key: 'SN',
+      component: 'TextField',
+      attrs: {
+        iconColor: 'grey',
+        label: 'Serial number'
+      }
+    }]
   },
   namespaced: true,
   firestorePath: 'engines',

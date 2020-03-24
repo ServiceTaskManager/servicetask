@@ -35,7 +35,7 @@ export default {
     data: {
       type: Object,
       default: () => {
-        return undefined
+        return {}
       }
     }
   },
@@ -51,6 +51,7 @@ export default {
   },
   methods: {
     set () {
+      console.log(this.formData)
       this.$store.dispatch(this.store + '/set', this.formData)
     }
   },

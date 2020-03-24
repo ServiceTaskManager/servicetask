@@ -41,7 +41,7 @@ const customers = {
     fields: [{
       key: 'name',
       component: 'TextField',
-      attributes: {
+      attrs: {
         iconName: 'group',
         iconColor: 'pink',
         label: 'Company name'
@@ -50,7 +50,7 @@ const customers = {
     {
       key: 'email',
       component: 'TextField',
-      attributes: {
+      attrs: {
         type: 'email',
         iconName: 'alternate_email',
         iconColor: 'grey',
@@ -60,7 +60,7 @@ const customers = {
     {
       key: 'phone',
       component: 'TextField',
-      attributes: {
+      attrs: {
         type: 'phone',
         iconName: 'phone',
         iconColor: 'grey',
@@ -70,7 +70,7 @@ const customers = {
     {
       key: 'address',
       component: 'AddressField',
-      attributes: {}
+      attrs: {}
     }],
     actions: [{
       label: 'Assign',
