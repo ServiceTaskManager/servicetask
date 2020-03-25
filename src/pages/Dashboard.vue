@@ -1,6 +1,6 @@
 <template>
   <div class="full-width row justify-around">
-    <q-card class="col-auto q-ma-md q-mr-none">
+    <q-card class="col-auto q-ma-md">
       <q-card-section>
         <span class="text-h4">Quick actions</span><br/>
         <span class="text-caption">See on going actions or access to main ServiceTask features</span>
