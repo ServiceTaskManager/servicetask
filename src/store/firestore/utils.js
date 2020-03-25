@@ -8,7 +8,7 @@ const filter = (data, filters) => {
       let filterValue = f[2]
       let dataValue = d[property]
       let result = Boolean
-      if (filterValue !== '') {
+      if (filterValue !== '' && filterValue !== undefined) {
         if (dataValue !== undefined) {
           if (operator === 'contains') result = dataValue.toLowerCase().indexOf(filterValue.toLowerCase()) > -1
           else if (operator === 'includes') result = filterValue.includes(dataValue)

@@ -36,6 +36,10 @@
 
     <q-drawer
       v-model="drawer"
+      :mini="drawerMini"
+      @mouseover="drawerMini = false"
+      @mouseout="drawerMini = true"
+      mini-to-overlay
       side="right"
       :behavior="$q.platform.is.mobile ? 'mobile' : 'desktop'"
       elevated
@@ -71,7 +75,11 @@
                 <q-item-section>
                   {{ store.meta.title }}
                 </q-item-section>
-                <q-separator vertical class="q-mr-sm" :color="store.meta.color" />
+
+                <q-separator v-if="!drawerMini"
+                  vertical class="q-mr-sm"
+                  :color="store.meta.color" />
+
                 <q-item-section side>
                   <q-btn v-if="!store.meta.createRoute"
                     flat round
@@ -154,6 +162,7 @@ export default {
   data () {
     return {
       drawer: !this.$q.platform.is.mobile,
+      drawerMini: true,
       editDialog: false,
       storeToEdit: '',
       dataToEdit: '',

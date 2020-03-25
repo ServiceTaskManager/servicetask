@@ -39,7 +39,10 @@ const tasks = {
     },
     fields: [{
       key: 'technician',
-      component: 'UserField'
+      component: 'UserField',
+      attrs: {
+        label: 'Technician'
+      }
     }, {
       key: 'customer',
       component: 'CustomerField'
