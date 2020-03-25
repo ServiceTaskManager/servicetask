@@ -98,17 +98,17 @@ const calls = {
       label: 'Unassign',
       icon: 'person_add_disabled',
       color: 'grey',
-      patch: { user: '' }
+      patch: { technician: '' }
     }, {
       label: 'Close',
       icon: 'cancel',
       color: 'grey',
-      patch: { status: 'close', closed_at: new Date() }
+      patch: { open: false }
     }, {
       label: 'Open',
       icon: 'arrow_back',
       color: 'grey',
-      patch: { status: 'open' }
+      patch: { open: true }
     }]
   },
   actions: {

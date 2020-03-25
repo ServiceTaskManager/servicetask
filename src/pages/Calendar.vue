@@ -1,6 +1,6 @@
 <template>
-  <q-layout container view="hHh Lpr lff" style="height: calc(100vh - 50px)">
-    <q-drawer v-model="drawer" side="left" bordered class="q-pa-md">
+  <q-layout container view="hHh Lpr lff" style="height: calc(100vh - 159px)">
+    <q-drawer v-model="drawer" side="left" bordered>
       <q-scroll-area class="fit q-pa-sm">
         <store-form :data="taskToEdit" store="tasks">
           <template #buttons>

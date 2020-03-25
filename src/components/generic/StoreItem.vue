@@ -4,11 +4,11 @@
     <q-item :to="noLink ? null : { name: store.slice(0, -1), params: { id: data.id } }"
       class="q-pa-xs"
       :class="data.selected ? 'bg-grey-4' : ''">
-      <q-item-section avatar>
-        <slot name="item-left">
+      <slot name="item-left" v-if="!noSelect">
+        <q-item-section avatar>
           <q-checkbox :value="data.selected" @input="toggleSelected()" />
-        </slot>
-      </q-item-section>
+        </q-item-section>
+      </slot>
       <q-item-section>
         <q-item-label class="text-bold">
           {{ data[titleProp] }}

@@ -5,8 +5,8 @@
     <store-item
       v-for="data in listData"
       :key="data.id"
-      :data="data"
       :store="store"
+      :data="data"
       :no-select="noSelect"
       :no-link="noLink">
       <slot name="item" :data="data"></slot>
@@ -45,6 +45,12 @@ export default {
     noLink: {
       type: Boolean,
       default: false
+    },
+    data: {
+      type: Array,
+      default: () => {
+        return undefined
+      }
     }
   },
   data () {
@@ -54,7 +60,7 @@ export default {
   },
   computed: {
     listData () {
-      return this.$store.getters[this.store + '/filter'](this.filters.concat(this.customFilters))
+      return this.data !== undefined ? this.data : this.$store.getters[this.store + '/filter'](this.filters.concat(this.customFilters))
     }
   },
   components: {

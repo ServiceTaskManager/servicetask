@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     user () {
-      return this.$users.data[this.event.task.user]
+      return this.$users.data[this.event.task.technician]
     },
     customer () {
       return this.$customers.data[this.event.task.customer]

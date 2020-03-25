@@ -1,111 +1,109 @@
 <template>
-  <div class="row q-col-gutter-md q-pa-md">
-    <div class="col-12">
-      <q-card class="full-width">
-        <q-item>
-          <q-item-section>
-            <store-list store="calls" :filters="callsFilters" hideFilters hideNoResult no-select>
-              <template v-slot:header>
-                <q-item>
-                  <q-item-section avatar>
-                    <q-icon :name="$calls.meta.icon" :color="$calls.meta.color" />
-                  </q-item-section>
-                  <q-item-section class="text-bold">
-                    <span v-if="callStat < 1">
-                      So far, so good.
-                    </span>
-                    <span v-else>
-                      Keep going
-                    </span>
-                  </q-item-section>
-                  <q-item-section side>
-                    <div class="row">
-                      <q-btn @click="callCreateDialog = true"
-                        flat round dense
-                        icon="add"
-                        :color="$calls.meta.color" />
-                      <q-btn :to="{ name: 'calls' }"
-                        flat round dense
-                        icon="list"
-                        :color="$calls.meta.color" />
-                    </div>
-                  </q-item-section>
-                </q-item>
-              </template>
-            </store-list>
-          </q-item-section>
-        </q-item>
-      </q-card>
-    </div>
-    <div class="col-12">
-      <q-card class="full-width">
-        <q-item>
-          <q-item-section>
-            <store-list store="tasks" :filters="tasksFilters" hideFilters hideNoResult no-select>
-              <template v-slot:header>
-                <q-item>
-                  <q-item-section avatar>
-                    <q-icon :name="$tasks.meta.icon" :color="$tasks.meta.color" />
-                  </q-item-section>
-                  <q-item-section class="text-bold">
-                    <span v-if="taskStat < 1">
-                      So far, so good.
-                    </span>
-                    <span v-else>
-                      Keep going
-                    </span>
-                  </q-item-section>
-                  <q-item-section side>
-                    <div class="row">
-                      <q-btn @click="taskCreateDialog = true"
-                        flat round dense
-                        icon="add"
-                        :color="$tasks.meta.color" />
-                      <q-btn :to="{ name: 'tasks' }"
-                        flat round dense
-                        icon="list"
-                        :color="$tasks.meta.color" />
-                    </div>
-                  </q-item-section>
-                </q-item>
-              </template>
-            </store-list>
-          </q-item-section>
-        </q-item>
-      </q-card>
-    </div>
-    <edit-dialog v-model="callCreateDialog" store="calls" />
-    <edit-dialog v-model="taskCreateDialog" store="tasks" />
+  <div class="full-width row justify-around">
+    <q-card class="col-auto q-ma-md q-mr-none">
+      <q-card-section>
+        <span class="text-h4">Quick actions</span><br/>
+        <span class="text-caption">See on going actions or access to main ServiceTask features</span>
+      </q-card-section>
+
+      <q-card-section class="q-pa-none row justify-around">
+        <q-btn :icon="$calls.meta.icon" :color="$calls.meta.color" label="New call !" size="50" stack flat />
+        <q-btn icon="directions_walk" color="black" label="Start a trip" size="50" stack flat />
+      </q-card-section>
+
+      <q-card-section
+        class="q-pa-sm bg-orange-1">
+        <span class="text-h6">Customer's calls ...</span>
+        <store-list store="calls" :filters="callsFilters" no-select hide-filters>
+          <template #item-right="{ data }">
+            <div class="row">
+              <q-btn dense round flat
+                color="orange"
+                icon="edit" />
+              <q-btn dense unelevated
+                color="orange-2"
+                text-color="orange"
+                icon="keyboard_arrow_right"
+                label="Finish!"
+                class="self-end" />
+            </div>
+          </template>
+          <template #item="{ data }">
+            Started {{ data.created_at.start | moment('from') }}
+          </template>
+        </store-list>
+      </q-card-section>
+
+      <q-card-section v-if="currentShifts.length > 0"
+        class="q-pa-sm bg-light-blue-1">
+        <span class="text-h6">On going ...</span>
+        <store-list :data="currentShifts" store="tasks" no-select hide-filters>
+          <template #item-right="{ data }">
+            <div class="row">
+              <q-btn dense round flat
+                color="light-blue"
+                icon="edit" />
+              <q-btn dense unelevated
+                color="light-blue-2"
+                text-color="light-blue"
+                icon="keyboard_arrow_right"
+                label="Finish!"
+                class="self-end" />
+            </div>
+          </template>
+          <template #item="{ data }">
+            Started {{ getCurrentShift(data).start | moment('from') }}
+          </template>
+        </store-list>
+      </q-card-section>
+    </q-card>
+
+    <q-card class="col-grow q-ma-md">
+      <q-card-section class="q-pb-none">
+        <span class="text-h4">Future overview</span><br/>
+        <span class="text-caption">See what is coming for next days, and re-schedule if needed</span>
+      </q-card-section>
+      <q-card-section class="q-pa-none">
+        <calendar></calendar>
+      </q-card-section>
+    </q-card>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   name: 'Dashboard',
   data () {
     return {
-      tasksFilters: [
-        ['done', '==', false],
-        ['user', '==', this.$user.data.id]
-      ],
       callsFilters: [
-        ['status', '==', 'open']
-      ],
-      callCreateDialog: false,
-      taskCreateDialog: false
+        ['open', '==', true]
+      ]
     }
   },
   computed: {
-    callStat () {
-      return this.$store.getters['calls/stat'](this.callsFilters)
-    },
-    taskStat () {
-      return this.$store.getters['tasks/stat'](this.tasksFilters)
+    currentShifts () {
+      const tasks = this.$store.getters['tasks/filter']([['technician', '==', this.$user.data.id]])
+      return tasks.filter(t => {
+        let keep = false
+        if (t.time_shifts) {
+          t.time_shifts.forEach(s => {
+            if (moment(new Date()).isBetween(moment(s.start), moment(s.end))) keep = true
+          })
+        }
+        return keep
+      })
+    }
+  },
+  methods: {
+    getCurrentShift (task) {
+      return task.time_shifts.filter(s => moment(new Date()).isBetween(moment(s.start), moment(s.end)))[0]
     }
   },
   components: {
     StoreList: () => import('../components/generic/StoreList'),
-    EditDialog: () => import('../components/generic/EditDialog')
+    Calendar: () => import('./Calendar')
   }
 }
 </script>
