@@ -34,11 +34,15 @@ const engines = {
         iconName: 'print',
         iconColor: 'teal',
         label: 'Engine type',
-        options: ['Durst Tau 330', 'Durst Tau 330E']
+        options: ['Durst Tau 330', 'Durst Tau 330E'],
+        rules: [val => !!val || 'Engine type is required']
       }
     }, {
       key: 'customer',
-      component: 'CustomerField'
+      component: 'CustomerField',
+      attrs: {
+        rules: [val => !!val || 'Customer is required']
+      }
     }, {
       key: 'SN',
       component: 'TextField',

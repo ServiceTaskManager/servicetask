@@ -1,5 +1,11 @@
 <template>
-  <q-dialog v-bind="$attrs" v-on="$listeners" :value="value" :maximized="$q.platform.is.mobile" persistent>
+  <q-dialog
+    v-bind="$attrs"
+    v-on="$listeners"
+    :value="value"
+    :maximized="$q.platform.is.mobile"
+    persistent
+    ref="dialog">
     <q-card>
       <q-toolbar :class="'bg-' + meta.color" class="text-white">
         <q-btn flat round dense icon="close" v-close-popup />
@@ -9,11 +15,17 @@
         <q-btn flat rounded dense icon="done" @click="set" v-close-popup />
       </q-toolbar>
       <q-card-section class="row q-pa-sm">
-        <store-form v-model="formData" :fields="fields" :store="store" />
+        <store-form
+          :data="formData"
+          :fields="fields"
+          :store="store"
+          @submit="$refs.dialog.hide()"
+          :no-reset="data !== undefined" />
       </q-card-section>
     </q-card>
   </q-dialog>
 </template>
+
 <script>
 export default {
   name: 'EditDialog',
@@ -35,7 +47,7 @@ export default {
     data: {
       type: Object,
       default: () => {
-        return {}
+        return undefined
       }
     }
   },
@@ -51,14 +63,7 @@ export default {
   },
   methods: {
     set () {
-      console.log(this.formData)
       this.$store.dispatch(this.store + '/set', this.formData)
-    }
-  },
-  watch: {
-    data (val) {
-      if (val === undefined) this.formData = {}
-      else this.formData = val
     }
   },
   components: {

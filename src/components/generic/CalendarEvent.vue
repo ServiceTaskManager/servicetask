@@ -5,21 +5,11 @@
     style="overflow: hidden;">
     <user-avatar :user="user" />
 
-    {{ event.task.title }}
+    {{ event.task.type | firstLetter }} {{ event.task.title }}
 
     <q-tooltip content-class="rotate-90" anchor="top right" self="top left">
       {{ customer.name }}
     </q-tooltip>
-
-    <q-menu
-      anchor="top right"
-      selft="top left"
-      class="q-pa-sm"
-      @hide="patchTask()">
-      <q-card style="width: 400px" class="q-pa-sm">
-        <store-form v-model="event.task" store="tasks" />
-      </q-card>
-    </q-menu>
   </q-chip>
 </template>
 
@@ -60,9 +50,13 @@ export default {
       this.$store.dispatch('tasks/patch', this.event.task)
     }
   },
+  filters: {
+    firstLetter: function (val) {
+      return typeof val === 'string' ? val.split(' ')[0] : ''
+    }
+  },
   components: {
-    UserAvatar: () => import('../user/UserAvatar'),
-    StoreForm: () => import('./StoreForm')
+    UserAvatar: () => import('../user/UserAvatar')
   }
 }
 </script>

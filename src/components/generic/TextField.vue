@@ -1,11 +1,10 @@
 <template>
   <q-input
-    :value="text"
-    @input="text = $event"
+    :value="value"
+    @input="$emit('input')"
     v-bind="$attrs"
     v-on="$listeners"
     color="black"
-    :label="label"
     class="full-width">
     <template v-slot:prepend>
       <q-icon :name="iconName" :color="iconColor" />
@@ -21,10 +20,6 @@ export default {
       type: String,
       default: ''
     },
-    label: {
-      type: String,
-      default: 'Text'
-    },
     iconName: {
       type: String,
       default: 'text'
@@ -32,11 +27,6 @@ export default {
     iconColor: {
       type: String,
       default: 'black'
-    }
-  },
-  data () {
-    return {
-      text: this.value
     }
   }
 }

@@ -37,7 +37,17 @@ export default {
   },
   data () {
     return {
-      shifts: this.value
+      cacheShifts: undefined
+    }
+  },
+  computed: {
+    shifts: {
+      get () {
+        return this.cacheShifts || this.value
+      },
+      set (newData) {
+        this.cacheShifts = newData
+      }
     }
   },
   methods: {

@@ -44,7 +44,8 @@ const customers = {
       attrs: {
         iconName: 'group',
         iconColor: 'pink',
-        label: 'Company name'
+        label: 'Company name',
+        rules: [val => !!val || 'Company name is required']
       }
     },
     {

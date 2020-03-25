@@ -35,7 +35,7 @@
           <q-avatar
             :icon="$customers.meta.icon"
             :color="$customers.meta.color"
-            style="color: white;" :size="`${markerSize}px`">
+            style="color: white;" size="20px">
           </q-avatar>
         </l-icon>
       </l-marker>
@@ -75,19 +75,16 @@ export default {
       const customers = this.$store.getters['customers/filter']([['selected', '==', true]])
       console.log(customers)
       return customers.filter(c => c.address.lat_lng !== undefined)
-    },
-    markerSize () {
-      return this.map.zoom / 0.50
     }
   },
   methods: {
     async search (customer) {
       if (customer.address.lat_lng === undefined) {
-        const addressInline = `${customer.name}, 
-          ${customer.address.addr1}, 
-          ${customer.address.postal_code}, 
-          ${customer.address.city}, 
-          ${customer.address.country}`
+        const addressInline = customer.address.addr1 + ', ' +
+          customer.address.postal_code + ', ' +
+          customer.address.city + ', ' +
+          customer.address.country
+        console.log(addressInline)
         const latLng = await provider.search({ query: addressInline })
         if (latLng.length === 1) {
           customer.address.lat_lng = { lat: parseFloat(latLng[0].y), lng: parseFloat(latLng[0].x) }

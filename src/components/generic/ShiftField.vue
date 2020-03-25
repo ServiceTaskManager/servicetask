@@ -47,7 +47,8 @@
           class="full-width"
           label="Start on"
           today-btn now-btn
-          v-model="shift.start" format24h
+          v-model="shift.start"
+          format24h
           first-day-of-week="1"
           :display-value="startDateTimeFormatted" />
 
@@ -58,7 +59,8 @@
           label="End on"
           today-btn now-btn
           first-day-of-week="1"
-          v-model="shift.end" format24h
+          v-model="shift.end"
+          format24h
           :display-value="endDateTimeFormatted" />
       </div>
     </div>
@@ -131,9 +133,11 @@ export default {
     },
     'shift.start' (start) {
       const period = this.shift.period
+      console.log('coucou')
       if (period !== 'custom') {
-        this.shift.start = moment(this.shift.start).startOf('day').add(this.timeOffset[period].start, 'h').format('YYYY-MM-DDTHH:mm')
-        this.shift.end = moment(this.shift.start).startOf('day').add(this.timeOffset[period].end, 'h').format('YYYY-MM-DDTHH:mm')
+        console.log('ok')
+        this.shift.start = moment(start).startOf('day').add(this.timeOffset[period].start, 'h').format('YYYY-MM-DDTHH:mm')
+        this.shift.end = moment(start).startOf('day').add(this.timeOffset[period].end, 'h').format('YYYY-MM-DDTHH:mm')
       } else {
         if (moment(this.shift.end).isBefore(moment(start))) this.shift.end = moment(start).add(1, 'h').format('YYYY-MM-DDTHH:mm')
       }

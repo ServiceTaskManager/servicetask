@@ -1,21 +1,47 @@
 <template>
-  <q-calendar
-    v-model="selectedDate"
-    view="week"
-    :weekdays="[1, 2, 3, 4, 5]"
-    interval-start="6"
-    interval-count="14"
-    hour24-format
-    style="height: 800px">
-    <template #day-body="{ day, timeStartPos, timeDurationHeight }">
-      <template v-for="(event, key) in events(day)">
-        <calendar-event :key="key"
-          class="absolute rotate-90"
-          :event="event"
-          :style="eventStyle(event, timeStartPos, timeDurationHeight)" />
-      </template>
-    </template>
-  </q-calendar>
+  <q-layout container view="hHh Lpr lff" style="height: calc(100vh - 50px)">
+    <q-drawer v-model="drawer" side="left" bordered class="q-pa-md">
+      <q-scroll-area class="fit q-pa-sm">
+        <store-form :data="taskToEdit" store="tasks">
+          <template #buttons>
+            <q-btn v-if="taskToEdit === undefined"
+              label="Reset"
+              type="reset"
+              :color="$tasks.meta.color"
+              flat
+              class="q-ml-sm" />
+            <q-btn
+              :label="taskToEdit ? 'Save' : 'Create'"
+              type="submit"
+              :color="$tasks.meta.color" />
+          </template>
+        </store-form>
+      </q-scroll-area>
+    </q-drawer>
+
+    <q-page-container>
+      <q-page>
+        <q-calendar
+          v-model="selectedDate"
+          view="week"
+          :weekdays="[1, 2, 3, 4, 5]"
+          interval-start="6"
+          interval-count="14"
+          hour24-format
+          style="height: 800px">
+          <template #day-body="{ day, timeStartPos, timeDurationHeight }">
+            <template v-for="(event, key) in events(day)">
+              <calendar-event :key="key"
+                class="absolute rotate-90"
+                :event="event"
+                :style="eventStyle(event, timeStartPos, timeDurationHeight)"
+                @click="openEditDrawer(event.task)" />
+            </template>
+          </template>
+        </q-calendar>
+      </q-page>
+    </q-page-container>
+  </q-layout>
 </template>
 
 <script>
@@ -25,7 +51,9 @@ export default {
   name: 'Calendar',
   data () {
     return {
-      selectedDate: ''
+      selectedDate: '',
+      taskToEdit: undefined,
+      drawer: false
     }
   },
   methods: {
@@ -72,18 +100,21 @@ export default {
     },
     rowIsBusy (busyRow, s) {
       let busy = false
-      console.log(busyRow)
       busyRow.forEach(busyTime => {
         if (moment(s.start).isBetween(moment(busyTime.start), moment(busyTime.end))) busy = true
         if (moment(s.end).isBetween(moment(busyTime.start), moment(busyTime.end))) busy = true
         if (moment(s.start).isSame(moment(busyTime.start))) busy = true
-        console.log('ok')
       })
       return busy
+    },
+    openEditDrawer (task) {
+      this.drawer = true
+      this.taskToEdit = task
     }
   },
   components: {
-    CalendarEvent: () => import('../components/generic/CalendarEvent')
+    CalendarEvent: () => import('../components/generic/CalendarEvent'),
+    StoreForm: () => import('../components/generic/StoreForm')
   }
 }
 </script>

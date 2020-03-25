@@ -86,7 +86,8 @@ export default {
     return {
       tasksFilters: [
         ['done', '==', false],
-        ['user', '==', this.$user.data.id]],
+        ['user', '==', this.$user.data.id]
+      ],
       callsFilters: [
         ['status', '==', 'open']
       ],

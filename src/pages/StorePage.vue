@@ -1,6 +1,8 @@
 <template>
   <div>
-    {{ data }}
+    <pre>
+      {{ data }}
+    </pre>
   </div>
 </template>
 

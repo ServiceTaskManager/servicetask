@@ -27,9 +27,10 @@ const tasks = {
       }
     }],
     default: {
-      user: '',
+      technician: '',
       customer: '',
       engine: '',
+      type: '',
       title: '',
       description: '',
       done: false,
@@ -37,7 +38,7 @@ const tasks = {
       subTasks: []
     },
     fields: [{
-      key: 'user',
+      key: 'technician',
       component: 'UserField'
     }, {
       key: 'customer',
@@ -45,14 +46,33 @@ const tasks = {
     }, {
       key: 'engine',
       component: 'EngineField',
-      props: ['customer']
+      forward: ['customer']
+    }, {
+      key: 'type',
+      component: 'SelectField',
+      attrs: {
+        iconName: 'title',
+        iconColor: 'light-blue',
+        label: 'Type',
+        options: [
+          '🚗 Drive',
+          '✈️ Fly',
+          '🚅 Take the rain',
+          '🚅✈️🚗 Travel',
+          '🏫 Stay at hotel',
+          '🔧 Fix',
+          '📞 Call',
+          '💻 Remote assistance'
+        ]
+      }
     }, {
       key: 'title',
       component: 'TextField',
       attrs: {
         iconName: 'title',
         iconColor: 'light-blue',
-        label: 'Task'
+        label: 'Task',
+        rules: [val => !!val || 'Task title is required']
       }
     }, {
       key: 'description',
@@ -95,7 +115,7 @@ const tasks = {
         parent: data.parent,
         text: 'Assign to'
       }).onOk(userInput => {
-        dispatch('patchBatch', { doc: { user: userInput }, ids: data.ids })
+        dispatch('patchBatch', { doc: { technician: userInput }, ids: data.ids })
       })
     }
   },

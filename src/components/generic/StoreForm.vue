@@ -1,10 +1,32 @@
 <template>
-  <q-form class="full-width">
-    <component v-for="field in formFields"
+  <q-form autofocus
+    class="full-width"
+    @submit="onSubmit"
+    @reset="onReset"
+    greedy>
+
+    <component v-for="(field, order) in formFields"
       :key="field.key"
       :is="field.component"
       v-model="formData[field.key]"
-      v-bind="mergeAttributes(field.attrs, field.props)" />
+      v-bind="mergeAttrs(field.attrs, field.props)"
+      hide-bottom-space
+      :tabindex="order + 1000" />
+
+    <div v-if="!noButtons" class="full-width q-pt-sm q-gutter-sm row justify-end">
+      <slot name="buttons">
+        <q-btn v-if="!noReset"
+          label="Reset"
+          type="reset"
+          :color="storeMeta.color"
+          flat
+          class="q-ml-sm" />
+        <q-btn
+          label="Submit"
+          type="submit"
+          :color="storeMeta.color" />
+      </slot>
+    </div>
   </q-form>
 </template>
 
@@ -12,10 +34,10 @@
 export default {
   name: 'StoreForm',
   props: {
-    value: {
+    data: {
       type: Object,
       default: () => {
-        return undefined
+        return {}
       }
     },
     fields: {
@@ -26,25 +48,54 @@ export default {
     },
     store: {
       type: String,
-      default: undefined
+      required: true
+    },
+    noButtons: {
+      type: Boolean,
+      default: false
+    },
+    noReset: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
-      formData: undefined,
-      formFields: undefined
+      cacheData: undefined
     }
   },
-  mounted () {
-    this.value === undefined ? this.formData = Object.assign({}, this['$' + this.store].default) : this.formData = this.value
-    this.fields === undefined ? this.formFields = this['$' + this.store].fields : this.formFields = this.fields
+  computed: {
+    formData: {
+      get () {
+        return this.cacheData || this.data
+      },
+      set (newData) {
+        this.cacheData = newData
+      }
+    },
+    formFields () {
+      return this.fields || this.storeFields
+    },
+    storeFields () {
+      return this.$store.getters[this.store + '/fields']
+    },
+    storeMeta () {
+      return this.$store.getters[this.store + '/meta']
+    }
   },
   methods: {
-    mergeAttributes (attrs = {}, props = []) {
-      props.forEach(p => {
+    mergeAttrs (attrs = {}, forward = []) {
+      forward.forEach(p => {
         attrs[p] = this.formData[p]
       })
       return attrs
+    },
+    onSubmit () {
+      this.$store.dispatch(this.store + '/set', this.formData)
+      this.$emit('submit')
+    },
+    onReset () {
+      this.formData = {}
     }
   },
   components: {
@@ -56,7 +107,8 @@ export default {
     ShiftsField: () => import('./ShiftsField'),
     TeamviewerField: () => import('./TeamviewerField'),
     ColorPicker: () => import('./ColorPicker'),
-    SelectField: () => import('./SelectField')
+    SelectField: () => import('./SelectField'),
+    BooleanField: () => import('./BooleanField')
   }
 }
 </script>

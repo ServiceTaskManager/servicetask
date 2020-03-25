@@ -38,7 +38,14 @@ const users = {
       attrs: {
         iconName: 'person',
         iconColor: 'green',
-        label: 'Full name'
+        label: 'Full name',
+        rules: [val => !!val || 'Name is required']
+      }
+    }, {
+      key: 'customer',
+      component: 'CustomerField',
+      attrs: {
+        rules: [val => !!val || 'Customer is required']
       }
     }, {
       key: 'phone',

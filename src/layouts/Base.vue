@@ -63,7 +63,7 @@
                 </q-item-section>
               </q-item>
 
-              <!-- Add store in menu  -->
+              <!-- Add stores in menu  -->
               <q-item v-for="store in storesInMenu" :key="store.meta.store" :to="{ name: store.meta.store }">
                 <q-item-section avatar>
                   <q-icon :color="store.meta.color" :name="store.meta.icon" />
@@ -73,11 +73,18 @@
                 </q-item-section>
                 <q-separator vertical class="q-mr-sm" :color="store.meta.color" />
                 <q-item-section side>
-                  <q-btn flat round
+                  <q-btn v-if="!store.meta.createRoute"
+                    flat round
                     size="sm"
                     :color="store.meta.color"
                     icon="add"
                     @click.prevent="showEditDialog(store.meta.store)" />
+                  <q-btn v-else
+                    flat round
+                    size="sm"
+                    :color="store.meta.color"
+                    icon="add"
+                    :to="{ name: store.meta.createRoute, params: { id: 'new' } }" />
                 </q-item-section>
               </q-item>
 
@@ -95,15 +102,6 @@
                 </q-item-section>
                 <q-item-section>
                   Maps
-                </q-item-section>
-              </q-item>
-
-              <q-item :to="{ name: 'report' }">
-                <q-item-section avatar>
-                  <q-icon color="grey" name="outlined_flag" />
-                </q-item-section>
-                <q-item-section>
-                  Report
                 </q-item-section>
               </q-item>
 
@@ -236,7 +234,6 @@ export default {
       this.$store.dispatch(this.storeName + '/unselectAll')
     },
     showEditDialog (store, data = undefined) {
-      console.log(store)
       this.editDialog = true
       this.storeToEdit = store
       this.dataToEdit = data

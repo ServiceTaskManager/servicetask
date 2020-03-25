@@ -1,24 +1,29 @@
 <template>
   <div>
-    <text-field v-model="value.addr1"
+    <text-field :value="value.addr1"
+      @input="$emit('input', { ...value, addr1: $event })"
       v-bind="{ label: 'Street name and number' }"
       icon-name="map" icon-color="grey" />
-    <text-field v-model="address.addr2"
+    <text-field :value="value.addr2"
+      @input="$emit('input', { ...value, addr2: $event })"
       v-bind="{ label: 'Address complement' }"
       icon-name="map" icon-color="grey" />
     <div class="row">
       <div class="col-4">
-        <text-field v-model="address.postal_code"
+        <text-field :value="value.postal_code"
+          @input="$emit('input', { ...value, postal_code: $event })"
           v-bind="{ label: 'Postal code' }"
           icon-name="location_city"
           icon-color="grey" />
       </div>
       <div class="col-8">
-        <text-field v-model="address.city"
+        <text-field :value="value.city"
+          @input="$emit('input', { ...value, city: $event })"
           v-bind="{ label: 'City' }" icon-color="grey" />
       </div>
     </div>
-    <text-field v-model="address.country"
+    <text-field :value="value.country"
+      @input="$emit('input', { ...value, country: $event })"
       v-bind="{ label: 'Country' }"
       icon-name="flag" icon-color="grey" />
   </div>
@@ -47,11 +52,6 @@ export default {
     iconColor: {
       type: String,
       default: 'black'
-    }
-  },
-  data () {
-    return {
-      address: this.value
     }
   },
   components: {

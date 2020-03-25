@@ -1,15 +1,33 @@
 <template>
   <q-layout container view="hHh Lpr lff" style="height: calc(100vh - 50px)">
     <q-drawer v-model="drawer" side="left" bordered>
-      <q-scroll-area class="fit">
-        <store-list store="tasks" no-link />
-      </q-scroll-area>
+      <div class="full-width q-gutter-sm q-pa-sm row" style="height: 50px;">
+        <q-btn color="black"
+          label="Save"
+          icon="save"
+          class="col"
+          @click="save()" />
+        <q-btn :color="$reports.meta.color"
+          label="Print"
+          icon="print"
+          class="col" />
+      </div>
 
-      <q-btn round
-        icon="keyboard_arrow_left" color="black"
-        class="absolute"
-        style="bottom: 10px; right: -20px;"
-        @click="drawer = !drawer" />
+      <q-scroll-area class="full-width q-pa-sm" style="height: calc(100vh - 100px)">
+        <customer-field v-model="report.customer" />
+
+        <user-field v-model="report.contact_person"
+          :customer="report.customer"
+          label="Contact"
+          no-self />
+
+        <store-list store="tasks"
+          :filters="[
+            ['customer', '==', report.customer],
+            ['technician', '==', this.$user.data.id]
+          ]"
+          no-link />
+      </q-scroll-area>
     </q-drawer>
 
     <q-page-container>
@@ -25,6 +43,25 @@
             </div>
           </q-card-section>
           <q-separator />
+
+          <div v-if="report.customer !== ''">
+            <q-card-section class="row justify-between">
+              <div class="col">
+                <span class="text-h6 col">{{ customerData.name }}</span><br />
+                <span v-if="customerData.address.addr1 !== ''">{{ customerData.address.addr1 }}<br /></span>
+                <span v-if="customerData.address.addr2 !== ''">{{ customerData.address.addr2 }}<br /></span>
+                <span v-if="customerData.address.postal_code !== ''">{{ customerData.address.postal_code }} </span>
+                <span v-if="customerData.address.city !== ''">{{ customerData.address.city }}<br /></span>
+                <span v-if="customerData.address.country !== ''">{{ customerData.address.country }}</span>
+              </div>
+              <div class="col text-right">
+                <span class="text-weight-bold">Contact : {{ contactPersonData.name }}</span><br />
+                <span class="text-caption">{{ report.date | moment('D MMM Y') }}</span>
+              </div>
+            </q-card-section>
+            <q-separator />
+          </div>
+
           <q-card-section class="q-pa-none">
             <q-splitter v-model="splitter"
               unit="px"
@@ -82,23 +119,35 @@
         </q-table>
 
         <!-- Signatures -->
-        <div class="row q-gutter-md q-mt-md">
-          <q-card class="bg-transparent" bordered flat v-for="(signature, key) in report.signatures" :key="key">
-            <q-card-section>
-              <span class="text-weight-bold">{{ signature.name }}</span><br />
-              <span class="text-caption">{{ signature.date | moment('D MMM Y') }}</span>
+        <div class="row q-gutter-x-md q-mt-md">
+          <q-card class="bg-transparent col" bordered flat>
+            <q-card-section class="q-pa-sm">
+              <span class="text-weight-bold">{{ $user.data.name }}</span><br />
+              <span class="text-caption">{{ Date(report.signatures.technician.date.seconds * 1000) | moment('D MMM Y HH:mm') }}</span>
             </q-card-section>
             <q-card-section class="bg-white q-pa-xs">
-              <q-btn @click="deleteSignature(signature)" flat class="full-width q-pa-none">
+              <q-btn @click="getSignature('technician')" flat class="full-width q-pa-none">
                 <q-img
-                  :src="signature.signature"
+                  :src="report.signatures.technician.signature"
                   style="width: 300px; height: 100px;"
                   contain />
               </q-btn>
             </q-card-section>
           </q-card>
-          <q-card class="bg-white items-center row" bordered flat style="height: 193px;">
-            <q-btn flat stack class="full-width full-height" @click="editSignature()" icon="add" label="signature" />
+
+          <q-card class="bg-transparent col" bordered flat>
+            <q-card-section class="q-pa-sm">
+              <span class="text-weight-bold">{{ contactPersonData.name }}</span><br />
+              <span class="text-caption">{{ Date(report.signatures.customer.date.seconds * 1000) | moment('D MMM Y HH:mm') }}</span>
+            </q-card-section>
+            <q-card-section class="bg-white q-pa-xs">
+              <q-btn @click="getSignature('customer')" flat class="full-width q-pa-none">
+                <q-img
+                  :src="report.signatures.customer.signature"
+                  style="width: 300px; height: 100px;"
+                  contain />
+              </q-btn>
+            </q-card-section>
           </q-card>
         </div>
       </q-page>
@@ -121,15 +170,20 @@ export default {
   data () {
     return {
       drawer: false,
-      splitter: 30,
+      splitter: 300,
       report: {
+        customer: '',
         calls: [],
         tasks: [],
         tasksTotalTime: 0,
-        note: '*test*',
+        note: '',
         date: '',
         technician: '',
-        signatures: []
+        contact_person: '',
+        signatures: {
+          technician: {},
+          customer: {}
+        }
       },
       taskTableColumns: [
         {
@@ -169,6 +223,7 @@ export default {
     }
   },
   mounted () {
+    if (this.$route.params.id !== 'new') this.report = this.$reports.data[this.$route.params.id]
     this.report.date = new Date()
     this.report.technician = this.$user.data.name
   },
@@ -191,24 +246,34 @@ export default {
     },
     tasksTotalTime: function () {
       const times = this.tasksTableData.map(t => moment(t.shift.end).diff(t.shift.start, 'hours'))
-      return times.lenght > 0 ? times.reduce((sum, val) => sum + val) : 0
+      return times.length > 0 ? times.reduce((sum, val) => sum + val) : 0
+    },
+    customerData: function () {
+      return this.report.customer !== '' ? this.$customers.data[this.report.customer] : {}
+    },
+    contactPersonData: function () {
+      return this.report.contact_person !== '' ? this.$users.data[this.report.contact_person] : {}
     }
   },
   methods: {
-    editSignature () {
+    getSignature (person) {
       this.$q.dialog({
         component: SignatureDialog,
-        parent: this
+        parent: this,
+        noName: true
       }).onOk(signature => {
-        this.report.signatures.push(signature)
+        this.report.signatures[person] = signature
       })
     },
-    deleteSignature (signature) {
-      this.report.signatures = this.report.signatures.filter(s => s !== signature)
+    async save () {
+      const id = await this.$store.dispatch('reports/set', this.report)
+      if (this.$route.params.id === 'new') this.$router.push({ name: 'report', params: { id: id } })
     }
   },
   components: {
-    StoreList: () => import('../components/generic/StoreList')
+    StoreList: () => import('../components/generic/StoreList'),
+    CustomerField: () => import('../components/customer/CustomerField'),
+    UserField: () => import('../components/user/UserField')
   }
 }
 </script>

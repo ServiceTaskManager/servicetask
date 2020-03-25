@@ -3,8 +3,8 @@
     <q-card class="q-dialog-plugin">
       <vue-signature-pad ref="signaturePad" style="height: 300px;" />
       <q-card-actions align="right">
-        <q-input label="Person name" v-model="signatureData.name" />
-        <q-btn color="primary" label="OK" :disable="signatureData.name === ''" @click="onOKClick" />
+        <q-input label="Person name" v-model="signatureData.name" v-if="!noName" />
+        <q-btn color="primary" label="OK" @click="onOKClick" />
         <q-btn color="primary" label="Cancel" @click="onCancelClick" />
       </q-card-actions>
     </q-card>
@@ -15,6 +15,12 @@
 import VueSignaturePad from 'vue-signature-pad'
 
 export default {
+  props: {
+    noName: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       signatureData: {

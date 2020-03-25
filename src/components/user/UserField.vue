@@ -10,8 +10,7 @@
     :display-value="displayValue"
     option-label="name"
     option-value="id"
-    @filter="filter"
-    :label="label">
+    @filter="filter">
 
     <template v-slot:prepend>
       <q-icon :name="$users.meta.icon" :color="$users.meta.color" />
@@ -21,7 +20,7 @@
       <q-btn flat round icon="close" color="grey" @click="$emit('input', '')" />
     </template>
 
-    <template v-slot:append v-else>
+    <template v-slot:append v-if="value === '' && !noSelf">
       <q-btn flat round icon="person_add" :color="$users.meta.color" @click="$emit('input', $user.data.id)" />
     </template>
 
@@ -45,14 +44,18 @@ export default {
       type: String,
       default: ''
     },
-    label: {
+    customer: {
       type: String,
-      default: 'User'
+      default: undefined
+    },
+    noSelf: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
-      usersFiltered: this.$store.getters['users/filter']()
+      usersFiltered: this.$store.getters['users/filter']([['customer', '==', this.customer]])
     }
   },
   computed: {
@@ -62,7 +65,10 @@ export default {
   },
   methods: {
     filter (val, done) {
-      this.usersFiltered = this.$store.getters['users/filter']([['name', 'contains', val]])
+      this.usersFiltered = this.$store.getters['users/filter']([
+        ['name', 'contains', val],
+        ['customer', '==', this.customer]
+      ])
       done()
     }
   },

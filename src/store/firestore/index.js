@@ -5,6 +5,7 @@ import tasks from './tasks'
 import calls from './calls'
 import customers from './customers'
 import engines from './engines'
+import reports from './reports'
 import { notifications, tokens } from './notifications'
 
 import { Dialog } from 'quasar'
@@ -15,22 +16,23 @@ const stores = [users,
   customers,
   engines,
   notifications,
-  tokens
+  tokens,
+  reports
 ]
 
 // Add common configuration for all stores
 stores.forEach(s => {
   // Add configuration
   s.serverChange = { ...s.serverChange,
-    convertTimestamps: {
-      created_at: '%convertTimestamp%',
-      updated_at: '%convertTimestamp%',
-      closed_at: '%convertTimestamp%'
-    },
     addedHook: (updateStore, doc, id, store) => {
       doc.selected = false
       updateStore(doc)
     }
+  }
+  s.serverChange.convertTimestamps = { ...s.serverChange.convertTimestamps,
+    created_at: '%convertTimestamp%',
+    updated_at: '%convertTimestamp%',
+    closed_at: '%convertTimestamp%'
   }
 
   s.sync = { ...s.sync,
@@ -65,7 +67,16 @@ stores.forEach(s => {
     let selected = Object.values(state.data).filter(s => s.selected)
     return selected.map(s => s.id)
   }
-  s.getters = { ...s.getters, filter, stat, selected, selectedIds }
+  const fields = state => {
+    return state.fields
+  }
+  const meta = state => {
+    return state.meta
+  }
+  const defaultValue = state => {
+    return state.default
+  }
+  s.getters = { ...s.getters, filter, stat, selected, selectedIds, fields, meta, defaultValue }
 
   // Add actions
   const toggleSelected = ({ state, dispatch }, id) => {
@@ -106,7 +117,7 @@ stores.forEach(s => {
 const firestore = {
   stores: stores,
   state: {
-    storesToOpen: ['users', 'tasks', 'calls', 'customers', 'engines', 'tokens'],
+    storesToOpen: ['users', 'tasks', 'calls', 'customers', 'engines', 'tokens', 'reports'],
     storesOpened: [],
     ready: false,
     loading: 0

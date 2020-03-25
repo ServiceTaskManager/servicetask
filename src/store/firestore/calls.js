@@ -29,7 +29,7 @@ const calls = {
       title: '', // string
       customer: '', // customer id
       engine: '', // engine id
-      status: 'open', // unassigned, assigned, closed
+      open: '', // unassigned, assigned, closed
       person: '', // string
       phone: '', // string
       teamviewer: {
@@ -45,11 +45,15 @@ const calls = {
       attrs: {
         iconName: 'phone_callback',
         iconColor: 'orange',
-        label: 'Call reason'
+        label: 'Call reason',
+        rules: [val => !!val || 'Call reason is required']
       }
     }, {
       key: 'customer',
-      component: 'CustomerField'
+      component: 'CustomerField',
+      attrs: {
+        rules: [val => !!val || 'Customer is required']
+      }
     }, {
       key: 'engine',
       component: 'EngineField'
@@ -75,6 +79,14 @@ const calls = {
       component: 'UserField',
       attrs: {
         label: 'Assign to'
+      }
+    }, {
+      key: 'open',
+      component: 'BooleanField',
+      attrs: {
+        iconColor: 'orange',
+        label: 'Call status',
+        rules: [val => !!val || 'Status is required']
       }
     }],
     actions: [{

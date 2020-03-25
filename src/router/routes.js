@@ -61,14 +61,6 @@ const routes = [
         meta: {
           title: 'Calendar'
         }
-      },
-      {
-        path: 'report',
-        name: 'report',
-        component: () => import('pages/Report'),
-        meta: {
-          title: 'Report'
-        }
       }
     ]
   }
