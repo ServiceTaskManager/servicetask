@@ -17,7 +17,7 @@
       </q-toolbar>
       <q-card-section class="row q-pa-sm">
         <store-form
-          :data="formData"
+          v-model="data"
           :fields="fields"
           :store="store"
           @submit="hide"
@@ -56,11 +56,6 @@ export default {
     title: {
       type: String,
       default: 'Create / edit'
-    }
-  },
-  data () {
-    return {
-      formData: this.data
     }
   },
   computed: {

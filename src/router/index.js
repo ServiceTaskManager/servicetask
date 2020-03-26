@@ -5,27 +5,22 @@ import routes from './routes'
 
 Vue.use(VueRouter)
 
-/*
- * If not building with SSR mode, you can
- * directly export the Router instantiation
- */
-
 export default function ({ store, ssrContext }) {
   const Router = new VueRouter({
     scrollBehavior: () => ({ y: 0 }),
     routes,
 
-    // Leave these as is and change from quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
   })
 
   Router.beforeEach((to, from, next) => {
-    if (from.meta.store) {
-      store.dispatch(from.meta.store + '/unselectAll')
-    }
+    // Unselect all store's docs
+    store.dispatch('unselectAll')
+
+    // if accessing a store page with an id param, select it.
+    if (to.meta.store && to.params.id) store.dispatch(to.meta.store + '/selectOneOnly', to.params.id)
+
     let user = JSON.parse(localStorage.getItem('user'))
     let login = user ? user.login : false
     if (login) next()

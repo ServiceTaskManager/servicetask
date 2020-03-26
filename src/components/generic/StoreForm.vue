@@ -1,18 +1,18 @@
 <template>
   <q-form autofocus
     class="full-width"
-    @submit="onSubmit"
+    @submit="noSubmit ? onSubmit : null"
     @reset="onReset"
     greedy
     ref="StoreFormRef">
 
-    <component v-for="(field, order) in formFields"
+    <component v-for="field in formFields"
       :key="field.key"
       :is="field.component"
-      v-model="formData[field.key]"
+      :value="value[field.key]"
+      @input="$emit('input', { ...value, [field.key]: $event })"
       v-bind="mergeAttrs(field.attrs, field.props)"
-      hide-bottom-space
-      :tabindex="order + 1000" />
+      hide-bottom-space />
 
     <div v-if="!noButtons" class="full-width q-pt-sm q-gutter-sm row justify-end">
       <slot name="buttons">
@@ -35,7 +35,7 @@
 export default {
   name: 'StoreForm',
   props: {
-    data: {
+    value: {
       type: Object,
       default: () => {
         return {}
@@ -58,22 +58,17 @@ export default {
     noReset: {
       type: Boolean,
       default: false
-    }
-  },
-  data () {
-    return {
-      cacheData: undefined
+    },
+    noValidation: {
+      type: Boolean,
+      default: false
+    },
+    noSubmit: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
-    formData: {
-      get () {
-        return this.cacheData || this.data
-      },
-      set (newData) {
-        this.cacheData = newData
-      }
-    },
     formFields () {
       return this.fields || this.storeFields
     },
@@ -86,8 +81,9 @@ export default {
   },
   methods: {
     mergeAttrs (attrs = {}, forward = []) {
+      if (this.noValidation) delete attrs.rules
       forward.forEach(p => {
-        attrs[p] = this.formData[p]
+        attrs[p] = this.value[p]
       })
       return attrs
     },
@@ -96,13 +92,13 @@ export default {
       this.$emit('submit')
     },
     onReset () {
-      this.formData = {}
+      this.emit('input', {})
     },
     validate () {
       return this.$refs.StoreFormRef.validate()
     },
     save () {
-      this.$store.dispatch(this.store + '/set', this.formData)
+      this.$store.dispatch(this.store + '/set', this.value)
     }
   },
   components: {

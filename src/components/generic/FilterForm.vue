@@ -2,41 +2,37 @@
   <q-expansion-item
     v-bind="$attrs"
     v-on="$attrs"
-    class="bg-white">
+    class="bg-white q-pa-sm" v-if="fields.length > 0">
     <template v-slot:header>
       <q-item-section avatar>
         <q-icon name="filter_list" />
       </q-item-section>
       <q-item-section>
         <slot name="header">
-          <q-item-label caption v-if="activeFilters.length > 0">
-            {{ activeFilters.length }} active filter(s)
-          </q-item-label>
+          <store-form
+            :store="store"
+            :fields="fields.slice(0, 1)"
+            v-model="storeFormData"
+            @input="updateFilters()"
+            no-buttons no-submit no-validation />
         </slot>
+      </q-item-section>
+      <q-item-section v-if="value.length > 0" side>
+        <q-btn flat round icon="clear" color="grey" @click.prevent="storeFormData = {}" />
       </q-item-section>
     </template>
     <q-list>
-      <q-item v-for="filter in filters.filter(f => !f[4])"
-        :key="filter[0]">
-        <text-field v-if="textFields.includes(filter[0])"
-          v-model="filter[2]"
-          :label="filter[3]"
-          dense />
-        <component v-if="customFields.includes(filter[0])"
-          :is="componentName(filter[0])"
-          v-model="filter[2]"
-          :label="filter[3]"
-          dense />
-        <boolean-field v-if="booleanFields.includes(filter[0])"
-          v-model="filter[2]"
-          dense />
-      </q-item>
+      <store-form
+        :store="store"
+        :fields="fields.slice(1)"
+        v-model="storeFormData"
+        @input="updateFilters()"
+        no-buttons no-submit no-validation />
     </q-list>
   </q-expansion-item>
 </template>
 
 <script>
-import { QSelect } from 'quasar'
 export default {
   name: 'FilterForm',
   props: {
@@ -45,39 +41,48 @@ export default {
       default: () => {
         return []
       }
+    },
+    store: {
+      type: String,
+      default: '',
+      required: true
     }
   },
   data () {
     return {
-      filters: this.value,
-      textFields: ['title', 'name', 'sn', 'addr1', 'addr2', 'postal_code', 'city', 'country'],
-      customFields: ['customer', 'engine', 'user', 'technician'],
-      booleanFields: ['main', 'pre_device', 'post_device', 'done']
-    }
-  },
-  methods: {
-    componentName (property) {
-      if (property === 'technician') property = 'user'
-      return property.charAt(0).toUpperCase() + property.slice(1) + 'Field'
+      storeFormData: {}
     }
   },
   computed: {
-    activeFilters () {
-      let filters = this.filters.filter(f => f[2] !== '')
-      return filters
+    fields () {
+      return (this.get('fields') || []).filter(f => f.search)
+    }
+  },
+  methods: {
+    get (getter) {
+      return this.$store.getters[this.store + '/' + getter]
+    },
+    updateFilters () {
+      let filters = []
+      this.fields.forEach(f => {
+        if (this.storeFormData[f.key] !== '') {
+          filters.push([
+            f.key,
+            f.search,
+            this.storeFormData[f.key]
+          ])
+        }
+      })
+      this.$emit('input', filters)
     }
   },
   watch: {
-    'filters': function () {
-      this.$emit('input', this.filters)
+    store: function (val) {
+      this.$emit('input', [])
     }
   },
   components: {
-    TextField: () => import('../generic/TextField'),
-    CustomerField: () => import('../customer/CustomerField'),
-    UserField: () => import('../user/UserField'),
-    BooleanField: () => import('../generic/BooleanField'),
-    QSelect
+    StoreForm: () => import('./StoreForm')
   }
 }
 </script>

@@ -42,14 +42,17 @@ const tasks = {
       component: 'UserField',
       attrs: {
         label: 'Technician'
-      }
+      },
+      search: '=='
     }, {
       key: 'customer',
-      component: 'CustomerField'
+      component: 'CustomerField',
+      search: '=='
     }, {
       key: 'engine',
       component: 'EngineField',
-      forward: ['customer']
+      forward: ['customer'],
+      search: '=='
     }, {
       key: 'type',
       component: 'SelectField',
@@ -67,7 +70,8 @@ const tasks = {
           '📞 Call',
           '💻 Remote assistance'
         ]
-      }
+      },
+      search: 'contains'
     }, {
       key: 'title',
       component: 'TextField',
@@ -76,7 +80,8 @@ const tasks = {
         iconColor: 'light-blue',
         label: 'Task',
         rules: [val => !!val || 'Task title is required']
-      }
+      },
+      search: 'contains'
     }, {
       key: 'description',
       component: 'TextField',
@@ -84,7 +89,8 @@ const tasks = {
         iconName: 'title',
         iconColor: 'grey',
         label: 'Task details'
-      }
+      },
+      search: 'contains'
     }, {
       key: 'time_shifts',
       component: 'ShiftsField'

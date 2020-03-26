@@ -1,7 +1,6 @@
 <template>
   <div>
-    <filter-form v-model="filters" class="q-pa-sm" expand-icon-toggle />
-    <store-list :filters="filters" :store="$route.meta.store" hide-filters />
+    <store-list :filters="filters" :store="$route.meta.store" />
   </div>
 </template>
 
@@ -14,8 +13,7 @@ export default {
     }
   },
   components: {
-    StoreList: () => import('../components/generic/StoreList'),
-    FilterForm: () => import('../components/generic/FilterForm')
+    StoreList: () => import('../components/generic/StoreList')
   }
 }
 </script>

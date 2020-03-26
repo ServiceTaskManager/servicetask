@@ -1,6 +1,6 @@
 <template>
   <q-list>
-    <filter-form v-model="customFilters" v-if="!hideFilters" />
+    <filter-form v-model="customFilters" :store="store" v-if="!noFilters" />
 
     <store-item
       v-for="data in listData"
@@ -17,6 +17,16 @@
         <slot name="item-right" :data="data"></slot>
       </template>
     </store-item>
+
+    <slot name="no-result" v-if="listData.length === 0">
+      <q-separator />
+        <q-item class="q-pa-xs">
+            <q-item-section>
+              <span class="text-h6 text-center">No results</span>
+              <span class="text-caption text-center" v-if="customFilters.length > 0">Check the filters</span>
+            </q-item-section>
+        </q-item>
+    </slot>
   </q-list>
 </template>
 
@@ -34,7 +44,7 @@ export default {
       type: String,
       default: ''
     },
-    hideFilters: {
+    noFilters: {
       type: Boolean,
       default: false
     },

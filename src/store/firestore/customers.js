@@ -46,7 +46,8 @@ const customers = {
         iconColor: 'pink',
         label: 'Company name',
         rules: [val => !!val || 'Company name is required']
-      }
+      },
+      search: 'contains'
     },
     {
       key: 'email',
@@ -56,7 +57,8 @@ const customers = {
         iconName: 'alternate_email',
         iconColor: 'grey',
         label: 'Company email address'
-      }
+      },
+      search: 'contains'
     },
     {
       key: 'phone',
@@ -66,7 +68,8 @@ const customers = {
         iconName: 'phone',
         iconColor: 'grey',
         label: 'Company phone number'
-      }
+      },
+      search: 'contains'
     },
     {
       key: 'address',

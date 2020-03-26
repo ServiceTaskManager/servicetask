@@ -2,7 +2,7 @@
   <q-layout container view="hHh Lpr lff" style="height: calc(100vh - 50px)">
     <q-drawer v-model="drawer" side="left" bordered>
       <q-scroll-area class="fit q-pa-sm">
-        <store-form :data="taskToEdit" store="tasks" @input="drawer = false">
+        <store-form v-model="taskToEdit" store="tasks" @input="drawer = false">
           <template #buttons>
             <q-btn v-if="taskToEdit === undefined"
               label="Reset"
@@ -26,6 +26,12 @@
     </q-page-container>
   </q-layout>
 </template>
+
+<style>
+.q-current-day {
+  background-color: white;
+}
+</style>
 
 <script>
 export default {

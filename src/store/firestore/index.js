@@ -59,8 +59,12 @@ stores.forEach(s => {
       action: 'selectAll',
       toolbar: true,
       customFilter: (component) => {
+        let keep = false
         const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
-        return selected.length === 0
+        if (selected.length === 0) {
+          if (!component.$route.params.id) keep = true
+        }
+        return keep
       }
     })
     s.state.actions.push({
@@ -73,8 +77,12 @@ stores.forEach(s => {
       action: 'unselectAll',
       toolbar: true,
       customFilter: (component) => {
+        let keep = false
         const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
-        return selected.length > 0
+        if (selected.length > 0) {
+          if (!component.$route.params.id) keep = true
+        }
+        return keep
       }
     })
   }
@@ -108,7 +116,7 @@ stores.forEach(s => {
     return state.actions
   }
   const toolbarActions = state => {
-    return state.actions.filter(a => a.toolbar)
+    return (state.actions || []).filter(a => a.toolbar)
   }
   s.getters = { ...s.getters, filter, stat, selected, selectedIds, fields, meta, defaultValue, actions, toolbarActions }
 
@@ -125,7 +133,7 @@ stores.forEach(s => {
   }
 
   const unselectAll = ({ state, dispatch }) => {
-    const ids = Object.values(state.data).filter(s => s.selected).map(s => s.id)
+    const ids = state.data ? Object.values(state.data).filter(s => s.selected).map(s => s.id) : []
     dispatch('patchBatch', { doc: { selected: false }, ids: ids })
   }
 
@@ -163,6 +171,11 @@ const firestore = {
 
       state.loading = state.storesOpened.length / state.storesToOpen.length
       if (state.loading === 1) PostFirestoreLoading()
+    }
+  },
+  actions: {
+    unselectAll ({ state, dispatch }) {
+      state.storesToOpen.forEach(s => dispatch(s + '/unselectAll'))
     }
   }
 }
