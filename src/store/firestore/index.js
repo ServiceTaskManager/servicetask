@@ -49,6 +49,34 @@ stores.forEach(s => {
       color: 'danger',
       action: 'deleteItem'
     })
+    s.state.actions.push({
+      props: {
+        flat: true,
+        round: true,
+        icon: 'done',
+        textColor: 'white'
+      },
+      action: 'selectAll',
+      toolbar: true,
+      customFilter: (component) => {
+        const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
+        return selected.length === 0
+      }
+    })
+    s.state.actions.push({
+      props: {
+        round: true,
+        icon: 'done',
+        color: 'white',
+        textColor: 'black'
+      },
+      action: 'unselectAll',
+      toolbar: true,
+      customFilter: (component) => {
+        const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
+        return selected.length > 0
+      }
+    })
   }
 
   // Add getters
@@ -76,7 +104,13 @@ stores.forEach(s => {
   const defaultValue = state => {
     return state.default
   }
-  s.getters = { ...s.getters, filter, stat, selected, selectedIds, fields, meta, defaultValue }
+  const actions = state => {
+    return state.actions
+  }
+  const toolbarActions = state => {
+    return state.actions.filter(a => a.toolbar)
+  }
+  s.getters = { ...s.getters, filter, stat, selected, selectedIds, fields, meta, defaultValue, actions, toolbarActions }
 
   // Add actions
   const toggleSelected = ({ state, dispatch }, id) => {
@@ -86,7 +120,7 @@ stores.forEach(s => {
   }
 
   const selectAll = ({ state, dispatch }) => {
-    const ids = Object.values(state.data).filter(s => s.selected).map(s => s.id)
+    const ids = Object.values(state.data).map(s => s.id)
     dispatch('patchBatch', { doc: { selected: true }, ids: ids })
   }
 

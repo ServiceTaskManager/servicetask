@@ -11,26 +11,9 @@
 
         <q-toolbar-title>{{ title }}</q-toolbar-title>
 
-        <!-- Toolbar button -->
-        <q-btn v-if="store"
-          flat round
-          icon="add" color="white"
-          @click="showEditDialog(storeName)" />
+        <!-- Toolbar buttons -->
+        <store-toolbar v-if="$route.meta.store" :store="$route.meta.store" />
 
-        <q-btn v-if="data"
-          flat round
-          icon="edit" color="white"
-          @click="showEditDialog(storeName, data)" />
-
-        <q-btn v-if="selectedIds.length > 0"
-          flat round
-          icon="more_vert" color="white"
-          @click="bottomSheet" />
-
-        <q-btn v-if="selectedIds.length > 0 && !$route.params.id"
-          flat round
-          icon="cancel" color="white"
-          @click="unselectAll" />
       </q-toolbar>
     </q-header>
 
@@ -157,6 +140,8 @@
 </template>
 
 <script>
+import EditDialog from '../components/generic/EditDialog'
+
 export default {
   name: 'Base',
   data () {
@@ -219,41 +204,18 @@ export default {
     logout () {
       this.$auth.signOut()
     },
-    bottomSheet () {
-      this.$q.bottomSheet({
-        message: 'Actions',
-        actions: this.store.actions
-      }).onOk(action => {
-        if (action.patch) {
-          let payload = {
-            doc: action.patch,
-            ids: this.selectedIds
-          }
-          this.$store.dispatch(this.storeName + '/patchBatch', payload)
-        } else if (action.action) {
-          let payload = {
-            parent: this,
-            ids: this.selectedIds
-          }
-          this.$store.dispatch(this.storeName + '/' + action.action, payload)
-        }
-      })
-    },
-    unselectAll () {
-      this.$store.dispatch(this.storeName + '/unselectAll')
-    },
     showEditDialog (store, data = undefined) {
-      this.editDialog = true
-      this.storeToEdit = store
-      this.dataToEdit = data
-      this.editDialogTitle = data === undefined ? 'Create a ' + store.slice(0, -1) : 'Edit a ' + store.slice(0, -1)
+      this.$q.dialog({
+        component: EditDialog,
+        parent: this,
+        store: store,
+        data: data,
+        title: data === undefined ? 'Create a ' + store.slice(0, -1) : 'Edit a ' + store.slice(0, -1)
+      })
     }
   },
   components: {
-    EditDialog: () => import('../components/generic/EditDialog')
+    StoreToolbar: () => import('../components/generic/StoreToolbar')
   }
 }
 </script>
-
-<style>
-</style>

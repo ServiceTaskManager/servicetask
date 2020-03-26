@@ -70,7 +70,7 @@ firestore.stores.forEach(s => {
   if (s.state.routes) {
     s.state.routes.forEach(r => {
       let newRoute = r
-      // newRoute.component = () => import('pages/' + r.component)
+      newRoute.meta.actions = s.state.actions
       newRoute.meta.store = s.moduleName
       routes[1].children.push(newRoute)
     })
