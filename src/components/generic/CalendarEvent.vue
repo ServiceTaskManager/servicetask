@@ -1,13 +1,18 @@
 <template>
   <q-chip v-bind="$attrs" v-on="$listeners"
     clickable
+    color="light-blue-1"
     class="q-ma-none"
     style="overflow: hidden;">
     <user-avatar :user="user" />
 
     {{ event.task.type | firstLetter }} {{ event.task.title }}
 
-    <q-tooltip content-class="rotate-90" anchor="top right" self="top left">
+    <q-tooltip anchor="top middle" self="top middle"
+      class=""
+      content-class="bg-pink text-white text-weight-bold rotate-90"
+      content-style="font-size: 11px;"
+      :offset="[0, -80]">
       {{ customer.name }}
     </q-tooltip>
   </q-chip>

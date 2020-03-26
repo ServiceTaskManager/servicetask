@@ -63,7 +63,7 @@ export default {
   data () {
     return {
       map: {
-        url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+        url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
         zoom: 4,
         center: [37.822802, -12.700195]
       },

@@ -181,8 +181,14 @@ export default {
         technician: '',
         contact_person: '',
         signatures: {
-          technician: {},
-          customer: {}
+          technician: {
+            date: '',
+            signature: ''
+          },
+          customer: {
+            date: '',
+            signature: ''
+          }
         }
       },
       taskTableColumns: [

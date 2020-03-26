@@ -1,6 +1,6 @@
 <template>
-  <div class="full-width row justify-around">
-    <q-card class="col-auto q-ma-md">
+  <div class="full-width row q-pa-md justify-around">
+    <q-card class="col-auto">
       <q-card-section>
         <span class="text-h4">Quick actions</span><br/>
         <span class="text-caption">See on going actions or access to main ServiceTask features</span>
@@ -9,6 +9,7 @@
       <q-card-section class="q-pa-none row justify-around">
         <q-btn :icon="$calls.meta.icon" :color="$calls.meta.color" label="New call !" size="50" stack flat />
         <q-btn icon="directions_walk" color="black" label="Start a trip" size="50" stack flat />
+        <q-btn :icon="$tasks.meta.icon" :color="$tasks.meta.color" label="New task" size="50" stack flat />
       </q-card-section>
 
       <q-card-section
@@ -23,13 +24,13 @@
               <q-btn dense unelevated
                 color="orange-2"
                 text-color="orange"
-                icon="keyboard_arrow_right"
-                label="Finish!"
+                icon="call"
+                label="Call!"
                 class="self-end" />
             </div>
           </template>
           <template #item="{ data }">
-            Started {{ data.created_at.start | moment('from') }}
+            Called {{ data.created_at | moment('from') }}
           </template>
         </store-list>
       </q-card-section>
@@ -58,7 +59,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="col-grow q-ma-md">
+    <q-card class="col-grow q-ml-md">
       <q-card-section class="q-pb-none">
         <span class="text-h4">Future overview</span><br/>
         <span class="text-caption">See what is coming for next days, and re-schedule if needed</span>
@@ -69,6 +70,12 @@
     </q-card>
   </div>
 </template>
+
+<style>
+.q-current-day {
+  background-color: #eee;
+}
+</style>
 
 <script>
 import moment from 'moment'
@@ -103,7 +110,7 @@ export default {
   },
   components: {
     StoreList: () => import('../components/generic/StoreList'),
-    Calendar: () => import('./Calendar')
+    Calendar: () => import('../components/generic/Calendar')
   }
 }
 </script>
