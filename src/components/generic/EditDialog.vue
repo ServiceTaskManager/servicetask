@@ -5,22 +5,25 @@
     :value="value"
     :maximized="$q.platform.is.mobile"
     persistent
-    ref="dialog">
+    ref="dialog"
+    @hide="onDialogHide">
     <q-card>
       <q-toolbar :class="'bg-' + meta.color" class="text-white">
-        <q-btn flat round dense icon="close" v-close-popup />
+        <q-btn flat round dense icon="close" @click="hide" />
         <q-toolbar-title>
-          <slot>Create</slot>
+          <slot>{{ title }}</slot>
         </q-toolbar-title>
-        <q-btn flat rounded dense icon="done" @click="set" v-close-popup />
+        <q-btn flat rounded dense icon="done" @click="set" />
       </q-toolbar>
       <q-card-section class="row q-pa-sm">
         <store-form
           :data="formData"
           :fields="fields"
           :store="store"
-          @submit="$refs.dialog.hide()"
-          :no-reset="data !== undefined" />
+          @submit="hide"
+          :no-reset="data !== undefined"
+          ref="StoreFormComponent"
+          no-buttons />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -49,6 +52,10 @@ export default {
       default: () => {
         return undefined
       }
+    },
+    title: {
+      type: String,
+      default: 'Create / edit'
     }
   },
   data () {
@@ -63,7 +70,25 @@ export default {
   },
   methods: {
     set () {
-      this.$store.dispatch(this.store + '/set', this.formData)
+      this.$refs.StoreFormComponent.validate().then(result => {
+        console.log(result)
+        if (result) {
+          this.$refs.StoreFormComponent.save()
+          this.$emit('ok')
+          this.hide()
+        }
+      })
+    },
+
+    // Following methods are required for QDialog plugin
+    show () {
+      this.$refs.dialog.show()
+    },
+    hide () {
+      this.$emit('hide')
+    },
+    onDialogHide () {
+      this.$emit('hide')
     }
   },
   components: {

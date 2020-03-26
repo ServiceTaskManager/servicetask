@@ -8,8 +8,8 @@
 
     {{ event.task.type | firstLetter }} {{ event.task.title }}
 
-    <q-tooltip anchor="top middle" self="top middle"
-      class=""
+    <q-tooltip v-if="customer"
+      anchor="top middle" self="top middle"
       content-class="bg-pink text-white text-weight-bold rotate-90"
       content-style="font-size: 11px;"
       :offset="[0, -80]">

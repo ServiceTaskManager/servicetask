@@ -3,7 +3,8 @@
     class="full-width"
     @submit="onSubmit"
     @reset="onReset"
-    greedy>
+    greedy
+    ref="StoreFormRef">
 
     <component v-for="(field, order) in formFields"
       :key="field.key"
@@ -91,11 +92,17 @@ export default {
       return attrs
     },
     onSubmit () {
-      this.$store.dispatch(this.store + '/set', this.formData)
+      this.save()
       this.$emit('submit')
     },
     onReset () {
       this.formData = {}
+    },
+    validate () {
+      return this.$refs.StoreFormRef.validate()
+    },
+    save () {
+      this.$store.dispatch(this.store + '/set', this.formData)
     }
   },
   components: {

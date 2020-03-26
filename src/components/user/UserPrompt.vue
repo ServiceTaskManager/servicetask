@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import UserField from './UserField'
 export default {
   props: {
     value: {
@@ -28,6 +27,7 @@ export default {
   },
   mounted () {
     this.user = this.value
+    console.log(this.$parent)
   },
   methods: {
     show () {
@@ -49,7 +49,7 @@ export default {
     }
   },
   components: {
-    UserField
+    UserField: () => import('./UserField')
   }
 }
 </script>

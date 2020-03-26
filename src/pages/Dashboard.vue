@@ -8,8 +8,19 @@
 
       <q-card-section class="q-pa-none row justify-around">
         <q-btn :icon="$calls.meta.icon" :color="$calls.meta.color" label="New call !" size="50" stack flat />
-        <q-btn icon="directions_walk" color="black" label="Start a trip" size="50" stack flat />
-        <q-btn :icon="$tasks.meta.icon" :color="$tasks.meta.color" label="New task" size="50" stack flat />
+        <q-btn
+          icon="directions_walk"
+          color="black"
+          label="Start a trip"
+          size="50"
+          stack flat />
+        <q-btn
+          :icon="$tasks.meta.icon"
+          :color="$tasks.meta.color"
+          label="New task"
+          size="50"
+          stack flat
+          @click="createTaskDialog" />
       </q-card-section>
 
       <q-card-section
@@ -79,6 +90,7 @@
 
 <script>
 import moment from 'moment'
+import EditDialog from '../components/generic/EditDialog'
 
 export default {
   name: 'Dashboard',
@@ -106,6 +118,14 @@ export default {
   methods: {
     getCurrentShift (task) {
       return task.time_shifts.filter(s => moment(new Date()).isBetween(moment(s.start), moment(s.end)))[0]
+    },
+    createTaskDialog () {
+      this.$q.dialog({
+        component: EditDialog,
+        parent: this,
+        title: 'Create a task',
+        store: 'tasks'
+      })
     }
   },
   components: {
