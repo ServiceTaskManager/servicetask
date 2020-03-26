@@ -53,11 +53,7 @@ export default {
         }
         this.$store.dispatch(this.store + '/patchBatch', payload)
       } else if (action.action) {
-        let payload = {
-          parent: this,
-          ids: selectedIds
-        }
-        this.$store.dispatch(this.store + '/' + action.action, payload)
+        this.$store.dispatch(this.store + '/' + action.action, this)
       }
     }
   }

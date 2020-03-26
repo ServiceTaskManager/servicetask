@@ -9,6 +9,7 @@ import reports from './reports'
 import { notifications, tokens } from './notifications'
 
 import { Dialog } from 'quasar'
+import EditDialog from '../../components/generic/EditDialog'
 
 const stores = [users,
   tasks,
@@ -47,7 +48,7 @@ stores.forEach(s => {
       label: 'Delete',
       icon: 'remove',
       color: 'danger',
-      action: 'deleteItem'
+      action: 'deleteDoc'
     })
     s.state.actions.push({
       props: {
@@ -85,6 +86,20 @@ stores.forEach(s => {
         return keep
       }
     })
+    s.state.actions.push({
+      props: {
+        round: true,
+        icon: 'edit',
+        color: 'white',
+        flat: true
+      },
+      action: 'edit',
+      toolbar: true,
+      customFilter: (component) => {
+        const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
+        return selected.length === 1
+      }
+    })
   }
 
   // Add getters
@@ -97,11 +112,11 @@ stores.forEach(s => {
     return utils.stat(data, filters)
   }
   const selected = state => {
-    return Object.values(state.data).filter(s => s.selected)
+    return state.data ? Object.values(state.data).filter(s => s.selected) : []
   }
   const selectedIds = state => {
-    let selected = Object.values(state.data).filter(s => s.selected)
-    return selected.map(s => s.id)
+    let selectedDocs = selected(state).filter(s => s.selected)
+    return selectedDocs.map(s => s.id)
   }
   const fields = state => {
     return state.fields
@@ -133,7 +148,7 @@ stores.forEach(s => {
   }
 
   const unselectAll = ({ state, dispatch }) => {
-    const ids = state.data ? Object.values(state.data).filter(s => s.selected).map(s => s.id) : []
+    const ids = selectedIds(state)
     dispatch('patchBatch', { doc: { selected: false }, ids: ids })
   }
 
@@ -142,18 +157,28 @@ stores.forEach(s => {
     dispatch('toggleSelected', id)
   }
 
-  const deleteItem = ({ dispatch }, data) => {
+  const deleteDoc = ({ state, dispatch }) => {
+    const ids = selectedIds(state)
     Dialog.create({
       title: 'Are you sure',
-      message: `Would you like to delete ${data.ids.length} items?`,
+      message: `Would you like to delete ${ids.length} items?`,
       cancel: true,
       persistent: true
     }).onOk(() => {
-      dispatch('deleteBatch', data.ids)
+      dispatch('deleteBatch', parent.get('selectedIds'))
     })
   }
 
-  s.actions = { ...s.actions, toggleSelected, selectAll, unselectAll, selectOneOnly, deleteItem }
+  const edit = ({ state }, parent) => {
+    Dialog.create({
+      component: EditDialog,
+      parent: parent,
+      store: s.moduleName,
+      data: selected(state)[0]
+    })
+  }
+
+  s.actions = { ...s.actions, toggleSelected, selectAll, unselectAll, selectOneOnly, deleteDoc, edit }
 })
 
 const firestore = {
