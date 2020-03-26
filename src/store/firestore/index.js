@@ -43,64 +43,63 @@ stores.forEach(s => {
   s.state.meta = s.state.routes ? s.state.routes[0].meta : {}
 
   // Add toolbar actions
-  if (s.state.actions) {
-    s.state.actions.push({
-      label: 'Delete',
-      icon: 'remove',
-      color: 'danger',
-      action: 'deleteDoc'
-    })
-    s.state.actions.push({
-      props: {
-        flat: true,
-        round: true,
-        icon: 'done',
-        textColor: 'white'
-      },
-      action: 'selectAll',
-      toolbar: true,
-      customFilter: (component) => {
-        let keep = false
-        const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
-        if (selected.length === 0) {
-          if (!component.$route.params.id) keep = true
-        }
-        return keep
+  if (!s.state.actions) s.state.actions = []
+  s.state.actions.push({
+    label: 'Delete',
+    icon: 'remove',
+    color: 'danger',
+    action: 'deleteDoc'
+  })
+  s.state.actions.push({
+    props: {
+      flat: true,
+      round: true,
+      icon: 'done',
+      textColor: 'white'
+    },
+    action: 'selectAll',
+    toolbar: true,
+    customFilter: (component) => {
+      let keep = false
+      const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
+      if (selected.length === 0) {
+        if (!component.$route.params.id) keep = true
       }
-    })
-    s.state.actions.push({
-      props: {
-        round: true,
-        icon: 'done',
-        color: 'white',
-        textColor: 'black'
-      },
-      action: 'unselectAll',
-      toolbar: true,
-      customFilter: (component) => {
-        let keep = false
-        const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
-        if (selected.length > 0) {
-          if (!component.$route.params.id) keep = true
-        }
-        return keep
+      return keep
+    }
+  })
+  s.state.actions.push({
+    props: {
+      round: true,
+      icon: 'done',
+      color: 'white',
+      textColor: 'black'
+    },
+    action: 'unselectAll',
+    toolbar: true,
+    customFilter: (component) => {
+      let keep = false
+      const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
+      if (selected.length > 0) {
+        if (!component.$route.params.id) keep = true
       }
-    })
-    s.state.actions.push({
-      props: {
-        round: true,
-        icon: 'edit',
-        color: 'white',
-        flat: true
-      },
-      action: 'edit',
-      toolbar: true,
-      customFilter: (component) => {
-        const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
-        return selected.length === 1
-      }
-    })
-  }
+      return keep
+    }
+  })
+  s.state.actions.push({
+    props: {
+      round: true,
+      icon: 'edit',
+      color: 'white',
+      flat: true
+    },
+    action: 'edit',
+    toolbar: true,
+    customFilter: (component) => {
+      const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
+      return selected.length === 1
+    }
+  })
 
   // Add getters
   const filter = state => filters => {

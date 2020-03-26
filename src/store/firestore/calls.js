@@ -58,7 +58,9 @@ const calls = {
       attrs: {
         iconName: 'phone',
         iconColor: 'grey',
-        label: 'Phone number'
+        label: 'Phone number',
+        mask: '+## # ## ## ## ## NNNNNNN',
+        type: 'tel'
       }
     }, {
       key: 'assign_to',

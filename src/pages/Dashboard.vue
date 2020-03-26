@@ -7,7 +7,12 @@
       </q-card-section>
 
       <q-card-section class="q-pa-none row justify-around">
-        <q-btn :icon="$calls.meta.icon" :color="$calls.meta.color" label="New call !" size="50" stack flat />
+        <q-btn
+          :icon="$calls.meta.icon"
+          :color="$calls.meta.color"
+          label="New call !"
+          size="50" stack flat
+          @click="createCallDialog" />
         <q-btn
           icon="directions_walk"
           color="black"
@@ -126,6 +131,14 @@ export default {
         title: 'Create a task',
         store: 'tasks',
         data: task
+      })
+    },
+    createCallDialog () {
+      this.$q.dialog({
+        component: EditDialog,
+        parent: this,
+        title: 'Create a task',
+        store: 'calls'
       })
     }
   },

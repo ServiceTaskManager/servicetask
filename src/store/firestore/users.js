@@ -45,7 +45,9 @@ const users = {
       attrs: {
         iconName: 'phone',
         iconColor: 'grey',
-        label: 'Phone number'
+        label: 'Phone number',
+        mask: '+## # ## ## ## ## NNNNNNN',
+        type: 'tel'
       },
       search: 'contains'
     }, {
