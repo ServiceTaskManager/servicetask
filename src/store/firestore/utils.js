@@ -11,7 +11,7 @@ const filter = (data, filters) => {
       if (filterValue !== '' && filterValue !== undefined) {
         if (dataValue !== undefined) {
           if (operator === 'contains') result = dataValue.toLowerCase().indexOf(filterValue.toLowerCase()) > -1
-          else if (operator === 'includes') result = filterValue.includes(dataValue)
+          else if (operator === 'includes') result = dataValue.filter(d => filterValue.includes(d)).length > 0
           else if (operator === '==') result = filterValue === 'all' ? true : dataValue === filterValue
         } else {
           result = false

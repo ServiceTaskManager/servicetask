@@ -17,7 +17,7 @@
       </q-toolbar>
       <q-card-section class="row q-pa-sm">
         <store-form
-          v-model="data"
+          v-model="formData"
           :fields="fields"
           :store="store"
           @submit="hide"
@@ -58,6 +58,11 @@ export default {
       default: 'Create / edit'
     }
   },
+  data () {
+    return {
+      formData: this.data
+    }
+  },
   computed: {
     meta () {
       return this['$' + this.store].routes[0].meta
@@ -66,7 +71,6 @@ export default {
   methods: {
     set () {
       this.$refs.StoreFormComponent.validate().then(result => {
-        console.log(result)
         if (result) {
           this.$refs.StoreFormComponent.save()
           this.$emit('ok')

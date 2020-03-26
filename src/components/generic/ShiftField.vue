@@ -133,9 +133,8 @@ export default {
     },
     'shift.start' (start) {
       const period = this.shift.period
-      console.log('coucou')
+
       if (period !== 'custom') {
-        console.log('ok')
         this.shift.start = moment(start).startOf('day').add(this.timeOffset[period].start, 'h').format('YYYY-MM-DDTHH:mm')
         this.shift.end = moment(start).startOf('day').add(this.timeOffset[period].end, 'h').format('YYYY-MM-DDTHH:mm')
       } else {

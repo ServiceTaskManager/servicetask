@@ -12,7 +12,7 @@
           class="absolute rotate-90"
           :event="event"
           :style="eventStyle(event, timeStartPos, timeDurationHeight)"
-          @click="$emit('editTask', event.task)" />
+          @click="$emit('task-click', event.task)" />
       </template>
     </template>
   </q-calendar>

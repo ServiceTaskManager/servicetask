@@ -1,9 +1,9 @@
 <template>
-  <q-select use-input
+  <q-select use-input clearable
     v-bind="$attrs"
     v-on="$attrs"
     :value="value"
-    @input="$emit('input', $event.id)"
+    @input="onInput"
     :display-value="value ? displayName(engines[value]) : ''"
     :color="meta.color"
     class="full-width"
@@ -14,10 +14,6 @@
 
     <template v-slot:prepend>
       <q-icon :name="meta.icon" :color="meta.color" />
-    </template>
-
-    <template v-slot:append v-if="value !== ''">
-      <q-btn flat round icon="close" color="grey" @click="$emit('input', '')" />
     </template>
 
     <template v-slot:no-option>
@@ -42,7 +38,7 @@ export default {
     },
     customer: {
       type: String,
-      default: ''
+      default: undefined
     },
     label: {
       type: String,
@@ -62,8 +58,11 @@ export default {
   },
   methods: {
     displayName (engine) {
-      console.log(engine)
       return `${engine.type} ${engine.sn ? 'SN/' + engine.sn : ''}`
+    },
+    onInput (val) {
+      const id = val ? val.id : ''
+      this.$emit('input', id)
     }
   },
   components: {

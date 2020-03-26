@@ -49,6 +49,7 @@ const tasks = {
         iconName: 'title',
         iconColor: 'light-blue',
         label: 'Type',
+        clearable: true,
         options: [
           '🚗 Drive',
           '✈️ Fly',

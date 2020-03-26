@@ -1,7 +1,7 @@
 <template>
   <q-form autofocus
     class="full-width"
-    @submit="noSubmit ? onSubmit : null"
+    @submit="!noSubmit ? onSubmit() : null"
     @reset="onReset"
     greedy
     ref="StoreFormRef">
@@ -11,7 +11,7 @@
       :is="field.component"
       :value="value[field.key]"
       @input="$emit('input', { ...value, [field.key]: $event })"
-      v-bind="mergeAttrs(field.attrs, field.props)"
+      v-bind="mergeAttrs(field.attrs, field.forward)"
       hide-bottom-space />
 
     <div v-if="!noButtons" class="full-width q-pt-sm q-gutter-sm row justify-end">

@@ -47,12 +47,12 @@ export default {
           icon: 'done'
         })
       }).catch(error => {
-        console.log(error)
         this.$q.notify({
           message: 'Failed to send email verification',
           color: 'negative',
           icon: 'cancel'
         })
+        throw error
       })
     },
     login () {
@@ -67,15 +67,14 @@ export default {
               name: this.email
             })
           }).catch(error => {
-            console.log(error)
             this.$q.notify({
               message: 'Failed to create a new user',
               color: 'negative',
               icon: 'cancel'
             })
+            throw error
           })
         } else {
-          console.log(error)
           this.$q.notify({
             message: 'Failed to login',
             color: 'negative',

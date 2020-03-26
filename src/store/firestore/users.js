@@ -31,7 +31,8 @@ const users = {
         iconColor: 'green',
         label: 'Full name',
         rules: [val => !!val || 'Name is required']
-      }
+      },
+      search: 'contains'
     }, {
       key: 'customer',
       component: 'CustomerField',
@@ -45,7 +46,8 @@ const users = {
         iconName: 'phone',
         iconColor: 'grey',
         label: 'Phone number'
-      }
+      },
+      search: 'contains'
     }, {
       key: 'email',
       component: 'TextField',
@@ -54,7 +56,8 @@ const users = {
         iconColor: 'grey',
         label: 'Email address',
         type: 'email'
-      }
+      },
+      search: 'contains'
     }, {
       key: 'address',
       component: 'AddressField'
@@ -67,7 +70,8 @@ const users = {
       attrs: {
         options: ['user', 'admin'],
         multiple: true
-      }
+      },
+      search: 'includes'
     }]
   },
   namespaced: true,

@@ -1,9 +1,9 @@
 <template>
-  <q-select use-input
+  <q-select use-input clearable
     v-bind="$attrs"
     v-on="$attrs"
     :value="value"
-    @input="$emit('input', $event.id)"
+    @input="onInput"
     :color="$users.meta.color"
     class="full-width"
     :options="usersFiltered"
@@ -14,10 +14,6 @@
 
     <template v-slot:prepend>
       <q-icon :name="$users.meta.icon" :color="$users.meta.color" />
-    </template>
-
-    <template v-slot:append v-if="value !== ''">
-      <q-btn flat round icon="close" color="grey" @click="$emit('input', '')" />
     </template>
 
     <template v-slot:append v-if="value === '' && !noSelf">
@@ -70,6 +66,10 @@ export default {
         ['customer', '==', this.customer]
       ])
       done()
+    },
+    onInput (val) {
+      const id = val ? val.id : ''
+      this.$emit('input', id)
     }
   },
   components: {

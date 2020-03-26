@@ -1,9 +1,9 @@
 <template>
-  <q-select use-input
+  <q-select use-input clearable
     v-bind="$attrs"
     v-on="$attrs"
     :value="value"
-    @input="$emit('input', $event.id)"
+    @input="onInput"
     :color="$customers.meta.color"
     class="full-width"
     :options="customersFiltered"
@@ -15,10 +15,6 @@
 
     <template v-slot:prepend>
       <q-icon :name="$customers.meta.icon" :color="$customers.meta.color" />
-    </template>
-
-    <template v-slot:append v-if="value !== ''">
-      <q-btn flat round icon="close" color="grey" @click="$emit('input', '')" />
     </template>
 
     <template v-slot:no-option>
@@ -60,6 +56,10 @@ export default {
     filter (val, done) {
       this.customersFiltered = this.$store.getters['customers/filter']([['name', 'contains', val]])
       done()
+    },
+    onInput (val) {
+      const id = val ? val.id : ''
+      this.$emit('input', id)
     }
   },
   components: {

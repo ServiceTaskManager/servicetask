@@ -27,7 +27,6 @@ export default {
   },
   mounted () {
     this.user = this.value
-    console.log(this.$parent)
   },
   methods: {
     show () {

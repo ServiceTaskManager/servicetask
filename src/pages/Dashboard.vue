@@ -76,7 +76,7 @@
         <span class="text-caption">See what is coming for next days, and re-schedule if needed</span>
       </q-card-section>
       <q-card-section class="q-pa-none">
-        <calendar></calendar>
+        <calendar @task-click="$router.push({ name: 'task', params: { id: $event.id } })"></calendar>
       </q-card-section>
     </q-card>
   </div>
@@ -119,12 +119,13 @@ export default {
     getCurrentShift (task) {
       return task.time_shifts.filter(s => moment(new Date()).isBetween(moment(s.start), moment(s.end)))[0]
     },
-    createTaskDialog () {
+    createTaskDialog (task = {}) {
       this.$q.dialog({
         component: EditDialog,
         parent: this,
         title: 'Create a task',
-        store: 'tasks'
+        store: 'tasks',
+        data: task
       })
     }
   },

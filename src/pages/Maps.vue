@@ -73,7 +73,7 @@ export default {
   computed: {
     customers () {
       const customers = this.$store.getters['customers/filter']([['selected', '==', true]])
-      console.log(customers)
+
       return customers.filter(c => c.address.lat_lng !== undefined)
     }
   },
@@ -84,7 +84,7 @@ export default {
           customer.address.postal_code + ', ' +
           customer.address.city + ', ' +
           customer.address.country
-        console.log(addressInline)
+
         const latLng = await provider.search({ query: addressInline })
         if (latLng.length === 1) {
           customer.address.lat_lng = { lat: parseFloat(latLng[0].y), lng: parseFloat(latLng[0].x) }
