@@ -22,21 +22,7 @@ const reports = {
         icon: 'outlined_flag',
         color: 'lime'
       }
-    }],
-    default: {
-      customer: '',
-      calls: [],
-      tasks: [],
-      tasksTotalTime: 0,
-      note: '',
-      date: '',
-      technician: '',
-      contact_person: '',
-      signatures: {
-        technician: {},
-        customer: {}
-      }
-    }
+    }]
   },
   namespaced: true,
   firestorePath: 'reports',

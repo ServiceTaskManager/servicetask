@@ -23,15 +23,6 @@ const users = {
         propertyTitle: 'title'
       }
     }],
-    default: {
-      roles: [],
-      customers: '',
-      name: '',
-      color: '',
-      email: '',
-      phone: '',
-      address: {}
-    },
     fields: [{
       key: 'name',
       component: 'TextField',

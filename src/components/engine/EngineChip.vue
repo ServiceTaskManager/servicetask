@@ -1,12 +1,12 @@
 <template>
   <q-chip v-bind="$attrs" v-on="$listeners"
     clickable
-    @click.prevent="$router.push({ name: 'engine', params: { id: engineData.id }})"
+    @click.prevent="$router.push({ name: 'engine', params: { id: engine.id }})"
     style="overflow: hidden;">
     <q-avatar :color="meta.color" :icon="meta.icon" />
-    {{ engineData.name }}
+    {{ engine.name }}
     <q-badge :label="customerData.name" color="white" class="q-ml-sm text-black" v-if="customer" />
-    <q-badge :label="'SN/' + engineData.sn" color="white" class="q-ml-sm text-black" v-if="SN" />
+    <q-badge :label="'SN/' + engine.sn" color="white" class="q-ml-sm text-black" v-if="SN" />
   </q-chip>
 </template>
 
@@ -14,13 +14,10 @@
 export default {
   name: 'EngineChip',
   props: {
-    engineId: {
-      type: String,
-      default: undefined
-    },
     engine: {
       type: Object,
-      default: undefined
+      default: undefined,
+      required: true
     },
     customer: {
       type: Boolean,
@@ -37,12 +34,8 @@ export default {
     }
   },
   computed: {
-    engineData () {
-      if (this.engine) return this.engine
-      else return this.engineId ? this.$store.state.engines.data[this.engineId] : this.$store.state.engines.default
-    },
     customerData () {
-      return this.$store.state.customers.data[this.engineData.id]
+      return this.$customers[this.engine.id]
     }
   }
 }

@@ -26,17 +26,6 @@ const tasks = {
         propertyTitle: 'title'
       }
     }],
-    default: {
-      technician: '',
-      customer: '',
-      engine: '',
-      type: '',
-      title: '',
-      description: '',
-      done: false,
-      time_shifts: [],
-      subTasks: []
-    },
     fields: [{
       key: 'technician',
       component: 'UserField',

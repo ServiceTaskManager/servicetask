@@ -25,20 +25,6 @@ const calls = {
         color: 'orange'
       }
     }],
-    default: {
-      title: '', // string
-      customer: '', // customer id
-      engine: '', // engine id
-      open: '', // unassigned, assigned, closed
-      person: '', // string
-      phone: '', // string
-      teamviewer: {
-        id: '',
-        pwd: ''
-      },
-      assign_to: '', // user id
-      closed_at: '' // date
-    },
     fields: [{
       key: 'title',
       component: 'TextField',

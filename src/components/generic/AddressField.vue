@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  text: 'AddressField',
+  name: 'AddressField',
   props: {
     value: {
       type: Object,

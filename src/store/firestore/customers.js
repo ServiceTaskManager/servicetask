@@ -26,18 +26,6 @@ const customers = {
         propertyTitle: 'title'
       }
     }],
-    default: {
-      name: '',
-      address: {
-        addr1: '',
-        addr2: '',
-        postal_code: '',
-        city: '',
-        country: ''
-      },
-      phone: '',
-      email: ''
-    },
     fields: [{
       key: 'name',
       component: 'TextField',
