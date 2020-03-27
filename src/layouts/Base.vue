@@ -84,7 +84,7 @@
                   <q-icon color="white" name="event" />
                 </q-item-section>
                 <q-item-section>
-                  Calendar
+                  {{$t('menu.calendar')}}
                 </q-item-section>
               </q-item>
               <q-item :to="{ name: 'maps' }">
@@ -101,7 +101,7 @@
                   <q-icon color="grey" name="dashboard" />
                 </q-item-section>
                 <q-item-section>
-                  Dashboard
+                  {{$t('menu.dashboard')}}
                 </q-item-section>
               </q-item>
             </q-list>
@@ -133,8 +133,6 @@
           </div>
         </q-scroll-area>
       </q-page>
-
-      <edit-dialog v-if="editDialog" v-model="editDialog" :store="storeToEdit" :data="dataToEdit">{{ editDialogTitle }}</edit-dialog>
     </q-page-container>
   </q-layout>
 </template>
@@ -148,18 +146,13 @@ export default {
     return {
       drawer: !this.$q.platform.is.mobile,
       drawerMini: true,
-      editDialog: false,
-      storeToEdit: '',
-      dataToEdit: '',
-      editDialogTitle: '',
       thumbStyle: {
         backgroundColor: 'black',
         opacity: 1,
         right: '2px',
         borderRadius: '2.5px',
         width: '5px'
-      },
-      signaturePad: false
+      }
     }
   },
   computed: {

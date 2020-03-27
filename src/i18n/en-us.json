@@ -1,0 +1,21 @@
+{
+  "menu": {
+    "calendar": "Calendar",
+    "dashboard": "Dashboard"
+  },
+  "settings": {
+    "notifications": {
+      "enable": "Enable notifications",
+      "caption": "Get push notifications",
+      "noBrowserSupport": "Your browser doesn't support push notifications.",
+      "title": "Notifications"
+    },
+    "sound": {
+      "enable": "Enable sound",
+      "caption": "Get notification with sounds. Service Task needs to be running to play sound."
+    },
+    "user": {
+      "title": "User information"
+    }
+  }
+}

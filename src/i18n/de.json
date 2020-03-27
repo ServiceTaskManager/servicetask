@@ -1,0 +1,21 @@
+{
+  "menu": {
+    "calendar": "Kalender",
+    "dashboard": "Instrumententafel"
+  },
+  "settings": {
+    "notifications": {
+      "caption": "Erhalten Sie Push-Benachrichtigungen",
+      "enable": "Benachrichtigungen aktivieren",
+      "noBrowserSupport": "Ihr Browser unterstützt keine Push-Benachrichtigungen.",
+      "title": "Benachrichtigungen"
+    },
+    "sound": {
+      "caption": "Benachrichtigung mit Sounds erhalten.\nService Task muss ausgeführt werden, um Sound abzuspielen.",
+      "enable": "Sound einschalten"
+    },
+    "user": {
+      "title": "Nutzerinformation"
+    }
+  }
+}

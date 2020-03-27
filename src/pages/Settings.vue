@@ -1,6 +1,6 @@
 <template>
   <q-list>
-    <q-item-label header>User information</q-item-label>
+    <q-item-label header>{{$t('settings.user.title')}}</q-item-label>
 
     <q-item>
       <q-input
@@ -36,12 +36,24 @@
       </q-input>
     </q-item>
 
-    <q-item-label header>Notifications</q-item-label>
+    <q-item>
+      <q-item-section avatar>
+        <q-icon color="black" name="language" />
+      </q-item-section>
+      <q-item-section>
+        <q-select v-model="lang"
+          :options="langOptions"
+          map-options
+          emit-value />
+      </q-item-section>
+    </q-item>
+
+    <q-item-label header>{{$t('settings.notifications.title')}}</q-item-label>
 
     <q-item>
       <q-item-section>
-        <q-item-label>Enable sound</q-item-label>
-        <q-item-label caption>Get notification with sounds. Service Task needs to be running to play sound.</q-item-label>
+        <q-item-label>{{$t('settings.sound.enable')}}</q-item-label>
+        <q-item-label caption>{{$t('settings.sound.caption')}}</q-item-label>
       </q-item-section>
       <q-item-section side top>
         <q-toggle color="primary" v-model="settings.notifications.sound" />
@@ -49,12 +61,12 @@
     </q-item>
     <q-item>
       <q-item-section>
-        <q-item-label>Enable notifications</q-item-label>
-        <q-item-label caption>Get push notifications</q-item-label>
+        <q-item-label>{{$t('settings.notifications.enable')}}</q-item-label>
+        <q-item-label caption>{{$t('settings.notifications.caption')}}</q-item-label>
         <q-item-label v-if="!$store.state.settings.notifications.supported"
           caption
           class="text-negative">
-          Your browser doesn't support push notifications.
+          {{$t('settings.notifications.noBrowserSupport')}}
         </q-item-label>
       </q-item-section>
       <q-item-section side top>
@@ -99,7 +111,13 @@ export default {
           topics: []
         }
       },
-      colorPicker: false
+      colorPicker: false,
+      lang: this.$i18n.locale,
+      langOptions: [
+        { value: 'en-us', label: 'English (US)' },
+        { value: 'fr', label: 'Français' },
+        { value: 'de', label: 'German' }
+      ]
     }
   },
   mounted () {
@@ -115,6 +133,11 @@ export default {
           icon: 'info'
         })
       })
+    }
+  },
+  watch: {
+    lang: function (val) {
+      this.$i18n.locale = val
     }
   }
 }

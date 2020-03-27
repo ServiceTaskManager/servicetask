@@ -1,0 +1,21 @@
+{
+  "menu": {
+    "calendar": "Calendrier",
+    "dashboard": "Tableau de bord"
+  },
+  "settings": {
+    "user": {
+      "title": "Utilisateur"
+    },
+    "notifications": {
+      "caption": "Recevoir des notifications",
+      "enable": "Notifications",
+      "noBrowserSupport": "Les notifications ne sont pas supportés par votre navigateur.",
+      "title": "Notifications"
+    },
+    "sound": {
+      "caption": "Jouer un son lorsque vous recevez une notification.",
+      "enable": "Notification sonore"
+    }
+  }
+}
