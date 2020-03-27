@@ -54,7 +54,7 @@
       <q-card-section v-if="currentShifts.length > 0"
         class="q-pa-sm bg-light-blue-1">
         <span class="text-h6">On going ...</span>
-        <store-list :data="currentShifts" store="tasks" no-select hide-filters>
+        <store-list :data="currentShifts" store="tasks" no-select no-filters>
           <template #item-right="{ data }">
             <div class="row">
               <q-btn dense round flat
@@ -108,7 +108,7 @@ export default {
   },
   computed: {
     currentShifts () {
-      const tasks = this.$store.getters['tasks/filter']([['technician', '==', this.$user.data.id]])
+      const tasks = this.$store.getters['tasks/filter']([['technician', '==', this.$user.id]])
       return tasks.filter(t => {
         let keep = false
         if (t.time_shifts) {

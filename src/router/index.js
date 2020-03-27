@@ -17,17 +17,7 @@ export default function ({ store, ssrContext }) {
   Router.beforeEach((to, from, next) => {
     // Unselect all store's docs
     store.dispatch('unselectAll')
-
-    // if accessing a store page with an id param, select it.
-    if (to.meta.store && to.params.id) store.dispatch(to.meta.store + '/selectOneOnly', to.params.id)
-
-    let user = JSON.parse(localStorage.getItem('user'))
-    let login = user ? user.login : false
-    if (login) next()
-    else {
-      if (to.name === 'login') next()
-      else next({ name: 'login' })
-    }
+    next()
   })
 
   return Router

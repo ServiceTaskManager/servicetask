@@ -17,5 +17,43 @@
       "caption": "Jouer un son lorsque vous recevez une notification.",
       "enable": "Notification sonore"
     }
+  },
+  "store": {
+    "calls": {}
+  },
+  "calls": {
+    "route": {
+      "list": {
+        "title": "Appels"
+      },
+      "single": {
+        "title": "Appel"
+      }
+    },
+    "fields": {
+      "title": {
+        "label": "Raison de l'appel",
+        "validation": {
+          "empty": "La raison de l'appel est obligatoire"
+        }
+      },
+      "customer": {
+        "validation": {
+          "required": "Le client est requis"
+        }
+      },
+      "open": {
+        "label": "Statut d'appel"
+      },
+      "person": {
+        "label": "Personne qui appelle"
+      },
+      "phone": {
+        "label": "Numéro de téléphone"
+      },
+      "technician": {
+        "label": "Affecter à"
+      }
+    }
   }
 }

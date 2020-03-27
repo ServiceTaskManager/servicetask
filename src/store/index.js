@@ -8,20 +8,7 @@ Vue.use(Vuex)
 
 const user = {
   state: {
-    data: {},
-    login: false
-  },
-  mutations: {
-    login (state, userData) {
-      state.data = userData
-      state.login = true
-      localStorage.setItem('user', JSON.stringify(state))
-    },
-    logout (state) {
-      state.data = {}
-      state.login = false
-      localStorage.setItem('user', JSON.stringify(state))
-    }
+    data: {}
   },
   namespaced: true
 }
@@ -34,10 +21,11 @@ const settings = {
       sound: true,
       token: '',
       topics: []
-    }
+    },
+    login: false
   },
   actions: {
-    'toggleNotificationTopic' ({ state, dispatch, rootState }, topic) {
+    toggleNotificationTopic ({ state, dispatch, rootState }, topic) {
       let topicTokens = rootState.tokens[topic] ? rootState.tokens[topic].tokens : []
       let deviceToken = state.notifications.token
       let deviceTopics = state.notifications.topics
@@ -51,7 +39,7 @@ const settings = {
       }
       dispatch('tokens/set', { id: topic, tokens: topicTokens }, { root: true })
     },
-    'setTopics' ({ state, dispatch, rootState }) {
+    setTopics ({ state, rootState }) {
       let topics = []
       let tokens = rootState.tokens
       for (let topicName in tokens) {
@@ -62,7 +50,6 @@ const settings = {
           }
         }
       }
-
       state.notifications.topics = topics
     }
   },

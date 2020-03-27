@@ -20,7 +20,7 @@ const routes = [
     component: () => import('layouts/Base'),
     children: [
       {
-        path: '',
+        path: 'dashboard',
         name: 'dashboard',
         component: () => import('pages/Dashboard'),
         meta: {

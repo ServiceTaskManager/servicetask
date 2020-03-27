@@ -41,10 +41,11 @@
         <q-icon color="black" name="language" />
       </q-item-section>
       <q-item-section>
-        <q-select v-model="lang"
+        <q-select v-model="user.lang"
           :options="langOptions"
           map-options
-          emit-value />
+          emit-value
+          @input="$store.dispatch('users/patch', { ...user, lang: $event })" />
       </q-item-section>
     </q-item>
 
@@ -63,7 +64,7 @@
       <q-item-section>
         <q-item-label>{{$t('settings.notifications.enable')}}</q-item-label>
         <q-item-label caption>{{$t('settings.notifications.caption')}}</q-item-label>
-        <q-item-label v-if="!$store.state.settings.notifications.supported"
+        <q-item-label v-if="!settings.notifications.supported"
           caption
           class="text-negative">
           {{$t('settings.notifications.noBrowserSupport')}}
@@ -71,13 +72,13 @@
       </q-item-section>
       <q-item-section side top>
         <q-toggle color="primary"
-          :disable="!$store.state.settings.notifications.supported"
+          :disable="!settings.notifications.supported"
           :value="settings.notifications.topics.includes('main')"
           @input="$store.dispatch('settings/toggleNotificationTopic', 'main')" />
       </q-item-section>
     </q-item>
 
-    <q-item class="absolute-bottom bg-white">
+    <q-item class="bg-white">
       <q-item-section class="text-right">
         <div>
           <q-btn rounded flat
@@ -89,7 +90,7 @@
             color="positive"
             type="submit"
             icon="done"
-            @click="setUser"
+            @click="saveUser"
             label="Apply" />
         </div>
       </q-item-section>
@@ -102,17 +103,9 @@ export default {
   name: 'Settings',
   data () {
     return {
-      user: {
-        display_name: 'John Doe'
-      },
-      settings: {
-        notifications: {
-          sound: true,
-          topics: []
-        }
-      },
+      user: this.$user,
+      settings: this.$settings,
       colorPicker: false,
-      lang: this.$i18n.locale,
       langOptions: [
         { value: 'en-us', label: 'English (US)' },
         { value: 'fr', label: 'Français' },
@@ -120,12 +113,8 @@ export default {
       ]
     }
   },
-  mounted () {
-    this.user = this.$store.state.user.data
-    this.settings = this.$store.state.settings
-  },
   methods: {
-    setUser () {
+    saveUser () {
       this.$store.dispatch('users/patch', this.user).then(r => {
         this.$q.notify({
           message: 'User set',
@@ -133,11 +122,6 @@ export default {
           icon: 'info'
         })
       })
-    }
-  },
-  watch: {
-    lang: function (val) {
-      this.$i18n.locale = val
     }
   }
 }

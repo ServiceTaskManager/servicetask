@@ -40,7 +40,7 @@ module.exports = function (ctx) {
             .use(require('copy-webpack-plugin'), [
               [{
                 from: 'src-pwa/firebase-messaging-sw.js',
-                to: '',
+                to: ''
               }]
             ])
         }

@@ -57,7 +57,7 @@ export default {
     },
     login () {
       this.$auth.signInWithEmailAndPassword(this.email, this.password).then(signedInUser => {
-        if (!signedInUser.user.emailVerified) this.sendEmailVerification(signedInUser.user)
+        this.$router.push({ name: 'dashboard' })
       }).catch(error => {
         if (error.code === 'auth/user-not-found') {
           this.$auth.createUserWithEmailAndPassword(this.email, this.password).then(userCreate => {
@@ -80,6 +80,7 @@ export default {
             color: 'negative',
             icon: 'cancel'
           })
+          throw error
         }
       })
     }

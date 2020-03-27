@@ -1,4 +1,3 @@
-import PostFirestoreLoading from './PostFirestoreLoading'
 import * as utils from './utils'
 import users from './users'
 import tasks from './tasks'
@@ -183,23 +182,31 @@ stores.forEach(s => {
 const firestore = {
   stores: stores,
   state: {
-    storesToOpen: ['users', 'tasks', 'calls', 'customers', 'engines', 'tokens', 'reports'],
-    storesOpened: [],
-    ready: false,
-    loading: 0
-  },
-  mutations: {
-    updateFirestoreOpenList (state, opt) {
-      if (opt.open) state.storesOpened.push(opt.firestore)
-      else state.storesOpened = state.storesOpened.filter(store => opt.firestore !== store)
-
-      state.loading = state.storesOpened.length / state.storesToOpen.length
-      if (state.loading === 1) PostFirestoreLoading()
-    }
+    loading: 0,
+    ready: false
   },
   actions: {
+    // Open all firestores
+    async firestoreOpen ({ state, dispatch }, user) {
+      const where = []
+      if (!user.roles.includes('admin')) where.push(['customer', '==', user.customer])
+      console.log(where)
+      stores.forEach(async (s, key, array) => {
+        await dispatch(s.moduleName + '/openDBChannel', // Add clauses for right management
+          { clauses: { where: where } })
+          .then(({ streaming }) => {
+            state.loading = key / (array.length - 1) // Update loading state
+            state.ready = state.loading === 1 // Update ready state
+          })
+      })
+    },
+    firestoreClose ({ state, dispatch }) {
+      stores.forEach((s, key, array) => {
+        dispatch(s.moduleName + '/closeDBChannel', { clearModule: true })
+      })
+    },
     unselectAll ({ state, dispatch }) {
-      state.storesToOpen.forEach(s => dispatch(s + '/unselectAll'))
+      stores.forEach(s => dispatch(s.moduleName + '/unselectAll'))
     }
   }
 }

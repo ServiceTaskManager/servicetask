@@ -38,7 +38,7 @@
                   <q-icon color="white" name="settings" />
                 </q-item-section>
                 <q-item-section class="text-bold">
-                  {{ user.data.name }}
+                  {{ $user.name }}
                 </q-item-section>
                 <q-item-section side>
                   <q-btn round
@@ -156,9 +156,6 @@ export default {
     }
   },
   computed: {
-    user () {
-      return this.$store.state.user
-    },
     storeName () {
       return this.$route.meta.store
     },

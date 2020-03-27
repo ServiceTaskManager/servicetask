@@ -17,7 +17,7 @@
     </template>
 
     <template v-slot:append v-if="value === '' && !noSelf">
-      <q-btn flat round icon="person_add" :color="$users.meta.color" @click="$emit('input', $user.data.id)" />
+      <q-btn flat round icon="person_add" :color="$users.meta.color" @click="$emit('input', $user.id)" />
     </template>
 
     <template v-slot:no-option>

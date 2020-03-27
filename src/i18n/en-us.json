@@ -17,5 +17,46 @@
     "user": {
       "title": "User information"
     }
+  },
+  "store": {
+    "calls": {}
+  },
+  "page": {
+    "call": {}
+  },
+  "calls": {
+    "route": {
+      "list": {
+        "title": "Calls"
+      },
+      "single": {
+        "title": "Call"
+      }
+    },
+    "fields": {
+      "title": {
+        "label": "Call reason",
+        "validation": {
+          "empty": "Call reason is required"
+        }
+      },
+      "customer": {
+        "validation": {
+          "required": "Customer is required"
+        }
+      },
+      "person": {
+        "label": "Person calling"
+      },
+      "phone": {
+        "label": "Phone number"
+      },
+      "technician": {
+        "label": "Assign to"
+      },
+      "open": {
+        "label": "Call status"
+      }
+    }
   }
 }

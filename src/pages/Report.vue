@@ -24,7 +24,7 @@
         <store-list store="tasks"
           :filters="[
             ['customer', '==', report.customer],
-            ['technician', '==', this.$user.data.id]
+            ['technician', '==', this.$user.id]
           ]"
           no-link />
       </q-scroll-area>
@@ -122,7 +122,7 @@
         <div class="row q-gutter-x-md q-mt-md">
           <q-card class="bg-transparent col" bordered flat>
             <q-card-section class="q-pa-sm">
-              <span class="text-weight-bold">{{ $user.data.name }}</span><br />
+              <span class="text-weight-bold">{{ $user.name }}</span><br />
               <span class="text-caption">{{ Date(report.signatures.technician.date.seconds * 1000) | moment('D MMM Y HH:mm') }}</span>
             </q-card-section>
             <q-card-section class="bg-white q-pa-xs">
@@ -231,7 +231,7 @@ export default {
   mounted () {
     if (this.$route.params.id !== 'new') this.report = this.$reports.data[this.$route.params.id]
     this.report.date = new Date()
-    this.report.technician = this.$user.data.name
+    this.report.technician = this.$user.name
   },
   computed: {
     tasksSelected: function () {
