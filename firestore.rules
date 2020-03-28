@@ -1,11 +1,42 @@
-rules_version = 2;
+rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function hasRole (roles) {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles.hasAny(roles)
+    function user () {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data
     }
-    match /{document=**} {
-      allow read, write: if hasRole (['user'])
+    function customer () {
+      return user().customer
+    }
+    function userHasRole (roles) {
+      return user().roles.hasAny(roles)
+    }
+    match /{document=**} { // Allow all access to user with role admin
+      allow read, write: if userHasRole (['admin'])
+    }
+    match /users/{userId} { 
+      allow read: if userId == user().id
+      allow read: if resource.data.customer == customer() // Allow to read all users if they belong to the same customer than request user
+      allow read: if resource.data.roles.hasAny(['admin']) // Allow to read all admin users
+      allow update: if userId == request.auth.uid // Allow to edit user if it's the request user
+                    && request.resource.data.id == request.auth.uid
+                    && request.resource.data.email == resource.data.email
+    }
+    match /customers/{customerId} {
+      allow read: if customerId == customer() // Allow to read user's customer
+      allow read: if resource.data.public // Allow to read public customers
+    }
+    match /tasks/{taskId} {
+      allow read: if resource.data.customer == customer() // Allow to read all tasks if they belong to the same customer than request user
+      allow update, create: if request.resource.data.user == request.auth.uid // Allow to update tasks whom belong to user without changing it
+    }
+    match /calls/{callsId} {
+      allow read, update, create: if request.resource.data.customer == customer() // Allow to update and create all calls if they belong to the same customer than request user
+    }
+    match /reports/{reportId} {
+      allow read: if resource.data.customer == customer() // Allow to read all reports if they belong to the same customer than request user
+    }
+    match /engines/{reportId} {
+      allow read: if resource.data.customer == customer() // Allow to read all engines if they belong to the same customer than request user
     }
   }
 }

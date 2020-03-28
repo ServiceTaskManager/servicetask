@@ -27,7 +27,7 @@ const tasks = {
       }
     }],
     fields: [{
-      key: 'technician',
+      key: 'user',
       component: 'UserField',
       attrs: {
         label: 'Technician'
@@ -114,7 +114,7 @@ const tasks = {
         parent: data.parent,
         text: 'Assign to'
       }).onOk(userInput => {
-        dispatch('patchBatch', { doc: { technician: userInput }, ids: data.ids })
+        dispatch('patchBatch', { doc: { user: userInput }, ids: data.ids })
       })
     }
   },

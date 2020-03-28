@@ -59,29 +59,12 @@ export default {
       this.$auth.signInWithEmailAndPassword(this.email, this.password).then(signedInUser => {
         this.$router.push({ name: 'dashboard' })
       }).catch(error => {
-        if (error.code === 'auth/user-not-found') {
-          this.$auth.createUserWithEmailAndPassword(this.email, this.password).then(userCreate => {
-            this.sendEmailVerification(userCreate.user)
-            this.$store.dispatch('users/set', {
-              id: userCreate.user.uid,
-              name: this.email
-            })
-          }).catch(error => {
-            this.$q.notify({
-              message: 'Failed to create a new user',
-              color: 'negative',
-              icon: 'cancel'
-            })
-            throw error
-          })
-        } else {
-          this.$q.notify({
-            message: 'Failed to login',
-            color: 'negative',
-            icon: 'cancel'
-          })
-          throw error
-        }
+        this.$q.notify({
+          message: 'Failed to login',
+          color: 'negative',
+          icon: 'cancel'
+        })
+        throw error
       })
     }
   }

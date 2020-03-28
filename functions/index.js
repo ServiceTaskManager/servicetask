@@ -27,7 +27,7 @@ exports.createCallNotification = functions.firestore.document('calls/{notificati
 // Sends a notifications to all users when a new message is posted.
 exports.sendNotifications = functions.firestore.document('notifications/{notificationId}').onCreate(
   async (snapshot) => {
-    let notification = snapshot.data()
+    const notification = snapshot.data()
     const payload = {
       notification: {
         title: notification.title,
@@ -41,12 +41,18 @@ exports.sendNotifications = functions.firestore.document('notifications/{notific
     return true
   })
 
-// Create user document
-exports.createUserDocOnRegister = functions.auth.user().onCreate(
-  async (user) => {
-    var userObject = {
-      email: user.email
+// Create a user (authentication)
+exports.createUser = functions.firestore.document('users/{userId}').onCreate(
+  async (snapshot) => {
+    const user = snapshot.data()
+    const payload = {
+      uid: user.id,
+      email: user.email,
+      password: user.email,
+      emailVerified: true
     }
 
-    return admin.firestore().doc('users/' + user.uid).set(userObject)
+    const result = await admin.auth().createUser(payload)
+
+    return result
   })
