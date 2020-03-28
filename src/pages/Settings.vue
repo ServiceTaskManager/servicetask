@@ -2,52 +2,11 @@
   <q-list>
     <q-item-label header>{{$t('settings.user.title')}}</q-item-label>
 
-    <q-item>
-      <q-input
-        v-model="user.name"
-        label="Full name"
-        class="full-width">
-        <template v-slot:prepend>
-          <q-avatar :style="'background-color:' + user.color">
-            <q-icon name="person" color="white"  />
-          </q-avatar>
-        </template>
-      </q-input>
-    </q-item>
-
-    <q-item>
-      <q-input
-        :color="user.color"
-        v-model="user.color"
-        class="full-width"
-        label="Avatar color"
-        @focus="colorPicker = !colorPicker">
-        <template v-slot:prepend>
-          <q-avatar :style="'background-color:' + user.color">
-            <q-icon name="colorize" color="white"  />
-          </q-avatar>
-        </template>
-        <q-dialog v-model="colorPicker">
-          <q-color
-            v-model="user.color"
-            no-header
-            no-footer />
-        </q-dialog>
-      </q-input>
-    </q-item>
-
-    <q-item>
-      <q-item-section avatar>
-        <q-icon color="black" name="language" />
-      </q-item-section>
-      <q-item-section>
-        <q-select v-model="user.lang"
-          :options="langOptions"
-          map-options
-          emit-value
-          @input="$store.dispatch('users/patch', { ...user, lang: $event })" />
-      </q-item-section>
-    </q-item>
+    <store-form
+      store="users"
+      :fields="userFormFields"
+      v-model="user"
+      class="q-pa-sm" />
 
     <q-item-label header>{{$t('settings.notifications.title')}}</q-item-label>
 
@@ -77,24 +36,6 @@
           @input="$store.dispatch('settings/toggleNotificationTopic', 'main')" />
       </q-item-section>
     </q-item>
-
-    <q-item class="bg-white">
-      <q-item-section class="text-right">
-        <div>
-          <q-btn rounded flat
-            color="grey"
-            label="Dashboard"
-            icon="undo"
-            :to="{ name: 'dashboard' }" />
-          <q-btn rounded
-            color="positive"
-            type="submit"
-            icon="done"
-            @click="saveUser"
-            label="Apply" />
-        </div>
-      </q-item-section>
-    </q-item>
   </q-list>
 </template>
 
@@ -113,8 +54,16 @@ export default {
       ]
     }
   },
+  computed: {
+    userFormFields () {
+      let fields = this.$users.fields
+      const fieldsToDelete = ['roles', 'address', 'customer']
+      return fields.filter(f => !fieldsToDelete.includes(f.key))
+    }
+  },
   methods: {
     saveUser () {
+      window.localStorage.setItem('lang', this.user.lang)
       this.$store.dispatch('users/patch', this.user).then(r => {
         this.$q.notify({
           message: 'User set',
@@ -123,6 +72,9 @@ export default {
         })
       })
     }
+  },
+  components: {
+    StoreForm: () => import('../components/generic/StoreForm')
   }
 }
 </script>
