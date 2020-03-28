@@ -8,10 +8,16 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
-    "test": "echo \"No test specified\" && exit 0",
+    "test": "echo \"See package.json => scripts for available tests.\" && exit 0",
     "deploy": "quasar build -m pwa && firebase deploy",
     "deploy-host": "quasar build -m pwa && firebase deploy --only hosting",
-    "dev": "quasar dev -m pwa"
+    "dev": "quasar dev -m pwa",
+    "test:unit": "jest --updateSnapshot",
+    "test:unit:coverage": "jest --coverage",
+    "test:unit:watch": "jest --watch",
+    "test:unit:watchAll": "jest --watchAll",
+    "serve:test:coverage": "quasar serve test/jest/coverage/lcov-report/ --port 8788",
+    "concurrently:dev:jest": "concurrently \"quasar dev\" \"jest --watch\""
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
@@ -31,6 +37,8 @@
     "@quasar/quasar-app-extension-icon-genie": "^1.0.1",
     "@quasar/quasar-app-extension-qcalendar": "^1.5.1",
     "@quasar/quasar-app-extension-qmarkdown": "^1.0.24",
+    "@quasar/quasar-app-extension-testing": "^1.0.0",
+    "@quasar/quasar-app-extension-testing-unit-jest": "^1.0.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",
