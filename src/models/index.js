@@ -15,7 +15,7 @@ export default (locale) => {
   models.forEach(m => {
     let _m = m(locale) // Execute models with locale
     if (!_m.actions) _m.actions = []
-    _m.actions = _m.actions.concat(actions(_m)) // Aggregate models actions with common actions
+    _m.actions = _m.actions.concat(actions(_m, locale)) // Aggregate models actions with common actions
     _models[_m.name] = _m
 
     if (_m.routes) { // Fetch routes

@@ -15,7 +15,7 @@ export default (locale) => {
       name: 'tasks',
       component: () => import('../pages/StListPage'),
       meta: {
-        title: 'Tasks',
+        title: i18n.t('tasks.routes.list.title'),
         menu: true
       }
     }, {
@@ -23,7 +23,7 @@ export default (locale) => {
       name: 'task',
       component: () => import('../pages/StPage'),
       meta: {
-        title: 'Task',
+        title: i18n.t('tasks.routes.single.title'),
         propertyTitle: 'title'
       }
     }],
@@ -31,16 +31,22 @@ export default (locale) => {
       key: 'user',
       component: 'UserField',
       attrs: {
-        label: 'Technician'
+        label: i18n.t('tasks.fields.user.label')
       },
       search: '=='
     }, {
       key: 'customer',
       component: 'CustomerField',
+      attrs: {
+        label: i18n.t('tasks.fields.customer.label')
+      },
       search: '=='
     }, {
       key: 'engine',
       component: 'EngineField',
+      attrs: {
+        label: i18n.t('tasks.fields.engine.label')
+      },
       forward: ['customer'],
       search: '=='
     }, {
@@ -49,7 +55,7 @@ export default (locale) => {
       attrs: {
         iconName: 'title',
         iconColor: 'light-blue',
-        label: 'Type',
+        label: i18n.t('tasks.fields.type.label'),
         clearable: true,
         options: [
           '🚗 Drive',
@@ -69,8 +75,8 @@ export default (locale) => {
       attrs: {
         iconName: 'title',
         iconColor: 'light-blue',
-        label: 'Task',
-        rules: [val => !!val || 'Task title is required']
+        label: i18n.t('tasks.fields.title.label'),
+        rules: [val => !!val || i18n.t('tasks.fields.title.validation.empty')]
       },
       search: 'contains'
     }, {
@@ -79,7 +85,7 @@ export default (locale) => {
       attrs: {
         iconName: 'title',
         iconColor: 'grey',
-        label: 'Task details'
+        label: i18n.t('tasks.fields.description.label')
       },
       search: 'contains'
     }, {
@@ -87,22 +93,22 @@ export default (locale) => {
       component: 'ShiftsField'
     }],
     actions: [{
-      label: 'Assign',
+      label: i18n.t('tasks.actions.assign.label'),
       icon: 'person_add',
       color: 'grey',
       action: 'userPrompt'
     }, {
-      label: 'Unassign',
+      label: i18n.t('tasks.actions.unassign.label'),
       icon: 'person_add_disabled',
       color: 'grey',
       patch: { user: '' }
     }, {
-      label: 'Done',
+      label: i18n.t('tasks.actions.done.label'),
       icon: 'done',
       color: 'light-blue',
       patch: { done: true, done_at: new Date() }
     }, {
-      label: 'To do',
+      label: i18n.t('tasks.actions.todo.label'),
       icon: 'cancel',
       color: 'negative',
       patch: { done: false }

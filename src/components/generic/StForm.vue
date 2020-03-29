@@ -17,13 +17,13 @@
     <div v-if="!noButtons" class="full-width q-pt-sm q-gutter-sm row justify-end">
       <slot name="buttons">
         <q-btn v-if="!noReset"
-          label="Reset"
+          :label="$t('components.stform.reset.label')"
           type="reset"
           :color="modelMeta.color"
           flat
           class="q-ml-sm" />
         <q-btn
-          label="Submit"
+          :label="$t('components.stform.submit.label')"
           type="submit"
           :color="modelMeta.color" />
       </slot>

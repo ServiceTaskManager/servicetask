@@ -2,8 +2,7 @@
   "menu": {
     "calendar": "Calendrier",
     "dashboard": "Tableau de bord",
-    "maps": "Plans",
-    "settings": "Paramètres"
+    "maps": "Plans"
   },
   "settings": {
     "user": {
@@ -34,10 +33,10 @@
     },
     "fields": {
       "title": {
-        "label": "Raison de l'appel",
         "validation": {
           "empty": "La raison de l'appel est obligatoire"
-        }
+        },
+        "label": "Raison de l'appel"
       },
       "customer": {
         "validation": {
@@ -55,6 +54,203 @@
       },
       "technician": {
         "label": "Affecter à"
+      }
+    },
+    "actions": {
+      "assign": {
+        "label": "Attribuer"
+      },
+      "close": {
+        "label": "Fermer l'appel"
+      },
+      "open": {
+        "label": "Ouvrir l'appel"
+      },
+      "unassign": {
+        "label": "Annuler l'attribution"
+      }
+    }
+  },
+  "customers": {
+    "fields": {
+      "email": {
+        "label": "Adresse e-mail de l'entreprise"
+      },
+      "name": {
+        "validation": {
+          "empty": "Le nom de l'entreprise est obligatoire"
+        }
+      },
+      "phone": {
+        "label": "Numéro de téléphone de l'entreprise"
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Clients"
+      },
+      "single": {
+        "title": "Client"
+      }
+    }
+  },
+  "users": {
+    "fields": {
+      "customer": {
+        "validation": {
+          "empty": "Le client est requis"
+        },
+        "label": "Client"
+      },
+      "email": {
+        "label": "Adresse électronique"
+      },
+      "lang": {
+        "label": "Langue"
+      },
+      "name": {
+        "label": "Nom complet",
+        "validation": {
+          "empty": "Le nom est requis"
+        }
+      },
+      "phone": {
+        "label": "Numéro de téléphone"
+      },
+      "color": {
+        "label": "Pipette à couleurs"
+      },
+      "roles": {
+        "label": "Rôles"
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Utilisateurs"
+      },
+      "single": {
+        "title": "Utilisateur"
+      }
+    }
+  },
+  "tasks": {
+    "actions": {
+      "assign": {
+        "label": "Attribuer"
+      },
+      "done": {
+        "label": "Terminé"
+      },
+      "todo": {
+        "label": "À faire"
+      },
+      "unassign": {
+        "label": "Annuler l'attribution"
+      }
+    },
+    "fields": {
+      "description": {
+        "label": "Détails des tâches"
+      },
+      "title": {
+        "label": "Tâche",
+        "validation": {
+          "empty": "Le titre de la tâche est obligatoire"
+        }
+      },
+      "type": {
+        "label": "Type"
+      },
+      "user": {
+        "label": "Technicien"
+      },
+      "customer": {
+        "label": "Client"
+      },
+      "engine": {
+        "label": "Machine"
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Tâches"
+      },
+      "single": {
+        "title": "Tâche"
+      }
+    }
+  },
+  "models": {
+    "actions": {
+      "delete": {
+        "label": "Supprimer"
+      }
+    }
+  },
+  "components": {
+    "colorpicker": {
+      "label": {}
+    },
+    "stform": {
+      "reset": {
+        "label": "Réinitialiser"
+      },
+      "submit": {
+        "label": "Enregistrer"
+      }
+    },
+    "addressfield": {
+      "addr1": {
+        "label": "Nom et numéro de rue"
+      },
+      "addr2": {
+        "label": "Complément d'adresse"
+      },
+      "city": {
+        "label": "Ville"
+      },
+      "country": {
+        "label": "Pays"
+      },
+      "postalcode": {
+        "label": "Code postal"
+      }
+    }
+  },
+  "reports": {
+    "routes": {
+      "list": {
+        "title": "Rapports"
+      },
+      "single": {
+        "title": "Rapport"
+      }
+    }
+  },
+  "engines": {
+    "fields": {
+      "customer": {
+        "label": "Client",
+        "validation": {
+          "empty": "Le client est requis"
+        }
+      },
+      "sn": {
+        "label": "Numéro de série"
+      },
+      "type": {
+        "label": "Type de machine",
+        "validation": {
+          "empty": "Le type de machine est requis"
+        }
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Machines"
+      },
+      "single": {
+        "title": "Machine"
       }
     }
   }

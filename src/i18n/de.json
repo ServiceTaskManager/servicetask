@@ -1,7 +1,8 @@
 {
   "menu": {
     "calendar": "Kalender",
-    "dashboard": "Instrumententafel"
+    "dashboard": "Instrumententafel",
+    "maps": "Karten"
   },
   "settings": {
     "notifications": {
@@ -38,10 +39,10 @@
         "label": "Zuweisen"
       },
       "title": {
-        "label": "Grund nennen",
         "validation": {
           "empty": "Anrufgrund ist erforderlich"
-        }
+        },
+        "label": "Grund nennen"
       }
     },
     "route": {
@@ -51,6 +52,212 @@
       "single": {
         "title": "Anruf"
       }
+    },
+    "actions": {
+      "assign": {
+        "label": "Zuordnen"
+      },
+      "close": {
+        "label": "Schließen"
+      },
+      "open": {
+        "label": "Öffnen"
+      },
+      "unassign": {
+        "label": "Zuordnung aufheben"
+      }
+    }
+  },
+  "customers": {
+    "fields": {
+      "email": {
+        "label": "E-Mail-Adresse des Unternehmens"
+      },
+      "name": {
+        "validation": {
+          "empty": "Firmenname ist erforderlich"
+        }
+      },
+      "phone": {
+        "label": "Telefonnummer des Unternehmens"
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Kunden"
+      },
+      "single": {
+        "title": "Kunde"
+      }
+    }
+  },
+  "users": {
+    "fields": {
+      "customer": {
+        "validation": {
+          "empty": "Kunde ist erforderlich"
+        },
+        "label": "Kunde"
+      },
+      "email": {
+        "label": "E-Mail-Addresse"
+      },
+      "lang": {
+        "label": "Sprache"
+      },
+      "name": {
+        "label": "Vollständiger Name",
+        "validation": {
+          "empty": "Name ist erforderlich"
+        }
+      },
+      "phone": {
+        "label": "Telefonnummer"
+      },
+      "color": {
+        "label": "Farbwähler"
+      },
+      "roles": {
+        "label": "Rollen"
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Benutzer"
+      },
+      "single": {
+        "title": "Nutzer"
+      }
+    }
+  },
+  "tasks": {
+    "actions": {
+      "assign": {
+        "label": "Zuordnen"
+      },
+      "done": {
+        "label": "Erledigt"
+      },
+      "todo": {
+        "label": "Machen"
+      },
+      "unassign": {
+        "label": "Zuordnung aufheben"
+      }
+    },
+    "fields": {
+      "description": {
+        "label": "Aufgabendetails"
+      },
+      "title": {
+        "label": "Aufgabe",
+        "validation": {
+          "empty": "Aufgabentitel ist erforderlich"
+        }
+      },
+      "type": {
+        "label": "Art"
+      },
+      "user": {
+        "label": "Techniker"
+      },
+      "customer": {
+        "label": "Kunde"
+      },
+      "engine": {
+        "label": "Maschine"
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Aufgaben"
+      },
+      "single": {
+        "title": "Aufgabe"
+      }
+    }
+  },
+  "models": {
+    "actions": {
+      "delete": {
+        "label": "Löschen"
+      }
+    }
+  },
+  "components": {
+    "addressfield": {
+      "addr1": {
+        "label": "Straßenname und Nummer"
+      },
+      "addr2": {
+        "label": "Adressergänzung"
+      },
+      "city": {
+        "label": "Stadt"
+      },
+      "country": {
+        "label": "Land"
+      },
+      "postalcode": {
+        "label": "Postleitzahl"
+      }
+    },
+    "stform": {
+      "reset": {
+        "label": "Zurücksetzen"
+      },
+      "submit": {
+        "label": "einreichen"
+      }
+    }
+  },
+  "engines": {
+    "fields": {
+      "customer": {
+        "label": "Kunde",
+        "validation": {
+          "empty": "Kunde ist erforderlich"
+        }
+      },
+      "sn": {
+        "label": "Ordnungsnummer"
+      },
+      "type": {
+        "label": "Motortyp",
+        "validation": {
+          "empty": "Motortyp ist erforderlich"
+        }
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Motoren"
+      },
+      "single": {
+        "title": "Motor"
+      }
+    }
+  },
+  "reports": {
+    "routes": {
+      "list": {
+        "title": "Berichte"
+      },
+      "single": {
+        "title": "Bericht"
+      }
+    }
+  },
+  "fields": {
+    "customer": {
+      "validation": {}
+    },
+    "open": {},
+    "person": {},
+    "phone": {},
+    "technician": {},
+    "title": {
+      "validation": {}
     }
   }
 }

@@ -2,8 +2,7 @@
   "menu": {
     "calendar": "Calendar",
     "dashboard": "Dashboard",
-    "maps": "Maps",
-    "settings": "Settings"
+    "maps": "Maps"
   },
   "settings": {
     "notifications": {
@@ -58,6 +57,212 @@
       },
       "open": {
         "label": "Call status"
+      }
+    },
+    "actions": {
+      "assign": {
+        "label": "Assign"
+      },
+      "close": {
+        "label": "Close the call"
+      },
+      "open": {
+        "label": "Open the call"
+      },
+      "unassign": {
+        "label": "Cancel assignment"
+      }
+    }
+  },
+  "components": {
+    "addressfield": {
+      "addr1": {
+        "label": "Street name and number"
+      },
+      "addr2": {
+        "label": "Additional address"
+      },
+      "city": {
+        "label": "City"
+      },
+      "country": {
+        "label": "Country"
+      },
+      "postalcode": {
+        "label": "Postal code"
+      }
+    },
+    "stform": {
+      "reset": {
+        "label": "Reset"
+      },
+      "submit": {
+        "label": "Enregistrer"
+      }
+    }
+  },
+  "customers": {
+    "fields": {
+      "email": {
+        "label": "Company email address"
+      },
+      "name": {
+        "validation": {
+          "empty": "Company name is required"
+        }
+      },
+      "phone": {
+        "label": "Company phone number"
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Customers"
+      },
+      "single": {
+        "title": "Customer"
+      }
+    }
+  },
+  "engines": {
+    "fields": {
+      "customer": {
+        "label": "Customer",
+        "validation": {
+          "empty": "Customer name is required"
+        }
+      },
+      "sn": {
+        "label": "Serial number"
+      },
+      "type": {
+        "label": "Machine type",
+        "validation": {
+          "empty": "Machine type is required"
+        }
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Machines"
+      },
+      "single": {
+        "title": "Machine"
+      }
+    }
+  },
+  "fields": {
+    "customer": {
+      "validation": {}
+    },
+    "open": {},
+    "person": {},
+    "phone": {},
+    "technician": {},
+    "title": {
+      "validation": {}
+    }
+  },
+  "models": {
+    "actions": {
+      "delete": {
+        "label": "Remove"
+      }
+    }
+  },
+  "reports": {
+    "routes": {
+      "list": {
+        "title": "Reports"
+      },
+      "single": {
+        "title": "Report"
+      }
+    }
+  },
+  "tasks": {
+    "actions": {
+      "assign": {
+        "label": "Assign"
+      },
+      "done": {
+        "label": "Completed"
+      },
+      "todo": {
+        "label": "To do"
+      },
+      "unassign": {
+        "label": "Cancel assignment"
+      }
+    },
+    "fields": {
+      "customer": {
+        "label": "Customer"
+      },
+      "description": {
+        "label": "Task details"
+      },
+      "engine": {
+        "label": "Machine"
+      },
+      "title": {
+        "label": "Task",
+        "validation": {
+          "empty": "Task title is required"
+        }
+      },
+      "type": {
+        "label": "Type"
+      },
+      "user": {
+        "label": "User"
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Tasks"
+      },
+      "single": {
+        "title": "Task"
+      }
+    }
+  },
+  "users": {
+    "fields": {
+      "color": {
+        "label": "Color picker"
+      },
+      "customer": {
+        "label": "Customer",
+        "validation": {
+          "empty": "Customer is required"
+        }
+      },
+      "email": {
+        "label": "email address"
+      },
+      "lang": {
+        "label": "Language"
+      },
+      "name": {
+        "label": "Full Name",
+        "validation": {
+          "empty": "Name is required"
+        }
+      },
+      "phone": {
+        "label": "Phone number"
+      },
+      "roles": {
+        "label": "Roles"
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Users"
+      },
+      "single": {
+        "title": "User"
       }
     }
   }

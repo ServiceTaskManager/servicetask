@@ -15,7 +15,7 @@ export default (locale) => {
       name: 'users',
       component: () => import('../pages/StListPage'),
       meta: {
-        title: 'Users',
+        title: i18n.t('users.routes.list.title'),
         menu: true
       }
     }, {
@@ -23,7 +23,7 @@ export default (locale) => {
       name: 'user',
       component: () => import('../pages/StPage'),
       meta: {
-        title: 'User'
+        title: i18n.t('users.routes.single.title')
       }
     }],
     fields: [{
@@ -32,15 +32,16 @@ export default (locale) => {
       attrs: {
         iconName: 'person',
         iconColor: 'green',
-        label: 'Full name',
-        rules: [val => !!val || 'Name is required']
+        label: i18n.t('users.fields.name.label'),
+        rules: [val => !!val || i18n.t('users.fields.name.validation.empty')]
       },
       search: 'contains'
     }, {
       key: 'customer',
       component: 'CustomerField',
       attrs: {
-        rules: [val => !!val || 'Customer is required']
+        label: i18n.t('users.fields.customer.label'),
+        rules: [val => !!val || i18n.t('users.fields.customer.validation.empty')]
       }
     }, {
       key: 'phone',
@@ -48,7 +49,7 @@ export default (locale) => {
       attrs: {
         iconName: 'phone',
         iconColor: 'grey',
-        label: 'Phone number',
+        label: i18n.t('users.fields.phone.label'),
         mask: '+## # ## ## ## ## NNNNNNN',
         type: 'tel'
       },
@@ -59,7 +60,7 @@ export default (locale) => {
       attrs: {
         iconName: 'alternate_email',
         iconColor: 'grey',
-        label: 'Email address',
+        label: i18n.t('users.fields.email.label'),
         type: 'email'
       },
       search: 'contains'
@@ -68,11 +69,15 @@ export default (locale) => {
       component: 'AddressField'
     }, {
       key: 'color',
-      component: 'ColorPicker'
+      component: 'ColorPicker',
+      attrs: {
+        label: i18n.t('users.fields.color.label')
+      }
     }, {
       key: 'roles',
       component: 'SelectField',
       attrs: {
+        label: i18n.t('users.fields.roles.label'),
         options: ['user', 'admin'],
         multiple: true
       },
@@ -83,13 +88,14 @@ export default (locale) => {
       attrs: {
         iconName: 'language',
         iconColor: 'grey',
-        label: 'Language',
+        label: i18n.t('users.fields.lang.label'),
         emitValue: true,
         mapOptions: true,
         options: [
           { value: 'en-US', label: 'English' },
           { value: 'fr', label: 'Français' },
-          { value: 'de', label: 'Deutsch' }
+          { value: 'de', label: 'Deutsch' },
+          { value: 'ru', label: 'русски' }
         ]
       },
       search: 'includes'

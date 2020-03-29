@@ -2,29 +2,29 @@
   <div>
     <text-field :value="value.addr1"
       @input="$emit('input', { ...value, addr1: $event })"
-      v-bind="{ label: 'Street name and number' }"
+      v-bind="{ label: $t('components.addressfield.addr1.label') }"
       icon-name="map" icon-color="grey" />
     <text-field :value="value.addr2"
       @input="$emit('input', { ...value, addr2: $event })"
-      v-bind="{ label: 'Address complement' }"
+      v-bind="{ label: $t('components.addressfield.addr2.label') }"
       icon-name="map" icon-color="grey" />
     <div class="row">
       <div class="col-4">
         <text-field :value="value.postal_code"
           @input="$emit('input', { ...value, postal_code: $event })"
-          v-bind="{ label: 'Postal code' }"
+          v-bind="{ label: $t('components.addressfield.postalcode.label') }"
           icon-name="location_city"
           icon-color="grey" />
       </div>
       <div class="col-8">
         <text-field :value="value.city"
           @input="$emit('input', { ...value, city: $event })"
-          v-bind="{ label: 'City' }" icon-color="grey" />
+          v-bind="{ label: $t('components.addressfield.city.label') }" icon-color="grey" />
       </div>
     </div>
     <text-field :value="value.country"
       @input="$emit('input', { ...value, country: $event })"
-      v-bind="{ label: 'Country' }"
+      v-bind="{ label: $t('components.addressfield.country.label') }"
       icon-name="flag" icon-color="grey" />
   </div>
 </template>

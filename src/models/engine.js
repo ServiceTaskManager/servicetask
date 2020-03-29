@@ -15,7 +15,7 @@ export default (locale) => {
       name: 'engines',
       component: () => import('../pages/StListPage'),
       meta: {
-        title: 'Engines',
+        title: i18n.t('engines.routes.list.title'),
         menu: true
       }
     }, {
@@ -23,7 +23,7 @@ export default (locale) => {
       name: 'engine',
       component: () => import('../pages/StPage'),
       meta: {
-        title: 'Engine'
+        title: i18n.t('engines.routes.single.title')
       }
     }],
     default: {
@@ -37,22 +37,23 @@ export default (locale) => {
       attrs: {
         iconName: 'print',
         iconColor: 'teal',
-        label: 'Engine type',
+        label: i18n.t('engines.fields.type.label'),
         options: ['Durst Tau 330', 'Durst Tau 330E'],
-        rules: [val => !!val || 'Engine type is required']
+        rules: [val => !!val || i18n.t('engines.fields.type.validation.empty')]
       }
     }, {
       key: 'customer',
       component: 'CustomerField',
       attrs: {
-        rules: [val => !!val || 'Customer is required']
+        label: i18n.t('engines.fields.customer.label'),
+        rules: [val => !!val || i18n.t('engines.fields.customer.validation.empty')]
       }
     }, {
-      key: 'SN',
+      key: 'sn',
       component: 'TextField',
       attrs: {
         iconColor: 'grey',
-        label: 'Serial number'
+        label: i18n.t('engines.fields.sn.label')
       }
     }]
   }

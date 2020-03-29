@@ -15,7 +15,7 @@ export default (locale) => {
       name: 'customers',
       component: () => import('../pages/StListPage'),
       meta: {
-        title: 'Customers',
+        title: i18n.t('customers.routes.list.title'),
         menu: true
       }
     }, {
@@ -23,7 +23,7 @@ export default (locale) => {
       name: 'customer',
       component: () => import('../pages/StPage'),
       meta: {
-        title: 'Customer'
+        title: i18n.t('customers.routes.single.title')
       }
     }],
     fields: [{
@@ -33,7 +33,7 @@ export default (locale) => {
         iconName: 'group',
         iconColor: 'pink',
         label: 'Company name',
-        rules: [val => !!val || 'Company name is required']
+        rules: [val => !!val || i18n.t('customers.fields.name.validation.empty')]
       },
       search: 'contains'
     },
@@ -44,7 +44,7 @@ export default (locale) => {
         type: 'email',
         iconName: 'alternate_email',
         iconColor: 'grey',
-        label: 'Company email address'
+        label: i18n.t('customers.fields.email.label')
       },
       search: 'contains'
     },
@@ -55,7 +55,7 @@ export default (locale) => {
         type: 'phone',
         iconName: 'phone',
         iconColor: 'grey',
-        label: 'Company phone number'
+        label: i18n.t('customers.fields.phone.label')
       },
       search: 'contains'
     },

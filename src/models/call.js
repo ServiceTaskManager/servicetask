@@ -79,24 +79,24 @@ export default (locale) => {
       }
     }],
     actions: [{
-      label: 'Assign',
+      label: i18n.t('calls.actions.assign.label'),
       icon: 'person_add',
-      color: 'grey',
+      color: 'positive',
       action: 'assignTechnicianPrompt'
     }, {
-      label: 'Unassign',
+      label: i18n.t('calls.actions.unassign.label'),
       icon: 'person_add_disabled',
-      color: 'grey',
+      color: 'negative',
       patch: { technician: '' }
     }, {
-      label: 'Close',
-      icon: 'cancel',
-      color: 'grey',
+      label: i18n.t('calls.actions.close.label'),
+      icon: 'arrow_forward',
+      color: 'positive',
       patch: { open: false }
     }, {
-      label: 'Open',
+      label: i18n.t('calls.actions.open.label'),
       icon: 'arrow_back',
-      color: 'grey',
+      color: 'negative',
       patch: { open: true }
     }]
   }

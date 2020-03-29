@@ -1,0 +1,263 @@
+{
+  "calls": {
+    "actions": {
+      "assign": {
+        "label": "Присвоить"
+      },
+      "close": {
+        "label": "близко"
+      },
+      "open": {
+        "label": "открыто"
+      },
+      "unassign": {
+        "label": "Отмена назначения"
+      }
+    },
+    "fields": {
+      "customer": {
+        "validation": {
+          "required": "Требуется клиент"
+        }
+      },
+      "open": {
+        "label": "Статус звонка"
+      },
+      "person": {
+        "label": "Человек, звонящий"
+      },
+      "phone": {
+        "label": "Номер телефона"
+      },
+      "technician": {
+        "label": "Назначить на"
+      },
+      "title": {
+        "validation": {
+          "empty": "Требуется причина звонка"
+        },
+        "label": "Причина вызова"
+      }
+    },
+    "route": {
+      "list": {
+        "title": "Вызовы"
+      },
+      "single": {
+        "title": "Вызов"
+      }
+    }
+  },
+  "components": {
+    "addressfield": {
+      "addr1": {
+        "label": "Название улицы и номер"
+      },
+      "addr2": {
+        "label": "Дополнение к адресу"
+      },
+      "city": {
+        "label": "город"
+      },
+      "country": {
+        "label": "Страна"
+      },
+      "postalcode": {
+        "label": "Почтовый Код"
+      }
+    },
+    "stform": {
+      "reset": {
+        "label": "Сброс"
+      },
+      "submit": {
+        "label": "Разместить"
+      }
+    }
+  },
+  "customers": {
+    "fields": {
+      "email": {
+        "label": "Адрес электронной почты компании"
+      },
+      "name": {
+        "validation": {
+          "empty": "Название компании обязательно"
+        }
+      },
+      "phone": {
+        "label": "Телефон компании"
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Клиенты"
+      },
+      "single": {
+        "title": "Клиент"
+      }
+    }
+  },
+  "engines": {
+    "fields": {
+      "customer": {
+        "label": "Клиент",
+        "validation": {
+          "empty": "Требуется клиент"
+        }
+      },
+      "sn": {
+        "label": "Серийный номер"
+      },
+      "type": {
+        "label": "Тип двигателя",
+        "validation": {
+          "empty": "Требуется тип двигателя"
+        }
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Двигатели"
+      },
+      "single": {
+        "title": "двигатель"
+      }
+    }
+  },
+  "menu": {
+    "calendar": "Календарь",
+    "dashboard": "Приборная панель",
+    "maps": "Карты"
+  },
+  "models": {
+    "actions": {
+      "delete": {
+        "label": "удалять"
+      }
+    }
+  },
+  "reports": {
+    "routes": {
+      "list": {
+        "title": "Отчеты"
+      },
+      "single": {
+        "title": "отчет"
+      }
+    }
+  },
+  "settings": {
+    "notifications": {
+      "caption": "Получить push-уведомления",
+      "enable": "Включить уведомления",
+      "noBrowserSupport": "Ваш браузер не поддерживает push-уведомления.",
+      "title": "Уведомления"
+    },
+    "sound": {
+      "caption": "Получить уведомление со звуками.\nДля воспроизведения звука должна быть запущена служебная задача.",
+      "enable": "Включить звук"
+    },
+    "user": {
+      "title": "Информация о пользователе"
+    }
+  },
+  "tasks": {
+    "actions": {
+      "assign": {
+        "label": "Присвоить"
+      },
+      "done": {
+        "label": "Выполнено"
+      },
+      "todo": {
+        "label": "Сделать"
+      },
+      "unassign": {
+        "label": "Отмена назначения"
+      }
+    },
+    "fields": {
+      "description": {
+        "label": "Детали задачи"
+      },
+      "title": {
+        "label": "задача",
+        "validation": {
+          "empty": "Требуется название задачи"
+        }
+      },
+      "type": {
+        "label": "Тип"
+      },
+      "user": {
+        "label": "техник"
+      },
+      "customer": {
+        "label": "Клиент"
+      },
+      "engine": {
+        "label": "Машина"
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "Задачи"
+      },
+      "single": {
+        "title": "задача"
+      }
+    }
+  },
+  "users": {
+    "fields": {
+      "color": {
+        "label": "Выбор цвета"
+      },
+      "customer": {
+        "label": "Клиент",
+        "validation": {
+          "empty": "Требуется клиент"
+        }
+      },
+      "email": {
+        "label": "Адрес электронной почты"
+      },
+      "lang": {
+        "label": "язык"
+      },
+      "name": {
+        "label": "Полное имя",
+        "validation": {
+          "empty": "Имя обязательно"
+        }
+      },
+      "phone": {
+        "label": "Телефонный номер"
+      },
+      "roles": {
+        "label": "Роли"
+      }
+    },
+    "routes": {
+      "list": {
+        "title": "пользователей"
+      },
+      "single": {
+        "title": "пользователь"
+      }
+    }
+  },
+  "fields": {
+    "customer": {
+      "validation": {}
+    },
+    "open": {},
+    "person": {},
+    "phone": {},
+    "technician": {},
+    "title": {
+      "validation": {}
+    }
+  }
+}

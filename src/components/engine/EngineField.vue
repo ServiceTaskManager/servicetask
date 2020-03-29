@@ -9,8 +9,7 @@
     class="full-width"
     :options="enginesFiltered"
     :option-label="opt => displayName(opt)"
-    option-value="id"
-    :label="label">
+    option-value="id">
 
     <template v-slot:prepend>
       <q-icon :name="meta.icon" :color="meta.color" />
@@ -39,10 +38,6 @@ export default {
     customer: {
       type: String,
       default: undefined
-    },
-    label: {
-      type: String,
-      default: 'Engine'
     }
   },
   data () {

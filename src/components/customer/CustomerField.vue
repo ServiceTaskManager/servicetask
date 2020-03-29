@@ -10,8 +10,7 @@
     :display-value="displayValue"
     option-label="name"
     option-value="id"
-    @filter="filter"
-    :label="label">
+    @filter="filter">
 
     <template v-slot:prepend>
       <q-icon :name="$models.customer.meta.icon" :color="$models.customer.meta.color" />
@@ -36,10 +35,6 @@ export default {
     value: {
       type: String,
       default: ''
-    },
-    label: {
-      type: String,
-      default: 'Customer'
     }
   },
   data () {

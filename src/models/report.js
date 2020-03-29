@@ -15,7 +15,7 @@ export default (locale) => {
       name: 'reports',
       component: () => import('../pages/StListPage'),
       meta: {
-        title: 'Reports',
+        title: i18n.t('reports.routes.list.title'),
         menu: true,
         createRoute: 'report'
       }
@@ -24,7 +24,7 @@ export default (locale) => {
       name: 'report',
       component: () => import('../pages/Report'),
       meta: {
-        title: 'Report'
+        title: i18n.t('reports.routes.single.title')
       }
     }]
   }

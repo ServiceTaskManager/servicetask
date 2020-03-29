@@ -1,8 +1,12 @@
-export default (model) => {
+import { i18n } from '../boot/i18n'
+
+export default (model, locale) => {
+  i18n.locale = locale
+
   return [{
-    label: 'Delete',
-    icon: 'remove',
-    color: 'danger',
+    label: i18n.t('models.actions.delete.label'),
+    icon: 'delete',
+    color: 'negative',
     action: 'deleteDoc'
   }, {
     props: {
