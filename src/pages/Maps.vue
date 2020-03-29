@@ -1,7 +1,7 @@
 <template>
   <q-layout container view="hHh lpR fFf" style="height: calc(100vh - 50px)">
     <q-drawer v-model="drawer" side="left">
-        <st-list store="customers" no-link>
+        <st-list model="customer" no-link>
           <template #item-right="{ data }">
             <q-btn flat round
               :icon="data.address.lat_lng ? 'navigation' : 'search'"
@@ -33,8 +33,8 @@
         :lat-lng="customer.address.lat_lng">
         <l-icon :icon-anchor="[10, 10]">
           <q-avatar
-            :icon="$customers.meta.icon"
-            :color="$customers.meta.color"
+            :icon="$models.customer.meta.icon"
+            :color="$models.customer.meta.color"
             style="color: white;" size="20px">
           </q-avatar>
         </l-icon>
@@ -97,7 +97,7 @@ export default {
         }
       } else {
         this.$refs.map.mapObject.setView([customer.address.lat_lng.lat, customer.address.lat_lng.lng - 0.05], 12)
-        if (!customer.selected) this.$store.dispatch('customers/toggleSelected', customer.id)
+        this.$store.dispatch('customers/toggleSelected', customer.id)
       }
     }
   },

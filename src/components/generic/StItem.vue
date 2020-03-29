@@ -17,7 +17,7 @@
           <slot></slot>
         </q-item-label>
       </q-item-section>
-      <q-item-section side>
+      <q-item-section side @click.prevent="test()">
         <slot name="item-right"></slot>
       </q-item-section>
     </q-item>
@@ -53,6 +53,9 @@ export default {
     }
   },
   methods: {
+    test () {
+      console.log('hello')
+    },
     toggleSelected () {
       this.$store.dispatch(this.model + 's/toggleSelected', this.data.id)
     }

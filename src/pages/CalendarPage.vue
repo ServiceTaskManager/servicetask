@@ -2,26 +2,13 @@
   <q-layout container view="hHh Lpr lff" style="height: calc(100vh - 50px)">
     <q-drawer v-model="drawer" side="left" bordered behavior="mobile">
       <q-scroll-area class="fit q-pa-sm">
-        <st-form v-model="taskToEdit" store="tasks" @submit="drawer = false">
-          <template #buttons>
-            <q-btn v-if="taskToEdit === undefined"
-              label="Reset"
-              type="reset"
-              :color="$tasks.meta.color"
-              flat
-              class="q-ml-sm" />
-            <q-btn
-              :label="taskToEdit ? 'Save' : 'Create'"
-              type="submit"
-              :color="$tasks.meta.color" />
-          </template>
-        </st-form>
+        <st-form v-model="taskToEdit" model="task" @submit="drawer = false" />
       </q-scroll-area>
     </q-drawer>
 
     <q-page-container>
       <q-page>
-        <calendar @task-click="openEditDrawer" />
+        <calendar @task-click="openEditDrawer" ref="calendar" />
       </q-page>
     </q-page-container>
   </q-layout>

@@ -57,7 +57,10 @@ const routes = [
       {
         path: 'calendar',
         name: 'calendar',
-        component: () => import('pages/CalendarPage'),
+        components: {
+          default: () => import('pages/CalendarPage'),
+          toolbar: () => import('pages/CalendarToolbar')
+        },
         meta: {
           title: 'Calendar'
         }

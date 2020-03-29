@@ -1,6 +1,6 @@
 <template>
-  <div class="full-width row q-pa-md justify-around">
-    <q-card class="col-auto">
+  <div class="full-width row q-pa-md-md justify-around">
+    <q-card class="col-md-grow col-12">
       <q-card-section>
         <span class="text-h4">Quick actions</span><br/>
         <span class="text-caption">See on going actions or access to main ServiceTask features</span>
@@ -37,7 +37,7 @@
               <q-btn dense round flat
                 color="orange"
                 icon="edit"
-                @click.prevent="createCallDialog(data)"  />
+                @click="createCallDialog(data)"  />
               <q-btn dense unelevated
                 color="orange-2"
                 text-color="orange"
@@ -45,8 +45,7 @@
                 label="Call!"
                 class="self-end"
                 type="a"
-                :href="data.phone"
-                @click.prevent="() => { return }" />
+                :href="'tel:' + data.phone" />
             </div>
           </template>
           <template #item="{ data }">
@@ -80,7 +79,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="col-grow q-ml-md">
+    <q-card class="col-md-grow col-12 q-ml-md-md q-mt-md-none q-mt-md">
       <q-card-section class="q-pb-none">
         <span class="text-h4">Future overview</span><br/>
         <span class="text-caption">See what is coming for next days, and re-schedule if needed</span>

@@ -58,7 +58,8 @@ module.exports = function (ctx) {
         'Notify',
         'Dialog',
         'BottomSheet'
-      ]
+      ],
+      cssAddon: true
     },
     animations: [],
     ssr: {

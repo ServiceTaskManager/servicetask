@@ -1,13 +1,16 @@
 <template>
-  <q-calendar
+  <q-calendar fit
     v-model="selectedDate"
     view="week"
     :weekdays="[1, 2, 3, 4, 5]"
     interval-start="6"
     interval-count="14"
-    hour24-format>
-    <template #day-body="{ day, timeStartPos, timeDurationHeight }">
-      <template v-for="(event, key) in events(day)">
+    hour24-format
+    ref="QCalendar"
+    :locale="$i18n.locale"
+    :interval-height="$parent.$parent.clientHeight">
+    <template #day-body="{ date, timeStartPos, timeDurationHeight }">
+      <template v-for="(event, key) in events(date)">
         <calendar-event :key="key"
           class="absolute rotate-90"
           :event="event"
@@ -29,7 +32,7 @@ export default {
     }
   },
   methods: {
-    events (day) {
+    events (date) {
       let busyRow = []
 
       const tasks = this.$store.getters['tasks/filter']()
@@ -37,7 +40,7 @@ export default {
       tasks.forEach(t => {
         if (t.time_shifts !== undefined) {
           t.time_shifts.forEach(s => {
-            if (parseInt(moment(s.start).format('DD')) === day) {
+            if (moment(s.start).format('YYYY-MM-DD') === date) {
               // Calculate if row is busy
               let row = 0
               let placed = true
@@ -81,9 +84,8 @@ export default {
       })
       return busy
     },
-    openEditDrawer (task) {
-      this.drawer = true
-      this.taskToEdit = task
+    test () {
+      console.log('yeah')
     }
   },
   components: {

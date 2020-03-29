@@ -13,6 +13,7 @@
 
         <!-- Toolbar buttons -->
         <st-toolbar v-if="$route.meta.store" :model="$route.meta.model" />
+        <router-view name="toolbar" v-model="$refs.page" />
 
       </q-toolbar>
     </q-header>
@@ -113,7 +114,7 @@
     <q-page-container>
       <q-page class="bg-grey-3" style="height: calc(100vh - 50px)">
         <q-scroll-area class="full-height" :thumb-style="thumbStyle">
-          <router-view v-if="$store.state.firestore.loading == 1 || $route.name === 'login'" />
+          <router-view v-if="$store.state.firestore.loading == 1 || $route.name === 'login'" :toolbar-options="toolbarOptions" ref="page" />
           <div v-else class="row justify-center text-center">
             <div class="col-8 col-offset-2" style="margin-top: 100px;">
               <q-circular-progress
@@ -144,6 +145,7 @@ export default {
   name: 'Base',
   data () {
     return {
+      toolbarOptions: {},
       drawer: !this.$q.platform.is.mobile,
       drawerMini: true,
       thumbStyle: {

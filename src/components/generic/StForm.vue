@@ -92,7 +92,7 @@ export default {
       this.$emit('submit')
     },
     onReset () {
-      this.emit('input', {})
+      this.$emit('input', {})
     },
     validate () {
       return this.$refs.StFormRef.validate()
