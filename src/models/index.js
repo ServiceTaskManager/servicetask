@@ -20,6 +20,7 @@ export default (locale) => {
 
     if (_m.routes) { // Fetch routes
       _m.routes.forEach(r => {
+        r.meta = Object.assign(r.meta, _m.meta)
         const route = {
           route: r,
           model: _m

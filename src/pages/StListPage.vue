@@ -1,6 +1,6 @@
 <template>
   <div>
-    <st-list :filters="filters" :model="$route.name.slice(0, -1)" />
+    <st-list :filters="filters" :model="$route.meta.store.slice(0, -1)" />
   </div>
 </template>
 

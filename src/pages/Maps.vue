@@ -1,15 +1,7 @@
 <template>
   <q-layout container view="hHh lpR fFf" style="height: calc(100vh - 50px)">
-    <q-drawer v-model="drawer" side="left">
-        <st-list model="customer" no-link>
-          <template #item-right="{ data }">
-            <q-btn flat round
-              :icon="data.address.lat_lng ? 'navigation' : 'search'"
-              @click.prevent="search(data)" />
-          </template>
-        </st-list>
-
-        {{ map }}
+    <q-drawer v-model="drawer" behavior="mobile" :overlay="false" side="left">
+        <st-page :data="customerToDisplay" />
     </q-drawer>
 
     <l-map
@@ -63,7 +55,8 @@ export default {
         zoom: 4,
         center: [37.822802, -12.700195]
       },
-      drawer: false
+      drawer: false,
+      customerToDisplay: undefined
     }
   },
   computed: {
@@ -91,7 +84,11 @@ export default {
     },
     zoomToCustomer (customerId) {
       const customer = this.customers.filter(c => c.id === customerId)[0]
-      if (customer) this.$refs.map.mapObject.setView([customer.address.lat_lng.lat, customer.address.lat_lng.lng], 12)
+      if (customer) {
+        this.$refs.map.mapObject.setView([customer.address.lat_lng.lat, customer.address.lat_lng.lng - 0.05], 12)
+        this.customerToDisplay = customer
+        this.drawer = true
+      }
     }
   },
   components: {
@@ -99,7 +96,7 @@ export default {
     LTileLayer,
     LMarker,
     LIcon,
-    StList: () => import('../components/generic/StList')
+    StPage: () => import('./StPage')
   }
 }
 </script>

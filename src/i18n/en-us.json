@@ -1,7 +1,9 @@
 {
   "menu": {
     "calendar": "Calendar",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "maps": "Maps",
+    "settings": "Settings"
   },
   "settings": {
     "notifications": {

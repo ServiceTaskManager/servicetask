@@ -55,13 +55,11 @@ export default {
   },
   computed: {
     fields () {
-      return (this.get('fields') || []).filter(f => f.search)
+      let fields = this.$models[this.model].fields
+      return fields ? fields.filter(f => f.search) : []
     }
   },
   methods: {
-    get (getter) {
-      return this.$store.getters[this.store + '/' + getter]
-    },
     updateFilters () {
       let filters = []
       this.fields.forEach(f => {

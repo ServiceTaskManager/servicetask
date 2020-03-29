@@ -1,7 +1,7 @@
 <template>
   <div>
     <pre>
-      {{ data }}
+      {{ doc }}
     </pre>
   </div>
 </template>
@@ -9,9 +9,15 @@
 <script>
 export default {
   name: 'StPage',
+  props: {
+    data: {
+      type: Object,
+      default: undefined
+    }
+  },
   computed: {
-    data () {
-      return this['$' + this.$route.meta.store].data[this.$route.params.id]
+    doc () {
+      return this.$route.meta.store ? this['$' + this.$route.meta.store].data[this.$route.params.id] : this.data
     }
   },
   mounted () {

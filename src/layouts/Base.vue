@@ -4,17 +4,17 @@
       :class="headerClass"
       v-if="!$route.meta.noHeader && $store.state.firestore.loading === 1">
       <q-toolbar>
-        <q-avatar v-if="$route.name === 'dashboard' || $route.name === 'login'">
-          <img src="statics/app-logo-128x128.png" />
-        </q-avatar>
-        <q-btn flat round @click="$router.go(-1)" icon="chevron_left" class="text-white" v-else />
-
-        <q-toolbar-title>{{ title }}</q-toolbar-title>
-
         <!-- Toolbar buttons -->
         <st-toolbar v-if="$route.meta.store" :model="$route.meta.model" />
         <router-view name="toolbar" v-model="$refs.page" />
 
+        <q-toolbar-title class="text-center" v-if="model">{{ title }}</q-toolbar-title>
+        <q-toolbar-title class="text-center" v-else>{{ $t(title) }}</q-toolbar-title>
+
+        <q-avatar v-if="$route.name === 'dashboard' || $route.name === 'login'">
+          <img src="statics/app-logo-128x128.png" />
+        </q-avatar>
+        <q-btn flat round @click="$router.go(-1)" icon="chevron_left" class="text-white" v-else />
       </q-toolbar>
     </q-header>
 
@@ -33,7 +33,7 @@
           <div>
             <q-list class="text-white">
               <q-item :to="{ name: 'settings' }"
-                :class="'bg-' + ($route.meta.color || 'black')"
+                :class="'bg-' + (meta.color || 'black')"
                 style="height: 50px;">
                 <q-item-section avatar>
                   <q-icon color="white" name="settings" />
@@ -45,13 +45,13 @@
                   <q-btn round
                     size="sm"
                     color="white"
-                    :class="'text-' + ($route.meta.color || 'black')"
+                    :class="'text-' + (meta.color || 'black')"
                     icon="logout"
                     @click.prevent="logout" />
                 </q-item-section>
               </q-item>
 
-              <!-- Add stores in menu  -->
+              <!-- Add models in menu  -->
               <q-item v-for="route in $models.menu" :key="route.model.name" :to="{ name: route.route.name }">
                 <q-item-section avatar>
                   <q-icon :color="route.model.meta.color" :name="route.model.meta.icon" />
@@ -70,7 +70,7 @@
                     size="sm"
                     :color="route.model.meta.color"
                     icon="add"
-                    @click.prevent="showEditDialog(route.model.name + 's')" />
+                    @click.prevent="showEditDialog(route.model.name)" />
                   <q-btn v-else
                     flat round
                     size="sm"
@@ -93,7 +93,7 @@
                   <q-icon color="white" name="map" />
                 </q-item-section>
                 <q-item-section>
-                  Maps
+                  {{$t('menu.maps')}}
                 </q-item-section>
               </q-item>
 
@@ -158,27 +158,27 @@ export default {
     }
   },
   computed: {
-    storeName () {
-      return this.$route.meta.store
+    modelName () {
+      return this.$route.meta.model
     },
-    store () {
-      return this.$route.meta.store ? this['$' + this.$route.meta.store] : false
+    model () {
+      return this.$route.meta.model ? this.$models[this.$route.meta.model] : false
+    },
+    route () {
+      return this.model ? this.$models.routes.filter(r => r.route.name === this.$route.name)[0].route : this.$route
     },
     meta () {
-      return this.$route.meta
+      return this.route.meta
     },
     headerClass () {
       return 'bg-' + (this.meta.color || 'black') + ' text-white'
     },
-    data () {
-      return this.$route.params.id ? this.store.data[this.$route.params.id] : false
-    },
     title () {
-      return this.data ? this.data[this.meta.titleProperty] : this.meta.title
+      return this.meta.title
     },
     selectedIds () {
       let selectedIds = []
-      if (this.$route.meta.store) {
+      if (this.model) {
         const selected = this.$store.getters[this.$route.meta.store + '/filter']([['selected', '==', true]])
         selectedIds = selected.map(o => o.id)
       }
@@ -189,13 +189,13 @@ export default {
     logout () {
       this.$auth.signOut()
     },
-    showEditDialog (store, data = undefined) {
+    showEditDialog (model, data = undefined) {
       this.$q.dialog({
         component: EditDialog,
         parent: this,
-        store: store,
+        model: model,
         data: data,
-        title: data === undefined ? 'Create a ' + store.slice(0, -1) : 'Edit a ' + store.slice(0, -1)
+        title: data === undefined ? 'Create a ' + model : 'Edit a ' + model
       })
     }
   },

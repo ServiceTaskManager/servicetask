@@ -1,7 +1,9 @@
 {
   "menu": {
     "calendar": "Calendrier",
-    "dashboard": "Tableau de bord"
+    "dashboard": "Tableau de bord",
+    "maps": "Plans",
+    "settings": "Paramètres"
   },
   "settings": {
     "user": {

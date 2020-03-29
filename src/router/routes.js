@@ -10,7 +10,7 @@ const routes = [
         name: '403',
         component: () => import('pages/Error403'),
         meta: {
-          title: 'Error 403'
+          title: 'menu.403'
         }
       }
     ]
@@ -24,7 +24,7 @@ const routes = [
         name: 'dashboard',
         component: () => import('pages/Dashboard'),
         meta: {
-          title: 'Dashboard',
+          title: 'menu.dashboard',
           description: 'Global overview'
         }
       },
@@ -33,7 +33,7 @@ const routes = [
         name: 'login',
         component: () => import('pages/Login'),
         meta: {
-          title: 'Login',
+          title: 'menu.login',
           noHeader: true,
           noDrawer: true
         }
@@ -43,7 +43,7 @@ const routes = [
         name: 'settings',
         component: () => import('pages/Settings'),
         meta: {
-          title: 'Settings'
+          title: 'menu.settings'
         }
       },
       {
@@ -54,7 +54,7 @@ const routes = [
           toolbar: () => import('pages/MapsToolbar')
         },
         meta: {
-          title: 'Maps'
+          title: 'menu.maps'
         }
       },
       {
@@ -65,7 +65,7 @@ const routes = [
           toolbar: () => import('pages/CalendarToolbar')
         },
         meta: {
-          title: 'Calendar'
+          title: 'menu.calendar'
         }
       }
     ]

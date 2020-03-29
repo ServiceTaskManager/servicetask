@@ -21,7 +21,7 @@
           label="Contact"
           no-self />
 
-        <st-list store="tasks"
+        <st-list model="task"
           :filters="[
             ['customer', '==', report.customer],
             ['technician', '==', this.$user.id]
