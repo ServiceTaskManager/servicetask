@@ -8,11 +8,11 @@
 
       <q-card-section class="q-pa-none row justify-around">
         <q-btn
-          :icon="$calls.meta.icon"
-          :color="$calls.meta.color"
+          :icon="$models.call.meta.icon"
+          :color="$models.call.meta.color"
           label="New call !"
           size="50" stack flat
-          @click="createCallDialog" />
+          @click="createCallDialog()" />
         <q-btn
           icon="directions_walk"
           color="black"
@@ -20,46 +20,51 @@
           size="50"
           stack flat />
         <q-btn
-          :icon="$tasks.meta.icon"
-          :color="$tasks.meta.color"
+          :icon="$models.task.meta.icon"
+          :color="$models.task.meta.color"
           label="New task"
           size="50"
           stack flat
-          @click="createTaskDialog" />
+          @click="createTaskDialog()" />
       </q-card-section>
 
       <q-card-section
         class="q-pa-sm bg-orange-1">
         <span class="text-h6">Customer's calls ...</span>
-        <store-list store="calls" :filters="callsFilters" no-select hide-filters>
+        <st-list model="call" :filters="callsFilters" no-select hide-filters>
           <template #item-right="{ data }">
             <div class="row">
               <q-btn dense round flat
                 color="orange"
-                icon="edit" />
+                icon="edit"
+                @click.prevent="createCallDialog(data)"  />
               <q-btn dense unelevated
                 color="orange-2"
                 text-color="orange"
                 icon="call"
                 label="Call!"
-                class="self-end" />
+                class="self-end"
+                type="a"
+                :href="data.phone"
+                @click.prevent="() => { return }" />
             </div>
           </template>
           <template #item="{ data }">
             Called {{ data.created_at | moment('from') }}
           </template>
-        </store-list>
+        </st-list>
       </q-card-section>
 
       <q-card-section v-if="currentShifts.length > 0"
         class="q-pa-sm bg-light-blue-1">
         <span class="text-h6">On going ...</span>
-        <store-list :data="currentShifts" store="tasks" no-select no-filters>
+        <st-list :data="currentShifts" model="task" no-select no-filters>
           <template #item-right="{ data }">
             <div class="row">
               <q-btn dense round flat
                 color="light-blue"
-                icon="edit" />
+                icon="edit"
+                @click.prevent="createTaskDialog(data)" />
               <q-btn dense unelevated
                 color="light-blue-2"
                 text-color="light-blue"
@@ -71,7 +76,7 @@
           <template #item="{ data }">
             Started {{ getCurrentShift(data).start | moment('from') }}
           </template>
-        </store-list>
+        </st-list>
       </q-card-section>
     </q-card>
 
@@ -129,21 +134,22 @@ export default {
         component: EditDialog,
         parent: this,
         title: 'Create a task',
-        store: 'tasks',
+        model: 'task',
         data: task
       })
     },
-    createCallDialog () {
+    createCallDialog (call = {}) {
       this.$q.dialog({
         component: EditDialog,
         parent: this,
         title: 'Create a task',
-        store: 'calls'
+        model: 'call',
+        data: call
       })
     }
   },
   components: {
-    StoreList: () => import('../components/generic/StoreList'),
+    StList: () => import('../components/generic/StList'),
     Calendar: () => import('../components/generic/Calendar')
   }
 }

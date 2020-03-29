@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'StorePage',
+  name: 'StPage',
   computed: {
     data () {
       return this['$' + this.$route.meta.store].data[this.$route.params.id]

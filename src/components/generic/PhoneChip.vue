@@ -1,6 +1,6 @@
 <template>
   <q-chip v-bind="$attrs" v-on="$listeners">
-    <q-avatar :color="$users.meta.color" :icon="$users.meta.icon" />
+    <q-avatar :color="$models.user.meta.color" :icon="$models.user.meta.icon" />
     <q-btn :href="'tel:' + phone"
       type="a"
       stretch

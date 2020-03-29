@@ -17,5 +17,40 @@
     "user": {
       "title": "Nutzerinformation"
     }
+  },
+  "calls": {
+    "fields": {
+      "customer": {
+        "validation": {
+          "required": "Kunde ist erforderlich"
+        }
+      },
+      "open": {
+        "label": "Anrufstatus"
+      },
+      "person": {
+        "label": "Person, die anruft"
+      },
+      "phone": {
+        "label": "Telefonnummer"
+      },
+      "technician": {
+        "label": "Zuweisen"
+      },
+      "title": {
+        "label": "Grund nennen",
+        "validation": {
+          "empty": "Anrufgrund ist erforderlich"
+        }
+      }
+    },
+    "route": {
+      "list": {
+        "title": "Anrufe"
+      },
+      "single": {
+        "title": "Anruf"
+      }
+    }
   }
 }

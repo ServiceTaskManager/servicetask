@@ -4,7 +4,7 @@
     v-on="$attrs"
     :value="value"
     @input="onInput"
-    :color="$users.meta.color"
+    :color="$models.user.meta.color"
     class="full-width"
     :options="usersFiltered"
     :display-value="displayValue"
@@ -13,11 +13,11 @@
     @filter="filter">
 
     <template v-slot:prepend>
-      <q-icon :name="$users.meta.icon" :color="$users.meta.color" />
+      <q-icon :name="$models.user.meta.icon" :color="$models.user.meta.color" />
     </template>
 
     <template v-slot:append v-if="value === '' && !noSelf">
-      <q-btn flat round icon="person_add" :color="$users.meta.color" @click="$emit('input', $user.id)" />
+      <q-btn flat round icon="person_add" :color="$models.user.meta.color" @click="$emit('input', $user.data.id)" />
     </template>
 
     <template v-slot:no-option>

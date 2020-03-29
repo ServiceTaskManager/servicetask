@@ -47,7 +47,7 @@ export default {
   },
   data () {
     return {
-      meta: this.$engines.routes[0].meta,
+      meta: this.$models.engine.meta,
       engines: this.$engines.data
     }
   },

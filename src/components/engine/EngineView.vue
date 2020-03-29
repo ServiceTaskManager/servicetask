@@ -2,17 +2,17 @@
   <div>
     <user-chip v-if="engine.technician" :user-id="engine.technician" class="full-width" />
     <q-chip class="full-width">
-      <q-avatar :color="$engines.meta.color">SN</q-avatar>
+      <q-avatar :color="$models.engine.meta.color">SN</q-avatar>
       {{ engine.sn }}
     </q-chip>
     <customer-chip :customer-id="engine.customer" class="full-width" />
 
     <div class="row q-col-gutter-md">
       <div class="col-12 col-sm-6">
-        <store-list store="calls" :filters="filters" />
+        <st-list model="call" :filters="filters" />
       </div>
       <div class="col-12 col-sm-6">
-        <store-list store="tasks" :filters="filters" />
+        <st-list model="task" :filters="filters" />
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@ export default {
     this.$root.$on('editDialog', () => { this.editDialog = true })
   },
   components: {
-    StoreList: () => import('../generic/StoreList'),
+    StList: () => import('../generic/StList'),
     UserChip: () => import('../user/UserChip'),
     CustomerChip: () => import('../customer/CustomerChip')
   }

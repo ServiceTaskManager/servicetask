@@ -2,12 +2,11 @@
   <q-list>
     <q-item-label header>{{$t('settings.user.title')}}</q-item-label>
 
-    <store-form
-      store="users"
+    <st-form
+      model="user"
       :fields="userFormFields"
       v-model="user"
       class="q-pa-sm" />
-
     <q-item-label header>{{$t('settings.notifications.title')}}</q-item-label>
 
     <q-item>
@@ -44,37 +43,28 @@ export default {
   name: 'Settings',
   data () {
     return {
-      user: this.$user,
+      user: this.$user.data,
       settings: this.$settings,
-      colorPicker: false,
-      langOptions: [
-        { value: 'en-us', label: 'English (US)' },
-        { value: 'fr', label: 'Français' },
-        { value: 'de', label: 'German' }
-      ]
+      colorPicker: false
     }
   },
   computed: {
     userFormFields () {
-      let fields = this.$users.fields
+      let fields = this.$models.user.fields
       const fieldsToDelete = ['roles', 'address', 'customer']
       return fields.filter(f => !fieldsToDelete.includes(f.key))
     }
   },
-  methods: {
-    saveUser () {
-      window.localStorage.setItem('lang', this.user.lang)
-      this.$store.dispatch('users/patch', this.user).then(r => {
-        this.$q.notify({
-          message: 'User set',
-          color: 'positive',
-          icon: 'info'
-        })
-      })
+  watch: {
+    user: {
+      handler (val) {
+        this.$i18n.locale = this.user.lang
+      },
+      deep: true
     }
   },
   components: {
-    StoreForm: () => import('../components/generic/StoreForm')
+    StForm: () => import('../components/generic/StForm')
   }
 }
 </script>

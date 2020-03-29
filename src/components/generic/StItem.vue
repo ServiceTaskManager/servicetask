@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-separator />
-    <q-item :to="noLink ? null : { name: store.slice(0, -1), params: { id: data.id } }"
+    <q-item :to="noLink ? null : { name: model, params: { id: data.id } }"
       class="q-pa-xs"
       :class="data.selected ? 'bg-grey-4' : ''">
       <slot name="item-left" v-if="!noSelect">
@@ -34,7 +34,7 @@ export default {
         return {}
       }
     },
-    store: {
+    model: {
       type: String,
       default: ''
     },
@@ -49,12 +49,12 @@ export default {
   },
   computed: {
     titleProp () {
-      return this['$' + this.store].titleProp
+      return this.$models[this.model].titleProp
     }
   },
   methods: {
     toggleSelected () {
-      this.$store.dispatch(this.store + '/toggleSelected', this.data.id)
+      this.$store.dispatch(this.model + 's/toggleSelected', this.data.id)
     }
   }
 }

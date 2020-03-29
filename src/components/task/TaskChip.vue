@@ -1,6 +1,6 @@
 <template>
   <q-chip v-bind="$attrs" v-on="$listeners" class="full-width">
-    <q-avatar :color="meta.color" :icon="$tasks.meta.icon" />
+    <q-avatar :color="meta.color" :icon="$models.task.meta.icon" />
     {{ task.title }}
   </q-chip>
 </template>

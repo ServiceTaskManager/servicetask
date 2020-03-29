@@ -16,13 +16,13 @@
         <q-btn flat rounded dense icon="done" @click="set" />
       </q-toolbar>
       <q-card-section class="row q-pa-sm">
-        <store-form
+        <st-form
           v-model="formData"
           :fields="fields"
-          :store="store"
+          :model="model"
           @submit="hide"
           :no-reset="data !== undefined"
-          ref="StoreFormComponent"
+          ref="StFormComponent"
           no-buttons />
       </q-card-section>
     </q-card>
@@ -43,7 +43,7 @@ export default {
         return undefined
       }
     },
-    store: {
+    model: {
       type: String,
       default: undefined
     },
@@ -65,14 +65,14 @@ export default {
   },
   computed: {
     meta () {
-      return this['$' + this.store].routes[0].meta
+      return this.$models[this.model].meta
     }
   },
   methods: {
     set () {
-      this.$refs.StoreFormComponent.validate().then(result => {
+      this.$refs.StFormComponent.validate().then(result => {
         if (result) {
-          this.$refs.StoreFormComponent.save()
+          this.$refs.StFormComponent.save()
           this.$emit('ok')
           this.hide()
         }
@@ -91,7 +91,7 @@ export default {
     }
   },
   components: {
-    StoreForm: () => import('./StoreForm')
+    StForm: () => import('./StForm')
   }
 }
 </script>

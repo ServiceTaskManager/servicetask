@@ -1,13 +1,13 @@
 <template>
   <q-layout container view="hHh lpR fFf" style="height: calc(100vh - 50px)">
     <q-drawer v-model="drawer" side="left">
-        <store-list store="customers" no-link>
+        <st-list store="customers" no-link>
           <template #item-right="{ data }">
             <q-btn flat round
               :icon="data.address.lat_lng ? 'navigation' : 'search'"
               @click.prevent="search(data)" />
           </template>
-        </store-list>
+        </st-list>
 
         {{ map }}
 
@@ -106,7 +106,7 @@ export default {
     LTileLayer,
     LMarker,
     LIcon,
-    StoreList: () => import('../components/generic/StoreList')
+    StList: () => import('../components/generic/StList')
   }
 }
 </script>

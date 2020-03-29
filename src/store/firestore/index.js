@@ -5,7 +5,7 @@ import calls from './calls'
 import customers from './customers'
 import engines from './engines'
 import reports from './reports'
-import { notifications, tokens } from './notifications'
+import notifications from './notifications'
 
 import { Dialog } from 'quasar'
 import EditDialog from '../../components/generic/EditDialog'
@@ -16,7 +16,6 @@ const stores = [users,
   customers,
   engines,
   notifications,
-  tokens,
   reports
 ]
 
@@ -40,65 +39,6 @@ stores.forEach(s => {
   }
 
   s.state.meta = s.state.routes ? s.state.routes[0].meta : {}
-
-  // Add toolbar actions
-  if (!s.state.actions) s.state.actions = []
-  s.state.actions.push({
-    label: 'Delete',
-    icon: 'remove',
-    color: 'danger',
-    action: 'deleteDoc'
-  })
-  s.state.actions.push({
-    props: {
-      flat: true,
-      round: true,
-      icon: 'done',
-      textColor: 'white'
-    },
-    action: 'selectAll',
-    toolbar: true,
-    customFilter: (component) => {
-      let keep = false
-      const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
-      if (selected.length === 0) {
-        if (!component.$route.params.id) keep = true
-      }
-      return keep
-    }
-  })
-  s.state.actions.push({
-    props: {
-      round: true,
-      icon: 'done',
-      color: 'white',
-      textColor: 'black'
-    },
-    action: 'unselectAll',
-    toolbar: true,
-    customFilter: (component) => {
-      let keep = false
-      const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
-      if (selected.length > 0) {
-        if (!component.$route.params.id) keep = true
-      }
-      return keep
-    }
-  })
-  s.state.actions.push({
-    props: {
-      round: true,
-      icon: 'edit',
-      color: 'white',
-      flat: true
-    },
-    action: 'edit',
-    toolbar: true,
-    customFilter: (component) => {
-      const selected = component.$store.getters[s.moduleName + '/filter']([['selected', '==', true]])
-      return selected.length === 1
-    }
-  })
 
   // Add getters
   const filter = state => filters => {
@@ -134,7 +74,7 @@ stores.forEach(s => {
   s.getters = { ...s.getters, filter, stat, selected, selectedIds, fields, meta, defaultValue, actions, toolbarActions }
 
   // Add actions
-  const toggleSelected = ({ state, dispatch }, id) => {
+  const toggleSelected = ({ state, dispatch, rootState }, id) => {
     let data = state.data[id]
     data.selected = !data.selected
     dispatch('patch', data)
@@ -171,7 +111,7 @@ stores.forEach(s => {
     Dialog.create({
       component: EditDialog,
       parent: parent,
-      store: s.moduleName,
+      model: parent.model,
       data: selected(state)[0]
     })
   }
@@ -182,21 +122,18 @@ stores.forEach(s => {
 const firestore = {
   stores: stores,
   state: {
-    loading: 0,
-    ready: false
+    loading: 0 // % of firestore loaded. 1 = all loaded
   },
   actions: {
     // Open all firestores
     async firestoreOpen ({ state, dispatch }, user) {
       const where = []
       if (!user.roles.includes('admin')) where.push(['customer', '==', user.customer])
-      console.log(where)
       stores.forEach(async (s, key, array) => {
         await dispatch(s.moduleName + '/openDBChannel', // Add clauses for right management
           { clauses: { where: where } })
           .then(({ streaming }) => {
             state.loading = key / (array.length - 1) // Update loading state
-            state.ready = state.loading === 1 // Update ready state
           })
       })
     },

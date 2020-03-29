@@ -21,7 +21,7 @@
           label="Contact"
           no-self />
 
-        <store-list store="tasks"
+        <st-list store="tasks"
           :filters="[
             ['customer', '==', report.customer],
             ['technician', '==', this.$user.id]
@@ -277,7 +277,7 @@ export default {
     }
   },
   components: {
-    StoreList: () => import('../components/generic/StoreList'),
+    StList: () => import('../components/generic/StList'),
     CustomerField: () => import('../components/customer/CustomerField'),
     UserField: () => import('../components/user/UserField')
   }

@@ -1,4 +1,4 @@
-const notifications = {
+export default {
   state: {
     data: {}
   },
@@ -8,17 +8,3 @@ const notifications = {
   moduleName: 'notifications',
   statePropName: 'data'
 }
-const tokens = {
-  state: {
-    main: {
-      id: 'main',
-      tokens: []
-    }
-  },
-  namespaced: true,
-  firestorePath: 'tokens',
-  firestoreRefType: 'collection',
-  moduleName: 'tokens'
-}
-
-export { notifications, tokens }

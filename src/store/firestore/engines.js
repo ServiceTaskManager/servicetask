@@ -1,56 +1,6 @@
 const engines = {
   state: {
-    data: {},
-    titleProp: 'type',
-    routes: [{
-      path: 'engines',
-      name: 'engines',
-      component: () => import('../../pages/StoreListPage'),
-      meta: {
-        title: 'Engines',
-        icon: 'print',
-        color: 'teal',
-        menu: true
-      }
-    }, {
-      path: 'engine/:id',
-      name: 'engine',
-      component: () => import('../../pages/StorePage'),
-      meta: {
-        title: 'Engine',
-        icon: 'print',
-        color: 'teal'
-      }
-    }],
-    default: {
-      type: '',
-      sn: '',
-      customer: ''
-    },
-    fields: [{
-      key: 'type',
-      component: 'SelectField',
-      attrs: {
-        iconName: 'print',
-        iconColor: 'teal',
-        label: 'Engine type',
-        options: ['Durst Tau 330', 'Durst Tau 330E'],
-        rules: [val => !!val || 'Engine type is required']
-      }
-    }, {
-      key: 'customer',
-      component: 'CustomerField',
-      attrs: {
-        rules: [val => !!val || 'Customer is required']
-      }
-    }, {
-      key: 'SN',
-      component: 'TextField',
-      attrs: {
-        iconColor: 'grey',
-        label: 'Serial number'
-      }
-    }]
+    data: {}
   },
   namespaced: true,
   firestorePath: 'engines',

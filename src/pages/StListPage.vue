@@ -1,19 +1,19 @@
 <template>
   <div>
-    <store-list :filters="filters" :store="$route.meta.store" />
+    <st-list :filters="filters" :model="$route.name.slice(0, -1)" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'StoreListPage',
+  name: 'StListPage',
   data () {
     return {
       filters: []
     }
   },
   components: {
-    StoreList: () => import('../components/generic/StoreList')
+    StList: () => import('../components/generic/StList')
   }
 }
 </script>

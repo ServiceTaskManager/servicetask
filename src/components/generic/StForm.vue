@@ -4,7 +4,7 @@
     @submit="!noSubmit ? onSubmit() : null"
     @reset="onReset"
     greedy
-    ref="StoreFormRef">
+    ref="StFormRef">
 
     <component v-for="field in formFields"
       :key="field.key"
@@ -19,13 +19,13 @@
         <q-btn v-if="!noReset"
           label="Reset"
           type="reset"
-          :color="storeMeta.color"
+          :color="modelMeta.color"
           flat
           class="q-ml-sm" />
         <q-btn
           label="Submit"
           type="submit"
-          :color="storeMeta.color" />
+          :color="modelMeta.color" />
       </slot>
     </div>
   </q-form>
@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: 'StoreForm',
+  name: 'StForm',
   props: {
     value: {
       type: Object,
@@ -47,7 +47,7 @@ export default {
         return undefined
       }
     },
-    store: {
+    model: {
       type: String,
       required: true
     },
@@ -70,13 +70,13 @@ export default {
   },
   computed: {
     formFields () {
-      return this.fields || this.storeFields
+      return this.fields || this.modelFields
     },
-    storeFields () {
-      return this.$store.getters[this.store + '/fields']
+    modelFields () {
+      return this.$models[this.model].fields
     },
-    storeMeta () {
-      return this.$store.getters[this.store + '/meta']
+    modelMeta () {
+      return this.$models[this.model].meta
     }
   },
   methods: {
@@ -95,10 +95,16 @@ export default {
       this.emit('input', {})
     },
     validate () {
-      return this.$refs.StoreFormRef.validate()
+      return this.$refs.StFormRef.validate()
     },
     save () {
-      this.$store.dispatch(this.store + '/set', this.value)
+      this.$store.dispatch(this.model + 's/set', this.value).then(() => {
+        this.$q.notify({
+          message: 'Saved',
+          color: 'positive'
+        })
+        this.$emit('persisted')
+      })
     }
   },
   components: {

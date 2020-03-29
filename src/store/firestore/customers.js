@@ -3,78 +3,7 @@ import UserPrompt from '../../components/user/UserPrompt'
 
 const customers = {
   state: {
-    data: {},
-    titleProp: 'name',
-    routes: [{
-      path: 'customers',
-      name: 'customers',
-      component: () => import('../../pages/StoreListPage'),
-      meta: {
-        title: 'Customers',
-        icon: 'people',
-        color: 'pink',
-        menu: true
-      }
-    }, {
-      path: 'customer/:id',
-      name: 'customer',
-      component: () => import('../../pages/StorePage'),
-      meta: {
-        title: 'Customer',
-        icon: 'people',
-        color: 'pink',
-        propertyTitle: 'title'
-      }
-    }],
-    fields: [{
-      key: 'name',
-      component: 'TextField',
-      attrs: {
-        iconName: 'group',
-        iconColor: 'pink',
-        label: 'Company name',
-        rules: [val => !!val || 'Company name is required']
-      },
-      search: 'contains'
-    },
-    {
-      key: 'email',
-      component: 'TextField',
-      attrs: {
-        type: 'email',
-        iconName: 'alternate_email',
-        iconColor: 'grey',
-        label: 'Company email address'
-      },
-      search: 'contains'
-    },
-    {
-      key: 'phone',
-      component: 'TextField',
-      attrs: {
-        type: 'phone',
-        iconName: 'phone',
-        iconColor: 'grey',
-        label: 'Company phone number'
-      },
-      search: 'contains'
-    },
-    {
-      key: 'address',
-      component: 'AddressField',
-      attrs: {}
-    }],
-    actions: [{
-      label: 'Assign',
-      icon: 'person_add',
-      color: 'grey',
-      action: 'assignTechnician'
-    }, {
-      label: 'Unassign',
-      icon: 'person_add_disabled',
-      color: 'grey',
-      patch: { technician: '' }
-    }]
+    data: {}
   },
   actions: {
     assignTechnician ({ dispatch }, data) {

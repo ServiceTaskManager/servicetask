@@ -2,7 +2,7 @@
   <q-layout view="hHr lpR fFf">
     <q-header elevated
       :class="headerClass"
-      v-if="!$route.meta.noHeader && $store.state.firestore.ready">
+      v-if="!$route.meta.noHeader && $store.state.firestore.loading === 1">
       <q-toolbar>
         <q-avatar v-if="$route.name === 'dashboard' || $route.name === 'login'">
           <img src="statics/app-logo-128x128.png" />
@@ -12,7 +12,7 @@
         <q-toolbar-title>{{ title }}</q-toolbar-title>
 
         <!-- Toolbar buttons -->
-        <store-toolbar v-if="$route.meta.store" :store="$route.meta.store" />
+        <st-toolbar v-if="$route.meta.store" :model="$route.meta.model" />
 
       </q-toolbar>
     </q-header>
@@ -26,7 +26,7 @@
       side="right"
       :behavior="$q.platform.is.mobile ? 'mobile' : 'desktop'"
       elevated
-      v-if="!$route.meta.noDrawer && $store.state.firestore.ready">
+      v-if="!$route.meta.noDrawer && $store.state.firestore.loading === 1">
       <div class="q-pa-none bg-grey-9 full-height">
         <q-scroll-area class="full-height">
           <div>
@@ -38,7 +38,7 @@
                   <q-icon color="white" name="settings" />
                 </q-item-section>
                 <q-item-section class="text-bold">
-                  {{ $user.name }}
+                  {{ $user.data.name }}
                 </q-item-section>
                 <q-item-section side>
                   <q-btn round
@@ -51,31 +51,31 @@
               </q-item>
 
               <!-- Add stores in menu  -->
-              <q-item v-for="store in storesInMenu" :key="store.meta.store" :to="{ name: store.meta.store }">
+              <q-item v-for="route in $models.menu" :key="route.model.name" :to="{ name: route.route.name }">
                 <q-item-section avatar>
-                  <q-icon :color="store.meta.color" :name="store.meta.icon" />
+                  <q-icon :color="route.model.meta.color" :name="route.model.meta.icon" />
                 </q-item-section>
                 <q-item-section>
-                  {{ store.meta.title }}
+                  {{ route.route.meta.title }}
                 </q-item-section>
 
                 <q-separator v-if="!drawerMini"
                   vertical class="q-mr-sm"
-                  :color="store.meta.color" />
+                  :color="route.model.meta.color" />
 
                 <q-item-section side>
-                  <q-btn v-if="!store.meta.createRoute"
+                  <q-btn v-if="!route.route.meta.createRoute"
                     flat round
                     size="sm"
-                    :color="store.meta.color"
+                    :color="route.model.meta.color"
                     icon="add"
-                    @click.prevent="showEditDialog(store.meta.store)" />
+                    @click.prevent="showEditDialog(route.model.name + 's')" />
                   <q-btn v-else
                     flat round
                     size="sm"
-                    :color="store.meta.color"
+                    :color="route.model.meta.color"
                     icon="add"
-                    :to="{ name: store.meta.createRoute, params: { id: 'new' } }" />
+                    :to="{ name: route.route.meta.createRoute, params: { id: 'new' } }" />
                 </q-item-section>
               </q-item>
 
@@ -113,7 +113,7 @@
     <q-page-container>
       <q-page class="bg-grey-3" style="height: calc(100vh - 50px)">
         <q-scroll-area class="full-height" :thumb-style="thumbStyle">
-          <router-view v-if="$store.state.firestore.ready || $route.name === 'login'" />
+          <router-view v-if="$store.state.firestore.loading == 1 || $route.name === 'login'" />
           <div v-else class="row justify-center text-center">
             <div class="col-8 col-offset-2" style="margin-top: 100px;">
               <q-circular-progress
@@ -181,13 +181,6 @@ export default {
         selectedIds = selected.map(o => o.id)
       }
       return selectedIds
-    },
-    storesInMenu () {
-      return this.$router.options.routes[1].children.filter(r => {
-        if (r.meta) {
-          if (r.meta.menu) return true
-        }
-      })
     }
   },
   methods: {
@@ -205,7 +198,7 @@ export default {
     }
   },
   components: {
-    StoreToolbar: () => import('../components/generic/StoreToolbar')
+    StToolbar: () => import('./StToolbar')
   }
 }
 </script>

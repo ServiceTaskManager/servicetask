@@ -4,7 +4,7 @@
     v-on="$attrs"
     :value="value"
     @input="onInput"
-    :color="$customers.meta.color"
+    :color="$models.customer.meta.color"
     class="full-width"
     :options="customersFiltered"
     :display-value="displayValue"
@@ -14,7 +14,7 @@
     :label="label">
 
     <template v-slot:prepend>
-      <q-icon :name="$customers.meta.icon" :color="$customers.meta.color" />
+      <q-icon :name="$models.customer.meta.icon" :color="$models.customer.meta.color" />
     </template>
 
     <template v-slot:no-option>

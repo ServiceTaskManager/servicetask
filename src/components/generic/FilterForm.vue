@@ -9,8 +9,8 @@
       </q-item-section>
       <q-item-section>
         <slot name="header">
-          <store-form
-            :store="store"
+          <st-form
+            :model="model"
             :fields="fields.slice(0, 1)"
             v-model="storeFormData"
             @input="updateFilters()"
@@ -22,8 +22,8 @@
       </q-item-section>
     </template>
     <q-list>
-      <store-form
-        :store="store"
+      <st-form
+        :model="model"
         :fields="fields.slice(1)"
         v-model="storeFormData"
         @input="updateFilters()"
@@ -42,7 +42,7 @@ export default {
         return []
       }
     },
-    store: {
+    model: {
       type: String,
       default: '',
       required: true
@@ -77,12 +77,12 @@ export default {
     }
   },
   watch: {
-    store: function (val) {
+    model: function (val) {
       this.$emit('input', [])
     }
   },
   components: {
-    StoreForm: () => import('./StoreForm')
+    StForm: () => import('./StForm')
   }
 }
 </script>

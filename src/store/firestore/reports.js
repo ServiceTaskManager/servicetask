@@ -1,28 +1,6 @@
 const reports = {
   state: {
-    data: {},
-    titleProp: 'date',
-    routes: [{
-      path: 'reports',
-      name: 'reports',
-      component: () => import('../../pages/StoreListPage'),
-      meta: {
-        title: 'Reports',
-        icon: 'outlined_flag',
-        color: 'lime',
-        menu: true,
-        createRoute: 'report'
-      }
-    }, {
-      path: 'report/:id',
-      name: 'report',
-      component: () => import('../../pages/Report'),
-      meta: {
-        title: 'Report',
-        icon: 'outlined_flag',
-        color: 'lime'
-      }
-    }]
+    data: {}
   },
   namespaced: true,
   firestorePath: 'reports',

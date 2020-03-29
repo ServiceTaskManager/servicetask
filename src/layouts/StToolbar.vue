@@ -5,7 +5,7 @@
       v-bind="action.props"
       @click="triggerAction(action)" />
 
-    <q-btn v-if="get('selectedIds').length > 0"
+    <q-btn v-if="selectedIds.length > 0"
       icon="more_vert"
       flat round dense
       @click="bottomSheet" />
@@ -14,9 +14,9 @@
 
 <script>
 export default {
-  name: 'StoreToolbar',
+  name: 'StToolbar',
   props: {
-    store: {
+    model: {
       type: String,
       default: '',
       required: true
@@ -28,32 +28,34 @@ export default {
     }
   },
   computed: {
+    actions () {
+      return this.$models[this.model].actions || []
+    },
     toolbarActions () {
-      return this.get('toolbarActions').filter(a => a.customFilter(this))
+      return this.actions.filter(a => a.toolbar && a.customFilter(this))
+    },
+    selectedIds () {
+      return this.$store.getters[this.model + 's/selectedIds']
     }
   },
   methods: {
-    get (getter) {
-      return this.$store.getters[this.store + '/' + getter]
-    },
     bottomSheet () {
       this.$q.bottomSheet({
         message: 'Actions',
-        actions: this.get('actions').filter(a => !a.toolbar)
+        actions: this.actions.filter(a => !a.toolbar)
       }).onOk(action => {
         this.triggerAction(action)
       })
     },
     triggerAction (action) {
-      const selectedIds = this.get('selectedIds')
       if (action.patch) {
         let payload = {
           doc: action.patch,
-          ids: selectedIds
+          ids: this.selectedIds
         }
-        this.$store.dispatch(this.store + '/patchBatch', payload)
+        this.$store.dispatch(this.model + 's/patchBatch', payload)
       } else if (action.action) {
-        this.$store.dispatch(this.store + '/' + action.action, this)
+        this.$store.dispatch(this.model + 's/' + action.action, this)
       }
     }
   }

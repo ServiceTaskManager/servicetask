@@ -10,7 +10,12 @@ const user = {
   state: {
     data: {}
   },
-  namespaced: true
+  namespaced: true,
+  mutations: {
+    set (state, user) {
+      state.data = user
+    }
+  }
 }
 
 const settings = {

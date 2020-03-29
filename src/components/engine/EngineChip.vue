@@ -30,7 +30,7 @@ export default {
   },
   data () {
     return {
-      meta: this.$store.state.engines.meta
+      meta: this.$models.engine.meta
     }
   },
   computed: {

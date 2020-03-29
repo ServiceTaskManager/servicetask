@@ -5,7 +5,7 @@
         <user-field v-model="user" />
       </q-card-section>
       <q-card-actions align="right">
-        <q-btn flat :color="$users.meta.color" label="OK" @click="onOKClick" />
+        <q-btn flat :color="$models.user.meta.color" label="OK" @click="onOKClick" />
         <q-btn flat label="Cancel" @click="onCancelClick" />
       </q-card-actions>
     </q-card>

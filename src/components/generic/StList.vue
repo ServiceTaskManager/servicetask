@@ -1,11 +1,11 @@
 <template>
   <q-list>
-    <filter-form v-model="customFilters" :store="store" v-if="!noFilters" />
+    <filter-form v-model="customFilters" :model="model" v-if="!noFilters" />
 
-    <store-item
+    <st-item
       v-for="data in listData"
       :key="data.id"
-      :store="store"
+      :model="model"
       :data="data"
       :no-select="noSelect"
       :no-link="noLink">
@@ -16,7 +16,7 @@
       <template #item-right>
         <slot name="item-right" :data="data"></slot>
       </template>
-    </store-item>
+    </st-item>
 
     <slot name="no-result" v-if="listData.length === 0">
       <q-separator />
@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: 'StoreList',
+  name: 'StList',
   props: {
     filters: {
       type: Array,
@@ -40,7 +40,7 @@ export default {
         return []
       }
     },
-    store: {
+    model: {
       type: String,
       default: ''
     },
@@ -70,11 +70,11 @@ export default {
   },
   computed: {
     listData () {
-      return this.data !== undefined ? this.data : this.$store.getters[this.store + '/filter'](this.filters.concat(this.customFilters))
+      return this.data !== undefined ? this.data : this.$store.getters[this.model + 's/filter'](this.filters.concat(this.customFilters))
     }
   },
   components: {
-    StoreItem: () => import('./StoreItem'),
+    StItem: () => import('./StItem'),
     FilterForm: () => import('../generic/FilterForm')
   }
 }

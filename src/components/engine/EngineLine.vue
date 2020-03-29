@@ -45,7 +45,7 @@ export default {
   data () {
     return {
       tab: '',
-      meta: this.$engines.meta
+      meta: this.$models.engine.meta
     }
   },
   mounted () {

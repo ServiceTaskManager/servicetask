@@ -23,7 +23,7 @@ export default {
   },
   data () {
     return {
-      meta: this.$store.state.users.meta
+      meta: this.$models.user.meta
     }
   }
 }

@@ -1,4 +1,4 @@
-import firestore from '../store/firestore'
+import models from '../models'
 
 const routes = [
   {
@@ -66,15 +66,12 @@ const routes = [
   }
 ]
 
-firestore.stores.forEach(s => {
-  if (s.state.routes) {
-    s.state.routes.forEach(r => {
-      let newRoute = r
-      newRoute.meta.actions = s.state.actions
-      newRoute.meta.store = s.moduleName
-      routes[1].children.push(newRoute)
-    })
-  }
+const _models = models()
+_models.routes.forEach(r => {
+  let newRoute = r.route
+  newRoute.meta.store = r.model.name + 's'
+  newRoute.meta.model = r.model.name
+  routes[1].children.push(newRoute)
 })
 
 routes.push({
