@@ -49,7 +49,10 @@ const routes = [
       {
         path: 'maps',
         name: 'maps',
-        component: () => import('pages/Maps'),
+        components: {
+          default: () => import('pages/Maps'),
+          toolbar: () => import('pages/MapsToolbar')
+        },
         meta: {
           title: 'Maps'
         }

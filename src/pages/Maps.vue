@@ -10,12 +10,6 @@
         </st-list>
 
         {{ map }}
-
-        <q-btn round
-          icon="keyboard_arrow_left" color="black"
-          class="absolute"
-          style="bottom: 10px; right: -20px;"
-          @click="drawer = !drawer" />
     </q-drawer>
 
     <l-map
@@ -30,13 +24,15 @@
 
       <l-marker v-for="customer in customers"
         :key="customer.id"
-        :lat-lng="customer.address.lat_lng">
+        :lat-lng="customer.address.lat_lng"
+        @click="zoomToCustomer(customer.id)">
         <l-icon :icon-anchor="[10, 10]">
-          <q-avatar
+          <q-btn
+            round
             :icon="$models.customer.meta.icon"
             :color="$models.customer.meta.color"
-            style="color: white;" size="20px">
-          </q-avatar>
+            style="color: white;"
+            size="5px" />
         </l-icon>
       </l-marker>
     </l-map>
@@ -67,38 +63,35 @@ export default {
         zoom: 4,
         center: [37.822802, -12.700195]
       },
-      drawer: true
+      drawer: false
     }
   },
   computed: {
     customers () {
-      const customers = this.$store.getters['customers/filter']([['selected', '==', true]])
-
-      return customers.filter(c => c.address.lat_lng !== undefined)
+      return this.$store.getters['customers/filter']().filter(c => c.address.lat_lng)
     }
   },
   methods: {
     async search (customer) {
-      if (customer.address.lat_lng === undefined) {
-        const addressInline = customer.address.addr1 + ', ' +
-          customer.address.postal_code + ', ' +
-          customer.address.city + ', ' +
-          customer.address.country
+      const addressInline = customer.address.addr1 + ', ' +
+        customer.address.postal_code + ', ' +
+        customer.address.city + ', ' +
+        customer.address.country
 
-        const latLng = await provider.search({ query: addressInline })
-        if (latLng.length === 1) {
-          customer.address.lat_lng = { lat: parseFloat(latLng[0].y), lng: parseFloat(latLng[0].x) }
-          this.$store.dispatch('customers/patch', customer)
-        } else {
-          this.$q.notify({
-            message: `Cannot find customer address`,
-            color: 'negative'
-          })
-        }
+      const latLng = await provider.search({ query: addressInline })
+      if (latLng.length === 1) {
+        customer.address.lat_lng = { lat: parseFloat(latLng[0].y), lng: parseFloat(latLng[0].x) }
+        this.$store.dispatch('customers/patch', customer)
       } else {
-        this.$refs.map.mapObject.setView([customer.address.lat_lng.lat, customer.address.lat_lng.lng - 0.05], 12)
-        this.$store.dispatch('customers/toggleSelected', customer.id)
+        this.$q.notify({
+          message: `Cannot find customer address`,
+          color: 'negative'
+        })
       }
+    },
+    zoomToCustomer (customerId) {
+      const customer = this.customers.filter(c => c.id === customerId)[0]
+      if (customer) this.$refs.map.mapObject.setView([customer.address.lat_lng.lat, customer.address.lat_lng.lng], 12)
     }
   },
   components: {
