@@ -1,5 +1,5 @@
 <template>
-  <q-layout container view="hHh Lpr lff" style="height: calc(100vh - 50px)">
+  <q-layout container view="hHh Lpr lff" style="height: calc(100vh - 50px)" class="bg-white">
     <q-drawer v-model="drawer" side="left" bordered>
       <div class="full-width q-gutter-sm q-pa-sm row" style="height: 50px;">
         <q-btn color="black"
@@ -10,7 +10,8 @@
         <q-btn :color="$reports.meta.color"
           label="Print"
           icon="print"
-          class="col" />
+          class="col"
+          @click="prepareForPrint" />
       </div>
 
       <q-scroll-area class="full-width q-pa-sm" style="height: calc(100vh - 100px)">
@@ -67,7 +68,7 @@ export default {
   name: 'ReportPage',
   data () {
     return {
-      drawer: false,
+      drawer: true,
       splitter: 300,
       report: {
         note: '',
@@ -75,12 +76,16 @@ export default {
         technician: this.$user.data.id
       }
     }
-  }, /*
+  },
   mounted () {
     if (this.$route.params.id !== 'new') {
-      this.report = this.$reports.data[this.$route.params.id]
+      let report = this.$reports.data[this.$route.params.id]
+      this.report = report
+      this.report.tasks.forEach(t => {
+        this.$store.dispatch('tasks/toggleSelected', t.id)
+      })
     }
-  }, */
+  },
   computed: {
     selectedTasksIds () {
       return this.$store.getters['tasks/filter']([['selected', '==', true]])
@@ -112,6 +117,16 @@ export default {
         data: task,
         fields: fields
       })
+    },
+    print () {
+      window.print()
+      this.drawer = true
+      this.$emit('donePrinting')
+    },
+    prepareForPrint () {
+      this.$emit('printing')
+      this.drawer = false
+      setTimeout(() => { this.print() }, 2000)
     }
   },
   watch: {

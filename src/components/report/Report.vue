@@ -3,34 +3,22 @@
     <q-card>
       <q-card-section class="row justify-between">
         <div class="col">
-          <span class="text-h5">{{ company.name }}</span>
+          <div class="text-weight-bold">{{ company.name }}</div>
           <customer-address :address="company.address" />
+          <div>Technician: {{ technician.name }}</div>
+        </div>
+        <div class="col text-center">
+          <div class="text-h6">{{$t('reports.title')}}</div>
+          <div class="text-weight-bold">{{ machine.type }}</div>
+          <div class="text-caption">{{ machine.sn }}</div>
+          <div class="text-caption">{{ value.date | moment('D MMM Y') }}</div>
         </div>
         <div class="col text-right">
-          <span class="text-weight-bold">Technician: {{ technician.name }}</span><br />
-          <span class="text-caption">{{ value.date | moment('D MMM Y') }}</span>
+          <div class="text-weight-bold">{{ customer.name }}</div>
+          <customer-address :address="customer.address" />
+          <div>{{$t('reports.contact.title')}} : {{ contactPerson.name }}</div>
         </div>
       </q-card-section>
-      <q-separator />
-      <q-card-section class="q-pa-sm">
-        <div class="col text-center">
-          <span class="text-h5">{{$t('reports.title')}}</span>
-        </div>
-      </q-card-section>
-      <q-separator />
-      <div v-if="value.customer !== ''">
-        <q-card-section class="row justify-between">
-          <div class="col">
-            <span class="text-h5">{{ customer.name }}</span>
-            <customer-address :address="customer.address" />
-          </div>
-          <div class="col text-right">
-            <span class="text-weight-bold">{{$t('reports.contact.title')}} : {{ contactPerson.name }}</span><br />
-            <span class="text-caption">{{ value.date | moment('D MMM Y') }}</span>
-          </div>
-        </q-card-section>
-        <q-separator />
-      </div>
 
       <q-card-section class="q-pa-none">
         <q-splitter v-model="splitter"
@@ -38,11 +26,11 @@
           reverse
           :limits="[30, 1000]"
           class="row items-stretch"
-          before-class="q-pa-md splitter"
+          before-class="q-pa-none splitter"
           after-class="splitter">
           <template #before>
-            <div class="row" ref="markdownPreview">
-              <q-markdown :src="`${value.note}`" />
+            <div class="row q-px-md" ref="markdownPreview">
+              <q-markdown :src="`${value.note}`" class="full-width q-pt-none" />
             </div>
           </template>
           <template #after>
@@ -183,6 +171,9 @@ export default {
     },
     technician () {
       return this.$users.data[this.value.technician] || {}
+    },
+    machine () {
+      return this.$machines.data[this.value.machine] || {}
     },
     company () {
       return this.$customers.data[this.technician.customer] || {}

@@ -7,7 +7,7 @@ export default (model, locale) => {
     label: i18n.t('models.actions.delete.label'),
     icon: 'delete',
     color: 'negative',
-    action: 'deleteDoc'
+    action: 'deleteItem'
   }, {
     props: {
       flat: true,

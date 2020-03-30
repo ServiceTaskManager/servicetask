@@ -95,15 +95,17 @@ stores.forEach(s => {
     dispatch('toggleSelected', id)
   }
 
-  const deleteDoc = ({ state, dispatch }) => {
+  const deleteItem = ({ state, dispatch }) => {
     const ids = selectedIds(state)
+    console.log(ids)
     Dialog.create({
       title: 'Are you sure',
       message: `Would you like to delete ${ids.length} items?`,
       cancel: true,
       persistent: true
     }).onOk(() => {
-      dispatch('deleteBatch', parent.get('selectedIds'))
+      console.log('?')
+      dispatch('deleteBatch', ids)
     })
   }
 
@@ -116,7 +118,7 @@ stores.forEach(s => {
     })
   }
 
-  s.actions = { ...s.actions, toggleSelected, selectAll, unselectAll, selectOneOnly, deleteDoc, edit }
+  s.actions = { ...s.actions, toggleSelected, selectAll, unselectAll, selectOneOnly, deleteItem, edit }
 })
 
 const firestore = {

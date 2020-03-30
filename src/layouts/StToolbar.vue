@@ -55,6 +55,7 @@ export default {
         }
         this.$store.dispatch(this.model + 's/patchBatch', payload)
       } else if (action.action) {
+        console.log(action.action)
         this.$store.dispatch(this.model + 's/' + action.action, this)
       }
     }
