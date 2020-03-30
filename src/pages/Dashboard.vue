@@ -1,6 +1,6 @@
 <template>
   <div class="full-width row q-pa-md-md justify-around">
-    <q-card class="col-md-grow col-12">
+    <q-card class="col-md-auto col-12">
       <q-card-section>
         <span class="text-h4">Quick actions</span><br/>
         <span class="text-caption">See on going actions or access to main ServiceTask features</span>
@@ -77,6 +77,10 @@
           </template>
         </st-list>
       </q-card-section>
+
+      <q-card-section v-if="!$q.platform.is.mobile">
+        <stat-chart />
+      </q-card-section>
     </q-card>
 
     <q-card class="col-md-grow col-12 q-ml-md-md q-mt-md-none q-mt-md">
@@ -149,7 +153,8 @@ export default {
   },
   components: {
     StList: () => import('../components/generic/StList'),
-    Calendar: () => import('../components/generic/Calendar')
+    Calendar: () => import('../components/generic/Calendar'),
+    StatChart: () => import('../components/generic/StatChart')
   }
 }
 </script>

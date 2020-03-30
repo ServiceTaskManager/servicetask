@@ -215,6 +215,14 @@
       "postalcode": {
         "label": "Code postal"
       }
+    },
+    "statchart": {
+      "callnumber": {
+        "label": "# appels"
+      },
+      "workhours": {
+        "label": "Heures de travail"
+      }
     }
   },
   "reports": {

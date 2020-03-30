@@ -99,6 +99,14 @@
       "submit": {
         "label": "Enregistrer"
       }
+    },
+    "statchart": {
+      "workhours": {
+        "label": "Work hours"
+      },
+      "callnumber": {
+        "label": "# calls"
+      }
     }
   },
   "customers": {
