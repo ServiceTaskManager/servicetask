@@ -98,7 +98,7 @@
       }
     }
   },
-  "engines": {
+  "machines": {
     "fields": {
       "customer": {
         "label": "Клиент",
@@ -196,7 +196,7 @@
       "customer": {
         "label": "Клиент"
       },
-      "engine": {
+      "machine": {
         "label": "Машина"
       }
     },

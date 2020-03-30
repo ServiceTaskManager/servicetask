@@ -35,8 +35,8 @@ service cloud.firestore {
     match /reports/{reportId} {
       allow read: if resource.data.customer == customer() // Allow to read all reports if they belong to the same customer than request user
     }
-    match /engines/{reportId} {
-      allow read: if resource.data.customer == customer() // Allow to read all engines if they belong to the same customer than request user
+    match /machines/{reportId} {
+      allow read: if resource.data.customer == customer() // Allow to read all machines if they belong to the same customer than request user
     }
   }
 }

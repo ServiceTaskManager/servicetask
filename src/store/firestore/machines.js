@@ -1,12 +1,12 @@
-const engines = {
+const machines = {
   state: {
     data: {}
   },
   namespaced: true,
-  firestorePath: 'engines',
+  firestorePath: 'machines',
   firestoreRefType: 'collection',
-  moduleName: 'engines',
+  moduleName: 'machines',
   statePropName: 'data'
 }
 
-export default engines
+export default machines

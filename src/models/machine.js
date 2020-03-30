@@ -4,26 +4,26 @@ export default (locale) => {
   i18n.locale = locale
 
   return {
-    name: 'engine',
+    name: 'machine',
     titleProp: 'type',
     meta: {
       icon: 'print',
       color: 'teal'
     },
     routes: [{
-      path: 'engines',
-      name: 'engines',
+      path: 'machines',
+      name: 'machines',
       component: () => import('../pages/StListPage'),
       meta: {
-        title: i18n.t('engines.routes.list.title'),
+        title: i18n.t('machines.routes.list.title'),
         menu: true
       }
     }, {
-      path: 'engine/:id',
-      name: 'engine',
+      path: 'machine/:id',
+      name: 'machine',
       component: () => import('../pages/StPage'),
       meta: {
-        title: i18n.t('engines.routes.single.title')
+        title: i18n.t('machines.routes.single.title')
       }
     }],
     default: {
@@ -37,23 +37,23 @@ export default (locale) => {
       attrs: {
         iconName: 'print',
         iconColor: 'teal',
-        label: i18n.t('engines.fields.type.label'),
+        label: i18n.t('machines.fields.type.label'),
         options: ['Durst Tau 330', 'Durst Tau 330E'],
-        rules: [val => !!val || i18n.t('engines.fields.type.validation.empty')]
+        rules: [val => !!val || i18n.t('machines.fields.type.validation.empty')]
       }
     }, {
       key: 'customer',
       component: 'CustomerField',
       attrs: {
-        label: i18n.t('engines.fields.customer.label'),
-        rules: [val => !!val || i18n.t('engines.fields.customer.validation.empty')]
+        label: i18n.t('machines.fields.customer.label'),
+        rules: [val => !!val || i18n.t('machines.fields.customer.validation.empty')]
       }
     }, {
       key: 'sn',
       component: 'TextField',
       attrs: {
         iconColor: 'grey',
-        label: i18n.t('engines.fields.sn.label')
+        label: i18n.t('machines.fields.sn.label')
       }
     }]
   }

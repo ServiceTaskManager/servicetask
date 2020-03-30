@@ -42,8 +42,8 @@ export default (locale) => {
         rules: [val => !!val || i18n.t('calls.fields.customer.validation.required')]
       }
     }, {
-      key: 'engine',
-      component: 'EngineField'
+      key: 'machine',
+      component: 'MachineField'
     }, {
       key: 'person',
       component: 'UserField',

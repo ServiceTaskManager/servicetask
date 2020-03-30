@@ -167,7 +167,7 @@
       "customer": {
         "label": "Client"
       },
-      "engine": {
+      "machine": {
         "label": "Machine"
       }
     },
@@ -239,7 +239,7 @@
       "title": "Contact"
     }
   },
-  "engines": {
+  "machines": {
     "fields": {
       "customer": {
         "label": "Client",

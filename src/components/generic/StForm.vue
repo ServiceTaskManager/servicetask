@@ -110,7 +110,7 @@ export default {
   components: {
     UserField: () => import('../user/UserField'),
     CustomerField: () => import('../customer/CustomerField'),
-    EngineField: () => import('../engine/EngineField'),
+    MachineField: () => import('../machine/MachineField'),
     TextField: () => import('./TextField'),
     AddressField: () => import('./AddressField'),
     ShiftsField: () => import('./ShiftsField'),

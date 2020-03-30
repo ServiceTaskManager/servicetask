@@ -4,10 +4,10 @@
     v-on="$attrs"
     :value="value"
     @input="onInput"
-    :display-value="value ? displayName(engines[value]) : ''"
+    :display-value="value ? displayName(machines[value]) : ''"
     :color="meta.color"
     class="full-width"
-    :options="enginesFiltered"
+    :options="machinesFiltered"
     :option-label="opt => displayName(opt)"
     option-value="id">
 
@@ -29,7 +29,7 @@
 import { QSelect } from 'quasar'
 
 export default {
-  name: 'EngineField',
+  name: 'MachineField',
   props: {
     value: {
       type: String,
@@ -42,18 +42,18 @@ export default {
   },
   data () {
     return {
-      meta: this.$models.engine.meta,
-      engines: this.$engines.data
+      meta: this.$models.machine.meta,
+      machines: this.$machines.data
     }
   },
   computed: {
-    enginesFiltered () {
-      return this.$store.getters['engines/filter']([['customer', '==', this.customer]])
+    machinesFiltered () {
+      return this.$store.getters['machines/filter']([['customer', '==', this.customer]])
     }
   },
   methods: {
-    displayName (engine) {
-      return `${engine.type} ${engine.sn ? 'SN/' + engine.sn : ''}`
+    displayName (machine) {
+      return `${machine.type} ${machine.sn ? 'SN/' + machine.sn : ''}`
     },
     onInput (val) {
       const id = val ? val.id : ''

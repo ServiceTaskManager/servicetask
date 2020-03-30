@@ -3,7 +3,7 @@ import users from './users'
 import tasks from './tasks'
 import calls from './calls'
 import customers from './customers'
-import engines from './engines'
+import machines from './machines'
 import reports from './reports'
 import notifications from './notifications'
 
@@ -14,7 +14,7 @@ const stores = [users,
   tasks,
   calls,
   customers,
-  engines,
+  machines,
   notifications,
   reports
 ]
@@ -129,11 +129,14 @@ const firestore = {
     async firestoreOpen ({ state, dispatch }, user) {
       const where = []
       if (!user.roles.includes('admin')) where.push(['customer', '==', user.customer])
+      let loadedStore = 0
       stores.forEach(async (s, key, array) => {
         await dispatch(s.moduleName + '/openDBChannel', // Add clauses for right management
           { clauses: { where: where } })
           .then(({ streaming }) => {
-            state.loading = key / (array.length - 1) // Update loading state
+            loadedStore++
+            state.loading = loadedStore / array.length // Update loading state
+            console.log(state.loading)
           })
       })
     },

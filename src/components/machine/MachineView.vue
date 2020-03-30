@@ -1,11 +1,11 @@
 <template>
   <div>
-    <user-chip v-if="engine.technician" :user-id="engine.technician" class="full-width" />
+    <user-chip v-if="machine.technician" :user-id="machine.technician" class="full-width" />
     <q-chip class="full-width">
-      <q-avatar :color="$models.engine.meta.color">SN</q-avatar>
-      {{ engine.sn }}
+      <q-avatar :color="$models.machine.meta.color">SN</q-avatar>
+      {{ machine.sn }}
     </q-chip>
-    <customer-chip :customer-id="engine.customer" class="full-width" />
+    <customer-chip :customer-id="machine.customer" class="full-width" />
 
     <div class="row q-col-gutter-md">
       <div class="col-12 col-sm-6">
@@ -20,9 +20,9 @@
 
 <script>
 export default {
-  name: 'EngineTabPanel',
+  name: 'MachineTabPanel',
   props: {
-    engine: {
+    machine: {
       type: Object,
       default: () => {
         return undefined
@@ -33,13 +33,13 @@ export default {
     return {
       tab: 'calls',
       filter: [
-        ['customer', '==', this.engine.customer],
-        ['engine', 'includes', this.engine.id]
+        ['customer', '==', this.machine.customer],
+        ['machine', 'includes', this.machine.id]
       ]
     }
   },
   mounted () {
-    this.$ui.header.title = this.engine.name + ' SN/' + this.engine.sn
+    this.$ui.header.title = this.machine.name + ' SN/' + this.machine.sn
     this.$root.$on('editDialog', () => { this.editDialog = true })
   },
   components: {

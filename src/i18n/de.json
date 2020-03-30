@@ -164,7 +164,7 @@
       "customer": {
         "label": "Kunde"
       },
-      "engine": {
+      "machine": {
         "label": "Maschine"
       }
     },
@@ -211,7 +211,7 @@
       }
     }
   },
-  "engines": {
+  "machines": {
     "fields": {
       "customer": {
         "label": "Kunde",

@@ -21,14 +21,14 @@
           label="Contact"
           no-self />
 
-        <engine-field v-model="report.engine"
+        <machine-field v-model="report.machine"
         :customer="report.customer" />
 
         <st-list model="task"
           :filters="[
             ['customer', '==', report.customer],
             ['technician', '==', this.$user.id],
-            ['engine', '==', report.engine]
+            ['machine', '==', report.machine]
           ]" no-filters
           no-link>
           <template #item-right="{ data }">
@@ -90,10 +90,10 @@ export default {
         data: {
           customer: this.report.customer,
           technician: this.$user.data.id,
-          engine: this.report.engine
+          machine: this.report.machine
         },
         fields: this.$models.task.fields.filter(f => {
-          return !['customer', 'user', 'engine'].includes(f.key)
+          return !['customer', 'user', 'machine'].includes(f.key)
         })
       }
     }
@@ -124,7 +124,7 @@ export default {
     StList: () => import('../components/generic/StList'),
     CustomerField: () => import('../components/customer/CustomerField'),
     UserField: () => import('../components/user/UserField'),
-    EngineField: () => import('../components/engine/EngineField')
+    MachineField: () => import('../components/machine/MachineField')
   }
 }
 </script>

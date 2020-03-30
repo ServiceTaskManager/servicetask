@@ -1,6 +1,6 @@
 import call from './call'
 import customer from './customer'
-import engine from './engine'
+import machine from './machine'
 import report from './report'
 import task from './task'
 import user from './user'
@@ -8,7 +8,7 @@ import user from './user'
 import actions from './actions'
 
 export default (locale) => {
-  const models = [ call, customer, engine, report, task, user ]
+  const models = [ call, customer, machine, report, task, user ]
   let _models = {}
   let menu = []
   let routes = []

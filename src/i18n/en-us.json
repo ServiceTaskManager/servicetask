@@ -132,7 +132,7 @@
       }
     }
   },
-  "engines": {
+  "machines": {
     "fields": {
       "customer": {
         "label": "Customer",
@@ -214,7 +214,7 @@
       "description": {
         "label": "Task details"
       },
-      "engine": {
+      "machine": {
         "label": "Machine"
       },
       "title": {

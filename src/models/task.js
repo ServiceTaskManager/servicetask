@@ -42,10 +42,10 @@ export default (locale) => {
       },
       search: '=='
     }, {
-      key: 'engine',
-      component: 'EngineField',
+      key: 'machine',
+      component: 'MachineField',
       attrs: {
-        label: i18n.t('tasks.fields.engine.label')
+        label: i18n.t('tasks.fields.machine.label')
       },
       forward: ['customer'],
       search: '=='

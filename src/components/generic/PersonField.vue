@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'EngineField',
+  name: 'MachineField',
   props: {
     label: {
       type: String,

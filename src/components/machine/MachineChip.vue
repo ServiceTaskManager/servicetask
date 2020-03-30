@@ -1,20 +1,20 @@
 <template>
   <q-chip v-bind="$attrs" v-on="$listeners"
     clickable
-    @click.prevent="$router.push({ name: 'engine', params: { id: engine.id }})"
+    @click.prevent="$router.push({ name: 'machine', params: { id: machine.id }})"
     style="overflow: hidden;">
     <q-avatar :color="meta.color" :icon="meta.icon" />
-    {{ engine.name }}
+    {{ machine.name }}
     <q-badge :label="customerData.name" color="white" class="q-ml-sm text-black" v-if="customer" />
-    <q-badge :label="'SN/' + engine.sn" color="white" class="q-ml-sm text-black" v-if="SN" />
+    <q-badge :label="'SN/' + machine.sn" color="white" class="q-ml-sm text-black" v-if="SN" />
   </q-chip>
 </template>
 
 <script>
 export default {
-  name: 'EngineChip',
+  name: 'MachineChip',
   props: {
-    engine: {
+    machine: {
       type: Object,
       default: undefined,
       required: true
@@ -30,12 +30,12 @@ export default {
   },
   data () {
     return {
-      meta: this.$models.engine.meta
+      meta: this.$models.machine.meta
     }
   },
   computed: {
     customerData () {
-      return this.$customers[this.engine.id]
+      return this.$customers[this.machine.id]
     }
   }
 }
