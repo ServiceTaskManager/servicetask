@@ -1,0 +1,130 @@
+<template>
+  <q-layout container view="hHh Lpr lff" style="height: calc(100vh - 50px)">
+    <q-drawer v-model="drawer" side="left" bordered>
+      <div class="full-width q-gutter-sm q-pa-sm row" style="height: 50px;">
+        <q-btn color="black"
+          label="Save"
+          icon="save"
+          class="col"
+          @click="save()" />
+        <q-btn :color="$reports.meta.color"
+          label="Print"
+          icon="print"
+          class="col" />
+      </div>
+
+      <q-scroll-area class="full-width q-pa-sm" style="height: calc(100vh - 100px)">
+        <customer-field v-model="report.customer" />
+
+        <user-field v-model="report.contact_person"
+          :customer="report.customer"
+          label="Contact"
+          no-self />
+
+        <engine-field v-model="report.engine"
+        :customer="report.customer" />
+
+        <st-list model="task"
+          :filters="[
+            ['customer', '==', report.customer],
+            ['technician', '==', this.$user.id],
+            ['engine', '==', report.engine]
+          ]" no-filters
+          no-link>
+          <template #item-right="{ data }">
+            <q-btn round flat dense
+              icon="edit"
+              color="grey"
+              @click.prevent="editTask(data)" />
+          </template>
+          <template #end>
+            <q-item clickable @click="editTask(newTask.data, newTask.fields)" class="items-center justify-center q-pa-xs">
+              <q-icon name="add" /> Add a task
+            </q-item>
+          </template>
+        </st-list>
+      </q-scroll-area>
+    </q-drawer>
+
+    <q-page-container>
+      <q-page class="q-pa-md">
+        <report v-model="report" />
+      </q-page>
+    </q-page-container>
+  </q-layout>
+</template>
+
+<style>
+.splitter {
+  height: auto !important;
+}
+</style>
+
+<script>
+import EditDialog from '../components/generic/EditDialog'
+
+export default {
+  name: 'ReportPage',
+  data () {
+    return {
+      drawer: false,
+      splitter: 300,
+      report: {
+        note: '',
+        tasks: this.selectedTasksIds,
+        technician: this.$user.data.id
+      }
+    }
+  }, /*
+  mounted () {
+    if (this.$route.params.id !== 'new') {
+      this.report = this.$reports.data[this.$route.params.id]
+    }
+  }, */
+  computed: {
+    selectedTasksIds () {
+      return this.$store.getters['tasks/filter']([['selected', '==', true]])
+    },
+    newTask () {
+      return {
+        data: {
+          customer: this.report.customer,
+          technician: this.$user.data.id,
+          engine: this.report.engine
+        },
+        fields: this.$models.task.fields.filter(f => {
+          return !['customer', 'user', 'engine'].includes(f.key)
+        })
+      }
+    }
+  },
+  methods: {
+    async save () {
+      this.report.date = new Date()
+      const id = await this.$store.dispatch('reports/set', this.report)
+      if (this.$route.params.id === 'new') this.$router.push({ name: 'report', params: { id: id } })
+    },
+    editTask (task, fields) {
+      this.$q.dialog({
+        component: EditDialog,
+        parent: this,
+        model: 'task',
+        data: task,
+        fields: fields
+      })
+    }
+  },
+  watch: {
+    selectedTasksIds: function (val) {
+      this.report.tasks = val
+    }
+  },
+  components: {
+    Report: () => import('../components/report/Report'),
+    StList: () => import('../components/generic/StList'),
+    CustomerField: () => import('../components/customer/CustomerField'),
+    UserField: () => import('../components/user/UserField'),
+    EngineField: () => import('../components/engine/EngineField')
+  }
+}
+</script>

@@ -27,6 +27,8 @@
             </q-item-section>
         </q-item>
     </slot>
+
+    <slot name="end" />
   </q-list>
 </template>
 

@@ -38,10 +38,8 @@ export default {
       default: false
     },
     fields: {
-      type: Object,
-      default: () => {
-        return undefined
-      }
+      type: Array,
+      default: undefined
     },
     model: {
       type: String,
@@ -49,9 +47,7 @@ export default {
     },
     data: {
       type: Object,
-      default: () => {
-        return undefined
-      }
+      default: undefined
     },
     title: {
       type: String,

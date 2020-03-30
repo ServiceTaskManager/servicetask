@@ -52,10 +52,11 @@ export default (locale) => {
       key: 'phone',
       component: 'TextField',
       attrs: {
-        type: 'phone',
+        type: 'tel',
         iconName: 'phone',
         iconColor: 'grey',
-        label: i18n.t('customers.fields.phone.label')
+        label: i18n.t('customers.fields.phone.label'),
+        mask: '+## # ## ## ## ## NNNNNNN'
       },
       search: 'contains'
     },

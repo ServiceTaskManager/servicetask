@@ -233,6 +233,10 @@
       "single": {
         "title": "Rapport"
       }
+    },
+    "title": "Rapport d'intervention",
+    "contact": {
+      "title": "Contact"
     }
   },
   "engines": {

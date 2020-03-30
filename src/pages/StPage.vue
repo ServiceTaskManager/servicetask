@@ -21,7 +21,7 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch(this.$route.meta.store + '/selectOneOnly', this.$route.params.id)
+    if (this.$route.params.id) this.$store.dispatch(this.$route.meta.store + '/selectOneOnly', this.$route.params.id)
   }
 }
 </script>

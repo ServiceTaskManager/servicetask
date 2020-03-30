@@ -186,6 +186,10 @@
       "single": {
         "title": "Report"
       }
+    },
+    "title": "Report",
+    "contact": {
+      "title": "Contact"
     }
   },
   "tasks": {

@@ -22,7 +22,7 @@ export default (locale) => {
     }, {
       path: 'report/:id',
       name: 'report',
-      component: () => import('../pages/Report'),
+      component: () => import('../pages/ReportPage'),
       meta: {
         title: i18n.t('reports.routes.single.title')
       }
