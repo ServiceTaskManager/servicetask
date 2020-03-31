@@ -1,88 +1,92 @@
 <template>
   <div class="full-width row q-pa-md-md justify-around">
-    <q-card class="col-md-auto col-12">
-      <q-card-section>
-        <span class="text-h4">Quick actions</span><br/>
-        <span class="text-caption">See on going actions or access to main ServiceTask features</span>
-      </q-card-section>
+    <div class="col-md-auto col-12">
+      <q-card>
+        <q-card-section header>
+          <span class="text-h4">Quick actions</span><br/>
+          <span class="text-caption">See on going actions or access to main ServiceTask features</span>
+        </q-card-section>
 
-      <q-card-section class="q-pa-none row justify-around">
-        <q-btn
-          :icon="$models.call.meta.icon"
-          :color="$models.call.meta.color"
-          label="New call !"
-          size="50" stack flat
-          @click="createCallDialog()" />
-        <q-btn
-          icon="directions_walk"
-          color="black"
-          label="Start a trip"
-          size="50"
-          stack flat />
-        <q-btn
-          :icon="$models.task.meta.icon"
-          :color="$models.task.meta.color"
-          label="New task"
-          size="50"
-          stack flat
-          @click="createTaskDialog()" />
-      </q-card-section>
+        <q-card-section class="q-pa-none row justify-around">
+          <q-btn
+            :icon="$models.call.meta.icon"
+            :color="$models.call.meta.color"
+            label="New call !"
+            size="50" stack flat
+            @click="createCallDialog()" />
+          <q-btn
+            icon="directions_walk"
+            color="black"
+            label="Start a trip"
+            size="50"
+            stack flat />
+          <q-btn
+            :icon="$models.task.meta.icon"
+            :color="$models.task.meta.color"
+            label="New task"
+            size="50"
+            stack flat
+            @click="createTaskDialog()" />
+        </q-card-section>
 
-      <q-card-section
-        class="q-pa-sm bg-orange-1">
-        <span class="text-h6">Customer's calls ...</span>
-        <st-list model="call" :filters="callsFilters" no-select hide-filters>
-          <template #item-right="{ data }">
-            <div class="row">
-              <q-btn dense round flat
-                color="orange"
-                icon="edit"
-                @click.prevent="createCallDialog(data)"  />
-              <q-btn dense unelevated
-                color="orange-2"
-                text-color="orange"
-                icon="call"
-                label="Call!"
-                class="self-end"
-                type="a"
-                :href="'tel:' + data.phone"
-                @click="prevent($event)" />
-            </div>
-          </template>
-          <template #item="{ data }">
-            Called {{ data.created_at | moment('from') }}
-          </template>
-        </st-list>
-      </q-card-section>
+        <q-card-section
+          class="q-pa-sm bg-orange-1">
+          <span class="text-h6">Customer's calls ...</span>
+          <st-list model="call" :filters="callsFilters" no-select hide-filters>
+            <template #item-right="{ data }">
+              <div class="row">
+                <q-btn dense round flat
+                  color="orange"
+                  icon="edit"
+                  @click.prevent="createCallDialog(data)"  />
+                <q-btn dense unelevated
+                  color="orange-2"
+                  text-color="orange"
+                  icon="call"
+                  label="Call!"
+                  class="self-end"
+                  type="a"
+                  :href="'tel:' + data.phone"
+                  @click="prevent($event)" />
+              </div>
+            </template>
+            <template #item="{ data }">
+              Called {{ data.created_at | moment('from') }}
+            </template>
+          </st-list>
+        </q-card-section>
 
-      <q-card-section v-if="currentShifts.length > 0"
-        class="q-pa-sm bg-light-blue-1">
-        <span class="text-h6">On going ...</span>
-        <st-list :data="currentShifts" model="task" no-select no-filters>
-          <template #item-right="{ data }">
-            <div class="row">
-              <q-btn dense round flat
-                color="light-blue"
-                icon="edit"
-                @click.prevent="createTaskDialog(data)" />
-              <q-btn dense unelevated
-                color="light-blue-2"
-                text-color="light-blue"
-                icon="keyboard_arrow_right"
-                label="Finish!"
-                class="self-end" />
-            </div>
-          </template>
-          <template #item="{ data }">
-            Started {{ getCurrentShift(data).start | moment('from') }}
-          </template>
-        </st-list>
-      </q-card-section>
+        <q-card-section v-if="currentShifts.length > 0"
+          class="q-pa-sm bg-light-blue-1">
+          <span class="text-h6">On going ...</span>
+          <st-list :data="currentShifts" model="task" no-select no-filters>
+            <template #item-right="{ data }">
+              <div class="row">
+                <q-btn dense round flat
+                  color="light-blue"
+                  icon="edit"
+                  @click.prevent="createTaskDialog(data)" />
+                <q-btn dense unelevated
+                  color="light-blue-2"
+                  text-color="light-blue"
+                  icon="keyboard_arrow_right"
+                  label="Finish!"
+                  class="self-end" />
+              </div>
+            </template>
+            <template #item="{ data }">
+              Started {{ getCurrentShift(data).start | moment('from') }}
+            </template>
+          </st-list>
+        </q-card-section>
+      </q-card>
 
-      <q-card-section v-if="!$q.platform.is.mobile">
-        <stat-chart />
-      </q-card-section>
-    </q-card>
+      <q-card class="q-mt-md">
+        <q-card-section v-if="!$q.platform.is.mobile">
+          <stat-chart />
+        </q-card-section>
+      </q-card>
+    </div>
 
     <q-card class="col-md-grow col-12 q-ml-md-md q-mt-md-none q-mt-md">
       <q-card-section class="q-pb-none">

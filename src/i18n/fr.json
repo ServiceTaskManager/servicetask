@@ -93,6 +93,18 @@
       "single": {
         "title": "Client"
       }
+    },
+    "engines": {
+      "noresult": "Le client ne possède pas (encore) de machine"
+    },
+    "tasks": {
+      "title": "Tâches"
+    },
+    "users": {
+      "noresult": "Le client n'a pas de personne de contact (utilisateur)"
+    },
+    "calls": {
+      "title": "Appels"
     }
   },
   "users": {
@@ -138,6 +150,9 @@
     },
     "users": {
       "title": "Utilisateurs"
+    },
+    "tasks": {
+      "title": "Tâches"
     }
   },
   "tasks": {
@@ -185,6 +200,12 @@
       "single": {
         "title": "Tâche"
       }
+    },
+    "unassigned": {
+      "title": "Tâches non affectées"
+    },
+    "user": {
+      "title": "Mes tâches"
     }
   },
   "models": {
@@ -229,6 +250,12 @@
       },
       "workhours": {
         "label": "Heures de travail"
+      }
+    },
+    "list": {
+      "noresult": {
+        "checkfilters": "Vérifiez les filtres",
+        "title": "Aucun résultat"
       }
     }
   },

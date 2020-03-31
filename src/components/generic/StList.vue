@@ -2,6 +2,8 @@
   <q-list>
     <filter-form v-model="customFilters" :model="model" v-if="!noFilters" />
 
+    <slot name="first" />
+
     <st-item
       v-for="data in listData"
       :key="data.id"
@@ -22,8 +24,8 @@
       <q-separator />
         <q-item class="q-pa-xs">
             <q-item-section>
-              <span class="text-h6 text-center">No results</span>
-              <span class="text-caption text-center" v-if="customFilters.length > 0">Check the filters</span>
+              <span class="text-h6 text-center">{{$t('components.list.noresult.title')}}</span>
+              <span class="text-caption text-center" v-if="customFilters.length > 0">{{$t('components.list.noresult.checkfilters')}}</span>
             </q-item-section>
         </q-item>
     </slot>

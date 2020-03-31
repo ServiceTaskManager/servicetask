@@ -28,7 +28,7 @@
         :fields="fields.slice(1)"
         v-model="storeFormData"
         @input="updateFilters()"
-        no-buttons no-submit no-validation />
+        no-buttons no-submit no-validation dense />
     </q-list>
   </q-expansion-item>
 </template>

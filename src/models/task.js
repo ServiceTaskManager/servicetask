@@ -13,7 +13,7 @@ export default (locale) => {
     routes: [{
       path: 'tasks',
       name: 'tasks',
-      component: () => import('../pages/StListPage'),
+      component: () => import('../pages/TasksPage'),
       meta: {
         title: i18n.t('tasks.routes.list.title'),
         menu: true
@@ -90,7 +90,8 @@ export default (locale) => {
       search: 'contains'
     }, {
       key: 'time_shifts',
-      component: 'ShiftsField'
+      component: 'ShiftsField',
+      attrs: {}
     }],
     actions: [{
       label: i18n.t('tasks.actions.assign.label'),

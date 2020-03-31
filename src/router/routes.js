@@ -45,11 +45,11 @@ const routes = [
         }
       },
       {
-        path: 'maps',
-        name: 'maps',
+        path: 'map',
+        name: 'map',
         components: {
-          default: () => import('pages/Maps'),
-          toolbar: () => import('pages/MapsToolbar')
+          default: () => import('pages/MapPage'),
+          toolbar: () => import('pages/MapToolbar')
         },
         meta: {
           title: 'menu.maps'

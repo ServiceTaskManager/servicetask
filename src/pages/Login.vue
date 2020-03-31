@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-center">
+  <div class="row justify-center q-pt-xl">
     <q-card class="bg-white col-12 col-sm-4">
       <q-card-section class="row">
         <div class="col-3">
@@ -13,17 +13,19 @@
       </q-card-section>
       <q-separator />
       <q-card-section class="q-pa-md q-gutter-md">
-        <q-input standout label="Email" v-model="email" type="email">
-          <template v-slot:prepend>
-            <q-icon name="mail" />
-          </template>
-        </q-input>
-        <q-input standout label="Password" v-model="password" type="password">
-          <template v-slot:prepend>
-            <q-icon name="lock" />
-          </template>
-        </q-input>
-        <q-btn standout label="Login" icon-right="send" type="submit" color="grey-10" @click="login" />
+        <q-form @submit="login" class="col q-gutter-y-sm">
+          <q-input standout label="Email" v-model="email" type="email">
+            <template v-slot:prepend>
+              <q-icon name="mail" />
+            </template>
+          </q-input>
+          <q-input standout label="Password" v-model="password" type="password">
+            <template v-slot:prepend>
+              <q-icon name="lock" />
+            </template>
+          </q-input>
+          <q-btn standout label="Login" icon-right="send" type="submit" color="grey-10" class="full-width" />
+        </q-form>
       </q-card-section>
     </q-card>
   </div>

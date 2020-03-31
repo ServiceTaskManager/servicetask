@@ -88,7 +88,7 @@
                   {{$t('menu.calendar')}}
                 </q-item-section>
               </q-item>
-              <q-item :to="{ name: 'maps' }">
+              <q-item :to="{ name: 'map' }">
                 <q-item-section avatar>
                   <q-icon color="white" name="map" />
                 </q-item-section>
@@ -124,7 +124,7 @@
                 show-value
                 font-size="10px"
                 class="q-ma-md"
-                :value="$firestore.loading"
+                :value="$firestore.loading * 100"
                 size="100px"
                 :thickness="0.25"
                 color="primary"

@@ -21,7 +21,7 @@ export default (locale) => {
     }, {
       path: 'customer/:id',
       name: 'customer',
-      component: () => import('../pages/StPage'),
+      component: () => import('../pages/CustomerPage'),
       meta: {
         title: i18n.t('customers.routes.single.title')
       }

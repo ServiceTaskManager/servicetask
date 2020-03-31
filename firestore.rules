@@ -14,7 +14,7 @@ service cloud.firestore {
       allow read, write: if userHasRole (['admin'])
     }
     match /users/{userId} { 
-      allow read: if userId == user().id
+      allow read: if userId == request.auth.uid
       allow read: if resource.data.customer == customer() // Allow to read all users if they belong to the same customer than request user
       allow read: if resource.data.roles.hasAny(['admin']) // Allow to read all admin users
       allow update: if userId == request.auth.uid // Allow to edit user if it's the request user
@@ -22,21 +22,27 @@ service cloud.firestore {
                     && request.resource.data.email == resource.data.email
     }
     match /customers/{customerId} {
-      allow read: if customerId == customer() // Allow to read user's customer
-      allow read: if resource.data.public // Allow to read public customers
+      allow read: if true // resource.data.id == customer() // Allow to read user's customer
+      //allow read: if resource.data.public // Allow to read public customers
     }
     match /tasks/{taskId} {
       allow read: if resource.data.customer == customer() // Allow to read all tasks if they belong to the same customer than request user
       allow update, create: if request.resource.data.user == request.auth.uid // Allow to update tasks whom belong to user without changing it
     }
     match /calls/{callsId} {
-      allow read, update, create: if request.resource.data.customer == customer() // Allow to update and create all calls if they belong to the same customer than request user
+      allow read: if resource.data.customer == customer() 
+      allow update, create: if request.resource.data.customer == customer() // Allow to update and create all calls if they belong to the same customer than request user
     }
     match /reports/{reportId} {
       allow read: if resource.data.customer == customer() // Allow to read all reports if they belong to the same customer than request user
     }
     match /machines/{reportId} {
       allow read: if resource.data.customer == customer() // Allow to read all machines if they belong to the same customer than request user
+    }
+    match /notifications/{notificationId} {
+      allow read: if true // resource.data.users.hasAny([request.auth.uid]) // Allow to read notifications if they are addressed to the user
+      // allow read: if resource.data.customers.hasAny([customer()]) // Allow to read notifications if they are addressed to the user's customer
+      // allow read: if resource.data.public // Allow to read notifications if they are public
     }
   }
 }

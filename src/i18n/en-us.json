@@ -112,6 +112,12 @@
       "callnumber": {
         "label": "# calls"
       }
+    },
+    "list": {
+      "noresult": {
+        "title": "No results",
+        "checkfilters": "Check the filters"
+      }
     }
   },
   "customers": {
@@ -135,6 +141,18 @@
       "single": {
         "title": "Customer"
       }
+    },
+    "tasks": {
+      "title": "Tasks"
+    },
+    "engines": {
+      "noresult": "Customer doesn't own a machine (yet)"
+    },
+    "users": {
+      "noresult": "Customer has no contact person (user)"
+    },
+    "calls": {
+      "title": "Calls"
     }
   },
   "machines": {
@@ -242,6 +260,12 @@
       "single": {
         "title": "Task"
       }
+    },
+    "unassigned": {
+      "title": "Unassigned tasks"
+    },
+    "user": {
+      "title": "My tasks"
     }
   },
   "users": {
@@ -287,6 +311,9 @@
     },
     "admins": {
       "title": "Administrators"
+    },
+    "tasks": {
+      "title": "Tasks"
     }
   },
   "user": {

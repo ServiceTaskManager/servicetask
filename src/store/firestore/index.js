@@ -35,7 +35,7 @@ stores.forEach(s => {
   }
 
   s.sync = { ...s.sync,
-    guard: ['selected', 'updated_at', 'updated_by']
+    guard: ['selected', 'updated_at', 'updated_by', 'created_by', 'created_at']
   }
 
   s.state.meta = s.state.routes ? s.state.routes[0].meta : {}
@@ -136,6 +136,7 @@ const firestore = {
         await dispatch(s.moduleName + '/openDBChannel', // Add clauses for right management
           { clauses: { where: where } })
           .then(({ streaming }) => {
+            console.log(s.moduleName)
             loadedStore++
             state.loading = loadedStore / array.length // Update loading state
           })
