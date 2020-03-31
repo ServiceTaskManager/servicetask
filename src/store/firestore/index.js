@@ -138,7 +138,6 @@ const firestore = {
           .then(({ streaming }) => {
             loadedStore++
             state.loading = loadedStore / array.length // Update loading state
-            console.log(state.loading)
           })
       })
     },

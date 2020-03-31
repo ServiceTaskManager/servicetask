@@ -37,7 +37,7 @@
               <q-btn dense round flat
                 color="orange"
                 icon="edit"
-                @click="createCallDialog(data)"  />
+                @click.prevent="createCallDialog(data)"  />
               <q-btn dense unelevated
                 color="orange-2"
                 text-color="orange"
@@ -45,7 +45,8 @@
                 label="Call!"
                 class="self-end"
                 type="a"
-                :href="'tel:' + data.phone" />
+                :href="'tel:' + data.phone"
+                @click="prevent($event)" />
             </div>
           </template>
           <template #item="{ data }">
@@ -129,6 +130,9 @@ export default {
     }
   },
   methods: {
+    prevent (e) {
+      e.stopPropagation()
+    },
     getCurrentShift (task) {
       return task.time_shifts.filter(s => moment(new Date()).isBetween(moment(s.start), moment(s.end)))[0]
     },

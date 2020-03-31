@@ -12,7 +12,8 @@
       :value="value[field.key]"
       @input="$emit('input', { ...value, [field.key]: $event })"
       v-bind="mergeAttrs(field.attrs, field.forward)"
-      hide-bottom-space />
+      hide-bottom-space
+      :dense="$q.platform.is.mobile || dense" />
 
     <div v-if="!noButtons" class="full-width q-pt-sm q-gutter-sm row justify-end">
       <slot name="buttons">
@@ -64,6 +65,10 @@ export default {
       default: false
     },
     noSubmit: {
+      type: Boolean,
+      default: false
+    },
+    dense: {
       type: Boolean,
       default: false
     }

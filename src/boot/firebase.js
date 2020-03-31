@@ -7,8 +7,6 @@ import { Notify } from 'quasar'
 
 import firebaseConfig from '../../firebase.config.json'
 
-import models from '../models'
-
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 const firebaseAuth = firebaseApp.auth()
 const firebaseFirestore = firebase.firestore()
@@ -30,16 +28,9 @@ export default ({ Vue, router, store, app }) => {
       store.dispatch('users/fetchById', firebaseAuth.currentUser.uid).then(userData => {
         // Load firestores with OpenDBChannel (based on user role)
         store.dispatch('firestoreOpen', userData).then(r => {
-          app.store.commit('user/set', app.store.state.users.data[userData.id]) // Set user store
+          store.commit('user/set', store.state.users.data[userData.id]) // Set user store
 
-          // Set model definition with locale according to user
-          Vue.prototype.$models = models(userData.lang || 'en-US')
-
-          // Set watcher for i18n locale change and update models definition with correct locale
-          const i18n = app.i18n.vm
-          i18n.$watch('locale', (val) => {
-            Vue.prototype.$models = models(val)
-          })
+          app.i18n.vm.locale = app.store.state.user.data.lang // Set user locale
         })
 
         // Setup notifications

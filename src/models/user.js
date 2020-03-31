@@ -10,10 +10,13 @@ export default (locale) => {
       icon: 'person',
       color: 'green'
     },
+    components: {
+      item: () => import('../components/user/UserItem')
+    },
     routes: [{
       path: 'users',
       name: 'users',
-      component: () => import('../pages/StListPage'),
+      component: () => import('../pages/UsersPage'),
       meta: {
         title: i18n.t('users.routes.list.title'),
         menu: true
@@ -42,7 +45,8 @@ export default (locale) => {
       attrs: {
         label: i18n.t('users.fields.customer.label'),
         rules: [val => !!val || i18n.t('users.fields.customer.validation.empty')]
-      }
+      },
+      search: '=='
     }, {
       key: 'phone',
       component: 'TextField',

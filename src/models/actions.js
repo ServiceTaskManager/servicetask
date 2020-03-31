@@ -1,7 +1,7 @@
 import { i18n } from '../boot/i18n'
 
-export default (model, locale) => {
-  i18n.locale = locale
+export default (model, app) => {
+  i18n.locale = app.i18n.vm.locale
 
   return [{
     label: i18n.t('models.actions.delete.label'),

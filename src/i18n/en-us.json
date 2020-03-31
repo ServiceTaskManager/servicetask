@@ -2,7 +2,8 @@
   "menu": {
     "calendar": "Calendar",
     "dashboard": "Dashboard",
-    "maps": "Maps"
+    "maps": "Maps",
+    "settings": "Settings"
   },
   "settings": {
     "notifications": {
@@ -23,7 +24,11 @@
     "calls": {}
   },
   "page": {
-    "call": {}
+    "call": {},
+    "user": {
+      "users": {},
+      "admins": {}
+    }
   },
   "calls": {
     "route": {
@@ -251,7 +256,7 @@
         }
       },
       "email": {
-        "label": "email address"
+        "label": "Email address"
       },
       "lang": {
         "label": "Language"
@@ -276,6 +281,16 @@
       "single": {
         "title": "User"
       }
+    },
+    "users": {
+      "title": "Users"
+    },
+    "admins": {
+      "title": "Administrators"
     }
+  },
+  "user": {
+    "users": {},
+    "admins": {}
   }
 }

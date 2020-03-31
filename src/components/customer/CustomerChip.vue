@@ -3,7 +3,7 @@
     clickable
     @click.prevent="$router.push({ name: 'customer', params: { id: customer.id } })"
     style="overflow: hidden;">
-    <q-avatar :color="meta.color" :icon="meta.icon" />
+    <q-avatar :color="$models.customer.meta.color" :icon="$models.customer.meta.icon" />
     {{ customer.name }}
   </q-chip>
 </template>
@@ -15,11 +15,6 @@ export default {
     customer: {
       type: Object,
       default: undefined
-    }
-  },
-  data () {
-    return {
-      meta: this.$models.customer.meta
     }
   }
 }

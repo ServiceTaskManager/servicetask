@@ -4,6 +4,7 @@ module.exports = function (ctx) {
   return {
     boot: [
       'i18n',
+      'models',
       'firebase',
       'moment'
     ],

@@ -40,13 +40,13 @@ export default {
       default: undefined
     }
   },
-  data () {
-    return {
-      meta: this.$models.machine.meta,
-      machines: this.$machines.data
-    }
-  },
   computed: {
+    meta () {
+      return this.$models.machine.meta
+    },
+    machines () {
+      return this.$machines.data
+    },
     machinesFiltered () {
       return this.$store.getters['machines/filter']([['customer', '==', this.customer]])
     }

@@ -5,8 +5,8 @@
       v-if="!$route.meta.noHeader && $store.state.firestore.loading === 1 && toolbar">
       <q-toolbar>
         <!-- Toolbar buttons -->
-        <st-toolbar v-if="$route.meta.store" :model="$route.meta.model" />
-        <router-view name="toolbar" v-model="$refs.page" />
+        <st-toolbar v-if="$route.meta.model" :model="$route.meta.model" />
+        <router-view v-else name="toolbar" v-model="$refs.page" />
 
         <q-toolbar-title class="text-center" v-if="model">{{ title }}</q-toolbar-title>
         <q-toolbar-title class="text-center" v-else>{{ $t(title) }}</q-toolbar-title>
@@ -52,31 +52,31 @@
               </q-item>
 
               <!-- Add models in menu  -->
-              <q-item v-for="route in $models.menu" :key="route.model.name" :to="{ name: route.route.name }">
+              <q-item v-for="route in $models.menu" :key="route.name" :to="{ name: route.name }">
                 <q-item-section avatar>
-                  <q-icon :color="route.model.meta.color" :name="route.model.meta.icon" />
+                  <q-icon :color="route.meta.color" :name="route.meta.icon" />
                 </q-item-section>
                 <q-item-section>
-                  {{ route.route.meta.title }}
+                  {{ route.meta.title }}
                 </q-item-section>
 
                 <q-separator v-if="!drawerMini"
                   vertical class="q-mr-sm"
-                  :color="route.model.meta.color" />
+                  :color="route.meta.color" />
 
                 <q-item-section side>
-                  <q-btn v-if="!route.route.meta.createRoute"
+                  <q-btn v-if="!route.meta.createRoute"
                     flat round
                     size="sm"
-                    :color="route.model.meta.color"
+                    :color="route.meta.color"
                     icon="add"
-                    @click.prevent="showEditDialog(route.model.name)" />
+                    @click.prevent="showEditDialog(route.meta.model)" />
                   <q-btn v-else
                     flat round
                     size="sm"
-                    :color="route.model.meta.color"
+                    :color="route.meta.color"
                     icon="add"
-                    :to="{ name: route.route.meta.createRoute, params: { id: 'new' } }" />
+                    :to="{ name: route.meta.createRoute, params: { id: 'new' } }" />
                 </q-item-section>
               </q-item>
 
@@ -168,7 +168,7 @@ export default {
       return this.$route.meta.model ? this.$models[this.$route.meta.model] : false
     },
     route () {
-      return this.model ? this.$models.routes.filter(r => r.route.name === this.$route.name)[0].route : this.$route
+      return this.model ? this.model.routes.filter(r => r.name === this.$route.name)[0] : this.$route
     },
     meta () {
       return this.route.meta

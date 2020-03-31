@@ -2,7 +2,8 @@
   <q-expansion-item
     v-bind="$attrs"
     v-on="$attrs"
-    class="bg-white q-pa-sm" v-if="fields.length > 0">
+    class="bg-white q-pa-none" v-if="fields.length > 0"
+    header-class="q-px-sm q-py-none">
     <template v-slot:header>
       <q-item-section avatar>
         <q-icon name="filter_list" />
@@ -14,14 +15,14 @@
             :fields="fields.slice(0, 1)"
             v-model="storeFormData"
             @input="updateFilters()"
-            no-buttons no-submit no-validation />
+            no-buttons no-submit no-validation dense />
         </slot>
       </q-item-section>
       <q-item-section v-if="value.length > 0" side>
         <q-btn flat round icon="clear" color="grey" @click.prevent="storeFormData = {}" />
       </q-item-section>
     </template>
-    <q-list>
+    <q-list class="q-pa-sm">
       <st-form
         :model="model"
         :fields="fields.slice(1)"

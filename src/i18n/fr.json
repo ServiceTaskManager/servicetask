@@ -2,7 +2,8 @@
   "menu": {
     "calendar": "Calendrier",
     "dashboard": "Tableau de bord",
-    "maps": "Plans"
+    "maps": "Plans",
+    "settings": "Paramètres"
   },
   "settings": {
     "user": {
@@ -131,6 +132,12 @@
       "single": {
         "title": "Utilisateur"
       }
+    },
+    "admins": {
+      "title": "Administrateurs"
+    },
+    "users": {
+      "title": "Utilisateurs"
     }
   },
   "tasks": {
@@ -265,5 +272,15 @@
         "title": "Machine"
       }
     }
+  },
+  "page": {
+    "user": {
+      "admins": {},
+      "users": {}
+    }
+  },
+  "user": {
+    "admins": {},
+    "users": {}
   }
 }

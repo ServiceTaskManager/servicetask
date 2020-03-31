@@ -1,5 +1,3 @@
-import models from '../models'
-
 const routes = [
   {
     path: '/error',
@@ -72,24 +70,9 @@ const routes = [
   }
 ]
 
-const _models = models()
-_models.routes.forEach(r => {
-  let newRoute = r.route
-  newRoute.meta.store = r.model.name + 's'
-  newRoute.meta.model = r.model.name
-  routes[1].children.push(newRoute)
-})
-
 routes.push({
   path: '*',
-  component: () => import('layouts/Base'),
-  children: [
-    {
-      path: '*',
-      name: '404',
-      component: () => import('pages/Error404')
-    }
-  ]
+  redirect: '/dashboard'
 })
 
 export default routes
