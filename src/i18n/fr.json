@@ -191,6 +191,9 @@
       },
       "machine": {
         "label": "Machine"
+      },
+      "done": {
+        "label": "Terminé"
       }
     },
     "routes": {
@@ -206,6 +209,9 @@
     },
     "user": {
       "title": "Mes tâches"
+    },
+    "all": {
+      "title": "Toutes les tâches"
     }
   },
   "models": {

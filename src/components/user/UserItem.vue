@@ -2,7 +2,7 @@
   <div class="row full-width">
     <q-item-section>
       <q-item-label header class="q-pa-none">
-        {{ user.name }}
+        {{ data.name }}
       </q-item-label>
       <q-item-label caption>
         {{ customer.name }}
@@ -20,14 +20,14 @@
 export default {
   name: 'UserItem',
   props: {
-    user: {
+    data: {
       type: Object,
       default: undefined
     }
   },
   computed: {
     customer () {
-      return this.$customers.data[this.user.customer]
+      return this.$customers.data[this.data.customer]
     }
   },
   methods: {

@@ -32,7 +32,10 @@ export default {
       return this.$models[this.model].actions || []
     },
     toolbarActions () {
-      return this.$models[this.model].actions.filter(a => a.toolbar && a.customFilter(this))
+      return this.$models[this.model].actions.filter(a => {
+        if (a.customFilter) return (a.toolbar && a.customFilter(this))
+        else return a.toolbar
+      })
     },
     selectedIds () {
       return this.$store.getters[this.model + 's/selectedIds']

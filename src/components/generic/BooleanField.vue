@@ -1,5 +1,5 @@
 <template>
-  <q-field>
+  <q-field :dense="$attrs.dense">
     <q-toggle
       v-bind="$attrs"
       v-on="$attrs"

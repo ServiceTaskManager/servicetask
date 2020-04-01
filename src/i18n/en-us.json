@@ -153,7 +153,8 @@
     },
     "calls": {
       "title": "Calls"
-    }
+    },
+    "title": "All customers"
   },
   "machines": {
     "fields": {
@@ -251,6 +252,9 @@
       },
       "user": {
         "label": "User"
+      },
+      "done": {
+        "label": "Done"
       }
     },
     "routes": {
@@ -266,6 +270,9 @@
     },
     "user": {
       "title": "My tasks"
+    },
+    "all": {
+      "title": "All task"
     }
   },
   "users": {

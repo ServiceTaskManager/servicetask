@@ -1,6 +1,6 @@
 <template>
   <q-list>
-    <filter-form v-model="customFilters" :model="model" v-if="!noFilters" />
+    <filter-form v-model="customFilters" :model="model" v-if="!noFilters" :fields="fields" />
 
     <slot name="first" />
 
@@ -10,7 +10,8 @@
       :model="model"
       :data="data"
       :no-select="noSelect"
-      :no-link="noLink">
+      :no-link="noLink"
+      :no-right="noRight">
       <slot name="item" :data="data"></slot>
       <template #item-left>
         <slot name="item-left" :data="data"></slot>
@@ -62,9 +63,15 @@ export default {
     },
     data: {
       type: Array,
-      default: () => {
-        return undefined
-      }
+      default: undefined
+    },
+    fields: {
+      type: Array,
+      default: undefined
+    },
+    noRight: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

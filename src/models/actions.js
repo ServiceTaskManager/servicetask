@@ -55,5 +55,14 @@ export default (model, app) => {
       const selected = component.$store.getters[model.name + 's/filter']([['selected', '==', true]])
       return selected.length === 1
     }
+  }, {
+    props: {
+      flat: true,
+      round: true,
+      icon: 'add',
+      textColor: 'white'
+    },
+    action: 'create',
+    toolbar: true
   }]
 }

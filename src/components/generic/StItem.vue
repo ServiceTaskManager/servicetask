@@ -10,25 +10,23 @@
         </q-item-section>
       </slot>
       <!-- Default content -->
-      <div v-if="!itemComponent" class="row full-width">
-        <q-item-section>
-          <q-item-label class="text-bold">
-            {{ data[titleProp] }}
-          </q-item-label>
-          <q-item-label caption lines="1">
-            <slot></slot>
-          </q-item-label>
-        </q-item-section>
-
-        <q-item-section side>
-          <slot name="item-right"></slot>
-        </q-item-section>
-      </div>
+      <q-item-section v-if="!itemComponent" >
+        <q-item-label class="text-bold">
+          {{ data[titleProp] }}
+        </q-item-label>
+        <q-item-label caption lines="1">
+          <slot></slot>
+        </q-item-label>
+      </q-item-section>
 
       <!-- Custom content -->
-      <div v-else class="full-width">
-        <component :is="itemComponent" :user="data" />
-      </div>
+      <q-item-section v-else>
+        <component :is="itemComponent" :data="data" />
+      </q-item-section>
+
+      <q-item-section side v-if="!noRight">
+        <slot name="item-right"></slot>
+      </q-item-section>
     </q-item>
   </div>
 </template>
@@ -52,6 +50,10 @@ export default {
       default: false
     },
     noLink: {
+      type: Boolean,
+      default: false
+    },
+    noRight: {
       type: Boolean,
       default: false
     }

@@ -63,15 +63,17 @@
           </st-list>
         </q-card-section>
         <q-card-section>
-          <st-list model="task" :filters="[['user', '==', $user.data.id]]" />
+          <st-list model="task"
+            :filters="[['user', '==', $user.data.id]]"
+            :fields="$models.task.fields.filter(f => f.key !== 'user')" />
         </q-card-section>
       </q-card>
       <q-card class="col-sm col-12 q-ml-sm-md q-mt-sm-none q-mt-sm">
         <q-card-section>
-          <span class="text-h6">{{$t('tasks.unassigned.title')}}</span>
+          <span class="text-h6">{{$t('tasks.all.title')}}</span>
         </q-card-section>
         <q-card-section>
-          <st-list model="task" :filters="[['customer', '==', null]]" />
+          <st-list model="task" />
         </q-card-section>
       </q-card>
     </div>

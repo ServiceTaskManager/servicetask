@@ -10,7 +10,7 @@
       <q-card-section>
         <user-address :address="user.address" class="text-subtitle2" />
         <q-chip icon="email" class="full-width" dense>
-          <q-btn type="a" :href="'email:' + user.email" :label="user.email" flat dense class="q-pa-none" no-caps />
+          <q-btn type="a" :href="'mailto:' + user.email" :label="user.email" flat dense class="q-pa-none" no-caps />
         </q-chip>
         <q-chip icon="phone" class="full-width" dense>
           <q-btn type="a" :href="'tel:' + user.phone" :label="user.phone" flat dense class="q-pa-none" />
@@ -22,7 +22,10 @@
         <span class="text-h6">{{$t('users.tasks.title')}}</span>
       </q-card-section>
       <q-card-section class="q-pa-sm">
-        <st-list model="task" :filters="[['user', '==', user.id]]" no-select />
+        <st-list model="task"
+         :filters="[['user', '==', user.id]]"
+         :fields="$models.task.fields.filter(f => f.key !== 'user')"
+         no-select />
       </q-card-section>
     </q-card>
   </div>

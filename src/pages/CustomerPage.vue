@@ -10,7 +10,7 @@
           <div class="col q-pa-sm">
             <customer-address :address="customer.address" class="text-subtitle2" />
             <q-chip icon="email" class="full-width" dense>
-              <q-btn type="a" :href="'email:' + customer.email" :label="customer.email" flat dense class="q-pa-none" no-caps />
+              <q-btn type="a" :href="'mailto:' + customer.email" :label="customer.email" flat dense class="q-pa-none" no-caps />
             </q-chip>
             <q-chip icon="phone" class="full-width" dense>
               <q-btn type="a" :href="'tel:' + customer.phone" :label="customer.phone" flat dense class="q-pa-none" />
@@ -21,14 +21,28 @@
           </div>
         </q-card-section>
         <q-separator />
-        <q-card-section>
+        <q-card-section class="q-py-none bg-green-1">
           <st-list model="user" :filters="[['customer', '==', customer.id]]" no-select no-filters>
+            <template #first>
+              <q-item class="q-pa-none">
+                <q-item-label header>
+                  Contacts
+                </q-item-label>
+              </q-item>
+            </template>
             <template #no-result>{{$t('customers.users.noresult')}}</template>
           </st-list>
         </q-card-section>
         <q-separator />
-        <q-card-section>
+        <q-card-section class="q-py-none bg-teal-1">
           <st-list model="machine" :filters="[['customer', '==', customer.id]]" no-select no-filters>
+            <template #first>
+              <q-item class="q-pa-none">
+                <q-item-label header>
+                  Machines
+                </q-item-label>
+              </q-item>
+            </template>
             <template #no-result>{{$t('customers.engines.noresult')}}</template>
           </st-list>
         </q-card-section>

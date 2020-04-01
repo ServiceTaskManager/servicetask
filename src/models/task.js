@@ -92,6 +92,15 @@ export default (locale) => {
       key: 'time_shifts',
       component: 'ShiftsField',
       attrs: {}
+    }, {
+      key: 'done',
+      component: 'BooleanField',
+      attrs: {
+        iconColor: 'light-blue',
+        label: i18n.t('tasks.fields.done.label'),
+        rules: [val => typeof val === 'boolean' || 'Status is required']
+      },
+      search: '=='
     }],
     actions: [{
       label: i18n.t('tasks.actions.assign.label'),

@@ -10,10 +10,13 @@ export default (locale) => {
       icon: 'people',
       color: 'pink'
     },
+    components: {
+      item: () => import('../components/customer/CustomerItem')
+    },
     routes: [{
       path: 'customers',
       name: 'customers',
-      component: () => import('../pages/StListPage'),
+      component: () => import('../pages/CustomersPage'),
       meta: {
         title: i18n.t('customers.routes.list.title'),
         menu: true

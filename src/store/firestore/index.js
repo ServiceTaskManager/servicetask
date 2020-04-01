@@ -118,7 +118,15 @@ stores.forEach(s => {
     })
   }
 
-  s.actions = { ...s.actions, toggleSelected, selectAll, unselectAll, selectOneOnly, deleteItem, edit }
+  const create = ({ state }, parent) => {
+    Dialog.create({
+      component: EditDialog,
+      parent: parent,
+      model: parent.model
+    })
+  }
+
+  s.actions = { ...s.actions, toggleSelected, selectAll, unselectAll, selectOneOnly, deleteItem, edit, create }
 })
 
 const firestore = {

@@ -1,8 +1,8 @@
 <template>
-  <q-expansion-item
+  <q-expansion-item v-if="formFields.length > 0"
     v-bind="$attrs"
     v-on="$attrs"
-    class="bg-white q-pa-none" v-if="fields.length > 0"
+    class="bg-white q-pa-none"
     header-class="q-px-sm q-py-none">
     <template v-slot:header>
       <q-item-section avatar>
@@ -12,7 +12,7 @@
         <slot name="header">
           <st-form
             :model="model"
-            :fields="fields.slice(0, 1)"
+            :fields="formFields.slice(0, 1)"
             v-model="storeFormData"
             @input="updateFilters()"
             no-buttons no-submit no-validation dense />
@@ -25,7 +25,7 @@
     <q-list class="q-pa-sm">
       <st-form
         :model="model"
-        :fields="fields.slice(1)"
+        :fields="formFields.slice(1)"
         v-model="storeFormData"
         @input="updateFilters()"
         no-buttons no-submit no-validation dense />
@@ -39,14 +39,16 @@ export default {
   props: {
     value: {
       type: Array,
-      default: () => {
-        return []
-      }
+      default: undefined
     },
     model: {
       type: String,
-      default: '',
+      default: undefined,
       required: true
+    },
+    fields: {
+      type: Array,
+      default: undefined
     }
   },
   data () {
@@ -55,15 +57,17 @@ export default {
     }
   },
   computed: {
-    fields () {
-      let fields = this.$models[this.model].fields
+    formFields () {
+      let fields = []
+      if (this.fields) fields = this.fields
+      else fields = this.$models[this.model].fields
       return fields ? fields.filter(f => f.search) : []
     }
   },
   methods: {
     updateFilters () {
       let filters = []
-      this.fields.forEach(f => {
+      this.formFields.forEach(f => {
         if (this.storeFormData[f.key] !== '') {
           filters.push([
             f.key,
