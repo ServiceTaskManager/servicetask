@@ -35,7 +35,7 @@ stores.forEach(s => {
   }
 
   s.sync = { ...s.sync,
-    guard: ['selected', 'updated_at', 'updated_by', 'created_by', 'created_at']
+    guard: ['selected']
   }
 
   s.state.meta = s.state.routes ? s.state.routes[0].meta : {}
@@ -75,19 +75,19 @@ stores.forEach(s => {
 
   // Add actions
   const toggleSelected = ({ state, dispatch, rootState }, id) => {
-    let data = state.data[id]
-    data.selected = !data.selected
-    dispatch('patch', data)
+    state.data[id].selected = !state.data[id].selected
   }
 
   const selectAll = ({ state, dispatch }) => {
-    const ids = Object.values(state.data).map(s => s.id)
-    dispatch('patchBatch', { doc: { selected: true }, ids: ids })
+    for (let d in state.data) {
+      state.data[d].selected = true
+    }
   }
 
   const unselectAll = ({ state, dispatch }) => {
-    const ids = selectedIds(state)
-    dispatch('patchBatch', { doc: { selected: false }, ids: ids })
+    for (let d in state.data) {
+      state.data[d].selected = false
+    }
   }
 
   const selectOneOnly = ({ dispatch }, id) => {
@@ -136,7 +136,6 @@ const firestore = {
         await dispatch(s.moduleName + '/openDBChannel', // Add clauses for right management
           { clauses: { where: where } })
           .then(({ streaming }) => {
-            console.log(s.moduleName)
             loadedStore++
             state.loading = loadedStore / array.length // Update loading state
           })
