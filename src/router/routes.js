@@ -18,7 +18,7 @@ const routes = [
     component: () => import('layouts/Base'),
     children: [
       {
-        path: 'dashboard',
+        path: '',
         name: 'dashboard',
         component: () => import('pages/Dashboard'),
         meta: {
@@ -47,10 +47,7 @@ const routes = [
       {
         path: 'map',
         name: 'map',
-        components: {
-          default: () => import('pages/MapPage'),
-          toolbar: () => import('pages/MapToolbar')
-        },
+        component: () => import('pages/MapPage'),
         meta: {
           title: 'menu.maps'
         }
@@ -58,10 +55,7 @@ const routes = [
       {
         path: 'calendar',
         name: 'calendar',
-        components: {
-          default: () => import('pages/CalendarPage'),
-          toolbar: () => import('pages/CalendarToolbar')
-        },
+        component: () => import('pages/CalendarPage'),
         meta: {
           title: 'menu.calendar'
         }

@@ -88,13 +88,13 @@
       </q-card>
     </div>
 
-    <q-card class="col-md-grow col-12 q-ml-md-md q-mt-md-none q-mt-md">
+    <q-card class="col col-md-grow col-12 q-ml-md-md q-mt-md-none q-mt-md">
       <q-card-section class="q-pb-none">
         <span class="text-h4">Future overview</span><br/>
         <span class="text-caption">See what is coming for next days, and re-schedule if needed</span>
       </q-card-section>
-      <q-card-section class="q-pa-none">
-        <calendar @task-click="$router.push({ name: 'task', params: { id: $event.id } })"></calendar>
+      <q-card-section class="q-pa-none" stretch>
+        <calendar @task-click="$router.push({ name: 'task', params: { id: $event.id } })"/>
       </q-card-section>
     </q-card>
   </div>

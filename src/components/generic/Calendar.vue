@@ -8,7 +8,8 @@
     hour24-format
     ref="QCalendar"
     :locale="$i18n.locale"
-    :interval-height="$parent.$parent.clientHeight">
+    day-height="0"
+    :interval-height="intervalHeight">
     <template #day-body="{ date, timeStartPos, timeDurationHeight }">
       <template v-for="(event, key) in events(date)">
         <calendar-event :key="key"
@@ -23,13 +24,21 @@
 
 <script>
 import moment from 'moment'
+import { dom } from 'quasar'
+const { height } = dom
 
 export default {
   name: 'Calendar',
   data () {
     return {
-      selectedDate: ''
+      selectedDate: '',
+      intervalHeight: '50px'
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.intervalHeight = ((height(this.$parent.$el) - 67) / 14) + 'px'
+    })
   },
   methods: {
     events (date) {
@@ -83,9 +92,6 @@ export default {
         if (moment(s.start).isSame(moment(busyTime.start))) busy = true
       })
       return busy
-    },
-    test () {
-      console.log('yeah')
     }
   },
   components: {

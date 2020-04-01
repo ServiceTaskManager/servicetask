@@ -6,7 +6,7 @@
       <q-toolbar>
         <!-- Toolbar buttons -->
         <st-toolbar v-if="$route.meta.model" :model="$route.meta.model" />
-        <router-view v-else name="toolbar" v-model="$refs.page" />
+        <component v-if="toolbarComponent" :is="toolbarComponent.component" :value="toolbarComponent.data" />
 
         <q-toolbar-title class="text-center" v-if="model">{{ title }}</q-toolbar-title>
         <q-toolbar-title class="text-center" v-else>{{ $t(title) }}</q-toolbar-title>
@@ -117,6 +117,7 @@
           <router-view v-if="$store.state.firestore.loading == 1 || $route.name === 'login'"
             @printing="prepareForPrinting"
             @donePrinting="restoreAfterPrinting"
+            @mountToolbar="toolbarComponent = $event"
             ref="page" />
           <div v-else class="row justify-center text-center">
             <div class="col-8 col-offset-2" style="margin-top: 100px;">
@@ -151,6 +152,7 @@ export default {
       drawer: !this.$q.platform.is.mobile,
       toolbar: true,
       drawerMini: true,
+      toolbarComponent: undefined,
       thumbStyle: {
         backgroundColor: 'black',
         opacity: 1,
@@ -212,6 +214,11 @@ export default {
   },
   components: {
     StToolbar: () => import('./StToolbar')
+  },
+  watch: {
+    '$route.name' () {
+      this.toolbarComponent = undefined
+    }
   }
 }
 </script>

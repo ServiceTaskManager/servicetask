@@ -61,8 +61,7 @@ export default {
         }]
       },
       responsive: true,
-      maintainAspectRatio: false,
-      height: '200px'
+      maintainAspectRatio: false
     }
     const data = {
       datasets: [{

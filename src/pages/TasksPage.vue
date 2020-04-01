@@ -138,8 +138,12 @@ export default {
       })
     },
     endShift (task) {
-      task.time_shifts = task.time_shifts.reduce((acc, s) => {
-        if (moment(new Date()).isBetween(moment(s.start), moment(s.end))) s.end = moment().format('YYYY-MM-DDTHH:mm')
+      task.time_shifts =
+      task.time_shifts.reduce((acc, s) => {
+        if (moment(new Date()).isBetween(moment(s.start), moment(s.end))) {
+          s.end = moment().format('YYYY-MM-DDTHH:mm')
+          s.period = 'custom'
+        }
         return acc.concat([s])
       }, [])
       this.$store.dispatch('tasks/patch', task)

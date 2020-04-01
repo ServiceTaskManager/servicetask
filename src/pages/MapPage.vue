@@ -1,21 +1,5 @@
 <template>
-  <q-layout container view="hHh lpR fFf" style="height: calc(100vh - 50px)">
-    <q-drawer v-model="drawer" behavior="mobile" :overlay="false" side="left">
-      <div v-if="customerToDisplay" class="q-pa-sm">
-        <span class="text-h5">{{ customerToDisplay.name }}</span>
-        <customer-address :address="customerToDisplay.address" class="text-caption" />
-        <q-chip icon="email" class="full-width" dense>
-          <q-btn type="a" :href="'mail:' + customerToDisplay.email" :label="customerToDisplay.email" flat dense class="q-pa-none" />
-        </q-chip>
-        <q-chip icon="phone" class="full-width" dense>
-          <q-btn type="a" :href="'tel:' + customerToDisplay.phone" :label="customerToDisplay.phone" flat dense class="q-pa-none" />
-        </q-chip>
-      </div>
-    </q-drawer>
-
-    <maps ref="map" class="full-width" style="height: calc(100vh - 50px)" />
-
-  </q-layout>
+  <maps ref="map" class="full-width" style="height: calc(100vh - 50px)" />
 </template>
 
 <script>
@@ -30,6 +14,12 @@ export default {
       drawer: false,
       customerToDisplay: undefined
     }
+  },
+  mounted () {
+    this.$emit('mountToolbar', {
+      component: () => import ('./MapToolbar'),
+      data: this
+    })
   },
   methods: {
     async search (customerId) {
@@ -62,7 +52,6 @@ export default {
     }
   },
   components: {
-    CustomerAddress: () => import('../components/generic/Address'),
     Maps: () => import('../components/generic/Map')
   }
 }

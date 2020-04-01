@@ -29,6 +29,12 @@ export default {
       drawer: false
     }
   },
+  mounted () {
+    this.$emit('mountToolbar', {
+      component: () => import ('./CalendarToolbar'),
+      data: this
+    })
+  },
   methods: {
     openEditDrawer (task) {
       this.drawer = true

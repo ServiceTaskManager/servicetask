@@ -5,7 +5,7 @@ export default ({ Vue, app, router }) => {
 
   // Create the route based on models
   let routesToAdd = {
-    path: '/model',
+    path: '/',
     component: () => import('layouts/Base'),
     children: []
   }

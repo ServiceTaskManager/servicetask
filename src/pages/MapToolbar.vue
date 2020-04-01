@@ -1,16 +1,10 @@
 <template>
-  <div class="row justify-end" v-if="map">
+  <div class="row justify-end">
     <div class="on-left">
       <customer-field color="grey" dark standout rounded dense
-      v-model="customerSearch"
-      @input="value.zoomToCustomer" />
+      v-model="customer"
+      @input="value.zoomToCustomer(customer)" />
     </div>
-    <q-btn icon="navigation"
-      flat rounded dense
-      @click="moveTo" />
-  </div>
-  <div v-else>
-    <span class="text-caption">Loading...</span>
   </div>
 </template>
 
@@ -20,30 +14,12 @@ export default {
   props: {
     value: {
       type: Object,
-      default: () => {
-        return {}
-      }
+      default: undefined
     }
   },
   data () {
     return {
-      customerSearch: ''
-    }
-  },
-  computed: {
-    map () {
-      let map
-      if (this.value.$refs) {
-        if (this.value.$refs.map) {
-          map = this.value.$refs.map
-        }
-      }
-      return map
-    }
-  },
-  methods: {
-    moveTo () {
-      // s
+      customer: ''
     }
   },
   components: {
