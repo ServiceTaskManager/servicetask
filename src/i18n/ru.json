@@ -73,6 +73,20 @@
       "submit": {
         "label": "Разместить"
       }
+    },
+    "list": {
+      "noresult": {
+        "checkfilters": "Проверьте фильтры",
+        "title": "Никаких результатов"
+      }
+    },
+    "statchart": {
+      "callnumber": {
+        "label": "# звонки"
+      },
+      "workhours": {
+        "label": "Часы работы"
+      }
     }
   },
   "customers": {
@@ -96,6 +110,19 @@
       "single": {
         "title": "Клиент"
       }
+    },
+    "calls": {
+      "title": "Вызовы"
+    },
+    "engines": {
+      "noresult": "Клиент не владеет машиной (пока)"
+    },
+    "tasks": {
+      "title": "Задачи"
+    },
+    "title": "Все клиенты",
+    "users": {
+      "noresult": "У клиента нет контактного лица (пользователя)"
     }
   },
   "machines": {
@@ -128,7 +155,8 @@
   "menu": {
     "calendar": "Календарь",
     "dashboard": "Приборная панель",
-    "maps": "Карты"
+    "maps": "Карты",
+    "settings": "настройки"
   },
   "models": {
     "actions": {
@@ -145,7 +173,11 @@
       "single": {
         "title": "отчет"
       }
-    }
+    },
+    "contact": {
+      "title": "контакт"
+    },
+    "title": "отчет"
   },
   "settings": {
     "notifications": {
@@ -198,6 +230,9 @@
       },
       "machine": {
         "label": "Машина"
+      },
+      "done": {
+        "label": "Готово"
       }
     },
     "routes": {
@@ -207,6 +242,15 @@
       "single": {
         "title": "задача"
       }
+    },
+    "all": {
+      "title": "Вся задача"
+    },
+    "unassigned": {
+      "title": "Неназначенные задачи"
+    },
+    "user": {
+      "title": "Мои задачи"
     }
   },
   "users": {
@@ -246,6 +290,15 @@
       "single": {
         "title": "пользователь"
       }
+    },
+    "admins": {
+      "title": "Администраторы"
+    },
+    "tasks": {
+      "title": "Задачи"
+    },
+    "users": {
+      "title": "пользователей"
     }
   },
   "fields": {

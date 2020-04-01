@@ -6,6 +6,9 @@ export default (locale) => {
   return {
     name: 'report',
     titleProp: 'date',
+    components: {
+      item: () => import('../components/report/ReportItem.vue')
+    },
     meta: {
       icon: 'outlined_flag',
       color: 'lime'
@@ -26,6 +29,29 @@ export default (locale) => {
       meta: {
         title: i18n.t('reports.routes.single.title')
       }
+    }],
+    fields: [{
+      key: 'technician',
+      component: 'UserField',
+      attrs: {
+        label: i18n.t('reports.fields.technician.label')
+      },
+      search: '=='
+    }, {
+      key: 'customer',
+      component: 'CustomerField',
+      attrs: {
+        label: i18n.t('reports.fields.customer.label')
+      },
+      search: '=='
+    }, {
+      key: 'machine',
+      component: 'MachineField',
+      attrs: {
+        label: i18n.t('reports.fields.machine.label')
+      },
+      forward: ['customer'],
+      search: '=='
     }]
   }
 }

@@ -38,7 +38,7 @@ export default {
   props: {
     value: {
       type: String,
-      default: ''
+      default: undefined
     },
     customer: {
       type: String,
@@ -56,7 +56,7 @@ export default {
   },
   computed: {
     displayValue () {
-      return this.value === '' ? '' : this.$users.data[this.value].name
+      return this.$users.data[this.value] ? this.$users.data[this.value].name : ''
     }
   },
   methods: {

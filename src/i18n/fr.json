@@ -105,7 +105,8 @@
     },
     "calls": {
       "title": "Appels"
-    }
+    },
+    "title": "Tous les clients"
   },
   "users": {
     "fields": {

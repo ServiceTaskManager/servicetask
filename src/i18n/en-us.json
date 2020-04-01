@@ -214,6 +214,17 @@
     "title": "Report",
     "contact": {
       "title": "Contact"
+    },
+    "fields": {
+      "technician": {
+        "label": "Technician"
+      },
+      "customer": {
+        "label": "Customer"
+      },
+      "machine": {
+        "label": "Machine"
+      }
     }
   },
   "tasks": {

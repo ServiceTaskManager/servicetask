@@ -2,7 +2,8 @@
   "menu": {
     "calendar": "Kalender",
     "dashboard": "Instrumententafel",
-    "maps": "Karten"
+    "maps": "Karten",
+    "settings": "die Einstellungen"
   },
   "settings": {
     "notifications": {
@@ -89,6 +90,19 @@
       "single": {
         "title": "Kunde"
       }
+    },
+    "calls": {
+      "title": "Anrufe"
+    },
+    "engines": {
+      "noresult": "Der Kunde besitzt (noch) keine Maschine"
+    },
+    "tasks": {
+      "title": "Aufgaben"
+    },
+    "title": "Alle Kunden",
+    "users": {
+      "noresult": "Der Kunde hat keine Kontaktperson (Benutzer)"
     }
   },
   "users": {
@@ -128,6 +142,15 @@
       "single": {
         "title": "Nutzer"
       }
+    },
+    "admins": {
+      "title": "Administratoren"
+    },
+    "tasks": {
+      "title": "Aufgaben"
+    },
+    "users": {
+      "title": "Benutzer"
     }
   },
   "tasks": {
@@ -166,6 +189,9 @@
       },
       "machine": {
         "label": "Maschine"
+      },
+      "done": {
+        "label": "Erledigt"
       }
     },
     "routes": {
@@ -175,6 +201,15 @@
       "single": {
         "title": "Aufgabe"
       }
+    },
+    "all": {
+      "title": "Alle Aufgabe"
+    },
+    "unassigned": {
+      "title": "Nicht zugewiesene Aufgaben"
+    },
+    "user": {
+      "title": "Meine Aufgaben"
     }
   },
   "models": {
@@ -208,6 +243,20 @@
       },
       "submit": {
         "label": "einreichen"
+      }
+    },
+    "list": {
+      "noresult": {
+        "checkfilters": "Überprüfen Sie die Filter",
+        "title": "Keine Ergebnisse"
+      }
+    },
+    "statchart": {
+      "callnumber": {
+        "label": "# Anrufe"
+      },
+      "workhours": {
+        "label": "Arbeitsstunden"
       }
     }
   },
@@ -246,7 +295,11 @@
       "single": {
         "title": "Bericht"
       }
-    }
+    },
+    "contact": {
+      "title": "Kontakt"
+    },
+    "title": "Bericht"
   },
   "fields": {
     "customer": {

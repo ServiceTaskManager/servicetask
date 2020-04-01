@@ -24,7 +24,7 @@
         <q-splitter v-model="splitter"
           unit="px"
           reverse
-          :limits="[30, 1000]"
+          :limits="[0, 1000]"
           class="row items-stretch"
           before-class="q-pa-none splitter"
           after-class="splitter">
@@ -158,7 +158,7 @@ export default {
           label: 'Time',
           align: 'right',
           field: t => t.shift,
-          format: val => `${moment(val.end).diff(val.start, 'hours')} h`,
+          format: val => `${Math.round(moment(val.end).diff(val.start, 'hours', true) * 10) / 10} h`,
           sortable: false
         }
       ],
@@ -210,8 +210,9 @@ export default {
       return data
     },
     totalTime () {
-      const times = this.tableData.map(t => moment(t.shift.end).diff(t.shift.start, 'hours'))
-      return times.length > 0 ? times.reduce((sum, val) => sum + val) : 0
+      const times = this.tableData.map(t => moment(t.shift.end).diff(t.shift.start, 'hours', true))
+      const totalTime = times.length > 0 ? times.reduce((sum, val) => sum + val) : 0
+      return Math.round(totalTime * 10) / 10
     }
   },
   methods: {

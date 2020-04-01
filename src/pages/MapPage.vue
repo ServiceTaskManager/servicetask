@@ -3,10 +3,6 @@
 </template>
 
 <script>
-import { OpenStreetMapProvider } from 'leaflet-geosearch'
-
-const provider = new OpenStreetMapProvider()
-
 export default {
   name: 'MapsPage',
   data () {
@@ -22,33 +18,8 @@ export default {
     })
   },
   methods: {
-    async search (customerId) {
-      const customer = this.$store.getters['customers/filter']([['id', '==', customerId]])[0]
-      if (customer) {
-        const addressInline = Object.values(customer.address).filter(a => a).join(', ')
-        console.log(addressInline)
-
-        const latLng = await provider.search({ query: addressInline })
-        if (latLng.length === 1) {
-          customer.address.lat_lng = { lat: parseFloat(latLng[0].y), lng: parseFloat(latLng[0].x) }
-          this.$store.dispatch('customers/patch', customer) // Update customer
-          this.zoomToCustomer(customer.id) // Zoom to it
-        } else if (latLng.length > 1) {
-          this.$q.dialog({
-            title: 'Select one',
-            text: latLng
-          })
-        } else {
-          this.$q.notify({
-            message: `Cannot find customer address`,
-            color: 'negative'
-          })
-        }
-      }
-    },
     zoomToCustomer (customerId) {
-      if (this.customers.filter(c => c.id === customerId).length === 0) this.search(customerId)
-      else this.$refs.map.zoomToCustomer(customerId)
+      this.$refs.map.zoomToCustomer(customerId)
     }
   },
   components: {
