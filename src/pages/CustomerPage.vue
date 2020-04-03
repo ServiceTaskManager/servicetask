@@ -2,17 +2,20 @@
   <div>
     <div class="full-width row q-pa-sm-md justify-around">
       <q-card class="col-sm col-12">
-        <q-card-section header>
-          <span class="text-h5">{{ customer.name }}</span>
-        </q-card-section>
-        <q-separator />
+        <q-toolbar :class="'bg-' + $models.customer.meta.color" class="text-white">
+          <q-toolbar-title>
+            <span class="text-h5 q-px-sm overflow-hidden">{{ customer.name }}</span>
+          </q-toolbar-title>
+        </q-toolbar>
         <q-card-section class="row q-pa-none" ref="mapParent">
           <div class="col q-pa-sm">
             <customer-address :address="customer.address" class="text-subtitle2" />
-            <q-chip icon="email" class="full-width" dense>
+            <q-chip v-if="customer.email"
+              icon="email" class="full-width" dense>
               <q-btn type="a" :href="'mailto:' + customer.email" :label="customer.email" flat dense class="q-pa-none" no-caps />
             </q-chip>
-            <q-chip icon="phone" class="full-width" dense>
+            <q-chip v-if="customer.phone"
+              icon="phone" class="full-width" dense>
               <q-btn type="a" :href="'tel:' + customer.phone" :label="customer.phone" flat dense class="q-pa-none" />
             </q-chip>
           </div>
@@ -21,24 +24,15 @@
           </div>
         </q-card-section>
         <q-separator />
-        <q-card-section class="q-py-none bg-green-1">
-          <st-list model="user" :filters="[['customer', '==', customer.id]]" no-select no-filters>
-            <template #first>
-              <q-item class="q-pa-none">
-                <q-item-label header>
-                  Contacts
-                </q-item-label>
-              </q-item>
-            </template>
-            <template #no-result>{{$t('customers.users.noresult')}}</template>
-          </st-list>
+        <q-card-section class="q-py-none">
+
         </q-card-section>
         <q-separator />
-        <q-card-section class="q-py-none bg-teal-1">
+        <q-card-section class="q-py-none">
           <st-list model="machine" :filters="[['customer', '==', customer.id]]" no-select no-filters>
             <template #first>
               <q-item class="q-pa-none">
-                <q-item-label header>
+                <q-item-label header class="text-teal">
                   Machines
                 </q-item-label>
               </q-item>
@@ -48,21 +42,49 @@
         </q-card-section>
       </q-card>
       <q-card class="col-sm col-12 q-ml-sm-md q-mt-sm-none q-mt-sm">
+        <q-toolbar :class="'bg-' + $models.user.meta.color + '-2'">
+          <q-toolbar-title>
+            <span
+              class="text-h6 q-px-sm overflow-hidden"
+              :class="'text-' + $models.user.meta.color">
+              Contacts
+            </span>
+          </q-toolbar-title>
+        </q-toolbar>
         <q-card-section header>
-          <span class="text-h6">{{$t('customers.tasks.title')}}</span>
-        </q-card-section>
-        <q-card-section class="q-pa-sm">
-          <st-list model="task" :filters="[['customer', '==', customer.id]]" no-select />
+          <st-list model="user" :filters="[['customer', '==', customer.id]]" no-select no-filters>
+            <template #no-result>{{$t('customers.users.noresult')}}</template>
+          </st-list>
         </q-card-section>
       </q-card>
     </div>
     <div class="full-width row q-px-sm-md q-mt-sm-none q-mt-sm justify-around">
       <q-card class="col-sm col-12">
-        <q-card-section header>
-          <span class="text-h6">{{$t('customers.calls.title')}}</span>
-        </q-card-section>
-        <q-card-section class="q-pa-sm">
+        <q-toolbar :class="'bg-' + $models.call.meta.color + '-2'">
+          <q-toolbar-title>
+            <span
+              class="text-h6 q-px-sm overflow-hidden"
+              :class="'text-' + $models.call.meta.color">
+              {{$t('customers.calls.title')}}
+            </span>
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-card-section class="q-pa-none">
           <st-list model="call" :filters="[['customer', '==', customer.id]]" no-select />
+        </q-card-section>
+      </q-card>
+      <q-card class="col-sm col-12 q-ml-sm-md q-mt-sm-none q-mt-sm">
+        <q-toolbar :class="'bg-' + $models.task.meta.color + '-2'">
+          <q-toolbar-title>
+            <span
+              class="text-h6 q-px-sm overflow-hidden"
+              :class="'text-' + $models.task.meta.color">
+              {{$t('customers.tasks.title')}}
+            </span>
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-card-section class="q-pa-none">
+          <st-list model="task" :filters="[['customer', '==', customer.id]]" no-select />
         </q-card-section>
       </q-card>
     </div>

@@ -1,11 +1,17 @@
 <template>
   <div class="full-width row q-pa-sm-md justify-around">
     <q-card class="col-sm col-12" style="height: calc(100vh - 82px)">
-      <q-card-section>
-        <span class="text-h6">{{$t('customers.title')}}</span>
-      </q-card-section>
+      <q-toolbar class="text-white bg-grey-3">
+        <q-toolbar-title>
+          <span
+            class="text-h6 overflow-hidden"
+            :class="'text-' + $models.customer.meta.color">
+            {{$t('customers.title')}}
+          </span>
+        </q-toolbar-title>
+      </q-toolbar>
       <q-card-section class="q-pa-none">
-        <q-scroll-area style="height: calc(100vh - 200px)">
+        <q-scroll-area style="height: calc(100vh - 140px)">
           <st-list model="customer">
             <template #item-right="{ data }">
               <q-btn icon="search" color="grey" dense round flat @click.prevent="$refs.map.zoomToCustomer(data.id)" />

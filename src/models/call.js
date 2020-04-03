@@ -10,10 +10,13 @@ export default (locale) => {
       icon: 'phone_callback',
       color: 'orange'
     },
+    components: {
+      item: () => import('../components/call/CallItem')
+    },
     routes: [{
       path: 'calls',
       name: 'calls',
-      component: () => import('../pages/StListPage'),
+      component: () => import('../pages/CallsPage'),
       meta: {
         title: i18n.t('calls.route.list.title'),
         menu: true
@@ -21,7 +24,7 @@ export default (locale) => {
     }, {
       path: 'call/:id',
       name: 'call',
-      component: () => import('../pages/StPage'),
+      component: () => import('../pages/CallPage'),
       meta: {
         title: i18n.t('calls.route.single.title')
       }
@@ -36,6 +39,15 @@ export default (locale) => {
         rules: [val => !!val || i18n.t('calls.fields.title.validation.empty')]
       }
     }, {
+      key: 'description',
+      component: 'TextField',
+      attrs: {
+        type: 'textarea',
+        iconName: 'description',
+        iconColor: 'orange',
+        label: i18n.t('calls.fields.description.label')
+      }
+    }, {
       key: 'customer',
       component: 'CustomerField',
       attrs: {
@@ -43,13 +55,15 @@ export default (locale) => {
       }
     }, {
       key: 'machine',
-      component: 'MachineField'
+      component: 'MachineField',
+      forward: ['customer']
     }, {
       key: 'person',
       component: 'UserField',
       attrs: {
         label: i18n.t('calls.fields.person.label')
-      }
+      },
+      forward: ['customer']
     }, {
       key: 'teamviewer',
       component: 'TeamviewerField'

@@ -2,36 +2,36 @@
   <div>
     <div class="full-width row q-pa-sm-md justify-around">
       <q-card class="col-sm col-12">
-        <q-card-section class="full-width">
-          <span class="text-h6">{{$t('tasks.user.title')}}</span>
-          <q-btn class="float-right" flat round color="light-blue" icon="add"
+        <q-toolbar class="text-white bg-grey-3">
+          <q-toolbar-title>
+            <span
+              class="text-h6 overflow-hidden"
+              :class="'text-' + $models.task.meta.color">
+              {{$t('tasks.user.title')}}
+            </span>
+          </q-toolbar-title>
+          <q-btn class="float-right" flat round :color="$models.task.meta.color" icon="add"
             @click="taskDialog(undefined)" />
-        </q-card-section>
+        </q-toolbar>
         <q-separator />
-        <q-card-section class="q-pa-none bg-light-blue-1" v-if="currentShifts.length > 0">
-          <st-list :data="currentShifts" model="task" no-select no-filters class="q-px-sm">
+        <q-card-section class="q-pa-none" v-if="currentShifts.length > 0">
+          <st-list :data="currentShifts" model="task" no-filters>
             <template #first>
               <q-item class="q-pa-none">
-                <q-item-label header>On going tasks</q-item-label>
+                <q-item-label header
+                  :class="'text-' + $models.task.meta.color">
+                  {{$t('tasks.ongoing')}}
+                </q-item-label>
               </q-item>
             </template>
             <template #item-right="{ data }">
-              <div class="row">
-                <q-btn dense round flat
-                  color="light-blue"
-                  icon="edit"
-                  @click.prevent="taskDialog(data)" />
-                <q-btn dense unelevated
-                  color="light-blue-2"
-                  text-color="light-blue"
-                  icon="keyboard_arrow_right"
-                  label="Finish!"
-                  class="self-end"
-                  @click.prevent="endShift(data)" />
-              </div>
-            </template>
-            <template #item="{ data }">
-              Started {{ getCurrentShift(data).start | moment('from') }}
+              <q-btn dense unelevated
+                color="light-blue-2"
+                text-color="light-blue"
+                icon="keyboard_arrow_right"
+                label="Finish!"
+                class="self-end"
+                @click.prevent="endShift(data)" />
             </template>
           </st-list>
         </q-card-section>
@@ -40,45 +40,50 @@
           <st-list :data="upcomingShifts" model="task" no-select no-filters class="q-px-sm">
             <template #first>
               <q-item class="q-pa-none">
-                <q-item-label header>Up coming tasks</q-item-label>
+                <q-item-label
+                  header
+                  :class="'text-' + $models.task.meta.color">{{$t('tasks.upcoming')}}</q-item-label>
               </q-item>
             </template>
             <template #item-right="{ data }">
-              <div class="row">
-                <q-btn dense round flat
-                  color="light-blue"
-                  icon="edit"
-                  @click.prevent="taskDialog(data)" />
-                <q-btn dense unelevated
-                  color="light-blue-2"
-                  text-color="light-blue"
-                  icon="keyboard_arrow_right"
-                  label="Finish!"
-                  class="self-end" />
-              </div>
-            </template>
-            <template #item="{ data }">
-              Start {{ getFutureShift(data).start | moment('from') }}
+              <q-btn dense unelevated
+                color="light-blue-2"
+                text-color="light-blue"
+                icon="keyboard_arrow_right"
+                label="Finish!"
+                class="self-end" />
             </template>
           </st-list>
         </q-card-section>
-        <q-card-section>
+        <q-card-section class="q-pa-none">
           <st-list model="task"
             :filters="[['user', '==', $user.data.id]]"
-            :fields="$models.task.fields.filter(f => f.key !== 'user')" />
+            :fields="$models.task.fields.filter(f => f.key !== 'user')"
+            no-right>
+            <template #first>
+              <q-item class="q-pa-none">
+                <q-item-label
+                  header
+                  :class="'text-' + $models.task.meta.color">{{$t('tasks.mine')}}</q-item-label>
+              </q-item>
+            </template>
+          </st-list>
         </q-card-section>
       </q-card>
       <q-card class="col-sm col-12 q-ml-sm-md q-mt-sm-none q-mt-sm">
-        <q-card-section>
-          <span class="text-h6">{{$t('tasks.all.title')}}</span>
-        </q-card-section>
-        <q-card-section>
+        <q-toolbar class="text-white bg-grey-3">
+          <q-toolbar-title>
+            <span
+              class="text-h6 overflow-hidden"
+              :class="'text-' + $models.task.meta.color">
+              {{$t('tasks.all.title')}}
+            </span>
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-card-section class="q-pa-none">
           <st-list model="task" />
         </q-card-section>
       </q-card>
-    </div>
-    <div class="full-width row q-pa-sm-md justify-around">
-
     </div>
   </div>
 </template>

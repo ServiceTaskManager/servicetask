@@ -53,12 +53,14 @@ export default {
   },
   computed: {
     customers () {
-      return this.$store.getters['customers/filter']().filter(c => c.address.lat_lng)
+      return this.$store.getters['customers/filter']().filter(c => {
+        if (c.address) return c.address.lat_lng !== undefined
+        else return false
+      })
     }
   },
   methods: {
     zoomToCustomer (customerId) {
-      console.log('zoomin')
       if (customerId) {
         let customer = this.$store.getters['customers/filter']([['id', '==', customerId]])
         if (customer.length === 1) {

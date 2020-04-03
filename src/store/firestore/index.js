@@ -6,6 +6,7 @@ import customers from './customers'
 import machines from './machines'
 import reports from './reports'
 import notifications from './notifications'
+import messages from './messages'
 
 import { Dialog } from 'quasar'
 import EditDialog from '../../components/generic/EditDialog'
@@ -16,7 +17,8 @@ const stores = [users,
   customers,
   machines,
   notifications,
-  reports
+  reports,
+  messages
 ]
 
 // Add common configuration for all stores

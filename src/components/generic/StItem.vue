@@ -5,7 +5,7 @@
       class="q-pa-xs"
       :class="data.selected ? 'bg-grey-4' : ''">
       <slot name="item-left" v-if="!noSelect">
-        <q-item-section avatar>
+        <q-item-section avatar top>
           <q-checkbox :value="data.selected" @input="toggleSelected()" />
         </q-item-section>
       </slot>
@@ -24,7 +24,7 @@
         <component :is="itemComponent" :data="data" />
       </q-item-section>
 
-      <q-item-section side v-if="!noRight">
+      <q-item-section side top v-if="!noRight">
         <slot name="item-right"></slot>
       </q-item-section>
     </q-item>

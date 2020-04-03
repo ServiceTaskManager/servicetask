@@ -21,7 +21,14 @@
     }
   },
   "store": {
-    "calls": {}
+    "calls": {},
+    "actions": {
+      "delete": {
+        "confirmation": {
+          "title": "Êtes-vous sûr"
+        }
+      }
+    }
   },
   "calls": {
     "route": {
@@ -55,6 +62,9 @@
       },
       "technician": {
         "label": "Affecter à"
+      },
+      "description": {
+        "label": "Description du problème"
       }
     },
     "actions": {
@@ -70,6 +80,39 @@
       "unassign": {
         "label": "Annuler l'attribution"
       }
+    },
+    "close": {
+      "title": "Tous les appels fermés"
+    },
+    "openassigntome": {
+      "title": "Attribué à moi"
+    },
+    "openunassign": {
+      "title": "Non attribué"
+    },
+    "open": {
+      "title": "Appels ouverts"
+    },
+    "edit": {
+      "description": {
+        "title": "Éditer la description"
+      }
+    },
+    "description": "Description",
+    "create": {
+      "task": {
+        "title": "Créer une tâche liée"
+      }
+    },
+    "chat": "Bavarder",
+    "history": "Historique",
+    "all": {
+      "title": "Autres appels ouverts"
+    },
+    "ongoing": "Appels ouverts",
+    "upcoming": "Appels fermés",
+    "user": {
+      "title": "Appel qui m'a été attribué"
     }
   },
   "customers": {
@@ -213,7 +256,32 @@
     },
     "all": {
       "title": "Toutes les tâches"
-    }
+    },
+    "shifttable": {
+      "column": {
+        "end": "Fin",
+        "start": "Début",
+        "time": "Temps",
+        "title": "Tâches effectuées"
+      },
+      "hours": "heure | heures",
+      "title": "Temps de travail"
+    },
+    "hours": "heure | heures",
+    "description": {
+      "title": "Description de la tâche"
+    },
+    "edit": {
+      "description": {
+        "title": "Éditer la description"
+      },
+      "shift": {
+        "title": "Modifier les horaires"
+      }
+    },
+    "ongoing": "Tâches en cours",
+    "upcoming": "Tâches à venir",
+    "mine": "Mes autres tâches"
   },
   "models": {
     "actions": {
@@ -278,6 +346,21 @@
     "title": "Rapport d'intervention",
     "contact": {
       "title": "Contact"
+    },
+    "fields": {
+      "customer": {
+        "label": "Client"
+      },
+      "machine": {
+        "label": "Machine"
+      },
+      "technician": {
+        "label": "Technicien"
+      }
+    },
+    "addtask": "Ajouter une tâche",
+    "edit": {
+      "title": "Modifier le rapport"
     }
   },
   "machines": {
@@ -296,6 +379,9 @@
         "validation": {
           "empty": "Le type de machine est requis"
         }
+      },
+      "installdate": {
+        "label": "Date d'installation"
       }
     },
     "routes": {
@@ -305,6 +391,15 @@
       "single": {
         "title": "Machine"
       }
+    },
+    "analytics": "Analytique",
+    "calls": {
+      "title": "Appels"
+    },
+    "installdate": "Date d'installation",
+    "sn": "Numéro de série",
+    "tasks": {
+      "title": "Tâches"
     }
   },
   "page": {
@@ -316,5 +411,29 @@
   "user": {
     "admins": {},
     "users": {}
-  }
+  },
+  "call": {
+    "createtask": "Demander une opération"
+  },
+  "dashboard": {
+    "calendar": {
+      "title": "À venir"
+    },
+    "chart": {
+      "title": "Taux d'occupation"
+    },
+    "currentshifts": {
+      "title": "Tâches en cours"
+    },
+    "newcall": "Nouvel appel !",
+    "newtask": "Nouvelle tâche",
+    "openunassigned": {
+      "title": "Appel ouvert et non attribué"
+    },
+    "quickactions": {
+      "title": "Actions rapides"
+    },
+    "starttrip": "Commencer un voyage"
+  },
+  "underconstruct": "En construction"
 }

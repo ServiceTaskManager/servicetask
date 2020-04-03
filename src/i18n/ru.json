@@ -37,6 +37,9 @@
           "empty": "Требуется причина звонка"
         },
         "label": "Причина вызова"
+      },
+      "description": {
+        "label": "Описание проблемы"
       }
     },
     "route": {
@@ -46,6 +49,39 @@
       "single": {
         "title": "Вызов"
       }
+    },
+    "close": {
+      "title": "Все закрытые звонки"
+    },
+    "openassigntome": {
+      "title": "Назначено мне"
+    },
+    "openunassign": {
+      "title": "Unassigned"
+    },
+    "open": {
+      "title": "Открытые звонки"
+    },
+    "edit": {
+      "description": {
+        "title": "Изменить описание"
+      }
+    },
+    "description": "Описание",
+    "create": {
+      "task": {
+        "title": "Создать связанную задачу"
+      }
+    },
+    "chat": "Чат",
+    "history": "история",
+    "all": {
+      "title": "Другие открытые звонки"
+    },
+    "ongoing": "Открытые звонки",
+    "upcoming": "Закрытые звонки",
+    "user": {
+      "title": "Звонок назначен мне"
     }
   },
   "components": {
@@ -141,6 +177,9 @@
         "validation": {
           "empty": "Требуется тип двигателя"
         }
+      },
+      "installdate": {
+        "label": "Дата установки"
       }
     },
     "routes": {
@@ -150,6 +189,15 @@
       "single": {
         "title": "двигатель"
       }
+    },
+    "analytics": "аналитика",
+    "calls": {
+      "title": "Вызовы"
+    },
+    "installdate": "Дата установки",
+    "sn": "Серийный номер",
+    "tasks": {
+      "title": "Задачи"
     }
   },
   "menu": {
@@ -177,7 +225,22 @@
     "contact": {
       "title": "контакт"
     },
-    "title": "отчет"
+    "title": "отчет",
+    "addtask": "Добавить задачу",
+    "edit": {
+      "title": "Редактировать отчет"
+    },
+    "fields": {
+      "customer": {
+        "label": "Клиент"
+      },
+      "machine": {
+        "label": "Машина"
+      },
+      "technician": {
+        "label": "техник"
+      }
+    }
   },
   "settings": {
     "notifications": {
@@ -251,6 +314,31 @@
     },
     "user": {
       "title": "Мои задачи"
+    },
+    "hours": "час | часа",
+    "description": {
+      "title": "Описание задания"
+    },
+    "edit": {
+      "description": {
+        "title": "Изменить описание"
+      },
+      "shift": {
+        "title": "Модификатор Les Horaires"
+      }
+    },
+    "ongoing": "На текущих задачах",
+    "upcoming": "До предстоящих задач",
+    "mine": "Мои другие задачи",
+    "shifttable": {
+      "column": {
+        "end": "Конец",
+        "start": "Начните",
+        "time": "Время",
+        "title": "Отдельные задачи выполнены"
+      },
+      "hours": "час | часа",
+      "title": "Сдвиги"
     }
   },
   "users": {
@@ -312,5 +400,38 @@
     "title": {
       "validation": {}
     }
-  }
+  },
+  "call": {
+    "createtask": "Попросить операцию"
+  },
+  "store": {
+    "actions": {
+      "delete": {
+        "confirmation": {
+          "title": "Вы уверены"
+        }
+      }
+    }
+  },
+  "dashboard": {
+    "calendar": {
+      "title": "Что будет дальше?"
+    },
+    "chart": {
+      "title": "Обзор прошлых недель занятий"
+    },
+    "currentshifts": {
+      "title": "На текущих задачах"
+    },
+    "newcall": "Новый звонок !",
+    "newtask": "Новое задание",
+    "openunassigned": {
+      "title": "Открытый и неназначенный звонок"
+    },
+    "quickactions": {
+      "title": "Быстрые действия"
+    },
+    "starttrip": "Начать путешествие"
+  },
+  "underconstruct": "В разработке"
 }

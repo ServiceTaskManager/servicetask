@@ -13,12 +13,8 @@ const filter = (data, filters) => {
           if (operator === 'contains') result = dataValue.toLowerCase().indexOf(filterValue.toLowerCase()) > -1
           else if (operator === 'includes') result = dataValue.filter(d => filterValue.includes(d)).length > 0
           else if (operator === '==') result = filterValue === 'all' ? true : dataValue === filterValue
-        } else {
-          result = false
-        }
-      } else {
-        result = true
-      }
+        } else result = false
+      } else result = operator === 'undefined' ? dataValue === undefined : true
       keep = keep && result
     })
     return keep

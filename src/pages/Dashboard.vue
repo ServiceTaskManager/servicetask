@@ -2,97 +2,99 @@
   <div class="full-width row q-pa-md-md justify-around">
     <div class="col-md-auto col-12">
       <q-card>
-        <q-card-section header>
-          <span class="text-h4">Quick actions</span><br/>
-          <span class="text-caption">See on going actions or access to main ServiceTask features</span>
-        </q-card-section>
+        <q-toolbar class="bg-black text-white">
+          <q-toolbar-title>
+            <span class="text-h5 q-px-sm overflow-hidden">{{$t('dashboard.quickactions.title')}}</span>
+          </q-toolbar-title>
+        </q-toolbar>
 
-        <q-card-section class="q-pa-none row justify-around">
+        <q-card-section class="q-pa-none row justify-around bg-grey-2">
           <q-btn
             :icon="$models.call.meta.icon"
             :color="$models.call.meta.color"
-            label="New call !"
+            :label="$t('dashboard.newcall')"
             size="50" stack flat
             @click="createCallDialog()" />
           <q-btn
             icon="directions_walk"
             color="black"
-            label="Start a trip"
+            :label="$t('dashboard.starttrip')"
             size="50"
             stack flat />
           <q-btn
             :icon="$models.task.meta.icon"
             :color="$models.task.meta.color"
-            label="New task"
+            :label="$t('dashboard.newtask')"
             size="50"
             stack flat
             @click="createTaskDialog()" />
         </q-card-section>
-
-        <q-card-section
-          class="q-pa-sm bg-orange-1">
-          <span class="text-h6">Customer's calls ...</span>
-          <st-list model="call" :filters="callsFilters" no-select hide-filters>
-            <template #item-right="{ data }">
-              <div class="row">
-                <q-btn dense round flat
-                  color="orange"
-                  icon="edit"
-                  @click.prevent="createCallDialog(data)"  />
-                <q-btn dense unelevated
-                  color="orange-2"
-                  text-color="orange"
-                  icon="call"
-                  label="Call!"
-                  class="self-end"
-                  type="a"
-                  :href="'tel:' + data.phone"
-                  @click="prevent($event)" />
-              </div>
+        <q-separator />
+        <q-card-section class="q-pa-none">
+          <st-list model="call"
+            :filters="[['open', '==', true], ['technician', 'unassigned', '']]"
+            no-select hide-filters>
+            <template #first>
+              <q-item class="q-pa-none">
+                <q-item-label header :class="'text-' + $models.call.meta.color">
+                  {{$t('dashboard.openunassigned.title')}}
+                </q-item-label>
+              </q-item>
             </template>
-            <template #item="{ data }">
-              Called {{ data.created_at | moment('from') }}
+            <template #item-right="{ data }">
+              <q-btn @click="prevent($event)"
+                :href="'tel:' + data.phone"
+                round flat dense unelevated
+                color="orange"
+                icon="call"
+                class="self-end"
+                type="a" />
             </template>
           </st-list>
         </q-card-section>
 
         <q-card-section v-if="currentShifts.length > 0"
-          class="q-pa-sm bg-light-blue-1">
-          <span class="text-h6">On going ...</span>
+          class="q-pa-none">
+          <span class="text-h6"></span>
           <st-list :data="currentShifts" model="task" no-select no-filters>
-            <template #item-right="{ data }">
-              <div class="row">
-                <q-btn dense round flat
-                  color="light-blue"
-                  icon="edit"
-                  @click.prevent="createTaskDialog(data)" />
-                <q-btn dense unelevated
-                  color="light-blue-2"
-                  text-color="light-blue"
-                  icon="keyboard_arrow_right"
-                  label="Finish!"
-                  class="self-end" />
-              </div>
+            <template #first>
+              <q-item class="q-pa-none">
+                <q-item-label header :class="'text-' + $models.task.meta.color">
+                  {{$t('dashboard.currentshifts.title')}}
+                </q-item-label>
+              </q-item>
             </template>
-            <template #item="{ data }">
-              Started {{ getCurrentShift(data).start | moment('from') }}
+            <template #item-right="{ data }">
+              <q-btn dense unelevated
+                color="light-blue-2"
+                text-color="light-blue"
+                icon="keyboard_arrow_right"
+                label="Finish!"
+                class="self-end" />
             </template>
           </st-list>
         </q-card-section>
       </q-card>
 
-      <q-card class="q-mt-md">
-        <q-card-section v-if="!$q.platform.is.mobile">
-          <stat-chart />
+      <q-card class="q-mt-md" v-if="!$q.platform.is.mobile">
+        <q-toolbar class="bg-black text-white">
+          <q-toolbar-title>
+            <span class="text-h5 q-px-sm overflow-hidden">{{$t('dashboard.chart.title')}}</span>
+          </q-toolbar-title>
+        </q-toolbar>
+        <q-card-section>
+          <stat-chart style="height: 300px" />
         </q-card-section>
       </q-card>
     </div>
 
     <q-card class="col col-md-grow col-12 q-ml-md-md q-mt-md-none q-mt-md">
-      <q-card-section class="q-pb-none">
-        <span class="text-h4">Future overview</span><br/>
-        <span class="text-caption">See what is coming for next days, and re-schedule if needed</span>
-      </q-card-section>
+      <q-toolbar class="bg-black text-white">
+        <q-toolbar-title>
+          <span class="text-h5 q-px-sm overflow-hidden">{{$t('dashboard.calendar.title')}}</span>
+        </q-toolbar-title>
+      </q-toolbar>
+
       <q-card-section class="q-pa-none" stretch>
         <calendar @task-click="$router.push({ name: 'task', params: { id: $event.id } })"/>
       </q-card-section>
@@ -112,13 +114,6 @@ import EditDialog from '../components/generic/EditDialog'
 
 export default {
   name: 'Dashboard',
-  data () {
-    return {
-      callsFilters: [
-        ['open', '==', true]
-      ]
-    }
-  },
   computed: {
     currentShifts () {
       const tasks = this.$store.getters['tasks/filter']([['technician', '==', this.$user.id]])

@@ -21,7 +21,14 @@
     }
   },
   "store": {
-    "calls": {}
+    "calls": {},
+    "actions": {
+      "delete": {
+        "confirmation": {
+          "title": "Are you sure"
+        }
+      }
+    }
   },
   "page": {
     "call": {},
@@ -62,6 +69,9 @@
       },
       "open": {
         "label": "Call status"
+      },
+      "description": {
+        "label": "Problem description"
       }
     },
     "actions": {
@@ -76,6 +86,39 @@
       },
       "unassign": {
         "label": "Cancel assignment"
+      }
+    },
+    "user": {
+      "title": "Call assigned to me"
+    },
+    "ongoing": "Open calls",
+    "upcoming": "Closed calls",
+    "all": {
+      "title": "Others open calls"
+    },
+    "open": {
+      "title": "Open calls"
+    },
+    "close": {
+      "title": "All closed calls"
+    },
+    "openunassign": {
+      "title": "Unassigned"
+    },
+    "openassigntome": {
+      "title": "Assigned to me"
+    },
+    "description": "Description",
+    "history": "History",
+    "chat": "Chat",
+    "edit": {
+      "description": {
+        "title": "Edit description"
+      }
+    },
+    "create": {
+      "task": {
+        "title": "Create a linked task"
       }
     }
   },
@@ -172,6 +215,9 @@
         "validation": {
           "empty": "Machine type is required"
         }
+      },
+      "installdate": {
+        "label": "Install date"
       }
     },
     "routes": {
@@ -181,7 +227,16 @@
       "single": {
         "title": "Machine"
       }
-    }
+    },
+    "calls": {
+      "title": "Calls"
+    },
+    "tasks": {
+      "title": "Tasks"
+    },
+    "analytics": "Analytics",
+    "sn": "Serial number",
+    "installdate": "Installation date"
   },
   "fields": {
     "customer": {
@@ -225,7 +280,11 @@
       "machine": {
         "label": "Machine"
       }
-    }
+    },
+    "edit": {
+      "title": "Edit report"
+    },
+    "addtask": "Add a task"
   },
   "tasks": {
     "actions": {
@@ -284,7 +343,32 @@
     },
     "all": {
       "title": "All task"
-    }
+    },
+    "shifttable": {
+      "title": "Shifts",
+      "hours": "hour|hours",
+      "column": {
+        "title": "Single tasks done",
+        "start": "Start",
+        "end": "End",
+        "time": "Time"
+      }
+    },
+    "hours": "hour|hours",
+    "edit": {
+      "shift": {
+        "title": "Modifier les horaires"
+      },
+      "description": {
+        "title": "Edit description"
+      }
+    },
+    "description": {
+      "title": "Task description"
+    },
+    "upcoming": "Up coming tasks",
+    "ongoing": "On going tasks",
+    "mine": "My others tasks"
   },
   "users": {
     "fields": {
@@ -337,5 +421,29 @@
   "user": {
     "users": {},
     "admins": {}
-  }
+  },
+  "call": {
+    "createtask": "Ask for operation"
+  },
+  "dashboard": {
+    "openunassigned": {
+      "title": "Open and unassigned call"
+    },
+    "currentshifts": {
+      "title": "On going tasks"
+    },
+    "quickactions": {
+      "title": "Quick actions"
+    },
+    "calendar": {
+      "title": "What's coming up?"
+    },
+    "chart": {
+      "title": "Overview of last weeks occupation"
+    },
+    "starttrip": "Start a trip",
+    "newtask": "New task",
+    "newcall": "New call !"
+  },
+  "underconstruct": "Under construction"
 }

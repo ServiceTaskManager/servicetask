@@ -30,7 +30,7 @@
           after-class="splitter">
           <template #before>
             <div class="row q-px-md" ref="markdownPreview">
-              <q-markdown :src="`${value.note}`" class="full-width q-pt-none" />
+              <q-markdown :src="value.note" class="full-width q-pt-none" />
             </div>
           </template>
           <template #after>
@@ -55,27 +55,8 @@
       </q-card-section>
     </q-card>
 
-    <!-- Tasks summary -->
-    <q-table
-      title="Tasks"
-      :data="tableData"
-      :columns="tableColumns"
-      row-key="title"
-      :rows-per-page-options="[0]"
-      :pagination.sync="tablePagination"
-      class="q-mt-md">
-
-      <template #top>
-        <div class="row full-width">
-          <div class="col">
-            <span class="text-h6">Tasks done</span>
-          </div>
-          <div class="col text-right">
-            <span class="text-weight-bold">{{ totalTime }} hours</span>
-          </div>
-        </div>
-      </template>
-    </q-table>
+    <!-- Shift summary -->
+    <shift-table :tasks="tasks" class="q-mt-md" />
 
     <!-- Signatures -->
     <div class="row q-gutter-x-md q-mt-md">
@@ -127,42 +108,7 @@ export default {
   },
   data () {
     return {
-      splitter: 300,
-      tableColumns: [
-        {
-          name: 'title',
-          required: true,
-          label: 'Single tasks done',
-          align: 'left',
-          field: t => t.task.title,
-          sortable: false
-        }, {
-          name: 'start',
-          required: true,
-          label: 'Start',
-          align: 'left',
-          field: t => t.shift.start,
-          format: val => `${moment(val).format('DD/MM/YYYY HH:mm')}`,
-          sortable: true
-        }, {
-          name: 'end',
-          required: true,
-          label: 'End',
-          align: 'left',
-          field: t => t.shift.end,
-          format: val => `${moment(val).format('DD/MM/YYYY HH:mm')}`,
-          sortable: false
-        }, {
-          name: 'Total',
-          required: true,
-          label: 'Time',
-          align: 'right',
-          field: t => t.shift,
-          format: val => `${Math.round(moment(val.end).diff(val.start, 'hours', true) * 10) / 10} h`,
-          sortable: false
-        }
-      ],
-      tablePagination: { rowsPerPage: 0, sortBy: 'start', descending: false }
+      splitter: 300
     }
   },
   computed: {
@@ -195,24 +141,6 @@ export default {
           signature: ''
         }
       }
-    },
-    tableData () {
-      let data = []
-      this.tasks.forEach(t => {
-        t.time_shifts.forEach(s => {
-          let dataToAdd = {
-            shift: s,
-            task: t
-          }
-          data.push(dataToAdd)
-        })
-      })
-      return data
-    },
-    totalTime () {
-      const times = this.tableData.map(t => moment(t.shift.end).diff(t.shift.start, 'hours', true))
-      const totalTime = times.length > 0 ? times.reduce((sum, val) => sum + val) : 0
-      return Math.round(totalTime * 10) / 10
     }
   },
   methods: {
@@ -224,12 +152,14 @@ export default {
       }).onOk(signature => {
         let signatures = this.signatures
         signatures[person] = signature
+        signatures.date = moment().format('YYYT-MM-DDTHH-mm')
         this.$emit('input', { ...this.value, signatures: signatures })
       })
     }
   },
   components: {
-    CustomerAddress: () => import('../generic/Address')
+    CustomerAddress: () => import('../generic/Address'),
+    ShiftTable: () => import('../task/ShiftTable')
   }
 }
 </script>

@@ -122,7 +122,8 @@ export default {
     TeamviewerField: () => import('./TeamviewerField'),
     ColorPicker: () => import('./ColorPicker'),
     SelectField: () => import('./SelectField'),
-    BooleanField: () => import('./BooleanField')
+    BooleanField: () => import('./BooleanField'),
+    DatetimeField: () => import('./DatetimeField')
   }
 }
 </script>

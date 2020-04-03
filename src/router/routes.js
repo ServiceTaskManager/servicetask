@@ -66,7 +66,7 @@ const routes = [
 
 routes.push({
   path: '*',
-  redirect: '/dashboard'
+  redirect: '/'
 })
 
 export default routes

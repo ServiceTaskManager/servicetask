@@ -1,8 +1,8 @@
 <template>
   <q-list>
-    <filter-form v-model="customFilters" :model="model" v-if="!noFilters" :fields="fields" />
-
     <slot name="first" />
+
+    <filter-form v-model="customFilters" :model="model" v-if="!noFilters" :fields="fields" />
 
     <st-item
       v-for="data in listData"

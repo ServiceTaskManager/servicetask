@@ -3,7 +3,7 @@
     v-bind="$attrs"
     v-on="$listeners"
     :value="value"
-    :maximized="$q.platform.is.mobile"
+    :maximized="maximized || $q.platform.is.mobile"
     persistent
     ref="dialog"
     @hide="onDialogHide">
@@ -52,6 +52,10 @@ export default {
     title: {
       type: String,
       default: 'Create / edit'
+    },
+    maximized: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -69,7 +73,7 @@ export default {
       this.$refs.StFormComponent.validate().then(result => {
         if (result) {
           this.$refs.StFormComponent.save()
-          this.$emit('ok')
+          this.$emit('ok', this.formData)
           this.hide()
         }
       })

@@ -10,6 +10,9 @@ export default (locale) => {
       icon: 'done',
       color: 'light-blue'
     },
+    components: {
+      item: () => import('../components/task/TaskItem')
+    },
     routes: [{
       path: 'tasks',
       name: 'tasks',
@@ -21,7 +24,7 @@ export default (locale) => {
     }, {
       path: 'task/:id',
       name: 'task',
-      component: () => import('../pages/StPage'),
+      component: () => import('../pages/TaskPage'),
       meta: {
         title: i18n.t('tasks.routes.single.title'),
         propertyTitle: 'title'
@@ -83,6 +86,8 @@ export default (locale) => {
       key: 'description',
       component: 'TextField',
       attrs: {
+        autogrow: true,
+        type: 'textarea',
         iconName: 'title',
         iconColor: 'grey',
         label: i18n.t('tasks.fields.description.label')

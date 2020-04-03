@@ -44,6 +44,9 @@
           "empty": "Anrufgrund ist erforderlich"
         },
         "label": "Grund nennen"
+      },
+      "description": {
+        "label": "Problembeschreibung"
       }
     },
     "route": {
@@ -67,6 +70,39 @@
       "unassign": {
         "label": "Zuordnung aufheben"
       }
+    },
+    "close": {
+      "title": "Alle geschlossenen Anrufe"
+    },
+    "openassigntome": {
+      "title": "Mir zugewiesen"
+    },
+    "openunassign": {
+      "title": "Nicht zugewiesen"
+    },
+    "open": {
+      "title": "Offene Anrufe"
+    },
+    "edit": {
+      "description": {
+        "title": "Beschreibung bearbeiten"
+      }
+    },
+    "description": "Beschreibung",
+    "create": {
+      "task": {
+        "title": "Erstellen Sie eine verknüpfte Aufgabe"
+      }
+    },
+    "chat": "Plaudern",
+    "history": "Geschichte",
+    "all": {
+      "title": "Andere eröffnen Anrufe"
+    },
+    "ongoing": "Offene Anrufe",
+    "upcoming": "Geschlossene Anrufe",
+    "user": {
+      "title": "Anruf mir zugewiesen"
     }
   },
   "customers": {
@@ -210,6 +246,31 @@
     },
     "user": {
       "title": "Meine Aufgaben"
+    },
+    "hours": "Stunde | Stunden",
+    "description": {
+      "title": "Aufgabenbeschreibung"
+    },
+    "edit": {
+      "description": {
+        "title": "Beschreibung bearbeiten"
+      },
+      "shift": {
+        "title": "Modifikator les horaires"
+      }
+    },
+    "ongoing": "Laufende Aufgaben",
+    "upcoming": "Kommende Aufgaben",
+    "mine": "Meine anderen Aufgaben",
+    "shifttable": {
+      "column": {
+        "end": "Ende",
+        "start": "Anfang",
+        "time": "Zeit",
+        "title": "Einzelne Aufgaben erledigt"
+      },
+      "hours": "Stunde | Stunden",
+      "title": "Verschiebungen"
     }
   },
   "models": {
@@ -276,6 +337,9 @@
         "validation": {
           "empty": "Motortyp ist erforderlich"
         }
+      },
+      "installdate": {
+        "label": "Installationsdatum"
       }
     },
     "routes": {
@@ -285,6 +349,15 @@
       "single": {
         "title": "Motor"
       }
+    },
+    "analytics": "Analytik",
+    "calls": {
+      "title": "Anrufe"
+    },
+    "installdate": "Installationsdatum",
+    "sn": "Ordnungsnummer",
+    "tasks": {
+      "title": "Aufgaben"
     }
   },
   "reports": {
@@ -299,7 +372,22 @@
     "contact": {
       "title": "Kontakt"
     },
-    "title": "Bericht"
+    "title": "Bericht",
+    "addtask": "Fügen Sie eine Aufgabe hinzu",
+    "edit": {
+      "title": "Bericht bearbeiten"
+    },
+    "fields": {
+      "customer": {
+        "label": "Kunde"
+      },
+      "machine": {
+        "label": "Maschine"
+      },
+      "technician": {
+        "label": "Techniker"
+      }
+    }
   },
   "fields": {
     "customer": {
@@ -312,5 +400,38 @@
     "title": {
       "validation": {}
     }
-  }
+  },
+  "call": {
+    "createtask": "Fragen Sie nach der Operation"
+  },
+  "store": {
+    "actions": {
+      "delete": {
+        "confirmation": {
+          "title": "Bist du sicher"
+        }
+      }
+    }
+  },
+  "dashboard": {
+    "calendar": {
+      "title": "Was steht an?"
+    },
+    "chart": {
+      "title": "Überblick über den Beruf der letzten Wochen"
+    },
+    "currentshifts": {
+      "title": "Laufende Aufgaben"
+    },
+    "newcall": "Neuer Anruf !",
+    "newtask": "Neue Aufgabe",
+    "openunassigned": {
+      "title": "Offener und nicht zugewiesener Anruf"
+    },
+    "quickactions": {
+      "title": "Schnelle Aktionen"
+    },
+    "starttrip": "Starten Sie eine Reise"
+  },
+  "underconstruct": "Im Bau"
 }

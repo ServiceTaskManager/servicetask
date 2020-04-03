@@ -10,12 +10,17 @@
       icon="print"
       class="col"
       @click="value.prepareForPrint()" />
+    <q-btn color="white"
+      dense round flat
+      icon="edit"
+      class="col"
+      @click="value.editDialog = true" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'data.ReportToolbar',
+  name: 'ReportToolbar',
   props: {
     value: {
       type: Object,

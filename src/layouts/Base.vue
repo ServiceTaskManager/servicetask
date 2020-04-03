@@ -5,16 +5,21 @@
       v-if="!$route.meta.noHeader && $store.state.firestore.loading === 1 && toolbar">
       <q-toolbar>
         <!-- Toolbar buttons -->
+        <q-btn  v-if="$route.name !== 'dashboard'"
+          @click="$router.go(-1)"
+          flat round
+          icon="keyboard_arrow_left"
+          class="text-white" />
         <st-toolbar v-if="$route.meta.model" :model="$route.meta.model" />
         <component v-if="toolbarComponent" :is="toolbarComponent.component" :value="toolbarComponent.data" />
 
         <q-toolbar-title class="text-center" v-if="model">{{ title }}</q-toolbar-title>
         <q-toolbar-title class="text-center" v-else>{{ $t(title) }}</q-toolbar-title>
 
-        <q-avatar v-if="$route.name === 'dashboard' || $route.name === 'login'">
-          <img src="statics/app-logo-128x128.png" />
-        </q-avatar>
-        <q-btn flat round @click="$router.go(-1)" icon="chevron_left" class="text-white" v-else />
+        <q-btn v-if="$q.platform.is.mobile"
+          @click="drawer = true"
+          flat round
+          icon="view_list" class="text-white" />
       </q-toolbar>
     </q-header>
 
